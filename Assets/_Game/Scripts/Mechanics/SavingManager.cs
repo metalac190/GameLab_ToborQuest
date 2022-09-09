@@ -14,10 +14,4 @@ public class SavingManager : MonoBehaviour
     {
         savePath = Path.Combine(Application.persistentDataPath, saveFileName);
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
