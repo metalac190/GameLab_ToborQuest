@@ -1,20 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
+using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Quaternion = UnityEngine.Quaternion;
+using Vector3 = UnityEngine.Vector3;
 
 public class MovementController : MonoBehaviour
 {
     [SerializeField] private Transform _groundCheck = null;
     [SerializeField] private Vector3 _centerOfMass = Vector3.zero;
 
+    [Header("Current Movement Stats")] 
+    [SerializeField] private float _currentAcceleration = 0f;
+    [SerializeField] private float _currentMaxSpeed = 0f;
+    [SerializeField] private float _currentTurnSpeed = 0f;
+
     [Header("Standard Movement")]
     [SerializeField] private float _acceleration = 0f;
     [SerializeField] private float _maxSpeed = 0f;
-    [SerializeField] private float _standardTurnSpeed = 0.5f;
+    [SerializeField] private float _standardTurnSpeed = 0.75f;
 
     [Header("Drifting")]
-    [SerializeField] private float _driftTurnSpeed = 0.1f;
+    [SerializeField] private float _driftTurnSpeed = 0.25f;
 
     [Header("Boosting")] 
     [SerializeField] private float _boostAcceleration = 0f;
@@ -27,7 +36,6 @@ public class MovementController : MonoBehaviour
     private float _turnSmoothVel;
     private bool _isMoving = false;
     private Vector3 _direction;
-    private float _currentTurnSpeed;
 
     private Rigidbody _rb;
     private MovementControls _movementControls;
@@ -38,13 +46,16 @@ public class MovementController : MonoBehaviour
         _rb.centerOfMass = _centerOfMass;
 
         _movementControls = GetComponent<MovementControls>();
+
+        _currentAcceleration = _acceleration;
+        _currentMaxSpeed = _maxSpeed;
     }
 
     private void FixedUpdate()
     {
         if (!IsGrounded() || _isMoving) Steer();
 
-        Drive();
+        if (IsGrounded()) Movement();
 
     }
 
@@ -60,25 +71,34 @@ public class MovementController : MonoBehaviour
         }
     }
 
-    private void Drive()
+    private void Movement()
     {
+        Vector3 forceVector = transform.forward * _currentAcceleration * _movementControls.Speed;
 
-        if (_movementControls._movementInput.Player.Drive.IsPressed())
+        if (_movementControls.Speed != 0)
         {
-            _rb.AddForce(transform.forward * (_acceleration * _movementControls.Speed), ForceMode.Acceleration);
-            _rb.velocity = Vector3.ClampMagnitude(_rb.velocity, _maxSpeed);
-
-            if (_boostRemaining != _boostDuration) StartCoroutine(BoostCooldown());
-
+            if (_movementControls.Boost && !_boostOnCooldown)
+            {
+                Boost();
+            }
+            else Drive();
+        }
+        else
+        {
+            if (_movementControls.Boost && !_boostOnCooldown)
+            {
+                Boost();
+            }
         }
 
-        if (_movementControls.Boost && !_boostOnCooldown)
+        if (!_movementControls.Boost && _boostRemaining < _boostDuration)
         {
-            _rb.AddForce(transform.forward * _boostAcceleration, ForceMode.Acceleration);
-            _rb.velocity = Vector3.ClampMagnitude(_rb.velocity, _boostMaxSpeed);
-
-            BoostTimer();
+            StartCoroutine(BoostCooldown());
         }
+
+        _rb.AddForce(transform.forward * _currentAcceleration * _movementControls.Speed, ForceMode.Acceleration);
+        _rb.velocity = Vector3.ClampMagnitude(_rb.velocity, _currentMaxSpeed);
+
 
         if (_rb.velocity == Vector3.zero)
         {
@@ -88,6 +108,36 @@ public class MovementController : MonoBehaviour
 
         Drift();
 
+    }
+
+    private void Drive()
+    {
+        _currentAcceleration = _acceleration;
+        _currentMaxSpeed = _maxSpeed;
+    }
+
+    private void Boost()
+    {
+        _currentAcceleration = _boostAcceleration;
+        _currentMaxSpeed = _boostMaxSpeed;
+
+        if (_boostRemaining > 0)
+        {
+            _boostRemaining -= Time.deltaTime;
+        }
+        else
+        {
+            _boostRemaining = 0;
+            StartCoroutine(BoostCooldown());
+        }
+    }
+
+    private IEnumerator BoostCooldown()
+    {
+        _boostOnCooldown = true;
+        _boostRemaining = _boostDuration;
+        yield return new WaitForSeconds(_boostCooldown);
+        _boostOnCooldown = false;
     }
 
     private void Drift()
@@ -102,36 +152,22 @@ public class MovementController : MonoBehaviour
         }
     }
 
-    private IEnumerator BoostCooldown()
-    {
-        _boostOnCooldown = true;
-        _boostRemaining = _boostDuration;
-        yield return new WaitForSeconds(_boostCooldown);
-        _boostOnCooldown = false;
-    }
-
-
-    private void BoostTimer()
-    {
-        if (_boostRemaining > 0)
-        {
-            _boostRemaining -= Time.deltaTime;
-        }
-        else
-        {
-            _boostRemaining = 0;
-            StartCoroutine(BoostCooldown());
-        }
-    }
-
     private bool IsGrounded()
     {
         return Physics.CheckSphere(_groundCheck.position, 0.1f);
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.GetComponent<Wall>())
+        {
+            _rb.AddForceAtPosition(collision.impulse/2,collision.GetContact(0).point,ForceMode.Impulse);
+        }
+    }
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(_centerOfMass, 0.5f);
+        Gizmos.DrawWireSphere(_centerOfMass, 0.25f);
     }
 }
