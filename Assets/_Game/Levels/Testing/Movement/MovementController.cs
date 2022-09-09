@@ -9,33 +9,35 @@ using Vector3 = UnityEngine.Vector3;
 
 public class MovementController : MonoBehaviour
 {
-    [SerializeField] private Transform _groundCheck = null;
+    [SerializeField] private Transform _groundCheck;
     [SerializeField] private Vector3 _centerOfMass = Vector3.zero;
 
-    [Header("Current Movement Stats")] 
-    [SerializeField] private float _currentAcceleration = 0f;
-    [SerializeField] private float _currentMaxSpeed = 0f;
-    [SerializeField] private float _currentTurnSpeed = 0f;
+    [Header("Movement")]
+    [SerializeField] private float _acceleration = 25;
+    [SerializeField] private float _maxSpeed = 25;
 
-    [Header("Standard Movement")]
-    [SerializeField] private float _acceleration = 0f;
-    [SerializeField] private float _maxSpeed = 0f;
+    [Header("Turning")]
+    [SerializeField] private bool _turnWhenStopped = true;
     [SerializeField] private float _standardTurnSpeed = 0.75f;
 
     [Header("Drifting")]
     [SerializeField] private float _driftTurnSpeed = 0.25f;
 
     [Header("Boosting")] 
-    [SerializeField] private float _boostAcceleration = 0f;
-    [SerializeField] private float _boostMaxSpeed = 0f;
+    [SerializeField] private float _boostAcceleration = 30;
+    [SerializeField] private float _boostMaxSpeed = 30;
     [SerializeField] private float _boostDuration = 2f;
     [SerializeField] private float _boostCooldown = 2f;
     [SerializeField] private float _boostRemaining = 2f;
     [SerializeField] private bool _boostOnCooldown = false;
 
-    private float _turnSmoothVel;
-    private bool _isMoving = false;
-    private Vector3 _direction;
+    [Header("Debug")]
+    [SerializeField, ReadOnly] private float _currentAcceleration = 0f;
+    [SerializeField, ReadOnly] private float _currentMaxSpeed = 0f;
+    [SerializeField, ReadOnly] private float _currentTurnSpeed = 0f;
+    [SerializeField, ReadOnly] private float _turnSmoothVel;
+    [SerializeField, ReadOnly] private bool _isMoving;
+    [SerializeField, ReadOnly] private Vector3 _direction;
 
     private Rigidbody _rb;
     private MovementControls _movementControls;
@@ -53,10 +55,9 @@ public class MovementController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!IsGrounded() || _isMoving) Steer();
+        if (!IsGrounded() || _turnWhenStopped || _isMoving) Steer();
 
         if (IsGrounded()) Movement();
-
     }
 
     private void Steer()
@@ -73,7 +74,7 @@ public class MovementController : MonoBehaviour
 
     private void Movement()
     {
-        Vector3 forceVector = transform.forward * _currentAcceleration * _movementControls.Speed;
+        Vector3 forceVector = transform.forward * (_currentAcceleration * _movementControls.Speed);
 
         if (_movementControls.Speed != 0)
         {
@@ -96,7 +97,7 @@ public class MovementController : MonoBehaviour
             StartCoroutine(BoostCooldown());
         }
 
-        _rb.AddForce(transform.forward * _currentAcceleration * _movementControls.Speed, ForceMode.Acceleration);
+        _rb.AddForce(transform.forward * (_currentAcceleration * _movementControls.Speed), ForceMode.Acceleration);
         _rb.velocity = Vector3.ClampMagnitude(_rb.velocity, _currentMaxSpeed);
 
 
