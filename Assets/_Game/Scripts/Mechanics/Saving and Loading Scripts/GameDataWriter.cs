@@ -42,6 +42,11 @@ public class GameDataWriter
         writer.Write(JsonUtility.ToJson(value));
     }
 
+    public void Write(string value)
+    {
+        writer.Write(value);
+    }
+
     //public void Write(ShapeInstance value)
     //{
     //    writer.Write(value.IsValid ? value.Shape.SaveIndex : -1);

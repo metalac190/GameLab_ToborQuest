@@ -29,7 +29,6 @@ public class MovingPlataform : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        Debug.Log(currentPosition);
         if (Vector3.Distance(transform.position, positions[currentPosition]) > 0.1f)
         {
             _rigidbody.MovePosition(_rigidbody.position + (positions[currentPosition] - this.transform.position).normalized * platformSpeed * Time.fixedDeltaTime);

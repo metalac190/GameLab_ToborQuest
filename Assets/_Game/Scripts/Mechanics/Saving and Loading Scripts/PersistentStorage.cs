@@ -3,12 +3,12 @@ using UnityEngine;
 
 public class PersistentStorage : MonoBehaviour
 {
-
+    public string saveFileName = "Placeholder";
     string savePath;
 
     void Awake()
     {
-        savePath = Path.Combine(Application.persistentDataPath, "saveFile");
+        savePath = Path.Combine(Application.persistentDataPath, saveFileName);
     }
 
     public void Save(PersistableObject o, int version)
