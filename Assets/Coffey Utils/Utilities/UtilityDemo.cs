@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UtilityDemo : MonoBehaviour
+public class UtilityDemo : ScriptableObject
 {
     [Header("Read Only")]
     [SerializeField] private float _regularValue;
