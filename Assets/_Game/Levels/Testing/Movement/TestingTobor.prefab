@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 151419302074066341}
   - component: {fileID: 151419302074066343}
   - component: {fileID: 151419302074066342}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: LB_Wheel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92,7 +92,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 151419302102141063}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Art
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -128,7 +128,7 @@ GameObject:
   - component: {fileID: 151419302190398332}
   - component: {fileID: 151419302190398334}
   - component: {fileID: 151419302190398333}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: LF_Wheel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -211,7 +211,7 @@ GameObject:
   - component: {fileID: 151419302256061947}
   - component: {fileID: 151419302256061949}
   - component: {fileID: 151419302256061948}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: RF_Wheel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -293,7 +293,7 @@ GameObject:
   m_Component:
   - component: {fileID: 151419302383708330}
   - component: {fileID: 151419302383708331}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Line
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -425,7 +425,7 @@ GameObject:
   - component: {fileID: 151419302388096600}
   - component: {fileID: 151419302388096602}
   - component: {fileID: 151419302388096601}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: LM_Wheel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -508,7 +508,7 @@ GameObject:
   - component: {fileID: 151419302988132214}
   - component: {fileID: 151419302988132216}
   - component: {fileID: 151419302988132215}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: RB_Wheel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -591,7 +591,7 @@ GameObject:
   - component: {fileID: 151419303063712148}
   - component: {fileID: 151419303063712150}
   - component: {fileID: 151419303063712149}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: RM_Wheel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -678,7 +678,7 @@ GameObject:
   - component: {fileID: 151419303358024208}
   - component: {fileID: 151419303358024207}
   - component: {fileID: 151419303358024214}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: TestingTobor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -714,13 +714,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f25e323a276abb4e9236cc4cb0b10c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _groundCheck: {fileID: 151419303675940499}
   _centerOfMass: {x: 0, y: 0.4, z: 0}
-  _currentAcceleration: 0
-  _currentMaxSpeed: 0
-  _currentTurnSpeed: 0
+  _groundCheck: {fileID: 151419303675940499}
+  _groundLayer:
+    serializedVersion: 2
+    m_Bits: 1
   _acceleration: 25
   _maxSpeed: 25
+  _turnWhenStopped: 1
   _standardTurnSpeed: 0.75
   _driftTurnSpeed: 0.25
   _boostAcceleration: 30
@@ -729,9 +730,14 @@ MonoBehaviour:
   _boostCooldown: 2
   _boostRemaining: 2
   _boostOnCooldown: 0
+  _currentAcceleration: 0
+  _currentMaxSpeed: 0
+  _currentTurnSpeed: 0
   _turnSmoothVel: 0
   _isMoving: 0
+  _isGrounded: 0
   _direction: {x: 0, y: 0, z: 0}
+  _previousVel: {x: 0, y: 0, z: 0}
 --- !u!114 &151419303358024213
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -757,7 +763,7 @@ Rigidbody:
   m_AngularDrag: 0.05
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 1
 --- !u!65 &151419303358024208
@@ -845,7 +851,7 @@ GameObject:
   - component: {fileID: 151419303485034934}
   - component: {fileID: 151419303485034936}
   - component: {fileID: 151419303485034935}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -928,7 +934,7 @@ GameObject:
   - component: {fileID: 151419303620807700}
   - component: {fileID: 151419303620807702}
   - component: {fileID: 151419303620807701}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1015,7 +1021,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 151419303675940499}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: GroundCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}

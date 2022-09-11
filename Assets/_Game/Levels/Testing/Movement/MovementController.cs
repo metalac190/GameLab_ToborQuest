@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Numerics;
@@ -9,9 +10,12 @@ using Vector3 = UnityEngine.Vector3;
 
 public class MovementController : MonoBehaviour
 {
-    [SerializeField] private Transform _groundCheck;
     [SerializeField] private Vector3 _centerOfMass = Vector3.zero;
 
+    [Header("Grounded")]
+    [SerializeField] private Transform _groundCheck;
+    [SerializeField] private LayerMask _groundLayer;
+    
     [Header("Movement")]
     [SerializeField] private float _acceleration = 25;
     [SerializeField] private float _maxSpeed = 25;
@@ -37,10 +41,14 @@ public class MovementController : MonoBehaviour
     [SerializeField, ReadOnly] private float _currentTurnSpeed = 0f;
     [SerializeField, ReadOnly] private float _turnSmoothVel;
     [SerializeField, ReadOnly] private bool _isMoving;
+    [SerializeField, ReadOnly] private bool _isGrounded;
     [SerializeField, ReadOnly] private Vector3 _direction;
+    [SerializeField, ReadOnly] private Vector3 _previousVel;
 
     private Rigidbody _rb;
     private MovementControls _movementControls;
+
+    private bool IsGrounded() => Physics.CheckSphere(_groundCheck.position, 0.1f, _groundLayer);
 
     private void Start()
     {
@@ -55,9 +63,15 @@ public class MovementController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!IsGrounded() || _turnWhenStopped || _isMoving) Steer();
+        _isGrounded = IsGrounded();
+        if (!_isGrounded || _turnWhenStopped || _isMoving) Steer();
 
-        if (IsGrounded()) Movement();
+        if (_isGrounded) Movement();
+    }
+
+    private void LateUpdate()
+    {
+        _previousVel = _rb.velocity;
     }
 
     private void Steer()
@@ -76,20 +90,13 @@ public class MovementController : MonoBehaviour
     {
         Vector3 forceVector = transform.forward * (_currentAcceleration * _movementControls.Speed);
 
-        if (_movementControls.Speed != 0)
+        if (_movementControls.Boost && !_boostOnCooldown)
         {
-            if (_movementControls.Boost && !_boostOnCooldown)
-            {
-                Boost();
-            }
-            else Drive();
+            Boost();
         }
-        else
+        else if (_movementControls.Speed != 0)
         {
-            if (_movementControls.Boost && !_boostOnCooldown)
-            {
-                Boost();
-            }
+            Drive();
         }
 
         if (!_movementControls.Boost && _boostRemaining < _boostDuration)
@@ -99,13 +106,8 @@ public class MovementController : MonoBehaviour
 
         _rb.AddForce(transform.forward * (_currentAcceleration * _movementControls.Speed), ForceMode.Acceleration);
         _rb.velocity = Vector3.ClampMagnitude(_rb.velocity, _currentMaxSpeed);
-
-
-        if (_rb.velocity == Vector3.zero)
-        {
-            _isMoving = false;
-        }
-        else _isMoving = true;
+        
+        _isMoving = _rb.velocity != Vector3.zero;
 
         Drift();
 
@@ -143,27 +145,20 @@ public class MovementController : MonoBehaviour
 
     private void Drift()
     {
-        if (_movementControls.Drift)
-        {
-            _currentTurnSpeed = _driftTurnSpeed;
-        }
-        else
-        {
-            _currentTurnSpeed = _standardTurnSpeed;
-        }
-    }
-
-    private bool IsGrounded()
-    {
-        return Physics.CheckSphere(_groundCheck.position, 0.1f);
+        _currentTurnSpeed = _movementControls.Drift ? _driftTurnSpeed : _standardTurnSpeed;
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.GetComponent<Wall>())
-        {
-            _rb.AddForceAtPosition(collision.impulse/2,collision.GetContact(0).point,ForceMode.Impulse);
-        }
+        if (!collision.collider.GetComponent<Wall>()) return;
+        var vel = _previousVel;
+        vel.x = -vel.x;
+        vel.y = 1;
+        _rb.velocity = vel;
+        var rot = Quaternion.Lerp(_rb.rotation, Quaternion.Euler(Vector3.forward), 0.5f);
+        _rb.MoveRotation(rot);
+        _rb.angularVelocity = Vector3.zero;
+        //_rb.AddForceAtPosition(collision.impulse/2,collision.GetContact(0).point,ForceMode.Impulse);
     }
 
     private void OnDrawGizmos()
