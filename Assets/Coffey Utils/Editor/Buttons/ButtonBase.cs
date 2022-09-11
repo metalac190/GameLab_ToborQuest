@@ -4,7 +4,7 @@ using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 
-namespace ButtonAttributeEditor
+namespace Coffey_Utils.Editor.Buttons
 {
     public abstract class ButtonBase
     {

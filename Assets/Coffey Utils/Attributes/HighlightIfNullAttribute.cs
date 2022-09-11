@@ -1,7 +1,5 @@
-using System;
 using System.Drawing;
 
-[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
 public class HighlightIfNullAttribute : HighlightableAttribute
 {
     public HighlightIfNullAttribute() : base(ColorField.Red) { }
