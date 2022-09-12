@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class FollowObjectAlongAxis : MonoBehaviour
 {
+    [SerializeField] private bool _lateUpdate;
     [SerializeField] private bool _maintainOriginalOffset;
     [SerializeField] private Transform _object;
     [SerializeField] private bool _x;
@@ -27,6 +28,11 @@ public class FollowObjectAlongAxis : MonoBehaviour
     private void OnDisable()
     {
         CameraAngleController.BeforeCameraMove -= BeforeCameraMove;
+    }
+
+    private void LateUpdate()
+    {
+        if (_lateUpdate) BeforeCameraMove();
     }
 
     private void BeforeCameraMove()
