@@ -16,7 +16,7 @@ namespace Coffey_Utils.Editor
             if (textProp != null)
             {
                 var rect = EditorGUILayout.GetControlRect();
-                EditorGUI.PropertyField(rect, textProp);
+                EditorGUI.PropertyField(rect, textProp, GUIContent.none);
                 serializedObject.ApplyModifiedProperties();
             }
             else
@@ -30,6 +30,7 @@ namespace Coffey_Utils.Editor
             {
                 GUIStyle style = new GUIStyle
                 {
+                    fontSize = 12,
                     wordWrap = true,
                     normal =
                     {
@@ -46,12 +47,12 @@ namespace Coffey_Utils.Editor
                         break;
                     case 2:
                         space = 20;
-                        style.fontSize = 16;
+                        style.fontSize = 20;
                         style.fontStyle = FontStyle.Bold;
                         break;
                     case 3:
                         space = 20;
-                        style.fontSize = 14;
+                        style.fontSize = 16;
                         style.fontStyle = FontStyle.Italic;
                         break;
                 }
