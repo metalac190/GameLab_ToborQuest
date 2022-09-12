@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 
-namespace ButtonAttributeEditor
+namespace Coffey_Utils.Editor.Buttons
 {
     internal class ButtonWithoutParameters : ButtonBase
     {

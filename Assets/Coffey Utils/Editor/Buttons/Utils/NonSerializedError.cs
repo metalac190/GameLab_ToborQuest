@@ -2,7 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace ButtonAttributeEditor.Utils
+namespace Coffey_Utils.Editor.Buttons.Utils
 {
     [Serializable]
     internal class NonSerializedError

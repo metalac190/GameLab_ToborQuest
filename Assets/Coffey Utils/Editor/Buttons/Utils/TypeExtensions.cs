@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using UnityEngine;
 
-namespace ButtonAttributeEditor.Utils
+namespace Coffey_Utils.Editor.Buttons.Utils
 {
     /// <summary> A class that allows to check if the type is serializable by Unity. </summary>
     /// <remarks>This is part of the TypeExtensions class from https://github.com/SolidAlloy/SolidUtilities.</remarks>

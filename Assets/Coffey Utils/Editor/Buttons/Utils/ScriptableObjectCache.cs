@@ -7,7 +7,7 @@ using System.Reflection.Emit;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-namespace ButtonAttributeEditor.Utils
+namespace Coffey_Utils.Editor.Buttons.Utils
 {
     internal static class ScriptableObjectCache
     {
