@@ -34,6 +34,7 @@ public class MovementController : MonoBehaviour
     [SerializeField] private float _boostCooldown = 2f;
     [SerializeField] private float _boostRemaining = 2f;
     [SerializeField] private bool _boostOnCooldown = false;
+    public bool _UsingPad;
 
     [Header("Debug")]
     [SerializeField, ReadOnly] private float _currentAcceleration = 0f;
@@ -105,7 +106,7 @@ public class MovementController : MonoBehaviour
         }
 
         _rb.AddForce(transform.forward * (_currentAcceleration * _movementControls.Speed), ForceMode.Acceleration);
-        _rb.velocity = Vector3.ClampMagnitude(_rb.velocity, _currentMaxSpeed);
+        if(!_UsingPad) _rb.velocity = Vector3.ClampMagnitude(_rb.velocity, _currentMaxSpeed);
         
         _isMoving = _rb.velocity != Vector3.zero;
 
