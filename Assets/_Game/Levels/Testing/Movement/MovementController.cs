@@ -89,7 +89,8 @@ public class MovementController : MonoBehaviour
             
             var currentAngle = _rb.rotation.eulerAngles.y;
             //var targetAngle = Mathf.Atan2(_direction.x, _direction.z) * Mathf.Rad2Deg;
-            var targetAngle = currentAngle + (_direction.x - _direction.z) * Mathf.Rad2Deg;
+            //var targetAngle = currentAngle + (_direction.x - _direction.z) * Mathf.Rad2Deg;
+            var targetAngle = currentAngle + Mathf.Atan2(_direction.x, _direction.z) * Mathf.Rad2Deg;
             var angle = Mathf.SmoothDampAngle(currentAngle, targetAngle, ref _turnSmoothVel, _currentTurnSpeed);
             _rb.MoveRotation(Quaternion.Euler(0f, angle, 0f));
         }
