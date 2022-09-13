@@ -14,6 +14,7 @@ public class MovementController : MonoBehaviour
 
     [Header("Grounded")]
     [SerializeField] private Transform _groundCheck;
+    [SerializeField] private float _groundCheckRadius = 0.1f;
     [SerializeField] private LayerMask _groundLayer;
     
     [Header("Movement")]
@@ -22,6 +23,7 @@ public class MovementController : MonoBehaviour
 
     [Header("Turning")]
     [SerializeField] private bool _turnWhenStopped = true;
+    [SerializeField] private float _stoppedTurnSpeed = 1.0f;
     [SerializeField] private float _standardTurnSpeed = 0.75f;
 
     [Header("Drifting")]
@@ -42,13 +44,14 @@ public class MovementController : MonoBehaviour
     [SerializeField, ReadOnly] private float _turnSmoothVel;
     [SerializeField, ReadOnly] private bool _isMoving;
     [SerializeField, ReadOnly] private bool _isGrounded;
+    [SerializeField, ReadOnly] private bool _isDrifting;
     [SerializeField, ReadOnly] private Vector3 _direction;
     [SerializeField, ReadOnly] private Vector3 _previousVel;
 
     private Rigidbody _rb;
     private MovementControls _movementControls;
 
-    private bool IsGrounded() => Physics.CheckSphere(_groundCheck.position, 0.1f, _groundLayer);
+    private bool IsGrounded() => Physics.CheckSphere(_groundCheck.position, _groundCheckRadius, _groundLayer);
 
     private void Start()
     {
@@ -59,14 +62,17 @@ public class MovementController : MonoBehaviour
 
         _currentAcceleration = _acceleration;
         _currentMaxSpeed = _maxSpeed;
+        _currentTurnSpeed = _stoppedTurnSpeed;
     }
 
     private void FixedUpdate()
     {
         _isGrounded = IsGrounded();
-        if (!_isGrounded || _turnWhenStopped || _isMoving) Steer();
+        if (!_isGrounded || _turnWhenStopped) Steer();
 
         if (_isGrounded) Movement();
+
+        if (!_isMoving) _currentTurnSpeed = _stoppedTurnSpeed;
     }
 
     private void LateUpdate()
@@ -80,8 +86,11 @@ public class MovementController : MonoBehaviour
 
         if (_direction.magnitude >= 0.1f)
         {
-            var targetAngle = Mathf.Atan2(_direction.x, _direction.z) * Mathf.Rad2Deg;
-            var angle = Mathf.SmoothDampAngle(_rb.rotation.eulerAngles.y, targetAngle, ref _turnSmoothVel, _currentTurnSpeed);
+            
+            var currentAngle = _rb.rotation.eulerAngles.y;
+            //var targetAngle = Mathf.Atan2(_direction.x, _direction.z) * Mathf.Rad2Deg;
+            var targetAngle = currentAngle + (_direction.x - _direction.z) * Mathf.Rad2Deg;
+            var angle = Mathf.SmoothDampAngle(currentAngle, targetAngle, ref _turnSmoothVel, _currentTurnSpeed);
             _rb.MoveRotation(Quaternion.Euler(0f, angle, 0f));
         }
     }
@@ -90,24 +99,15 @@ public class MovementController : MonoBehaviour
     {
         Vector3 forceVector = transform.forward * (_currentAcceleration * _movementControls.Speed);
 
-        if (_movementControls.Boost && !_boostOnCooldown)
-        {
-            Boost();
-        }
-        else if (_movementControls.Speed != 0)
-        {
-            Drive();
-        }
+        if (_movementControls.Boost && !_boostOnCooldown) Boost();
+        else if (_movementControls.Speed != 0) Drive();
 
-        if (!_movementControls.Boost && _boostRemaining < _boostDuration)
-        {
-            StartCoroutine(BoostCooldown());
-        }
+        if (!_movementControls.Boost && _boostRemaining < _boostDuration) StartCoroutine(BoostCooldown());
 
         _rb.AddForce(transform.forward * (_currentAcceleration * _movementControls.Speed), ForceMode.Acceleration);
         _rb.velocity = Vector3.ClampMagnitude(_rb.velocity, _currentMaxSpeed);
-        
-        _isMoving = _rb.velocity != Vector3.zero;
+
+        _isMoving = _rb.velocity.magnitude > 0.05f;
 
         Drift();
 
@@ -145,6 +145,7 @@ public class MovementController : MonoBehaviour
 
     private void Drift()
     {
+        _isDrifting = _movementControls.Drift;
         _currentTurnSpeed = _movementControls.Drift ? _driftTurnSpeed : _standardTurnSpeed;
     }
 
@@ -164,6 +165,9 @@ public class MovementController : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(_centerOfMass, 0.25f);
+        Gizmos.DrawSphere(_centerOfMass, 0.02f);
+        
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(_groundCheck.position, _groundCheckRadius);
     }
 }
