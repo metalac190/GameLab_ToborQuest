@@ -37,6 +37,7 @@ public class MovementController : MonoBehaviour
     [SerializeField] private float _boostCooldown = 2f;
     [SerializeField] private float _boostRemaining = 2f;
     [SerializeField] private bool _boostOnCooldown = false;
+    [SerializeField] private List<TrailRenderer> _boostTrails = new List<TrailRenderer>();
 
     [Header("Debug")]
     [SerializeField, ReadOnly] private float _currentAcceleration = 0f;
@@ -46,12 +47,14 @@ public class MovementController : MonoBehaviour
     [SerializeField, ReadOnly] private bool _isMoving;
     [SerializeField, ReadOnly] private bool _isGrounded;
     [SerializeField, ReadOnly] private bool _isDrifting;
+    [SerializeField, ReadOnly] private bool _isBoosting;
     [SerializeField, ReadOnly] private Vector3 _direction;
     [SerializeField, ReadOnly] private Vector3 _previousVel;
 
     private Rigidbody _rb;
     private MovementControls _movementControls;
     private bool _driftTrailsActive;
+    private bool _boostTrailsActive;
 
     private bool IsGrounded() => Physics.CheckSphere(_groundCheck.position, _groundCheckRadius, _groundLayer);
 
@@ -75,6 +78,16 @@ public class MovementController : MonoBehaviour
         if (_isGrounded) Movement();
 
         if (!_isMoving) _currentTurnSpeed = _stoppedTurnSpeed;
+
+
+        if (_boostTrailsActive != _isBoosting)
+        {
+            _boostTrailsActive = _isBoosting;
+            foreach (var trail in _boostTrails)
+            {
+                trail.emitting = _boostTrailsActive;
+            }
+        }
     }
 
     private void LateUpdate()
@@ -90,7 +103,6 @@ public class MovementController : MonoBehaviour
         {
             
             var currentAngle = _rb.rotation.eulerAngles.y;
-            //var targetAngle = Mathf.Atan2(_direction.x, _direction.z) * Mathf.Rad2Deg;
             //var targetAngle = currentAngle + (_direction.x - _direction.z) * Mathf.Rad2Deg;
             var targetAngle = currentAngle + Mathf.Atan2(_direction.x, _direction.z) * Mathf.Rad2Deg;
             var angle = Mathf.SmoothDampAngle(currentAngle, targetAngle, ref _turnSmoothVel, _currentTurnSpeed);
@@ -129,6 +141,7 @@ public class MovementController : MonoBehaviour
 
         if (_boostRemaining > 0)
         {
+            _isBoosting = true;
             _boostRemaining -= Time.deltaTime;
         }
         else
@@ -138,9 +151,11 @@ public class MovementController : MonoBehaviour
         }
     }
 
+
     private IEnumerator BoostCooldown()
     {
         _boostOnCooldown = true;
+        _isBoosting = false;
         _boostRemaining = _boostDuration;
         yield return new WaitForSeconds(_boostCooldown);
         _boostOnCooldown = false;
@@ -171,7 +186,6 @@ public class MovementController : MonoBehaviour
         var rot = Quaternion.Lerp(_rb.rotation, Quaternion.Euler(Vector3.forward), 0.5f);
         _rb.MoveRotation(rot);
         _rb.angularVelocity = Vector3.zero;
-        //_rb.AddForceAtPosition(collision.impulse/2,collision.GetContact(0).point,ForceMode.Impulse);
     }
 
     private void OnDrawGizmos()
