@@ -14,6 +14,7 @@ public class MovementController : MonoBehaviour
 
     [Header("Grounded")]
     [SerializeField] private Transform _groundCheck;
+    [SerializeField] private float _groundCheckRadius = 0.1f;
     [SerializeField] private LayerMask _groundLayer;
     
     [Header("Movement")]
@@ -48,7 +49,7 @@ public class MovementController : MonoBehaviour
     private Rigidbody _rb;
     private MovementControls _movementControls;
 
-    private bool IsGrounded() => Physics.CheckSphere(_groundCheck.position, 0.1f, _groundLayer);
+    private bool IsGrounded() => Physics.CheckSphere(_groundCheck.position, _groundCheckRadius, _groundLayer);
 
     private void Start()
     {
@@ -80,8 +81,10 @@ public class MovementController : MonoBehaviour
 
         if (_direction.magnitude >= 0.1f)
         {
-            var targetAngle = Mathf.Atan2(_direction.x, _direction.z) * Mathf.Rad2Deg;
-            var angle = Mathf.SmoothDampAngle(_rb.rotation.eulerAngles.y, targetAngle, ref _turnSmoothVel, _currentTurnSpeed);
+            // var targetAngle = Mathf.Atan2(_direction.x, _direction.z) * Mathf.Rad2Deg;
+            var currentAngle = _rb.rotation.eulerAngles.y;
+            var targetAngle = currentAngle + (_movementControls.DirectionVector.x - _movementControls.DirectionVector.y) * _standardTurnSpeed * Mathf.Rad2Deg; 
+            var angle = Mathf.SmoothDampAngle(currentAngle, targetAngle, ref _turnSmoothVel, Time.deltaTime);
             _rb.MoveRotation(Quaternion.Euler(0f, angle, 0f));
         }
     }
@@ -164,6 +167,9 @@ public class MovementController : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(_centerOfMass, 0.25f);
+        Gizmos.DrawSphere(_centerOfMass, 0.02f);
+        
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(_groundCheck.position, _groundCheckRadius);
     }
 }
