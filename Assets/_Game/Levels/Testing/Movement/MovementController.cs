@@ -28,6 +28,7 @@ public class MovementController : MonoBehaviour
 
     [Header("Drifting")]
     [SerializeField] private float _driftTurnSpeed = 0.25f;
+    [SerializeField] private List<TrailRenderer> _driftTrails = new List<TrailRenderer>();
 
     [Header("Boosting")] 
     [SerializeField] private float _boostAcceleration = 30;
@@ -50,6 +51,7 @@ public class MovementController : MonoBehaviour
 
     private Rigidbody _rb;
     private MovementControls _movementControls;
+    private bool _driftTrailsActive;
 
     private bool IsGrounded() => Physics.CheckSphere(_groundCheck.position, _groundCheckRadius, _groundLayer);
 
@@ -147,6 +149,15 @@ public class MovementController : MonoBehaviour
     {
         _isDrifting = _movementControls.Drift;
         _currentTurnSpeed = _movementControls.Drift ? _driftTurnSpeed : _standardTurnSpeed;
+
+        if (_driftTrailsActive != _isDrifting)
+        {
+            _driftTrailsActive = _isDrifting;
+            foreach (var trail in _driftTrails)
+            {
+                trail.emitting = _driftTrailsActive;
+            }
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
