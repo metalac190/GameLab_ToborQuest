@@ -8,41 +8,36 @@ public class SwitchToFracture : MonoBehaviour
     [SerializeField] private GameObject _brokenVersion;
     [SerializeField] private GameObject _unbrokenVersion;
     [SerializeField] private FixedJoint _joint;
-    [SerializeField] private Collider _collider;
-
-    private bool _fractured;
-
+    [SerializeField, ReadOnly] private bool _isFractured = false;
+    
     private void OnValidate()
     {
-        if (_unbrokenVersion == null)
-        {
-            _unbrokenVersion = transform.GetChild(0).gameObject;
-        }
-        if (_brokenVersion == null)
-        {
-            _brokenVersion = transform.GetChild(1).gameObject;
-        }
+        
+       
         if (_joint == null) _joint = GetComponent<FixedJoint>();
-        if (_collider == null) _collider = GetComponent<Collider>();
     }
 
     private void Start() 
     {
         _unbrokenVersion.SetActive(true);
-        _brokenVersion.SetActive(false);    
+        _brokenVersion.SetActive(false);   
+        _isFractured = false; 
     }
 
     private void Update()
     {
-        if (!_fractured && _joint == null) SetFractured();
+        if (_joint == null) SetFractured();
     }
 
     private void SetFractured()
     {
-        _unbrokenVersion.SetActive(false);
-        _brokenVersion.SetActive(true);
-        _collider.enabled = false;
-        _fractured = true;
+        if (!_isFractured)
+        {
+            _unbrokenVersion.SetActive(false);
+            _brokenVersion.SetActive(true);
+            _isFractured = true; 
+            Destroy(gameObject);
+        }
     }
 
     /*
