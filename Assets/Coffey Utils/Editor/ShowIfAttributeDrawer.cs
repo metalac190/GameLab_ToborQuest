@@ -2,32 +2,35 @@
 using UnityEditor;
 using UnityEngine;
 
-[CustomPropertyDrawer(typeof(ShowIfAttribute))]
-public class ShowIfAttributeDrawer : PropertyDrawer
+namespace Coffey_Utils.Editor
 {
-    public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+    [CustomPropertyDrawer(typeof(ShowIfAttribute))]
+    public class ShowIfAttributeDrawer : PropertyDrawer
     {
-        if (!ShouldShow(property)) return 0;
-        return base.GetPropertyHeight(property, label);
-    }
-
-    public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
-    {
-        if (ShouldShow(property))
+        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            EditorGUI.PropertyField(position, property, label, true);
+            if (!ShouldShow(property)) return 0;
+            return base.GetPropertyHeight(property, label);
         }
-    }
 
-    private bool ShouldShow(SerializedProperty property)
-    {
-        if (attribute is ShowIfAttribute attr)
+        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            var target = property.serializedObject.targetObject;
-            return ShowIfEditorHelper.ShouldShow(target, attr.Targets);
+            if (ShouldShow(property))
+            {
+                EditorGUI.PropertyField(position, property, label, true);
+            }
         }
-        return true;
-    }
 
+        private bool ShouldShow(SerializedProperty property)
+        {
+            if (attribute is ShowIfAttribute attr)
+            {
+                var target = property.serializedObject.targetObject;
+                return ShowIfEditorHelper.ShouldShow(target, attr.Targets);
+            }
+            return true;
+        }
+
+    }
 }
 #endif
