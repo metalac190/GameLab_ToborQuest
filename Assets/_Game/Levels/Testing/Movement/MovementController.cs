@@ -24,8 +24,10 @@ public class MovementController : MonoBehaviour
     [Header("Movement")]
     [SerializeField] private float _acceleration = 20;
     [SerializeField] private float _maxSpeed = 30;
-    [Tooltip("Default: 2.09,1.87,1.698")]
-    [SerializeField] private Vector3 _customInertiaTensor = new Vector3(2.09f, 20f, 5f);
+    [Tooltip("Don't Even Think About Messing With This Variable")]
+    //Seriously don't touch this
+    //Default 2.09, 1.87, 1.698
+    [SerializeField, ReadOnly] private Vector3 _customInertiaTensor = new Vector3(2.09f, 20f, 5f);
 
     [Header("Turning")]
     [SerializeField] private bool _turnWhenStopped = true;
