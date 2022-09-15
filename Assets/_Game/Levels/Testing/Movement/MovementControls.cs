@@ -19,6 +19,10 @@ public class MovementControls : MonoBehaviour
     private bool _boost;
     public bool Boost => _boost;
 
+    private float _sideFlip;
+    public float SideFlip => _sideFlip;
+    
+
     private void Awake()
     {
         _movementInput = new MovementInput();
@@ -40,5 +44,6 @@ public class MovementControls : MonoBehaviour
         _speed = _movementInput.Player.Drive.ReadValue<float>();
         _drift = _movementInput.Player.Drift.IsPressed();
         _boost = _movementInput.Player.Boost.IsPressed();
+        _sideFlip = _movementInput.Player.SideFlip.ReadValue<float>();
     }
 }
