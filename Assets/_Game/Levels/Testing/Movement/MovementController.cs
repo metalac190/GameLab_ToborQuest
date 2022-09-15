@@ -1,11 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using Quaternion = UnityEngine.Quaternion;
-using Vector3 = UnityEngine.Vector3;
 
 public class MovementController : MonoBehaviour
 {
@@ -13,34 +10,40 @@ public class MovementController : MonoBehaviour
 
     [Header("Grounded")]
     [SerializeField] private Transform _groundCheck;
-    [SerializeField] private float _groundCheckRadius = 0.1f;
+    [SerializeField] private float _groundCheckRadius = 0.2f;
     [SerializeField] private LayerMask _groundLayer;
+
+    [Header("Turtled")] 
+    [SerializeField] private Transform _roofCheck;
+    [SerializeField] private float _roofCheckRadius = 0.5f;
 
     [Header("Wall Bounce")]
     [SerializeField] private LayerMask _wallLayer;
     [SerializeField] private float _upwardBounce;
 
     [Header("Movement")]
-    [SerializeField] private float _acceleration = 25;
-    [SerializeField] private float _maxSpeed = 25;
+    [SerializeField] private float _acceleration = 20;
+    [SerializeField] private float _maxSpeed = 30;
+    [Tooltip("Default: 2.09,1.87,1.698")]
+    [SerializeField] private Vector3 _customInertiaTensor = new Vector3(2.09f, 20f, 5f);
 
     [Header("Turning")]
     [SerializeField] private bool _turnWhenStopped = true;
-    [SerializeField] private float _stoppedTurnSpeed = 1.0f;
-    [SerializeField] private float _standardTurnSpeed = 0.75f;
+    [SerializeField] private float _stoppedTurnSpeed = 2f;
+    [SerializeField] private float _standardTurnSpeed = 3f;
 
     [Header("Side Flip")]
-    [SerializeField] private float _flipLaunch;
-    [SerializeField] private float _flipLaunchTorque;
-    [SerializeField] private float _newDrag;
+    [SerializeField] private float _flipLaunch = 5f;
+    [SerializeField] private float _flipLaunchTorque = 5f;
+    [SerializeField] private float _sideFlipAngularDrag = 2f;
 
     [Header("Drifting")]
-    [SerializeField] private float _driftTurnSpeed = 0.25f;
+    [SerializeField] private float _driftTurnSpeed = 5.0f;
     [SerializeField] private List<TrailRenderer> _driftTrails = new List<TrailRenderer>();
 
     [Header("Boosting")] 
     [SerializeField] private float _boostAcceleration = 30;
-    [SerializeField] private float _boostMaxSpeed = 30;
+    [SerializeField] private float _boostMaxSpeed = 60;
     [SerializeField] private float _boostDuration = 2f;
     [SerializeField] private float _boostCooldown = 2f;
     [SerializeField] private float _boostRemaining = 2f;
@@ -51,9 +54,11 @@ public class MovementController : MonoBehaviour
     [SerializeField, ReadOnly] private float _currentAcceleration = 0f;
     [SerializeField, ReadOnly] private float _currentMaxSpeed = 0f;
     [SerializeField, ReadOnly] private float _currentTurnSpeed = 0f;
-    [SerializeField, ReadOnly] private float _turnSmoothVel;
+    [SerializeField, ReadOnly] private float _currentMaxAngularVelocity = 0f;
+    //[SerializeField, ReadOnly] private float _turnSmoothVel;
     [SerializeField, ReadOnly] private bool _isMoving;
     [SerializeField, ReadOnly] private bool _isGrounded;
+    [SerializeField, ReadOnly] private bool _isTurtled;
     [SerializeField, ReadOnly] private bool _isDrifting;
     [SerializeField, ReadOnly] private bool _isBoosting;
     [SerializeField, ReadOnly] private bool _isFlipping;
@@ -66,6 +71,7 @@ public class MovementController : MonoBehaviour
     private bool _boostTrailsActive;
 
     private bool IsGrounded() => Physics.CheckSphere(_groundCheck.position, _groundCheckRadius, _groundLayer);
+    private bool IsTurtled() => Physics.CheckSphere(_roofCheck.position, _roofCheckRadius, _groundLayer);
 
     private void Start()
     {
@@ -77,11 +83,15 @@ public class MovementController : MonoBehaviour
         _currentAcceleration = _acceleration;
         _currentMaxSpeed = _maxSpeed;
         _currentTurnSpeed = _stoppedTurnSpeed;
+
+        _rb.inertiaTensor = _customInertiaTensor;
     }
 
     private void FixedUpdate()
     {
         _isGrounded = IsGrounded();
+        _isTurtled = IsTurtled();
+
         if ((_isGrounded || _turnWhenStopped) && !_isFlipping) Steer();
 
         if (_isGrounded) Movement();
@@ -102,6 +112,7 @@ public class MovementController : MonoBehaviour
     private void LateUpdate()
     {
         _previousVel = _rb.velocity;
+        _currentMaxAngularVelocity = _rb.maxAngularVelocity;
     }
 
     private void Steer()
@@ -110,25 +121,17 @@ public class MovementController : MonoBehaviour
 
         if (_direction.magnitude >= 0.1f)
         {
-            
-            
+
+            /*
             var currentAngle = _rb.rotation.eulerAngles.y;
             var targetAngle = currentAngle + Mathf.Atan2(_direction.x, _direction.z) * Mathf.Rad2Deg;
             var angle = Mathf.SmoothDampAngle(currentAngle, targetAngle, ref _turnSmoothVel, _currentTurnSpeed);
-            //_rb.MoveRotation(Quaternion.Euler(0f, angle, 0f));
-
-            /*
-            var torque = Vector3.Cross(_rb.transform.forward, new Vector3(angle,0f,0f)) / Time.fixedDeltaTime;
-            Debug.Log("Direction: " + _direction);
-            Debug.Log("Cross: " + torque);
-            _rb.AddRelativeTorque(torque,ForceMode.VelocityChange);
+            _rb.MoveRotation(Quaternion.Euler(0f, angle, 0f));
             */
 
-            var torque = _rb.transform.up * 100 * angle * Time.fixedDeltaTime;
-            Debug.Log("Torque: " + torque);
+            var torque = Mathf.LerpAngle(_direction.x,_direction.z,Time.fixedDeltaTime) * _rb.transform.up * 1000 * Time.fixedDeltaTime;
             _rb.maxAngularVelocity = _currentTurnSpeed;
             _rb.AddRelativeTorque(torque,ForceMode.VelocityChange);
-
 
         }
     }
@@ -143,7 +146,7 @@ public class MovementController : MonoBehaviour
         _rb.AddForce(transform.forward * (_currentAcceleration * _movementControls.Speed), ForceMode.Acceleration);
         _rb.velocity = Vector3.ClampMagnitude(_rb.velocity, _currentMaxSpeed);
 
-        _isMoving = _rb.velocity.magnitude > 0.1f;
+        _isMoving = _rb.velocity.magnitude > 0.5f;
 
         Drift();
         SideFlip();
@@ -210,12 +213,14 @@ public class MovementController : MonoBehaviour
     {
         _isFlipping = true;
         _rb.velocity = Vector3.zero;
+        _rb.angularVelocity = Vector3.zero;
+        _rb.maxAngularVelocity = float.PositiveInfinity;
         var tempDrag = _rb.angularDrag;
 
         _rb.AddRelativeForce(new Vector3(direction*_flipLaunch, _flipLaunch, 0f), ForceMode.VelocityChange);
         yield return new WaitForSeconds(0.05f);
 
-        _rb.angularDrag = _newDrag;
+        _rb.angularDrag = _sideFlipAngularDrag;
         _rb.AddRelativeTorque(new Vector3(0f, 0f, -direction*_flipLaunchTorque), ForceMode.VelocityChange);
 
         yield return new WaitUntil(IsGrounded);
@@ -246,12 +251,8 @@ public class MovementController : MonoBehaviour
     // Wall Bounce with exaggerated momentum transfer
     private void ExaggeratedWallBounce(Collision collision)
     {
-        if (collision.gameObject.layer != _wallLayer) return;
-
-        var initalContactPoint = collision.GetContact(0).point;
-
-        _rb.AddForceAtPosition(new Vector3(0,_upwardBounce,0), initalContactPoint, ForceMode.Impulse);
-        _rb.AddForceAtPosition(collision.impulse, initalContactPoint, ForceMode.Impulse);
+        if ((_wallLayer.value & (1 << collision.gameObject.layer)) <= 0) return;
+        _rb.AddForce(new Vector3(0, _upwardBounce, 0), ForceMode.Impulse);
     }
 
     private void OnDrawGizmos()
@@ -261,5 +262,8 @@ public class MovementController : MonoBehaviour
         
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(_groundCheck.position, _groundCheckRadius);
+
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(_roofCheck.position, _roofCheckRadius);
     }
 }
