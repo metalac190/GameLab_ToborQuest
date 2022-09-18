@@ -80,6 +80,15 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SideFlip"",
+                    ""type"": ""Button"",
+                    ""id"": ""ba774127-eaf5-40f9-b661-8a60ddf27acd"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -265,7 +274,7 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/e"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""NextCamera"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -276,10 +285,43 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/q"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""PreviousCamera"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""333d18d2-43a7-4278-ab6f-8d8132b24079"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SideFlip"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""f91ae8b5-e111-46b3-bcd2-f4cc6a92ca18"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""SideFlip"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""a7162bfa-0a6c-44cc-8e03-f6bf4bdc60fc"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""SideFlip"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -355,6 +397,7 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
         m_Player_Boost = m_Player.FindAction("Boost", throwIfNotFound: true);
         m_Player_NextCamera = m_Player.FindAction("NextCamera", throwIfNotFound: true);
         m_Player_PreviousCamera = m_Player.FindAction("PreviousCamera", throwIfNotFound: true);
+        m_Player_SideFlip = m_Player.FindAction("SideFlip", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -420,6 +463,7 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Boost;
     private readonly InputAction m_Player_NextCamera;
     private readonly InputAction m_Player_PreviousCamera;
+    private readonly InputAction m_Player_SideFlip;
     public struct PlayerActions
     {
         private @MovementInput m_Wrapper;
@@ -430,6 +474,7 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
         public InputAction @Boost => m_Wrapper.m_Player_Boost;
         public InputAction @NextCamera => m_Wrapper.m_Player_NextCamera;
         public InputAction @PreviousCamera => m_Wrapper.m_Player_PreviousCamera;
+        public InputAction @SideFlip => m_Wrapper.m_Player_SideFlip;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -457,6 +502,9 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
                 @PreviousCamera.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPreviousCamera;
                 @PreviousCamera.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPreviousCamera;
                 @PreviousCamera.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPreviousCamera;
+                @SideFlip.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSideFlip;
+                @SideFlip.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSideFlip;
+                @SideFlip.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSideFlip;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -479,6 +527,9 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
                 @PreviousCamera.started += instance.OnPreviousCamera;
                 @PreviousCamera.performed += instance.OnPreviousCamera;
                 @PreviousCamera.canceled += instance.OnPreviousCamera;
+                @SideFlip.started += instance.OnSideFlip;
+                @SideFlip.performed += instance.OnSideFlip;
+                @SideFlip.canceled += instance.OnSideFlip;
             }
         }
     }
@@ -536,5 +587,6 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
         void OnBoost(InputAction.CallbackContext context);
         void OnNextCamera(InputAction.CallbackContext context);
         void OnPreviousCamera(InputAction.CallbackContext context);
+        void OnSideFlip(InputAction.CallbackContext context);
     }
 }

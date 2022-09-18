@@ -45,6 +45,6 @@ public class CameraAngleController : MonoBehaviour
         _camera.position = _options[_current].position;
         _camera.rotation = _options[_current].rotation;
 
-        _text.text = _options[_current].name;
+        // _text.text = _options[_current].name;
     }
 }
