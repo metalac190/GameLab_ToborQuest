@@ -4,53 +4,47 @@ using UnityEngine;
 
 public class DynamicNPC : StaticNPC
 {
-    [SerializeField] List<Transform> waypoints = new List<Transform>();
-    [SerializeField] bool _canMove = true;
-    [SerializeField] float _moveDuration = 3f;
+    [SerializeField, HighlightIfNull] private Waypoints _waypoints;
+    [SerializeField] private float _moveSpeed = 5f;
+    [SerializeField] private float _distanceThreshold = 0.1f;
     
-    private float _elapsedTime = 0f;
-    private Vector3 _startingPos;
-    private Transform _currentTargetWayPoint;
+    [SerializeField] bool _canMove = true;
+    private Transform _currentWaypoint;
 
-
+  
     private void Start()
     {
-        _startingPos = transform.position;
-        _currentTargetWayPoint = transform;
+       if (_waypoints != null)
+       {
+            _currentWaypoint = _waypoints.GetNextWaypoint(_currentWaypoint);
+            transform.position = _currentWaypoint.position;
+
+            _currentWaypoint = _waypoints.GetNextWaypoint(_currentWaypoint);
+
+            _defaultPos = transform.position;
+       }
     }
 
 
-    private void OnDrawGizmosSelected()
+    private void Update() 
     {
-        if (waypoints.Count > 0)
-        {
-            Gizmos.DrawLine(transform.position, waypoints[0].position);
-            for (int i = 0; i < waypoints.Count - 1; i++)
-            {
-                Gizmos.DrawLine(waypoints[i].position, waypoints[i + 1].position);
-            }
-        }
+        //TODO: Change this to rely on Rigidbody Movement instead of Transform Position
+
+        Vector3 mov = new Vector3 (transform.position.x, Mathf.Sin(_bobSpeed * Time.time) * _bobAmplitude + _defaultPos.y, transform.position.z);
+        transform.position = mov;
     }
 
 
     private void FixedUpdate()
     {
-       if (waypoints.Count > 0)
-       {
-            for (int i = 1; i < waypoints.Count; i++)
-            {
-                _currentTargetWayPoint = waypoints[i];
-                if (_canMove)
-                    {
-                        _elapsedTime += Time.deltaTime;
-                        float _movementPercentage = _elapsedTime / _moveDuration;
-
-                        _rB.MovePosition(
-                            Vector3.Lerp(transform.position, 
-                            _currentTargetWayPoint.position, 
-                            _movementPercentage));
-                    }
+        if (_canMove && _waypoints != null)
+        {
+            _rB.MovePosition(Vector3.MoveTowards(transform.position, _currentWaypoint.position, _moveSpeed * Time.deltaTime));
+            if (Vector3.Distance(transform.position, _currentWaypoint.position) < _distanceThreshold)
+            {   
+                _currentWaypoint = _waypoints.GetNextWaypoint(_currentWaypoint);
             }
-       }
+        }
     }
+    
 }
