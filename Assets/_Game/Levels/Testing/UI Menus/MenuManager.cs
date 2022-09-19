@@ -17,7 +17,7 @@ public class MenuManager : MonoBehaviour
 
     public List<MenuController> menuControllerList;
 
-    public MenuType currentMenu = MenuType.MainMenu;
+    public MenuType currentMenu { get; set; } = MenuType.MainMenu;
 
     MenuType lastActiveMenu;
 
@@ -35,7 +35,7 @@ public class MenuManager : MonoBehaviour
         SetActiveMenu(currentMenu);
     }
 
-    public void SetActiveMenu(MenuType value)
+    private void SetActiveMenu(MenuType value)
     {
         menuControllerList.ForEach(x =>
         {
@@ -45,5 +45,10 @@ public class MenuManager : MonoBehaviour
                 x.gameObject.SetActive(true);
         });
         lastActiveMenu = value;
+    }
+
+    public void SetCurrentMenu(int value)
+    {
+        currentMenu = (MenuType)value;
     }
 }
