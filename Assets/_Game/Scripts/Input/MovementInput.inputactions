@@ -42,24 +42,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "NextCamera",
-                    "type": "Button",
-                    "id": "85f2fbb4-2370-4ce9-afd5-a92ea024b6fc",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "PreviousCamera",
-                    "type": "Button",
-                    "id": "d6495b28-f85f-4cc0-a8ee-a549835805b0",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "SideFlip",
                     "type": "Button",
                     "id": "ba774127-eaf5-40f9-b661-8a60ddf27acd",
@@ -247,28 +229,6 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "",
-                    "id": "090a0bf6-328b-460c-ae1f-35360ab82f34",
-                    "path": "<Keyboard>/e",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "NextCamera",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "82923e4f-c693-450a-a720-5638d7d35c14",
-                    "path": "<Keyboard>/q",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "PreviousCamera",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
                     "name": "1D Axis",
                     "id": "333d18d2-43a7-4278-ab6f-8d8132b24079",
                     "path": "1DAxis",
@@ -297,6 +257,39 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
+                    "action": "SideFlip",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Keyboard",
+                    "id": "1ede1203-3283-4786-bf1d-266ecc781c9d",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SideFlip",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "ee2420eb-49a2-40c4-803a-a01484aa91d8",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SideFlip",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "0de8ccbe-6b53-49d7-8fc9-5d02c2f4d8f7",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
                     "action": "SideFlip",
                     "isComposite": false,
                     "isPartOfComposite": true

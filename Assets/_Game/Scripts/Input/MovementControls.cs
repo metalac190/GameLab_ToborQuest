@@ -46,4 +46,9 @@ public class MovementControls : MonoBehaviour
         _boost = _movementInput.Player.Boost.IsPressed();
         _sideFlip = _movementInput.Player.SideFlip.ReadValue<float>();
     }
+
+    private void OnDirection(InputValue value)
+    {
+        Debug.Log(value.Get<Vector2>());
+    }
 }
