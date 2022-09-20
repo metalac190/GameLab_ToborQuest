@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 public class MovementController : MonoBehaviour
 {
@@ -38,14 +39,13 @@ public class MovementController : MonoBehaviour
 
     [Header("Side Flip")] [SerializeField] private bool _showSideFlipTab;
     [SerializeField, ShowIf("_showSideFlipTab")] private float _flipLaunch = 5f;
-    [SerializeField, ShowIf("_showSideFlipTab")] private float _flipLaunchTorque = 5f;
+    [SerializeField, ShowIf("_showSideFlipTab")] private float _flipLaunchTorque = 10f;
     [SerializeField, ShowIf("_showSideFlipTab")] private float _sideFlipAngularDrag = 2f;
 
     [Header("Drift")] [SerializeField] private bool _showDrifitingTab;
     [SerializeField, ShowIf("_showDrifitingTab")] private float _driftTurnSpeed = 5.0f;
 
     [Header("Boost")] [SerializeField] private bool _showBoostTab;
-
     [SerializeField, ShowIf("_showBoostTab")] private bool _canBoostInAir;
     [SerializeField, ShowIf("_showBoostTab")] private float _boostAcceleration = 30;
     [SerializeField, ShowIf("_showBoostTab")] private float _boostMaxSpeed = 60;
@@ -53,6 +53,9 @@ public class MovementController : MonoBehaviour
     [SerializeField, ShowIf("_showBoostTab")] private float _boostCooldown = 2f;
     [SerializeField, ShowIf("_showBoostTab")] private float _boostRemaining = 2f;
     [SerializeField, ShowIf("_showBoostTab")] private bool _boostOnCooldown = false;
+
+    [Header("Wheels")] [SerializeField] private bool _showWheelTab;
+    [SerializeField, ShowIf("_showWheelTab")] private List<WheelCollider> _wheelColliders = new List<WheelCollider>();
 
     [Header("Effects")] [SerializeField] private bool _showEffectsTab;
     [SerializeField, ShowIf("_showEffectsTab")] private List<TrailRenderer> _driftTrails = new List<TrailRenderer>();
@@ -102,7 +105,9 @@ public class MovementController : MonoBehaviour
 
         if ((_isGrounded || _turnWhenStopped) && !_isFlipping) Steer();
 
-        if (_isGrounded) Movement();
+        if (_movementControls.Boost && !_boostOnCooldown) Boost();
+
+        if (_isGrounded || _isBoosting) Movement();
 
         if (!_isMoving) _currentTurnSpeed = _stoppedTurnSpeed;
 
@@ -146,12 +151,15 @@ public class MovementController : MonoBehaviour
 
     private void Movement()
     {
-        if (_movementControls.Boost && !_boostOnCooldown) Boost();
-        else if (_movementControls.Speed != 0) Drive();
+        if (_movementControls.Speed != 0 && !_isBoosting) Drive();
 
         if (!_movementControls.Boost && _boostRemaining < _boostDuration) StartCoroutine(BoostCooldown());
 
-        _rb.AddForce(transform.forward * (_currentAcceleration * _movementControls.Speed), ForceMode.Acceleration);
+        var force = transform.forward * (_currentAcceleration * _movementControls.Speed);
+
+        if (_isBoosting) force.y = 0;
+
+        _rb.AddForce(force, ForceMode.Acceleration);
         _rb.velocity = Vector3.ClampMagnitude(_rb.velocity, _currentMaxSpeed);
 
         _isMoving = _rb.velocity.magnitude > 0.5f;
@@ -174,7 +182,6 @@ public class MovementController : MonoBehaviour
 
         _currentAcceleration = _boostAcceleration;
         _currentMaxSpeed = _boostMaxSpeed;
-        //_rb.constraints = RigidbodyConstraints.FreezePositionY;
 
         if (_boostRemaining > 0)
         {
@@ -194,7 +201,6 @@ public class MovementController : MonoBehaviour
         _boostOnCooldown = true;
         _isBoosting = false;
         _boostRemaining = _boostDuration;
-        //_rb.constraints = RigidbodyConstraints.None;
         yield return new WaitForSeconds(_boostCooldown);
         _boostOnCooldown = false;
     }
@@ -262,9 +268,11 @@ public class MovementController : MonoBehaviour
     private void ExaggeratedWallBounce(Collision collision)
     {
         if ((_wallLayer.value & (1 << collision.gameObject.layer)) <= 0) return;
-        _rb.AddForce(new Vector3(_horizontalBounce, _verticalBounce, _horizontalBounce), ForceMode.Impulse);
+
+        _rb.AddForce(collision.GetContact(0).normal * _horizontalBounce + new Vector3(0, _verticalBounce, 0), ForceMode.Impulse);
     }
 
+    /*
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
@@ -276,4 +284,5 @@ public class MovementController : MonoBehaviour
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(_roofCheck.position, _roofCheckRadius);
     }
+    */
 }
