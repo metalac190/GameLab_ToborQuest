@@ -38,7 +38,8 @@ public class HUDManager : PersistableObject
         if (!Input.GetKeyDown(KeyCode.P))
             return;
 
-        pausePanel.SetActive(!pausePanel.activeInHierarchy);
+        pausePanel.SetActive(true);
+        gameObject.SetActive(false);
     }
 
     public void SetBestTime(float value)
