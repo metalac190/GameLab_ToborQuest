@@ -25,7 +25,6 @@ public class PauseManager : MonoBehaviour
 
     public void UnPause()
     {
-        Time.timeScale = 1;
-        gameObject.SetActive(false);
+        Time.timeScale = 1;        
     }
 }

@@ -55,4 +55,9 @@ public class MenuManager : MonoBehaviour
     {
         currentMenu = (MenuType)value;
     }
+
+    public void ExitGame()
+    {
+        Application.Quit();
+    }
 }
