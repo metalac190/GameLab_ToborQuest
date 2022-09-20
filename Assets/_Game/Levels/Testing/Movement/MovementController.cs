@@ -6,49 +6,57 @@ using UnityEngine.InputSystem;
 
 public class MovementController : MonoBehaviour
 {
+    [Header("Ridgidbody Stats")]
     [SerializeField] private Vector3 _centerOfMass = Vector3.zero;
+    [Tooltip("Don't Even Think About Messing With This Variable")]
+    //Seriously don't touch this
+    //Default 2.09, 1.87, 1.698
+    [SerializeField, ReadOnly] private Vector3 _customInertiaTensor = new Vector3(2.09f, 20f, 5f);
 
-    [Header("Grounded")]
-    [SerializeField] private Transform _groundCheck;
-    [SerializeField] private float _groundCheckRadius = 0.2f;
-    [SerializeField] private LayerMask _groundLayer;
+    [Header("Grounded")] [SerializeField] private bool _showGroundedTab;
+    [SerializeField, ShowIf("_showGroundedTab")] private Transform _groundCheck;
+    [SerializeField, ShowIf("_showGroundedTab")] private float _groundCheckRadius = 0.2f;
+    [SerializeField, ShowIf("_showGroundedTab")] private LayerMask _groundLayer;
 
-    [Header("Turtled")] 
-    [SerializeField] private Transform _roofCheck;
-    [SerializeField] private float _roofCheckRadius = 0.5f;
+    [Header("Turtled")] [SerializeField] private bool _showTurtledTab;
+    [SerializeField, ShowIf("_showTurtledTab")] private Transform _roofCheck;
+    [SerializeField, ShowIf("_showTurtledTab")] private float _roofCheckRadius = 0.5f;
 
-    [Header("Wall Bounce")]
-    [SerializeField] private LayerMask _wallLayer;
-    [SerializeField] private float _upwardBounce;
+    [Header("Wall Bounce")] [SerializeField] private bool _showWallBounceTab;
+    [SerializeField, ShowIf("_showWallBounceTab")] private LayerMask _wallLayer;
+    [SerializeField, ShowIf("_showWallBounceTab")] private float _verticalBounce;
+    [SerializeField, ShowIf("_showWallBounceTab")] private float _horizontalBounce;
 
-    [Header("Movement")]
-    [SerializeField] private float _acceleration = 20;
-    [SerializeField] private float _maxSpeed = 30;
-    [Tooltip("Default: 2.09,1.87,1.698")]
-    [SerializeField] private Vector3 _customInertiaTensor = new Vector3(2.09f, 20f, 5f);
+    [Header("Movement")] [SerializeField] private bool _showMovementTab;
+    [SerializeField, ShowIf("_showMovementTab")] private float _acceleration = 20;
+    [SerializeField, ShowIf("_showMovementTab")] private float _maxSpeed = 30;
 
-    [Header("Turning")]
-    [SerializeField] private bool _turnWhenStopped = true;
-    [SerializeField] private float _stoppedTurnSpeed = 2f;
-    [SerializeField] private float _standardTurnSpeed = 3f;
+    [Header("Steering")] [SerializeField] private bool _showSteeringTab;
+    [SerializeField, ShowIf("_showSteeringTab")] private bool _turnWhenStopped = true;
+    [SerializeField, ShowIf("_showSteeringTab")] private float _stoppedTurnSpeed = 2f;
+    [SerializeField, ShowIf("_showSteeringTab")] private float _standardTurnSpeed = 3f;
 
-    [Header("Side Flip")]
-    [SerializeField] private float _flipLaunch = 5f;
-    [SerializeField] private float _flipLaunchTorque = 5f;
-    [SerializeField] private float _sideFlipAngularDrag = 2f;
+    [Header("Side Flip")] [SerializeField] private bool _showSideFlipTab;
+    [SerializeField, ShowIf("_showSideFlipTab")] private float _flipLaunch = 5f;
+    [SerializeField, ShowIf("_showSideFlipTab")] private float _flipLaunchTorque = 5f;
+    [SerializeField, ShowIf("_showSideFlipTab")] private float _sideFlipAngularDrag = 2f;
 
-    [Header("Drifting")]
-    [SerializeField] private float _driftTurnSpeed = 5.0f;
-    [SerializeField] private List<TrailRenderer> _driftTrails = new List<TrailRenderer>();
+    [Header("Drift")] [SerializeField] private bool _showDrifitingTab;
+    [SerializeField, ShowIf("_showDrifitingTab")] private float _driftTurnSpeed = 5.0f;
 
-    [Header("Boosting")] 
-    [SerializeField] private float _boostAcceleration = 30;
-    [SerializeField] private float _boostMaxSpeed = 60;
-    [SerializeField] private float _boostDuration = 2f;
-    [SerializeField] private float _boostCooldown = 2f;
-    [SerializeField] private float _boostRemaining = 2f;
-    [SerializeField] private bool _boostOnCooldown = false;
-    [SerializeField] private List<TrailRenderer> _boostTrails = new List<TrailRenderer>();
+    [Header("Boost")] [SerializeField] private bool _showBoostTab;
+
+    [SerializeField, ShowIf("_showBoostTab")] private bool _canBoostInAir;
+    [SerializeField, ShowIf("_showBoostTab")] private float _boostAcceleration = 30;
+    [SerializeField, ShowIf("_showBoostTab")] private float _boostMaxSpeed = 60;
+    [SerializeField, ShowIf("_showBoostTab")] private float _boostDuration = 2f;
+    [SerializeField, ShowIf("_showBoostTab")] private float _boostCooldown = 2f;
+    [SerializeField, ShowIf("_showBoostTab")] private float _boostRemaining = 2f;
+    [SerializeField, ShowIf("_showBoostTab")] private bool _boostOnCooldown = false;
+
+    [Header("Effects")] [SerializeField] private bool _showEffectsTab;
+    [SerializeField, ShowIf("_showEffectsTab")] private List<TrailRenderer> _driftTrails = new List<TrailRenderer>();
+    [SerializeField, ShowIf("_showEffectsTab")] private List<TrailRenderer> _boostTrails = new List<TrailRenderer>();
 
     [Header("Debug")]
     [SerializeField, ReadOnly] private float _currentAcceleration = 0f;
@@ -166,6 +174,7 @@ public class MovementController : MonoBehaviour
 
         _currentAcceleration = _boostAcceleration;
         _currentMaxSpeed = _boostMaxSpeed;
+        //_rb.constraints = RigidbodyConstraints.FreezePositionY;
 
         if (_boostRemaining > 0)
         {
@@ -185,6 +194,7 @@ public class MovementController : MonoBehaviour
         _boostOnCooldown = true;
         _isBoosting = false;
         _boostRemaining = _boostDuration;
+        //_rb.constraints = RigidbodyConstraints.None;
         yield return new WaitForSeconds(_boostCooldown);
         _boostOnCooldown = false;
     }
@@ -252,7 +262,7 @@ public class MovementController : MonoBehaviour
     private void ExaggeratedWallBounce(Collision collision)
     {
         if ((_wallLayer.value & (1 << collision.gameObject.layer)) <= 0) return;
-        _rb.AddForce(new Vector3(0, _upwardBounce, 0), ForceMode.Impulse);
+        _rb.AddForce(new Vector3(_horizontalBounce, _verticalBounce, _horizontalBounce), ForceMode.Impulse);
     }
 
     private void OnDrawGizmos()
