@@ -81,6 +81,8 @@ public class MovementController : MonoBehaviour
     private bool _driftTrailsActive;
     private bool _boostTrailsActive;
 
+    private BoxCollider _boxCollider;
+
     private bool IsGrounded() => Physics.CheckSphere(_groundCheck.position, _groundCheckRadius, _groundLayer);
     private bool IsTurtled() => Physics.CheckSphere(_roofCheck.position, _roofCheckRadius, _groundLayer);
 
@@ -90,6 +92,7 @@ public class MovementController : MonoBehaviour
         _rb.centerOfMass = _centerOfMass;
 
         _movementControls = GetComponent<MovementControls>();
+        _boxCollider = GetComponent<BoxCollider>();
 
         _currentAcceleration = _acceleration;
         _currentMaxSpeed = _maxSpeed;
@@ -109,7 +112,27 @@ public class MovementController : MonoBehaviour
 
         if (_isGrounded || _isBoosting) Movement();
 
-        if (!_isMoving) _currentTurnSpeed = _stoppedTurnSpeed;
+        /*
+        if (!_isMoving || _isFlipping)
+        {
+            _currentTurnSpeed = _stoppedTurnSpeed;
+            _boxCollider.enabled = true;
+
+            foreach (var wheel in _wheelColliders)
+            {
+                wheel.enabled = false;
+            }
+        }
+        else if (_isMoving || !_isFlipping)
+        {
+            _boxCollider.enabled = false;
+
+            foreach (var wheel in _wheelColliders)
+            {
+                wheel.enabled = true;
+            }
+        }
+        */
 
 
         if (_boostTrailsActive != _isBoosting)
@@ -120,6 +143,8 @@ public class MovementController : MonoBehaviour
                 trail.emitting = _boostTrailsActive;
             }
         }
+
+
     }
 
     private void LateUpdate()
@@ -162,9 +187,10 @@ public class MovementController : MonoBehaviour
         _rb.AddForce(force, ForceMode.Acceleration);
         _rb.velocity = Vector3.ClampMagnitude(_rb.velocity, _currentMaxSpeed);
 
-        _isMoving = _rb.velocity.magnitude > 0.5f;
+        _isMoving = _rb.velocity.magnitude > 0.25f;
 
-        Drift();
+        if (_isGrounded) Drift();
+
         SideFlip();
 
     }
