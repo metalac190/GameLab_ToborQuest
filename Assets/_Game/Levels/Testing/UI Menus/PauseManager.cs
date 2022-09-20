@@ -1,18 +1,31 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class PauseManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public HUDManager hudManager;
+
+    public GameObject QuestionBox;
+
+    public TextMeshProUGUI currentTime;
+    public TextMeshProUGUI bestTime;
+
+    private void Awake()
     {
-        
+        QuestionBox.SetActive(false);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnEnable()
     {
-        
+        currentTime.text = hudManager.GetCurrentTimeText();
+        bestTime.text = hudManager.GetBestTimeString();
+    }
+
+    public void UnPause()
+    {
+        Time.timeScale = 1;
+        gameObject.SetActive(false);
     }
 }
