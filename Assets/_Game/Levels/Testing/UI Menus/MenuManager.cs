@@ -8,8 +8,7 @@ public enum MenuType
     MainMenu,
     LevelSelect,
     HUD,
-    Settings,
-    Pause,
+    Settings
 }
 
 public class MenuManager : MonoBehaviour
@@ -45,6 +44,11 @@ public class MenuManager : MonoBehaviour
                 x.gameObject.SetActive(true);
         });
         lastActiveMenu = value;
+    }
+
+    private void SetCurrentButtonSelect(GameObject value)
+    {
+        EventSystem.current.firstSelectedGameObject = value;
     }
 
     public void SetCurrentMenu(int value)
