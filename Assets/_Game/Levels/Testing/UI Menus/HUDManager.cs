@@ -3,11 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 using TMPro;
 
 public class HUDManager : PersistableObject
 {
     public GameObject pausePanel;
+
+    public MovementInput _controller;
 
     public TimerUI currentTimerText;
     public Slider toborProgress;
@@ -15,11 +18,28 @@ public class HUDManager : PersistableObject
 
     private float toborProgressValue;
     private float timeElapsed;
+
+    private void Awake()
+    {
+        _controller = new MovementInput();
+        pausePanel.SetActive(false);
+    }
+
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
         SetBestTime(180f);
-        SetToborProgress(0f);
+        SetToborProgress(0f);        
+    }
+
+    private void OnEnable()
+    {
+        _controller.Enable();
+    }
+
+    private void OnDisable()
+    {
+        _controller.Disable();
     }
 
     // Update is called once per frame
@@ -32,14 +52,17 @@ public class HUDManager : PersistableObject
         {
             toborProgressValue = Mathf.Lerp(0, 1, timeElapsed / 10f);
             timeElapsed += Time.deltaTime;
-        }        
+        }
         SetToborProgress(toborProgressValue);
 
-        if (!Input.GetKeyDown(KeyCode.P))
-            return;
-
-        pausePanel.SetActive(true);
-        gameObject.SetActive(false);
+        if (_controller.UI.Pause.IsPressed())
+        {
+            Debug.Log("Game Paused");
+            PauseGame();
+            //Debug.Log("Game Unpaused");
+            //return;
+        }        
+        
     }
 
     public void SetBestTime(float value)
@@ -48,9 +71,26 @@ public class HUDManager : PersistableObject
         bestTime.text = time.ToString(@"hh\:mm\:ss");
     }
 
+    public string GetBestTimeString()
+    {
+        return bestTime.text;
+    }
+
+    public string GetCurrentTimeText()
+    {
+        return currentTimerText.timerText.text;
+    }
+
     public void SetToborProgress(float value)
     {
         toborProgress.value = value;
+    }
+
+    public void PauseGame()
+    {
+        pausePanel.SetActive(true);
+        //gameObject.SetActive(false);
+        Time.timeScale = 0;
     }
 
 }
