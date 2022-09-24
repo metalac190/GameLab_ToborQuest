@@ -10,35 +10,49 @@ public class MenuArrowTween : MonoBehaviour
     public float bouncingTime = 1.5f;    
     
     private int tweenID;
+    private RectTransform _transform;
+    private Vector3 initPos;
 
     private void Awake()
     {
+        _transform = gameObject.GetComponent<RectTransform>();
+        initPos = _transform.localPosition;
         LeanTween.reset();
+        if(EventSystem.current.currentSelectedGameObject != transform.parent.gameObject)
+        {
+            gameObject.SetActive(false);            
+        }
+        else
+        {
+            gameObject.SetActive(true);
+        }
+            
     }
 
-    private void Start()
+    private void OnEnable()
     {
+        _transform.localPosition = initPos;
         ArrowTween();
     }
 
     void Update()
     {
-        if (Keyboard.current.pKey.wasPressedThisFrame)
-        {
-            Debug.Log("Pause key");
-            PauseTween();
-        }
-        else if (Keyboard.current.rKey.wasPressedThisFrame)
-        {
-            Debug.Log("Resume key");
-            ResumeTween();
-        }
+        //if (Keyboard.current.pKey.wasPressedThisFrame)
+        //{
+        //    Debug.Log("Pause key");
+        //    PauseTween();
+        //}
+        //else if (Keyboard.current.rKey.wasPressedThisFrame)
+        //{
+        //    Debug.Log("Resume key");
+        //    ResumeTween();
+        //}
     }
 
     void ArrowTween()
     {
-        LeanTween.cancel(gameObject.GetComponent<RectTransform>());
-        tweenID = LeanTween.moveX(gameObject.GetComponent<RectTransform>(), bouncingDistance, bouncingTime)
+        LeanTween.cancel(_transform);
+        tweenID = LeanTween.moveX(_transform, bouncingDistance, bouncingTime)
             .setEaseOutCubic()
             .setLoopPingPong()
             .setIgnoreTimeScale(true).id;
@@ -53,4 +67,5 @@ public class MenuArrowTween : MonoBehaviour
     {
         LeanTween.resume(tweenID);
     }
+
 }
