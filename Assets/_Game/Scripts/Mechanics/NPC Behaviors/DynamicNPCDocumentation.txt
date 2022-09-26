@@ -1,0 +1,21 @@
+# Dynamic NPC Waypoint Documentation
+
+This is just a quick user guide on how to use the waypoints for the [Dynamic NPCs]
+
+## References
+
+Before you begin editing the waypoint positions, it is important to check the [Dynamic NPC] in the scene to make sure a set of [Waypoints] is referenced. If a Dynamic NPC doesn't reference a set of [Waypoints], this will not work.
+
+## How To Use
+
+Just use the hierarchy to move around the waypoints underneath the main [Waypoints] gameobject to your desired location. Feel free to duplicate any and arrange them however you'd like.
+
+If you press the (Reset Waypoint Position) Button, all waypoints will be reset to the position of the [Waypoints] gameobject.
+
+If you press the (Random Waypoint Scatter) Button, all the waypoints (except for the last one which will stay in the original position) will be scattered randomly with a max range of 20 units. You can change this by changing the (Random Scatter) variable.
+
+The (Waypoint Size) variable allows you to adjust the size of the gizmos that represent the waypoints. This won't really affect anything except for how the gizmos look.
+
+### Quick Note:
+
+Do not move the last waypoint. You could if you wanted to, but by keeping it in it's original spot, you can keep track of the origin point of the [Waypoints] gameobject.
