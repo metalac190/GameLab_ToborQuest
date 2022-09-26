@@ -4,7 +4,6 @@ using UnityEngine;
 
 public abstract class InteractablePad : MonoBehaviour {
 
-    [SerializeField] protected float addedForce;
     [SerializeField] private float padForceMaxTime;
 
     //static timer to be shared by all pads
@@ -31,11 +30,11 @@ public abstract class InteractablePad : MonoBehaviour {
         //if the object is Tobor, call the coroutine to set its boost pad boolean to turn off max speed
         MovementController movementController = other.GetComponent<MovementController>();
         if(movementController != null) {
-            StartCoroutine(BoostPadTimer(movementController));
+            StartCoroutine(PadTimer(movementController));
         }
     }
 
-    private IEnumerator BoostPadTimer(MovementController movementController) {
+    private IEnumerator PadTimer(MovementController movementController) {
         movementController._UsingPad = true;
         padTimer = 0;
 
