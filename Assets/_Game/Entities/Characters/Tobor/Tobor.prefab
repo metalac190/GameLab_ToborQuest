@@ -142,8 +142,8 @@ MonoBehaviour:
   _mass: 40
   _radius: 0.58
   _inertia: 0
-  _center: {x: 0, y: 0.15, z: 0}
-  _distance: 0.5
+  _center: {x: 0, y: 0.1, z: 0}
+  _distance: 0.4
   _ancor: 0
   _springRate: 501.4
   _damperRate: 25.07
@@ -151,8 +151,6 @@ MonoBehaviour:
   _targetPosition: 0.5
   _maxAngle: 10
   _offset: 0
-  _wheelDampeningRate: 1
-  _frictionStiffness: 1
   _wheelCollider: {fileID: 5501826621274724041}
   _wheelMesh: {fileID: 1706768223657700956}
 --- !u!1 &578419210941367126
@@ -213,8 +211,6 @@ MonoBehaviour:
   _targetPosition: 0.5
   _maxAngle: 20
   _offset: 0
-  _wheelDampeningRate: 1
-  _frictionStiffness: 1
   _wheelCollider: {fileID: 7873127357999031206}
   _wheelMesh: {fileID: 2074810752830335652}
 --- !u!1 &581414430333656245
@@ -649,6 +645,8 @@ GameObject:
   - component: {fileID: 1076127496911297584}
   - component: {fileID: 1076127496911297591}
   - component: {fileID: 381337252041802221}
+  - component: {fileID: 61930621753257058}
+  - component: {fileID: 7528695759469318202}
   - component: {fileID: 1076127496911297585}
   - component: {fileID: 2345064586588846204}
   - component: {fileID: 1076127496911297589}
@@ -678,6 +676,7 @@ Transform:
   - {fileID: 2525823765583377342}
   - {fileID: 1076127497694386359}
   - {fileID: 5276892962281363656}
+  - {fileID: 1250932240810519562}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -694,7 +693,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _centerOfMass: {x: 0, y: 0.1, z: 0}
-  _customInertiaTensor: {x: 2.09, y: 20, z: 5}
+  _customInertiaTensor: {x: 2.09, y: 40, z: 5}
   _showPositionCheckTab: 0
   _groundCheck: {fileID: 1076127497694386359}
   _groundCheckRadius: 0.5
@@ -703,12 +702,6 @@ MonoBehaviour:
     m_Bits: 10240
   _roofCheck: {fileID: 5276892962281363656}
   _roofCheckRadius: 0.3
-  _showWallBounceTab: 0
-  _wallLayer:
-    serializedVersion: 2
-    m_Bits: 4096
-  _verticalBounce: 200
-  _horizontalBounce: 300
   _showMovementTab: 0
   _acceleration: 20
   _maxSpeed: 50
@@ -717,9 +710,9 @@ MonoBehaviour:
   _stoppedTurnSpeed: 2
   _standardTurnSpeed: 3
   _showSideFlipTab: 0
-  _flipLaunch: 8
+  _flipLaunch: {x: 7, y: 7}
   _flipLaunchTorque: 4
-  _sideFlipAngularDrag: 2
+  _sideFlipAngularDrag: 1
   _showDrifitingTab: 0
   _driftTurnSpeed: 5
   _showBoostTab: 0
@@ -730,7 +723,6 @@ MonoBehaviour:
   _boostCooldown: 2
   _boostRemaining: 2
   _boostOnCooldown: 0
-  _UsingPad: 0
   _showEffectsTab: 0
   _driftTrails:
   - {fileID: 5230306928813502641}
@@ -754,6 +746,7 @@ MonoBehaviour:
   _isDrifting: 0
   _isBoosting: 0
   _isFlipping: 0
+  _UsingPad: 0
   _direction: {x: 0, y: 0, z: 0}
   _previousVel: {x: 0, y: 0, z: 0}
 --- !u!114 &381337252041802221
@@ -778,7 +771,41 @@ MonoBehaviour:
   _wallLayer:
     serializedVersion: 2
     m_Bits: 4096
-  _canCollide: 0
+  _standardWheelDampeningRate: 0.25
+  _standardFrictionStiffness: 1
+  _currentWheelDampeningRate: 0
+  _currentFrictionStiffness: 0
+--- !u!114 &61930621753257058
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1076127496911297578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e674541f13e976e4393137708335bf2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _wallLayer:
+    serializedVersion: 2
+    m_Bits: 4096
+  _verticalBounce: 300
+  _horizontalBounce: 500
+--- !u!114 &7528695759469318202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1076127496911297578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48c5078044c30f446adfadf43704bfac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _useCustomGravity: 1
+  _gravity: 250
 --- !u!114 &1076127496911297585
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -831,10 +858,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.75
+  m_Radius: 0.8
   m_Height: 2.5
   m_Direction: 2
-  m_Center: {x: 0, y: 1, z: -0.1}
+  m_Center: {x: 0, y: 1.15, z: -0.1}
 --- !u!114 &1076127496911297586
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -913,6 +940,51 @@ Transform:
   m_Father: {fileID: 1076127496911297584}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1109331142455719552
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1250932240810519562}
+  - component: {fileID: 7374926898785900431}
+  m_Layer: 15
+  m_Name: WallBounceCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1250932240810519562
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1109331142455719552}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1076127496911297584}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &7374926898785900431
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1109331142455719552}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.75, y: 2.25, z: 2.75}
+  m_Center: {x: 0, y: 0, z: -0.1}
 --- !u!1 &1177187163203032071
 GameObject:
   m_ObjectHideFlags: 0
@@ -2128,8 +2200,6 @@ MonoBehaviour:
   _targetPosition: 0.5
   _maxAngle: 30
   _offset: 0
-  _wheelDampeningRate: 1
-  _frictionStiffness: 1
   _wheelCollider: {fileID: 3162967461368994472}
   _wheelMesh: {fileID: 4150839879352037160}
 --- !u!1 &2946078881088787870
@@ -2641,8 +2711,8 @@ MonoBehaviour:
   _mass: 40
   _radius: 0.58
   _inertia: 0
-  _center: {x: 0, y: 0.15, z: 0}
-  _distance: 0.5
+  _center: {x: 0, y: 0.1, z: 0}
+  _distance: 0.4
   _ancor: 0
   _springRate: 501.4
   _damperRate: 25.07
@@ -2650,8 +2720,6 @@ MonoBehaviour:
   _targetPosition: 0.5
   _maxAngle: 10
   _offset: 0
-  _wheelDampeningRate: 1
-  _frictionStiffness: 1
   _wheelCollider: {fileID: 6344131970833429737}
   _wheelMesh: {fileID: 4225863867767830323}
 --- !u!1 &4054534605103608359
@@ -2857,8 +2925,6 @@ MonoBehaviour:
   _targetPosition: 0.5
   _maxAngle: 30
   _offset: 0
-  _wheelDampeningRate: 1
-  _frictionStiffness: 1
   _wheelCollider: {fileID: 6181132123529602732}
   _wheelMesh: {fileID: 2880253984019037739}
 --- !u!1 &4660435716725130084
@@ -3842,8 +3908,6 @@ MonoBehaviour:
   _targetPosition: 0.5
   _maxAngle: 20
   _offset: 0
-  _wheelDampeningRate: 1
-  _frictionStiffness: 1
   _wheelCollider: {fileID: 161348917072412956}
   _wheelMesh: {fileID: 5690791975694004100}
 --- !u!1 &7496529867488294657

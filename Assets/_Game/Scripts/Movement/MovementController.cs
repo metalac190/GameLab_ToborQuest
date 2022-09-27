@@ -21,11 +21,6 @@ public class MovementController : MonoBehaviour
     [SerializeField, ShowIf("_showPositionCheckTab")] private Transform _roofCheck;
     [SerializeField, ShowIf("_showPositionCheckTab")] private float _roofCheckRadius = 0.5f;
 
-    [Header("Wall Bounce")] [SerializeField] private bool _showWallBounceTab;
-    [SerializeField, ShowIf("_showWallBounceTab")] private LayerMask _wallLayer;
-    [SerializeField, ShowIf("_showWallBounceTab")] private float _verticalBounce;
-    [SerializeField, ShowIf("_showWallBounceTab")] private float _horizontalBounce;
-
     [Header("Movement")] [SerializeField] private bool _showMovementTab;
     [SerializeField, ShowIf("_showMovementTab")] private float _acceleration = 20;
     [SerializeField, ShowIf("_showMovementTab")] private float _maxSpeed = 30;
@@ -36,7 +31,7 @@ public class MovementController : MonoBehaviour
     [SerializeField, ShowIf("_showSteeringTab")] private float _standardTurnSpeed = 3f;
 
     [Header("Side Flip")] [SerializeField] private bool _showSideFlipTab;
-    [SerializeField, ShowIf("_showSideFlipTab")] private float _flipLaunch = 5f;
+    [SerializeField, ShowIf("_showSideFlipTab")] private Vector2 _flipLaunch;
     [SerializeField, ShowIf("_showSideFlipTab")] private float _flipLaunchTorque = 10f;
     [SerializeField, ShowIf("_showSideFlipTab")] private float _sideFlipAngularDrag = 2f;
 
@@ -51,7 +46,6 @@ public class MovementController : MonoBehaviour
     [SerializeField, ShowIf("_showBoostTab")] private float _boostCooldown = 2f;
     [SerializeField, ShowIf("_showBoostTab")] private float _boostRemaining = 2f;
     [SerializeField, ShowIf("_showBoostTab")] private bool _boostOnCooldown = false;
-    public bool _UsingPad;
 
     [Header("Effects")] [SerializeField] private bool _showEffectsTab;
     [SerializeField, ShowIf("_showEffectsTab")] private List<TrailRenderer> _driftTrails = new List<TrailRenderer>();
@@ -70,6 +64,7 @@ public class MovementController : MonoBehaviour
     [SerializeField, ReadOnly] private bool _isDrifting;
     [SerializeField, ReadOnly] private bool _isBoosting;
     [SerializeField, ReadOnly] private bool _isFlipping;
+    [SerializeField, ReadOnly] public bool _UsingPad;
     [SerializeField, ReadOnly] private Vector3 _direction;
     [SerializeField, ReadOnly] private Vector3 _previousVel;
 
@@ -194,7 +189,7 @@ public class MovementController : MonoBehaviour
     }
 
 
-    private IEnumerator BoostCooldown(float cooldown = 0)
+    public IEnumerator BoostCooldown(float cooldown = 0)
     {
         _boostOnCooldown = true;
         _boostRemaining = 0;
@@ -235,7 +230,7 @@ public class MovementController : MonoBehaviour
         _rb.maxAngularVelocity = float.PositiveInfinity;
         var tempDrag = _rb.angularDrag;
 
-        _rb.AddRelativeForce(new Vector3(direction*_flipLaunch, _flipLaunch, 0f), ForceMode.VelocityChange);
+        _rb.AddRelativeForce(new Vector3(direction*_flipLaunch.x, _flipLaunch.y, 0f), ForceMode.VelocityChange);
         yield return new WaitForSeconds(0.05f);
 
         _rb.angularDrag = _sideFlipAngularDrag;
@@ -244,37 +239,6 @@ public class MovementController : MonoBehaviour
         yield return new WaitUntil(GroundCheck);
         _rb.angularDrag = tempDrag;
         _isFlipping = false;
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        ExaggeratedWallBounce(collision.collider, collision.GetContact(0).normal);
-    }
-
-
-
-    //Bounce with direct momentum transfer
-    private void StandardWallBounce(Collision collision)
-    {
-        if (collision.gameObject.layer != _wallLayer) return;
-        var vel = _previousVel;
-        vel.x = -vel.x;
-        vel.y = 1;
-        _rb.velocity = vel;
-        var rot = Quaternion.Lerp(_rb.rotation, Quaternion.Euler(Vector3.forward), 0.5f);
-        _rb.MoveRotation(rot);
-        _rb.angularVelocity = Vector3.zero;
-    }
-
-    // Wall Bounce with exaggerated momentum transfer
-    public void ExaggeratedWallBounce(Collider otherCollider, Vector3 normal)
-    {
-        if ((_wallLayer.value & (1 << otherCollider.gameObject.layer)) <= 0) return;
-
-        //to stop boosting into wall
-        StartCoroutine(BoostCooldown(0.1f));
-
-        _rb.AddForce(normal * _horizontalBounce + new Vector3(0, _verticalBounce, 0), ForceMode.Impulse);
     }
 
     /*

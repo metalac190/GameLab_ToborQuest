@@ -25,22 +25,20 @@ public class Wheel : MonoBehaviour
     [SerializeField] private float _maxAngle = 90f;
     [SerializeField] private float _offset = 0f;
 
-    [Header("Friction")]
-    [SerializeField] private float _wheelDampeningRate = 0.25f;
-    [SerializeField] private float _frictionStiffness = 1f;
-
     [Header("Objects")]
     [SerializeField] public WheelCollider _wheelCollider;
     [SerializeField] private Transform _wheelMesh;
 
 
     private Rigidbody _rb;
+    private GravityController _gc;
     private float _turnAngle;
 
     private void Start()
     {
         if (!_wheelCollider) _wheelCollider = GetComponentInChildren<WheelCollider>();
         _rb = GetComponentInParent<Rigidbody>();
+        _gc = _rb.GetComponent<GravityController>();
         UpdateSuspension();
     }
 
@@ -53,7 +51,9 @@ public class Wheel : MonoBehaviour
     {
         //inertia = (1/2) * m * r^2
         _inertia = (1 / 2) * _mass * Mathf.Pow(_radius, 2);
+
         //spring rate = vehicle mass / num wheels * 2 * 9.81 / suspension distance
+        //if (_gc.UseCustomGravity) _springRate = _rb.mass / 6 * 2 * _gc.Gravity / _distance;
         _springRate = _rb.mass / 6 * 2 * 9.81f / _distance;
         //Damper rate = spring rate / 20
         _damperRate = _springRate / 20;
@@ -67,16 +67,6 @@ public class Wheel : MonoBehaviour
         springJoint.damper = _damperRate;
         springJoint.targetPosition = _targetPosition;
         _wheelCollider.suspensionSpring = springJoint;
-
-        _wheelCollider.wheelDampingRate = _wheelDampeningRate;
-
-        var ffrictionCurve = _wheelCollider.forwardFriction;
-        ffrictionCurve.stiffness = _frictionStiffness;
-        _wheelCollider.forwardFriction = ffrictionCurve;
-
-        var sfrictionCurve = _wheelCollider.sidewaysFriction;
-        sfrictionCurve.stiffness = _frictionStiffness;
-        _wheelCollider.sidewaysFriction = sfrictionCurve;
     }
 
     public void Steer(float steerInput)
