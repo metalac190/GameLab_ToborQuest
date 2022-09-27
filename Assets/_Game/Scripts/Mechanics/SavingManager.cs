@@ -38,7 +38,7 @@ public class SavingManager : PersistableObject
     {
         writer.Write(saveSlider.value);
         writer.Write(saveInputField.text);
-        writer.Write(timer.timeRemaning);
+        writer.Write(timer.timeRemaining);
     }
 
     public override void Load(GameDataReader reader)
@@ -52,7 +52,7 @@ public class SavingManager : PersistableObject
         saveSlider.value = reader.ReadFloat();
         saveText.text = reader.ReadString();       
         saveInputField.text = saveText.text;
-        timer.timeRemaning = reader.ReadFloat();
+        timer.timeRemaining = reader.ReadFloat();
         //StartCoroutine(LoadGame(reader));
     }
 
