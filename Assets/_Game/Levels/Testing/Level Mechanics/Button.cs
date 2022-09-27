@@ -47,10 +47,10 @@ public class Button : MonoBehaviour {
     private void Update() {
         //lock the button top's local position and rotation to only go up and down
         buttonTop.transform.localPosition = new Vector3(0, buttonTop.transform.localPosition.y, 0);
-        buttonTop.transform.localEulerAngles = Vector3.zero;
+        //buttonTop.transform.localEulerAngles = Vector3.zero;
 
         //clamp the button's highest position to the upper limit
-        if(buttonTop.localPosition.y >= 0) {
+        if(buttonTop.localPosition.y > 0) {
             buttonTop.transform.position = buttonUpperLimit.transform.position;
         //if the button is lower than the upper limit, then add a spring-like force upward
         } else {
