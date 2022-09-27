@@ -25,6 +25,9 @@ public class ColliderController : MonoBehaviour
     [Header("Collisions")]
     [SerializeField] private LayerMask _wallLayer;
 
+    [Header("Debug")]
+    [SerializeField, ReadOnly] private bool _canCollide = true;
+
 
     private MovementController _mc;
     private MovementControls _input;
@@ -35,6 +38,8 @@ public class ColliderController : MonoBehaviour
         _mc = GetComponent<MovementController>();
         _input = GetComponent<MovementControls>();
         _rb = GetComponent<Rigidbody>();
+
+        _canCollide = true;
     }
 
     private void FixedUpdate()
@@ -45,7 +50,7 @@ public class ColliderController : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (_mc.IsGrounded) GetCollisions();
+        if (_canCollide) GetCollisions();
     }
 
     private void UpdateSuspension()
@@ -91,8 +96,16 @@ public class ColliderController : MonoBehaviour
 
                 //Debug.Log("Wheel " + w.gameObject.name + ": " + wheelHit.collider.name);
                 _mc.ExaggeratedWallBounce(wheelHit.collider, wheelHit.normal);
+                StartCoroutine(CollisionCooldown());
             }
 
         }
+    }
+
+    private IEnumerator CollisionCooldown()
+    {
+        _canCollide = false;
+        yield return new WaitForSeconds(0.1f);
+        _canCollide = true;
     }
 }
