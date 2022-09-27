@@ -655,7 +655,7 @@ GameObject:
   - component: {fileID: 1076127496911297579}
   - component: {fileID: 1076127496911297586}
   m_Layer: 10
-  m_Name: WheelCollider_Tobor
+  m_Name: Tobor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -707,8 +707,8 @@ MonoBehaviour:
   _wallLayer:
     serializedVersion: 2
     m_Bits: 4096
-  _verticalBounce: 15
-  _horizontalBounce: 15
+  _verticalBounce: 200
+  _horizontalBounce: 300
   _showMovementTab: 0
   _acceleration: 20
   _maxSpeed: 50
@@ -717,8 +717,8 @@ MonoBehaviour:
   _stoppedTurnSpeed: 2
   _standardTurnSpeed: 3
   _showSideFlipTab: 0
-  _flipLaunch: 10
-  _flipLaunchTorque: 8
+  _flipLaunch: 8
+  _flipLaunchTorque: 4
   _sideFlipAngularDrag: 2
   _showDrifitingTab: 0
   _driftTurnSpeed: 5
@@ -731,7 +731,7 @@ MonoBehaviour:
   _boostRemaining: 2
   _boostOnCooldown: 0
   _UsingPad: 0
-  _showEffectsTab: 1
+  _showEffectsTab: 0
   _driftTrails:
   - {fileID: 5230306928813502641}
   - {fileID: 2766205465424269572}

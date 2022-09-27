@@ -44,6 +44,11 @@ public class Wheel : MonoBehaviour
         UpdateSuspension();
     }
 
+    private void Update()
+    {
+        UpdateSuspension();
+    }
+
     private void UpdateSuspension()
     {
         //inertia = (1/2) * m * r^2
@@ -62,6 +67,16 @@ public class Wheel : MonoBehaviour
         springJoint.damper = _damperRate;
         springJoint.targetPosition = _targetPosition;
         _wheelCollider.suspensionSpring = springJoint;
+
+        _wheelCollider.wheelDampingRate = _wheelDampeningRate;
+
+        var ffrictionCurve = _wheelCollider.forwardFriction;
+        ffrictionCurve.stiffness = _frictionStiffness;
+        _wheelCollider.forwardFriction = ffrictionCurve;
+
+        var sfrictionCurve = _wheelCollider.sidewaysFriction;
+        sfrictionCurve.stiffness = _frictionStiffness;
+        _wheelCollider.sidewaysFriction = sfrictionCurve;
     }
 
     public void Steer(float steerInput)
