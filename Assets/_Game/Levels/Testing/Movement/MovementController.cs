@@ -51,6 +51,7 @@ public class MovementController : MonoBehaviour
     [SerializeField, ShowIf("_showBoostTab")] private float _boostCooldown = 2f;
     [SerializeField, ShowIf("_showBoostTab")] private float _boostRemaining = 2f;
     [SerializeField, ShowIf("_showBoostTab")] private bool _boostOnCooldown = false;
+    public bool _UsingPad;
 
     [Header("Effects")] [SerializeField] private bool _showEffectsTab;
     [SerializeField, ShowIf("_showEffectsTab")] private List<TrailRenderer> _driftTrails = new List<TrailRenderer>();
@@ -184,8 +185,11 @@ public class MovementController : MonoBehaviour
         if (_isBoosting) force.y = 0;
 
         _rb.AddForce(force, ForceMode.Acceleration);
+        
+        if(!_UsingPad) _rb.velocity = Vector3.ClampMagnitude(_rb.velocity, _currentMaxSpeed);
+        
         _rb.velocity = Vector3.ClampMagnitude(_rb.velocity, _currentMaxSpeed);
-
+        
         _isMoving = _rb.velocity.magnitude > 0.25f;
 
         if (_isGrounded) Drift();

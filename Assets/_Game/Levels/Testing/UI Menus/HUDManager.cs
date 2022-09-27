@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using TMPro;
+using UnityEngine.EventSystems;
 
 public class HUDManager : PersistableObject
 {
@@ -15,6 +16,8 @@ public class HUDManager : PersistableObject
     public TimerUI currentTimerText;
     public Slider toborProgress;
     public TextMeshProUGUI bestTime;
+
+    public GameObject pauseFirstButton;
 
     private float toborProgressValue;
     private float timeElapsed;
@@ -35,6 +38,9 @@ public class HUDManager : PersistableObject
     private void OnEnable()
     {
         _controller.Enable();
+        timeElapsed = 0;
+        toborProgressValue = 0;
+        currentTimerText.timeRemaining = 0;        
     }
 
     private void OnDisable()
@@ -55,6 +61,9 @@ public class HUDManager : PersistableObject
         }
         SetToborProgress(toborProgressValue);
 
+        if (pausePanel.activeInHierarchy)
+            return;
+
         if (_controller.UI.Pause.IsPressed())
         {
             Debug.Log("Game Paused");
@@ -68,7 +77,7 @@ public class HUDManager : PersistableObject
     public void SetBestTime(float value)
     {
         TimeSpan time = TimeSpan.FromSeconds(value);
-        bestTime.text = time.ToString(@"hh\:mm\:ss");
+        bestTime.text = time.ToString(@"mm\:ss\:fff");
     }
 
     public string GetBestTimeString()
@@ -88,6 +97,7 @@ public class HUDManager : PersistableObject
 
     public void PauseGame()
     {
+        EventSystem.current.SetSelectedGameObject(pauseFirstButton);
         pausePanel.SetActive(true);
         //gameObject.SetActive(false);
         Time.timeScale = 0;

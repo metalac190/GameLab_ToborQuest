@@ -25,13 +25,13 @@ public class TimerUI : MonoBehaviour
         
         timeRemaining += Time.deltaTime;
         TimeSpan time = TimeSpan.FromSeconds(timeRemaining);
-        timerText.text = time.ToString(@"hh\:mm\:ss"); 
+        timerText.text = time.ToString(@"mm\:ss\:fff"); 
     }
 
     public string GetCurrentTime()
     {
         TimeSpan time = TimeSpan.FromSeconds(timeRemaining);
-        return time.ToString(@"hh\:mm\:ss");
+        return time.ToString(@"mm\:ss\:fff");
     }
 
     //Used to add time if used as a Counter
