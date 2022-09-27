@@ -14,14 +14,12 @@ public class MovementController : MonoBehaviour
     //Default 2.09, 1.87, 1.698
     [SerializeField, ReadOnly] private Vector3 _customInertiaTensor = new Vector3(2.09f, 20f, 5f);
 
-    [Header("Grounded")] [SerializeField] private bool _showGroundedTab;
-    [SerializeField, ShowIf("_showGroundedTab")] private Transform _groundCheck;
-    [SerializeField, ShowIf("_showGroundedTab")] private float _groundCheckRadius = 0.2f;
-    [SerializeField, ShowIf("_showGroundedTab")] private LayerMask _groundLayer;
-
-    [Header("Turtled")] [SerializeField] private bool _showTurtledTab;
-    [SerializeField, ShowIf("_showTurtledTab")] private Transform _roofCheck;
-    [SerializeField, ShowIf("_showTurtledTab")] private float _roofCheckRadius = 0.5f;
+    [Header("Position Check")] [SerializeField] private bool _showPositionCheckTab;
+    [SerializeField, ShowIf("_showPositionCheckTab")] private Transform _groundCheck;
+    [SerializeField, ShowIf("_showPositionCheckTab")] private float _groundCheckRadius = 0.2f;
+    [SerializeField, ShowIf("_showPositionCheckTab")] private LayerMask _groundLayer;
+    [SerializeField, ShowIf("_showPositionCheckTab")] private Transform _roofCheck;
+    [SerializeField, ShowIf("_showPositionCheckTab")] private float _roofCheckRadius = 0.5f;
 
     [Header("Wall Bounce")] [SerializeField] private bool _showWallBounceTab;
     [SerializeField, ShowIf("_showWallBounceTab")] private LayerMask _wallLayer;
@@ -54,15 +52,13 @@ public class MovementController : MonoBehaviour
     [SerializeField, ShowIf("_showBoostTab")] private float _boostRemaining = 2f;
     [SerializeField, ShowIf("_showBoostTab")] private bool _boostOnCooldown = false;
 
-    [Header("Wheels")] [SerializeField] private bool _showWheelTab;
-    [SerializeField, ShowIf("_showWheelTab")] private List<WheelCollider> _wheelColliders = new List<WheelCollider>();
-
     [Header("Effects")] [SerializeField] private bool _showEffectsTab;
     [SerializeField, ShowIf("_showEffectsTab")] private List<TrailRenderer> _driftTrails = new List<TrailRenderer>();
     [SerializeField, ShowIf("_showEffectsTab")] private List<TrailRenderer> _boostTrails = new List<TrailRenderer>();
 
     [Header("Debug")]
     [SerializeField, ReadOnly] private float _currentAcceleration = 0f;
+    [SerializeField, ReadOnly] private float _velocityMagnitude;
     [SerializeField, ReadOnly] private float _currentMaxSpeed = 0f;
     [SerializeField, ReadOnly] private float _currentTurnSpeed = 0f;
     [SerializeField, ReadOnly] private float _currentMaxAngularVelocity = 0f;
@@ -76,15 +72,20 @@ public class MovementController : MonoBehaviour
     [SerializeField, ReadOnly] private Vector3 _direction;
     [SerializeField, ReadOnly] private Vector3 _previousVel;
 
+    public bool IsMoving => _isMoving;
+    public bool IsGrounded => _isGrounded;
+    public bool IsTurtled => _isTurtled;
+    public bool IsDrifting => _isDrifting;
+    public bool IsBoosting => _isBoosting;
+    public bool IsFlipping => _isFlipping;
+
     private Rigidbody _rb;
     private MovementControls _movementControls;
     private bool _driftTrailsActive;
     private bool _boostTrailsActive;
 
-    private BoxCollider _boxCollider;
-
-    private bool IsGrounded() => Physics.CheckSphere(_groundCheck.position, _groundCheckRadius, _groundLayer);
-    private bool IsTurtled() => Physics.CheckSphere(_roofCheck.position, _roofCheckRadius, _groundLayer);
+    protected bool GroundCheck() => Physics.CheckSphere(_groundCheck.position, _groundCheckRadius, _groundLayer);
+    protected bool TurtledCheck() => Physics.CheckSphere(_roofCheck.position, _roofCheckRadius, _groundLayer);
 
     private void Start()
     {
@@ -92,7 +93,6 @@ public class MovementController : MonoBehaviour
         _rb.centerOfMass = _centerOfMass;
 
         _movementControls = GetComponent<MovementControls>();
-        _boxCollider = GetComponent<BoxCollider>();
 
         _currentAcceleration = _acceleration;
         _currentMaxSpeed = _maxSpeed;
@@ -103,8 +103,8 @@ public class MovementController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        _isGrounded = IsGrounded();
-        _isTurtled = IsTurtled();
+        _isGrounded = GroundCheck();
+        _isTurtled = TurtledCheck();
 
         if ((_isGrounded || _turnWhenStopped) && !_isFlipping) Steer();
 
@@ -143,14 +143,13 @@ public class MovementController : MonoBehaviour
                 trail.emitting = _boostTrailsActive;
             }
         }
-
-
     }
 
     private void LateUpdate()
     {
         _previousVel = _rb.velocity;
         _currentMaxAngularVelocity = _rb.maxAngularVelocity;
+        _velocityMagnitude = _rb.velocity.magnitude;
     }
 
     private void Steer()
@@ -216,18 +215,21 @@ public class MovementController : MonoBehaviour
         }
         else
         {
-            _boostRemaining = 0;
             StartCoroutine(BoostCooldown());
         }
     }
 
 
-    private IEnumerator BoostCooldown()
+    private IEnumerator BoostCooldown(float cooldown = 0)
     {
         _boostOnCooldown = true;
+        _boostRemaining = 0;
         _isBoosting = false;
         _boostRemaining = _boostDuration;
-        yield return new WaitForSeconds(_boostCooldown);
+
+        if (cooldown == 0) yield return new WaitForSeconds(_boostCooldown);
+        else yield return new WaitForSeconds(cooldown);
+
         _boostOnCooldown = false;
     }
 
@@ -265,14 +267,14 @@ public class MovementController : MonoBehaviour
         _rb.angularDrag = _sideFlipAngularDrag;
         _rb.AddRelativeTorque(new Vector3(0f, 0f, -direction*_flipLaunchTorque), ForceMode.VelocityChange);
 
-        yield return new WaitUntil(IsGrounded);
+        yield return new WaitUntil(GroundCheck);
         _rb.angularDrag = tempDrag;
         _isFlipping = false;
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        ExaggeratedWallBounce(collision);
+        ExaggeratedWallBounce(collision.collider, collision.GetContact(0).normal);
     }
 
 
@@ -291,14 +293,17 @@ public class MovementController : MonoBehaviour
     }
 
     // Wall Bounce with exaggerated momentum transfer
-    private void ExaggeratedWallBounce(Collision collision)
+    public void ExaggeratedWallBounce(Collider otherCollider, Vector3 normal)
     {
-        if ((_wallLayer.value & (1 << collision.gameObject.layer)) <= 0) return;
+        if ((_wallLayer.value & (1 << otherCollider.gameObject.layer)) <= 0) return;
 
-        _rb.AddForce(collision.GetContact(0).normal * _horizontalBounce + new Vector3(0, _verticalBounce, 0), ForceMode.Impulse);
+        //to stop boosting into wall
+        StartCoroutine(BoostCooldown(0.1f));
+
+        _rb.AddForce(normal * _horizontalBounce + new Vector3(0, _verticalBounce, 0), ForceMode.Impulse);
     }
 
-    /*
+    
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
@@ -310,5 +315,5 @@ public class MovementController : MonoBehaviour
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(_roofCheck.position, _roofCheckRadius);
     }
-    */
+    
 }

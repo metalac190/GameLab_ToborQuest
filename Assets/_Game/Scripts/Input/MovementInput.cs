@@ -64,24 +64,6 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""NextCamera"",
-                    ""type"": ""Button"",
-                    ""id"": ""85f2fbb4-2370-4ce9-afd5-a92ea024b6fc"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""PreviousCamera"",
-                    ""type"": ""Button"",
-                    ""id"": ""d6495b28-f85f-4cc0-a8ee-a549835805b0"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""SideFlip"",
                     ""type"": ""Button"",
                     ""id"": ""ba774127-eaf5-40f9-b661-8a60ddf27acd"",
@@ -269,28 +251,6 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": """",
-                    ""id"": ""090a0bf6-328b-460c-ae1f-35360ab82f34"",
-                    ""path"": ""<Keyboard>/e"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""NextCamera"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""82923e4f-c693-450a-a720-5638d7d35c14"",
-                    ""path"": ""<Keyboard>/q"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""PreviousCamera"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
                     ""name"": ""1D Axis"",
                     ""id"": ""333d18d2-43a7-4278-ab6f-8d8132b24079"",
                     ""path"": ""1DAxis"",
@@ -319,6 +279,39 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
+                    ""action"": ""SideFlip"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Keyboard"",
+                    ""id"": ""1ede1203-3283-4786-bf1d-266ecc781c9d"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SideFlip"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""ee2420eb-49a2-40c4-803a-a01484aa91d8"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SideFlip"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""0de8ccbe-6b53-49d7-8fc9-5d02c2f4d8f7"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
                     ""action"": ""SideFlip"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -942,8 +935,6 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
         m_Player_Drive = m_Player.FindAction("Drive", throwIfNotFound: true);
         m_Player_Drift = m_Player.FindAction("Drift", throwIfNotFound: true);
         m_Player_Boost = m_Player.FindAction("Boost", throwIfNotFound: true);
-        m_Player_NextCamera = m_Player.FindAction("NextCamera", throwIfNotFound: true);
-        m_Player_PreviousCamera = m_Player.FindAction("PreviousCamera", throwIfNotFound: true);
         m_Player_SideFlip = m_Player.FindAction("SideFlip", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
@@ -1021,8 +1012,6 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Drive;
     private readonly InputAction m_Player_Drift;
     private readonly InputAction m_Player_Boost;
-    private readonly InputAction m_Player_NextCamera;
-    private readonly InputAction m_Player_PreviousCamera;
     private readonly InputAction m_Player_SideFlip;
     public struct PlayerActions
     {
@@ -1032,8 +1021,6 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
         public InputAction @Drive => m_Wrapper.m_Player_Drive;
         public InputAction @Drift => m_Wrapper.m_Player_Drift;
         public InputAction @Boost => m_Wrapper.m_Player_Boost;
-        public InputAction @NextCamera => m_Wrapper.m_Player_NextCamera;
-        public InputAction @PreviousCamera => m_Wrapper.m_Player_PreviousCamera;
         public InputAction @SideFlip => m_Wrapper.m_Player_SideFlip;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
@@ -1056,12 +1043,6 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
                 @Boost.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBoost;
                 @Boost.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBoost;
                 @Boost.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBoost;
-                @NextCamera.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnNextCamera;
-                @NextCamera.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnNextCamera;
-                @NextCamera.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnNextCamera;
-                @PreviousCamera.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPreviousCamera;
-                @PreviousCamera.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPreviousCamera;
-                @PreviousCamera.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPreviousCamera;
                 @SideFlip.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSideFlip;
                 @SideFlip.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSideFlip;
                 @SideFlip.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSideFlip;
@@ -1081,12 +1062,6 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
                 @Boost.started += instance.OnBoost;
                 @Boost.performed += instance.OnBoost;
                 @Boost.canceled += instance.OnBoost;
-                @NextCamera.started += instance.OnNextCamera;
-                @NextCamera.performed += instance.OnNextCamera;
-                @NextCamera.canceled += instance.OnNextCamera;
-                @PreviousCamera.started += instance.OnPreviousCamera;
-                @PreviousCamera.performed += instance.OnPreviousCamera;
-                @PreviousCamera.canceled += instance.OnPreviousCamera;
                 @SideFlip.started += instance.OnSideFlip;
                 @SideFlip.performed += instance.OnSideFlip;
                 @SideFlip.canceled += instance.OnSideFlip;
@@ -1258,8 +1233,6 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
         void OnDrive(InputAction.CallbackContext context);
         void OnDrift(InputAction.CallbackContext context);
         void OnBoost(InputAction.CallbackContext context);
-        void OnNextCamera(InputAction.CallbackContext context);
-        void OnPreviousCamera(InputAction.CallbackContext context);
         void OnSideFlip(InputAction.CallbackContext context);
     }
     public interface IUIActions
