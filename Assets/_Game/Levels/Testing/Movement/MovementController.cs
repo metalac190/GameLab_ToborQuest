@@ -113,28 +113,6 @@ public class MovementController : MonoBehaviour
 
         if (_isGrounded || _isBoosting) Movement();
 
-        /*
-        if (!_isMoving || _isFlipping)
-        {
-            _currentTurnSpeed = _stoppedTurnSpeed;
-            _boxCollider.enabled = true;
-
-            foreach (var wheel in _wheelColliders)
-            {
-                wheel.enabled = false;
-            }
-        }
-        else if (_isMoving || !_isFlipping)
-        {
-            _boxCollider.enabled = false;
-
-            foreach (var wheel in _wheelColliders)
-            {
-                wheel.enabled = true;
-            }
-        }
-        */
-
 
         if (_boostTrailsActive != _isBoosting)
         {
@@ -159,14 +137,6 @@ public class MovementController : MonoBehaviour
 
         if (_direction.magnitude >= 0.1f)
         {
-
-            /*
-            var currentAngle = _rb.rotation.eulerAngles.y;
-            var targetAngle = currentAngle + Mathf.Atan2(_direction.x, _direction.z) * Mathf.Rad2Deg;
-            var angle = Mathf.SmoothDampAngle(currentAngle, targetAngle, ref _turnSmoothVel, _currentTurnSpeed);
-            _rb.MoveRotation(Quaternion.Euler(0f, angle, 0f));
-            */
-
             var torque = Mathf.LerpAngle(_direction.x,_direction.z,Time.fixedDeltaTime) * _rb.transform.up * 1000 * Time.fixedDeltaTime;
             _rb.maxAngularVelocity = _currentTurnSpeed;
             _rb.AddRelativeTorque(torque,ForceMode.VelocityChange);
@@ -307,7 +277,7 @@ public class MovementController : MonoBehaviour
         _rb.AddForce(normal * _horizontalBounce + new Vector3(0, _verticalBounce, 0), ForceMode.Impulse);
     }
 
-    
+    /*
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
@@ -319,5 +289,6 @@ public class MovementController : MonoBehaviour
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(_roofCheck.position, _roofCheckRadius);
     }
+    */
     
 }
