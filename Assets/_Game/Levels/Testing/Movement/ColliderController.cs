@@ -8,6 +8,7 @@ public class ColliderController : MonoBehaviour
 {
     [SerializeField] private List<Wheel> _wheels = new List<Wheel>();
 
+    /*
     [Header("Wheel Properties")]
     [Header("Friction")]
     [Tooltip("How resistive the ground forces are")]
@@ -22,7 +23,7 @@ public class ColliderController : MonoBehaviour
     [Tooltip("Dampens suspension speed, Larger value makes spring move slower")]
     [SerializeField] private float _suspensionDamper = 45f;
     [SerializeField] private float _targetPosition = 0.5f;
-
+    */
     [Header("Collisions")]
     [SerializeField] private LayerMask _wallLayer;
 
@@ -46,7 +47,7 @@ public class ColliderController : MonoBehaviour
     private void FixedUpdate()
     {
         UpdateWheels();
-        UpdateSuspension();
+        //UpdateSuspension();
     }
 
     private void LateUpdate()
@@ -54,6 +55,7 @@ public class ColliderController : MonoBehaviour
         if (_canCollide) GetCollisions();
     }
 
+    /*
     private void UpdateSuspension()
     {
         foreach (var w in _wheels)
@@ -77,6 +79,7 @@ public class ColliderController : MonoBehaviour
             w._wheelCollider.suspensionSpring = springJoint;
         }
     }
+    */
 
     private void UpdateWheels()
     {
