@@ -11,16 +11,17 @@ public class ColliderController : MonoBehaviour
     [Header("Wheel Properties")]
     [Header("Friction")]
     [Tooltip("How resistive the ground forces are")]
-    [SerializeField] private float _newWheelDampeningRate = 0.25f;
+    [SerializeField] private float _wheelDampeningRate = 0.25f;
     [Tooltip("How sticky/slick the current surface is")]
-    [SerializeField] private float _newFrictionStiffness = 1f;
+    [SerializeField] private float _frictionStiffness = 1f;
     [Header("Suspension")]
     [Tooltip("Travel distance of the suspension")]
-    [SerializeField] private float _newSuspensionDistance = 0.3f;
+    [SerializeField] private float _suspensionDistance = 0.3f;
     [Tooltip("How fast the suspension reaches a position, Larger value means faster")]
-    [SerializeField] private float _newSuspensionSpring = 2000f;
+    [SerializeField] private float _suspensionSpring = 2000f;
     [Tooltip("Dampens suspension speed, Larger value makes spring move slower")]
-    [SerializeField] private float _newSuspensionDamper = 45f;
+    [SerializeField] private float _suspensionDamper = 45f;
+    [SerializeField] private float _targetPosition = 0.5f;
 
     [Header("Collisions")]
     [SerializeField] private LayerMask _wallLayer;
@@ -57,21 +58,22 @@ public class ColliderController : MonoBehaviour
     {
         foreach (var w in _wheels)
         {
-            w._wheelCollider.wheelDampingRate = _newWheelDampeningRate;
+            w._wheelCollider.wheelDampingRate = _wheelDampeningRate;
 
             var ffrictionCurve = w._wheelCollider.forwardFriction;
-            ffrictionCurve.stiffness = _newFrictionStiffness;
+            ffrictionCurve.stiffness = _frictionStiffness;
             w._wheelCollider.forwardFriction = ffrictionCurve;
 
             var sfrictionCurve = w._wheelCollider.sidewaysFriction;
-            sfrictionCurve.stiffness = _newFrictionStiffness;
+            sfrictionCurve.stiffness = _frictionStiffness;
             w._wheelCollider.sidewaysFriction = sfrictionCurve;
 
-            w._wheelCollider.suspensionDistance = _newSuspensionDistance;
+            w._wheelCollider.suspensionDistance = _suspensionDistance;
 
             var springJoint = w._wheelCollider.suspensionSpring;
-            springJoint.spring = _newSuspensionSpring;
-            springJoint.damper = _newSuspensionDamper;
+            springJoint.spring = _suspensionSpring;
+            springJoint.damper = _suspensionDamper;
+            springJoint.targetPosition = _targetPosition;
             w._wheelCollider.suspensionSpring = springJoint;
         }
     }

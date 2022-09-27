@@ -158,7 +158,7 @@ WheelCollider:
   m_SuspensionSpring:
     spring: 2000
     damper: 45
-    targetPosition: 0.5
+    targetPosition: 0
   m_SuspensionDistance: 0.3
   m_ForceAppPointDistance: 0
   m_Mass: 40
@@ -935,6 +935,7 @@ MonoBehaviour:
   _boostCooldown: 2
   _boostRemaining: 2
   _boostOnCooldown: 0
+  _UsingPad: 0
   _showEffectsTab: 0
   _driftTrails:
   - {fileID: 5230306928813502641}
@@ -978,11 +979,12 @@ MonoBehaviour:
   - {fileID: 1972211683082103784}
   - {fileID: 7862836127608177874}
   - {fileID: 7431299798143943788}
-  _newWheelDampeningRate: 1
-  _newFrictionStiffness: 1
-  _newSuspensionDistance: 0.2
-  _newSuspensionSpring: 1000
-  _newSuspensionDamper: 20
+  _wheelDampeningRate: 0.25
+  _frictionStiffness: 1
+  _suspensionDistance: 0.2
+  _suspensionSpring: 2000
+  _suspensionDamper: 45
+  _targetPosition: 0
   _wallLayer:
     serializedVersion: 2
     m_Bits: 4096
@@ -1248,7 +1250,7 @@ WheelCollider:
   m_SuspensionSpring:
     spring: 2000
     damper: 45
-    targetPosition: 0.5
+    targetPosition: 0
   m_SuspensionDistance: 0.3
   m_ForceAppPointDistance: 0
   m_Mass: 20
@@ -2595,7 +2597,7 @@ WheelCollider:
   m_SuspensionSpring:
     spring: 2000
     damper: 45
-    targetPosition: 0.5
+    targetPosition: 0
   m_SuspensionDistance: 0.3
   m_ForceAppPointDistance: 0
   m_Mass: 20
@@ -3219,7 +3221,7 @@ WheelCollider:
   m_SuspensionSpring:
     spring: 2000
     damper: 45
-    targetPosition: 0.5
+    targetPosition: 0
   m_SuspensionDistance: 0.3
   m_ForceAppPointDistance: 0
   m_Mass: 20
@@ -5464,7 +5466,7 @@ WheelCollider:
   m_SuspensionSpring:
     spring: 2000
     damper: 45
-    targetPosition: 0.5
+    targetPosition: 0
   m_SuspensionDistance: 0.3
   m_ForceAppPointDistance: 0
   m_Mass: 20
@@ -5609,7 +5611,7 @@ WheelCollider:
   m_SuspensionSpring:
     spring: 2000
     damper: 45
-    targetPosition: 0.5
+    targetPosition: 0
   m_SuspensionDistance: 0.3
   m_ForceAppPointDistance: 0
   m_Mass: 40
