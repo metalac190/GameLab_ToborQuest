@@ -35,7 +35,7 @@ Transform:
   - {fileID: 792992349}
   - {fileID: 1185669513}
   m_Father: {fileID: 5078622430615256373}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &177733229
 GameObject:
@@ -1330,7 +1330,7 @@ Transform:
   - {fileID: 1743131915086629322}
   - {fileID: 7447619620705086433}
   m_Father: {fileID: 5078622430615256373}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2749615840664682903
 GameObject:
@@ -1574,7 +1574,7 @@ Transform:
   - {fileID: 6779944400863363431}
   - {fileID: 2248237813773643228}
   m_Father: {fileID: 5078622430615256373}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5078622429372688758
 GameObject:
@@ -1979,7 +1979,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5078622430615256373}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5078622430615256367
 GameObject:
@@ -1997,7 +1997,7 @@ GameObject:
   - component: {fileID: 5078622430615256366}
   - component: {fileID: 5078622430615256375}
   m_Layer: 10
-  m_Name: Tobor
+  m_Name: Tobor_Old
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2016,7 +2016,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5078622429589438374}
-  - {fileID: 1693323613107282063}
   - {fileID: 5078622430366284210}
   - {fileID: 121177452478249421}
   - {fileID: 49514382}
@@ -2074,6 +2073,7 @@ MonoBehaviour:
   _boostCooldown: 2
   _boostRemaining: 2
   _boostOnCooldown: 0
+  _UsingPad: 0
   _showEffectsTab: 0
   _driftTrails:
   - {fileID: 427545012}
@@ -2395,7 +2395,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5078622430615256373}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6160081548982283828
 GameObject:
@@ -2889,98 +2889,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!1001 &1221985848958322532
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 5078622430615256373}
-    m_Modifications:
-    - target: {fileID: -8679921383154817045, guid: 72c15e0c4f62e4f46818e550884477f5,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 72c15e0c4f62e4f46818e550884477f5,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 72c15e0c4f62e4f46818e550884477f5,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 72c15e0c4f62e4f46818e550884477f5,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 72c15e0c4f62e4f46818e550884477f5,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 72c15e0c4f62e4f46818e550884477f5,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.095
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 72c15e0c4f62e4f46818e550884477f5,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 72c15e0c4f62e4f46818e550884477f5,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 72c15e0c4f62e4f46818e550884477f5,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 72c15e0c4f62e4f46818e550884477f5,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 72c15e0c4f62e4f46818e550884477f5,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 72c15e0c4f62e4f46818e550884477f5,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 72c15e0c4f62e4f46818e550884477f5,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: -90
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 72c15e0c4f62e4f46818e550884477f5,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 72c15e0c4f62e4f46818e550884477f5,
-        type: 3}
-      propertyPath: m_ConstrainProportionsScale
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: 72c15e0c4f62e4f46818e550884477f5,
-        type: 3}
-      propertyPath: m_Name
-      value: SM_ToborProxy_Testing
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 72c15e0c4f62e4f46818e550884477f5, type: 3}
---- !u!4 &1693323613107282063 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 72c15e0c4f62e4f46818e550884477f5,
-    type: 3}
-  m_PrefabInstance: {fileID: 1221985848958322532}
-  m_PrefabAsset: {fileID: 0}
