@@ -13,10 +13,11 @@ public enum MenuType
 
 public class MenuManager : MonoBehaviour
 {
-
     public List<MenuController> menuControllerList;
 
     public MenuType currentMenu { get; set; } = MenuType.MainMenu;
+
+    public GameObject firstMenuObject;
 
     MenuType lastActiveMenu;
 
@@ -24,6 +25,7 @@ public class MenuManager : MonoBehaviour
     {
         menuControllerList.ForEach(x => x.gameObject.SetActive(true));
         SetActiveMenu(currentMenu);
+        SetCurrentButtonSelect(firstMenuObject);
     }
     //This makes it so I can change current menu in inspector and debug
     private void Update()
@@ -46,13 +48,18 @@ public class MenuManager : MonoBehaviour
         lastActiveMenu = value;
     }
 
-    private void SetCurrentButtonSelect(GameObject value)
+    public void SetCurrentButtonSelect(GameObject value)
     {
-        EventSystem.current.firstSelectedGameObject = value;
+        EventSystem.current.SetSelectedGameObject(value);
     }
 
     public void SetCurrentMenu(int value)
     {
         currentMenu = (MenuType)value;
+    }
+
+    public void ExitGame()
+    {
+        Application.Quit();
     }
 }
