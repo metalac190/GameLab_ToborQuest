@@ -1579,7 +1579,7 @@ MonoBehaviour:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_SelectedColor: {r: 0.5566038, g: 0.5566038, b: 0.5566038, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -1598,7 +1598,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 466635973}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 113826495}
+        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
+        m_MethodName: ChangeScene
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Camera Testing
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &466635973
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6992,7 +7004,7 @@ PrefabInstance:
     - target: {fileID: 3891203246144937077, guid: 2bca33d143b3ddd44af184bb3b34f0dc,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3891203246144937077, guid: 2bca33d143b3ddd44af184bb3b34f0dc,
         type: 3}
@@ -7001,7 +7013,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3891203246144937077, guid: 2bca33d143b3ddd44af184bb3b34f0dc,
         type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3891203246144937077, guid: 2bca33d143b3ddd44af184bb3b34f0dc,
+        type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 113826495}
+    - target: {fileID: 3891203246144937077, guid: 2bca33d143b3ddd44af184bb3b34f0dc,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 113826495}
     - target: {fileID: 3891203246144937077, guid: 2bca33d143b3ddd44af184bb3b34f0dc,
@@ -7011,12 +7033,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3891203246144937077, guid: 2bca33d143b3ddd44af184bb3b34f0dc,
         type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3891203246144937077, guid: 2bca33d143b3ddd44af184bb3b34f0dc,
+        type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: SetCurrentMenu
       objectReference: {fileID: 0}
     - target: {fileID: 3891203246144937077, guid: 2bca33d143b3ddd44af184bb3b34f0dc,
         type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: ChangeScene
+      objectReference: {fileID: 0}
+    - target: {fileID: 3891203246144937077, guid: 2bca33d143b3ddd44af184bb3b34f0dc,
+        type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: MenuManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3891203246144937077, guid: 2bca33d143b3ddd44af184bb3b34f0dc,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
       value: MenuManager, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 3891203246144937077, guid: 2bca33d143b3ddd44af184bb3b34f0dc,
@@ -7026,7 +7063,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3891203246144937077, guid: 2bca33d143b3ddd44af184bb3b34f0dc,
         type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_StringArgument
+      value: Camera Testing
+      objectReference: {fileID: 0}
+    - target: {fileID: 3891203246144937077, guid: 2bca33d143b3ddd44af184bb3b34f0dc,
+        type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 3891203246144937077, guid: 2bca33d143b3ddd44af184bb3b34f0dc,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 6058903074519046778, guid: 2bca33d143b3ddd44af184bb3b34f0dc,

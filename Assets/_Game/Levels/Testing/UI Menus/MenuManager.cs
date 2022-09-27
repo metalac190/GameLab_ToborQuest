@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public enum MenuType
 {
@@ -58,8 +59,13 @@ public class MenuManager : MonoBehaviour
         currentMenu = (MenuType)value;
     }
 
+    public void ChangeScene(string value)
+    {
+        SceneManager.LoadScene(value);
+    }
+
     public void ExitGame()
     {
-        Application.Quit();
+        //Application.Quit();
     }
 }
