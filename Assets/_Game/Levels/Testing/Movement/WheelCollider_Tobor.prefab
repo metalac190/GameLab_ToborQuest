@@ -257,7 +257,6 @@ MonoBehaviour:
   _offset: 0
   _wheelCollider: {fileID: 5501826621274724041}
   _wheelMesh: {fileID: 1706768223657700956}
-  _printStats: 0
 --- !u!1 &471709974586591849
 GameObject:
   m_ObjectHideFlags: 0
@@ -422,7 +421,6 @@ MonoBehaviour:
   _offset: 0
   _wheelCollider: {fileID: 7873127357999031206}
   _wheelMesh: {fileID: 2074810752830335652}
-  _printStats: 0
 --- !u!1 &581414430333656245
 GameObject:
   m_ObjectHideFlags: 0
@@ -856,6 +854,7 @@ GameObject:
   - component: {fileID: 1076127496911297591}
   - component: {fileID: 381337252041802221}
   - component: {fileID: 1076127496911297585}
+  - component: {fileID: 2345064586588846204}
   - component: {fileID: 1076127496911297589}
   - component: {fileID: 1076127496911297579}
   - component: {fileID: 1076127496911297586}
@@ -913,8 +912,8 @@ MonoBehaviour:
   _wallLayer:
     serializedVersion: 2
     m_Bits: 4096
-  _verticalBounce: 175
-  _horizontalBounce: 50
+  _verticalBounce: 15
+  _horizontalBounce: 15
   _showMovementTab: 0
   _acceleration: 20
   _maxSpeed: 50
@@ -984,6 +983,9 @@ MonoBehaviour:
   _newSuspensionDistance: 0.2
   _newSuspensionSpring: 1000
   _newSuspensionDamper: 20
+  _wallLayer:
+    serializedVersion: 2
+    m_Bits: 4096
 --- !u!114 &1076127496911297585
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -996,6 +998,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e47d57144fe0ec488e287c51c8f7c94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2345064586588846204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1076127496911297578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 908d9a65b29104a4d986601b47fec7ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _recentCheckpoint: {fileID: 0}
+  _respawnTime: 0
 --- !u!54 &1076127496911297589
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2451,7 +2467,6 @@ MonoBehaviour:
   _offset: 0
   _wheelCollider: {fileID: 3162967461368994472}
   _wheelMesh: {fileID: 4150839879352037160}
-  _printStats: 0
 --- !u!1 &2946078881088787870
 GameObject:
   m_ObjectHideFlags: 0
@@ -3076,7 +3091,6 @@ MonoBehaviour:
   _offset: 0
   _wheelCollider: {fileID: 6344131970833429737}
   _wheelMesh: {fileID: 4225863867767830323}
-  _printStats: 0
 --- !u!1 &4054534605103608359
 GameObject:
   m_ObjectHideFlags: 0
@@ -3272,7 +3286,6 @@ MonoBehaviour:
   _offset: 0
   _wheelCollider: {fileID: 6181132123529602732}
   _wheelMesh: {fileID: 2880253984019037739}
-  _printStats: 0
 --- !u!1 &4646269141005515567
 GameObject:
   m_ObjectHideFlags: 0
@@ -4882,7 +4895,6 @@ MonoBehaviour:
   _offset: 0
   _wheelCollider: {fileID: 161348917072412956}
   _wheelMesh: {fileID: 5690791975694004100}
-  _printStats: 0
 --- !u!1 &7122301915628182675
 GameObject:
   m_ObjectHideFlags: 0

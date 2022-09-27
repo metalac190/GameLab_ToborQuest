@@ -274,7 +274,7 @@ public class MovementController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        ExaggeratedWallBounce(collision);
+        ExaggeratedWallBounce(collision.collider, collision.GetContact(0).normal);
     }
 
 
@@ -293,14 +293,14 @@ public class MovementController : MonoBehaviour
     }
 
     // Wall Bounce with exaggerated momentum transfer
-    private void ExaggeratedWallBounce(Collision collision)
+    public void ExaggeratedWallBounce(Collider otherCollider, Vector3 normal)
     {
-        if ((_wallLayer.value & (1 << collision.gameObject.layer)) <= 0) return;
+        if ((_wallLayer.value & (1 << otherCollider.gameObject.layer)) <= 0) return;
 
         //to stop boosting into wall
         StartCoroutine(BoostCooldown(0.1f));
 
-        _rb.AddForce(collision.GetContact(0).normal * _horizontalBounce + new Vector3(0, _verticalBounce, 0), ForceMode.Impulse);
+        _rb.AddForce(normal * _horizontalBounce + new Vector3(0, _verticalBounce, 0), ForceMode.Impulse);
     }
 
     

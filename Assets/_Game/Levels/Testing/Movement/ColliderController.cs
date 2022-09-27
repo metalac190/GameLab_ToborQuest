@@ -22,6 +22,9 @@ public class ColliderController : MonoBehaviour
     [Tooltip("Dampens suspension speed, Larger value makes spring move slower")]
     [SerializeField] private float _newSuspensionDamper = 45f;
 
+    [Header("Collisions")]
+    [SerializeField] private LayerMask _wallLayer;
+
 
     private MovementController _mc;
     private MovementControls _input;
@@ -38,6 +41,11 @@ public class ColliderController : MonoBehaviour
     {
         UpdateWheels();
         UpdateSuspension();
+    }
+
+    private void LateUpdate()
+    {
+        if (_mc.IsGrounded) GetCollisions();
     }
 
     private void UpdateSuspension()
@@ -70,6 +78,21 @@ public class ColliderController : MonoBehaviour
         {
             w.Steer(_input.DirectionVector.x);
             w.UpdatePosition();
+        }
+    }
+
+    private void GetCollisions()
+    {
+        foreach (var w in _wheels)
+        {
+            if (w._wheelCollider.GetGroundHit(out var wheelHit))
+            {
+                if ((_wallLayer.value & (1 << wheelHit.collider.gameObject.layer)) <= 0) return;
+
+                //Debug.Log("Wheel " + w.gameObject.name + ": " + wheelHit.collider.name);
+                _mc.ExaggeratedWallBounce(wheelHit.collider, wheelHit.normal);
+            }
+
         }
     }
 }

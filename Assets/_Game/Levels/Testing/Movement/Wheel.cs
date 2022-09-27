@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 
 public class Wheel : MonoBehaviour
@@ -12,28 +13,12 @@ public class Wheel : MonoBehaviour
     [SerializeField] public WheelCollider _wheelCollider;
     [SerializeField] private Transform _wheelMesh;
 
-    [Header("Debug")]
-    [SerializeField] private bool _printStats;
-
     private float _turnAngle;
 
     private void Start()
     {
         if (!_wheelCollider) _wheelCollider = GetComponentInChildren<WheelCollider>();
     }
-
-    private void Update()
-    {
-        if (_printStats)
-        {
-            var pos = transform.position;
-            var rot = transform.rotation;
-            _wheelCollider.GetWorldPose(out pos, out rot);
-            Debug.Log("Pos: " + pos + "Rot: " + rot);
-            
-        }
-    }
-
 
     public void Steer(float steerInput)
     {
