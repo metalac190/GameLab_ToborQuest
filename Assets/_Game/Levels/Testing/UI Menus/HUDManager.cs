@@ -61,6 +61,9 @@ public class HUDManager : PersistableObject
         }
         SetToborProgress(toborProgressValue);
 
+        if (pausePanel.activeInHierarchy)
+            return;
+
         if (_controller.UI.Pause.IsPressed())
         {
             Debug.Log("Game Paused");
