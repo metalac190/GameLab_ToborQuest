@@ -277,7 +277,7 @@ public class MovementController : MonoBehaviour
         _rb.AddForce(normal * _horizontalBounce + new Vector3(0, _verticalBounce, 0), ForceMode.Impulse);
     }
 
-    
+    /*
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
@@ -289,5 +289,6 @@ public class MovementController : MonoBehaviour
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(_roofCheck.position, _roofCheckRadius);
     }
+    */
     
 }
