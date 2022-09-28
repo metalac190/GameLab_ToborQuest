@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.SceneManagement;
 
 public enum MenuType
 {
@@ -61,11 +60,13 @@ public class MenuManager : MonoBehaviour
 
     public void ChangeScene(string value)
     {
-        SceneManager.LoadScene(value);
+        // Notes from Brandon: Switched to using CGSC!
+        // Probably switch to Async Later
+        CGSC.LoadScene(value);
     }
 
     public void ExitGame()
     {
-        //Application.Quit();
+        CGSC.QuitGame();
     }
 }
