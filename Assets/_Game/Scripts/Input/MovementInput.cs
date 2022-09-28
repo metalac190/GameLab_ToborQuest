@@ -71,6 +71,15 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""TogglePaused"",
+                    ""type"": ""Button"",
+                    ""id"": ""418b6141-88c8-4555-b46f-d7ab18a99178"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -315,6 +324,28 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
                     ""action"": ""SideFlip"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7c2ee33d-4263-462a-9728-1e260263dcf4"",
+                    ""path"": ""*/{Menu}"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TogglePaused"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1d7e3846-33e0-4836-a468-e3a749507273"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TogglePaused"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -936,6 +967,7 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
         m_Player_Drift = m_Player.FindAction("Drift", throwIfNotFound: true);
         m_Player_Boost = m_Player.FindAction("Boost", throwIfNotFound: true);
         m_Player_SideFlip = m_Player.FindAction("SideFlip", throwIfNotFound: true);
+        m_Player_TogglePaused = m_Player.FindAction("TogglePaused", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1013,6 +1045,7 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Drift;
     private readonly InputAction m_Player_Boost;
     private readonly InputAction m_Player_SideFlip;
+    private readonly InputAction m_Player_TogglePaused;
     public struct PlayerActions
     {
         private @MovementInput m_Wrapper;
@@ -1022,6 +1055,7 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
         public InputAction @Drift => m_Wrapper.m_Player_Drift;
         public InputAction @Boost => m_Wrapper.m_Player_Boost;
         public InputAction @SideFlip => m_Wrapper.m_Player_SideFlip;
+        public InputAction @TogglePaused => m_Wrapper.m_Player_TogglePaused;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1046,6 +1080,9 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
                 @SideFlip.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSideFlip;
                 @SideFlip.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSideFlip;
                 @SideFlip.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSideFlip;
+                @TogglePaused.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTogglePaused;
+                @TogglePaused.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTogglePaused;
+                @TogglePaused.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTogglePaused;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -1065,6 +1102,9 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
                 @SideFlip.started += instance.OnSideFlip;
                 @SideFlip.performed += instance.OnSideFlip;
                 @SideFlip.canceled += instance.OnSideFlip;
+                @TogglePaused.started += instance.OnTogglePaused;
+                @TogglePaused.performed += instance.OnTogglePaused;
+                @TogglePaused.canceled += instance.OnTogglePaused;
             }
         }
     }
@@ -1234,6 +1274,7 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
         void OnDrift(InputAction.CallbackContext context);
         void OnBoost(InputAction.CallbackContext context);
         void OnSideFlip(InputAction.CallbackContext context);
+        void OnTogglePaused(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3853504418651190568}
   - component: {fileID: 5301253151852287451}
+  - component: {fileID: 7013580136569588018}
   m_Layer: 0
   m_Name: GameStateController
   m_TagString: Untagged
@@ -46,3 +47,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _text: {fileID: 4900000, guid: d3b7ee4320ae07c43800aa566c789ae6, type: 3}
   _textColor: {r: 1, g: 1, b: 1, a: 1}
+--- !u!114 &7013580136569588018
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3853504418651190571}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2785315d7d5d3a843a358657adf79e3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _mainMenu:
+    Scene: {fileID: 102900000, guid: 51a0cbc3b3493c24d9414ad816db43e7, type: 3}
+    Name: MainMenu
+    Exists: 1
+    Valid: 1
+  _quests:
+  - {fileID: 11400000, guid: ddc7cc8ab900d844a8cfde8fca9a1ca9, type: 2}
