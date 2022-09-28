@@ -11,9 +11,7 @@ public class SwitchToFracture : MonoBehaviour
     [SerializeField, ReadOnly] private bool _isFractured = false;
     
     private void OnValidate()
-    {
-        
-       
+    {       
         if (_joint == null) _joint = GetComponent<FixedJoint>();
     }
 
