@@ -21,12 +21,15 @@ public class Button : MonoBehaviour {
     [SerializeField] private UnityEvent onButtonToggleOff;
     [SerializeField, ReadOnly] private bool buttonActivated;
 
+    private Rigidbody buttonTopRb;
     private float upperLowerDiff;
     private bool isPressed;
     private bool prevPressedState;
 
     private void Awake() {
         buttonActivated = false;
+        isPressed = false;
+        buttonTopRb = buttonTop.GetComponent<Rigidbody>();
     }
 
     private void Start() {
@@ -45,25 +48,29 @@ public class Button : MonoBehaviour {
     }
 
     private void Update() {
-        //lock the button top's local position and rotation to only go up and down
+        //lock the button top's local position to only go up and down
         buttonTop.transform.localPosition = new Vector3(0, buttonTop.transform.localPosition.y, 0);
-        //buttonTop.transform.localEulerAngles = Vector3.zero;
 
         //clamp the button's highest position to the upper limit
         if(buttonTop.localPosition.y > 0) {
             buttonTop.transform.position = buttonUpperLimit.transform.position;
+                //buttonTopRb.MovePosition(buttonUpperLimit.transform.position);
+                //buttonTopRb.position = buttonUpperLimit.transform.position;
+
         //if the button is lower than the upper limit, then add a spring-like force upward
-        } else {
-            buttonTop.GetComponent<Rigidbody>().AddForce(buttonTop.transform.up * buttonForce * Time.fixedDeltaTime);
+        } else if(buttonTop.localPosition.y < 0) {
+            buttonTopRb.AddForce(buttonForce * Time.fixedDeltaTime * buttonTop.transform.up);
         }
 
         //clamp the button's lowest point to the lower limit
-        if(buttonTop.localPosition.y <= buttonLowerLimit.localPosition.y) {
+        if(buttonTop.localPosition.y < buttonLowerLimit.localPosition.y) {
             buttonTop.transform.position = buttonLowerLimit.transform.position;
+                //buttonTopRb.MovePosition(buttonLowerLimit.transform.position);
+                //buttonTopRb.position = buttonLowerLimit.transform.position;
         }
 
         //set if the button is being pressed by checking if it is past the set threshold
-        if(Vector3.Distance(buttonTop.position, buttonLowerLimit.position) < upperLowerDiff * thresholdPercentage) {
+        if(Vector3.Distance(buttonTop.position, buttonLowerLimit.position) < (upperLowerDiff * thresholdPercentage)) {
             isPressed = true;
         } else {
             isPressed = false;
@@ -78,6 +85,8 @@ public class Button : MonoBehaviour {
     }
 
     private void PressButton() {
+        Debug.Log("button pressed");
+
         prevPressedState = isPressed;
 
         //TODO: add feedback
