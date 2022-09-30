@@ -4,27 +4,24 @@ using UnityEngine;
 
 public class ToborSound : MonoBehaviour
 {
-    float _speed => gameObject.GetComponent<MovementControls>().Speed;
     [SerializeField] AudioSource _engineSound;
 
-    [Range(-3f, 3f)]
-    [SerializeField] float _enginePitchStart;
-    [Range(-3f, 3f)]
+    [Range(0f, 4f)]
     [SerializeField] float _MinPitch;
-    [Range(-3f, 3f)]
+    [Range(0f, 4f)]
     [SerializeField] float _MaxPitch;
-
-
+    Rigidbody _tobor;
 
 
     private void Awake()
     {
-        _engineSound.pitch = _enginePitchStart;
+        _tobor = gameObject.GetComponent<Rigidbody>();
     }
 
     private void Update()
     {
-        _engineSound.pitch = Mathf.Lerp(_MinPitch, _MaxPitch, _speed);
+        _engineSound.pitch = Mathf.Clamp(Mathf.Log(_tobor.velocity.magnitude), _MinPitch, _MaxPitch);
+        print(_engineSound.pitch);
     }
 
 }
