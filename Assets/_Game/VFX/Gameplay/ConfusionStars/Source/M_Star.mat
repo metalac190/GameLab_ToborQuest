@@ -23,7 +23,6 @@ Material:
   m_Name: M_Star
   m_Shader: {fileID: 4800000, guid: 0406db5a14f94604a8c57ccfbc9f3b46, type: 3}
   m_ValidKeywords:
-  - _ALPHAPREMULTIPLY_ON
   - _ALPHATEST_ON
   - _SURFACE_TYPE_TRANSPARENT
   m_InvalidKeywords:
@@ -41,7 +40,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: 426064cdfc173a04f8476e1b4ddc94fc, type: 3}
+        m_Texture: {fileID: 2800000, guid: d28e299bc431dc7498343878dcf48ab3, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -83,7 +82,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _AlphaClip: 1
-    - _Blend: 1
+    - _Blend: 2
     - _BlendOp: 0
     - _BumpScale: 1
     - _CameraFadingEnabled: 0
@@ -97,7 +96,7 @@ Material:
     - _DistortionEnabled: 0
     - _DistortionStrength: 1
     - _DistortionStrengthScaled: 0.1
-    - _DstBlend: 10
+    - _DstBlend: 1
     - _FlipbookBlending: 0
     - _FlipbookMode: 0
     - _GlossMapScale: 1
@@ -116,7 +115,7 @@ Material:
     - _SoftParticlesFarFadeDistance: 1
     - _SoftParticlesNearFadeDistance: 0
     - _SpecularHighlights: 1
-    - _SrcBlend: 1
+    - _SrcBlend: 5
     - _Surface: 1
     - _UVSec: 0
     - _ZWrite: 0
