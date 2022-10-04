@@ -346,6 +346,17 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
                     ""action"": ""TogglePaused"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""16c79642-4099-47b7-860e-5777de9174a7"",
+                    ""path"": ""<Keyboard>/p"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TogglePaused"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },

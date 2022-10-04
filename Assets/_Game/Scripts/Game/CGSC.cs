@@ -55,16 +55,19 @@ public class CGSC : MonoBehaviour
     }
 
     public static void TogglePauseGame(InputAction.CallbackContext context) => TogglePauseGame();
+
     public static void TogglePauseGame()
-    {
+    {        
         Paused = !Paused;
         if (Paused)
         {
+            Debug.Log("Pause");
             OnPause?.Invoke();
             //Debug.Log("Game Paused");
         }
         else
         {
+            Debug.Log("Unpause");
             OnUnpause?.Invoke();
             //Debug.Log("Game Unpaused");
         }

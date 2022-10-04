@@ -25,13 +25,13 @@ public class PauseManager : MonoBehaviour
         bestTime.text = hudManager.GetBestTimeString();
     }
 
-    public void UnPause()
-    {
-        //Time.timeScale = 1;
-        CGSC.TogglePauseGame();
-    }
+    //public void UnPause()
+    //{
+    //    //Time.timeScale = 1;
+    //    CGSC.TogglePauseGame();
+    //}
 
-    public void ChangeScene(string value)
+    public void ReturnToMainMenu()
     {
         //SceneManager.LoadScene(value);
         CGSC.LoadMainMenu();        
@@ -39,7 +39,7 @@ public class PauseManager : MonoBehaviour
 
     public void ReturnToLevels()
     {
-        UnPause();
+        CGSC.UnpauseGame();
         CGSC.LoadScene("MainMenu",true, () => {
             Debug.Log("Levek select");
             MenuManager menuManager = GameObject.FindObjectOfType<MenuManager>();

@@ -36,18 +36,10 @@ public class HUDManager : PersistableObject
     }
 
     private void OnEnable()
-    {
-        _controller.Enable();
-        CGSC.OnPause += PauseGame;
+    {        
         timeElapsed = 0;
         toborProgressValue = 0;
         currentTimerText.timeRemaining = 0;        
-    }
-
-    private void OnDisable()
-    {
-        _controller.Disable();
-        CGSC.OnPause -= PauseGame;
     }
 
     // Update is called once per frame
@@ -65,18 +57,6 @@ public class HUDManager : PersistableObject
             timeElapsed += Time.deltaTime;
         }
         SetToborProgress(toborProgressValue);
-
-        if (pausePanel.activeInHierarchy)
-            return;
-
-        if (_controller.UI.Pause.IsPressed())
-        {
-            Debug.Log("Game Paused");
-            //PauseGame();
-            CGSC.TogglePauseGame();
-            //Debug.Log("Game Unpaused");
-            //return;
-        }
 
     }
 
@@ -101,13 +81,12 @@ public class HUDManager : PersistableObject
         toborProgress.value = value;
     }
 
-    public void PauseGame()
-    {
-        Debug.Log("Test");
-        EventSystem.current.SetSelectedGameObject(pauseFirstButton);
-        pausePanel.SetActive(true);
-        //gameObject.SetActive(false);
-        Time.timeScale = 0;
-    }
+    //public void PauseGame()
+    //{
+    //    EventSystem.current.SetSelectedGameObject(pauseFirstButton);
+    //    pausePanel.SetActive(true);
+    //    //gameObject.SetActive(false);
+    //    //Time.timeScale = 0;
+    //}
 
 }
