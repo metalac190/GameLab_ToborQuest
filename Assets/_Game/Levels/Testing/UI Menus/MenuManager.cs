@@ -7,8 +7,6 @@ public enum MenuType
 {
     MainMenu,
     LevelSelect,
-    HUD,
-    Settings
 }
 
 public class MenuManager : MonoBehaviour
@@ -17,7 +15,8 @@ public class MenuManager : MonoBehaviour
 
     public MenuType currentMenu { get; set; } = MenuType.MainMenu;
 
-    public GameObject firstMenuObject;
+    public GameObject mainMenuSelect;
+    public GameObject levelSelectGameObject;
 
     MenuType lastActiveMenu;
 
@@ -25,7 +24,7 @@ public class MenuManager : MonoBehaviour
     {
         menuControllerList.ForEach(x => x.gameObject.SetActive(true));
         SetActiveMenu(currentMenu);
-        SetCurrentButtonSelect(firstMenuObject);
+        SetCurrentButtonSelect(mainMenuSelect);
     }
     //This makes it so I can change current menu in inspector and debug
     private void Update()
@@ -63,6 +62,11 @@ public class MenuManager : MonoBehaviour
         // Notes from Brandon: Switched to using CGSC!
         // Probably switch to Async Later
         CGSC.LoadScene(value);
+    }
+
+    public void LevelSelect()
+    {
+        EventSystem.current.SetSelectedGameObject(levelSelectGameObject);
     }
 
     public void ExitGame()

@@ -25,28 +25,13 @@ public class MenuArrowTween : MonoBehaviour
         else
         {
             gameObject.SetActive(true);
-        }
-            
+        }            
     }
 
     private void OnEnable()
     {
         _transform.localPosition = initPos;
         ArrowTween();
-    }
-
-    void Update()
-    {
-        //if (Keyboard.current.pKey.wasPressedThisFrame)
-        //{
-        //    Debug.Log("Pause key");
-        //    PauseTween();
-        //}
-        //else if (Keyboard.current.rKey.wasPressedThisFrame)
-        //{
-        //    Debug.Log("Resume key");
-        //    ResumeTween();
-        //}
     }
 
     void ArrowTween()

@@ -27,12 +27,26 @@ public class PauseManager : MonoBehaviour
 
     public void UnPause()
     {
-        Time.timeScale = 1;        
+        Time.timeScale = 1;
+        CGSC.TogglePauseGame();
     }
 
     public void ChangeScene(string value)
     {
-        SceneManager.LoadScene(value);
+        //SceneManager.LoadScene(value);
+        CGSC.LoadMainMenu();        
+    }
+
+    public void ReturnToLevels()
+    {
+        UnPause();
+        CGSC.LoadScene("MainMenu",true, () => {
+            Debug.Log("Finished loading");
+            MenuManager menuManager = GameObject.FindObjectOfType<MenuManager>();
+            menuManager.SetCurrentMenu(1);
+            menuManager.LevelSelect();
+        });
+        
     }
 
     public void SetCurrentSelected(GameObject value)
