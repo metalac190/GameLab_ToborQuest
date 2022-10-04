@@ -101,6 +101,7 @@ public class HUDManager : PersistableObject
 
     public void PauseGame()
     {
+        Debug.Log("Test");
         EventSystem.current.SetSelectedGameObject(pauseFirstButton);
         pausePanel.SetActive(true);
         //gameObject.SetActive(false);
