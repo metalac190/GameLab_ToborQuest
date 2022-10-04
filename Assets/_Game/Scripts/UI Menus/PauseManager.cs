@@ -37,6 +37,11 @@ public class PauseManager : MonoBehaviour
         CGSC.LoadMainMenu();        
     }
 
+    public void Restart()
+    {
+        CGSC.RestartLevel();
+    }
+
     public void ReturnToLevels()
     {
         CGSC.UnpauseGame();
