@@ -66,8 +66,9 @@ public class HUDManager : PersistableObject
 
         if (_controller.UI.Pause.IsPressed())
         {
-            Debug.Log("Game Paused");
+            //Debug.Log("Game Paused");
             PauseGame();
+            CGSC.TogglePauseGame();
             //Debug.Log("Game Unpaused");
             //return;
         }        
