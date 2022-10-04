@@ -102,11 +102,13 @@ public class MovementController : MonoBehaviour
         _isGrounded = GroundCheck();
         _isTurtled = TurtledCheck();
 
-        if ((_isGrounded || _turnWhenStopped) && !_isFlipping) Steer();
+        if (!_isFlipping) Steer();
 
         if (_movementControls.Boost && !_boostOnCooldown) Boost();
 
         if (_isGrounded || _isBoosting) Movement();
+
+        Drift();
 
 
         if (_boostTrailsActive != _isBoosting)
@@ -115,6 +117,15 @@ public class MovementController : MonoBehaviour
             foreach (var trail in _boostTrails)
             {
                 trail.emitting = _boostTrailsActive;
+            }
+        }
+
+        if (_driftTrailsActive != _isDrifting)
+        {
+            _driftTrailsActive = _isDrifting;
+            foreach (var trail in _driftTrails)
+            {
+                trail.emitting = _driftTrailsActive;
             }
         }
     }
@@ -141,23 +152,27 @@ public class MovementController : MonoBehaviour
 
     private void Movement()
     {
+        //if speed is not 0 AND not boosting
+        //tobor can drive
         if (_movementControls.Speed != 0 && !_isBoosting) Drive();
 
+        //if tobor is not boosting AND boost has not been fully used
+        //start boost cooldown
         if (!_movementControls.Boost && _boostRemaining < _boostDuration) StartCoroutine(BoostCooldown());
 
         var force = transform.forward * (_currentAcceleration * _movementControls.Speed);
 
+        //boosting gives no y velocity
         if (_isBoosting) force.y = 0;
 
         _rb.AddForce(force, ForceMode.Acceleration);
         
+        //if not using pad something?
         if(!_UsingPad) _rb.velocity = Vector3.ClampMagnitude(_rb.velocity, _currentMaxSpeed);
         
         _rb.velocity = Vector3.ClampMagnitude(_rb.velocity, _currentMaxSpeed);
         
         _isMoving = _rb.velocity.magnitude > 0.25f;
-
-        if (_isGrounded) Drift();
 
         SideFlip();
 
@@ -171,7 +186,6 @@ public class MovementController : MonoBehaviour
 
     private void Boost()
     {
-
         if (_movementControls.Speed <= 0) return;
 
         _currentAcceleration = _boostAcceleration;
@@ -204,17 +218,12 @@ public class MovementController : MonoBehaviour
 
     private void Drift()
     {
-        _isDrifting = _movementControls.Drift;
-        _currentTurnSpeed = _movementControls.Drift ? _driftTurnSpeed : _standardTurnSpeed;
-
-        if (_driftTrailsActive != _isDrifting)
+        if (_isGrounded)
         {
-            _driftTrailsActive = _isDrifting;
-            foreach (var trail in _driftTrails)
-            {
-                trail.emitting = _driftTrailsActive;
-            }
+            _isDrifting = _movementControls.Drift;
+            _currentTurnSpeed = _movementControls.Drift ? _driftTurnSpeed : _standardTurnSpeed;
         }
+        else _isDrifting = false;
     }
 
     private void SideFlip()
@@ -240,19 +249,4 @@ public class MovementController : MonoBehaviour
         _rb.angularDrag = tempDrag;
         _isFlipping = false;
     }
-
-    /*
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawSphere(_centerOfMass, 0.02f);
-        
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(_groundCheck.position, _groundCheckRadius);
-
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(_roofCheck.position, _roofCheckRadius);
-    }
-    */
-    
 }
