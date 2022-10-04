@@ -38,6 +38,7 @@ public class HUDManager : PersistableObject
     private void OnEnable()
     {
         _controller.Enable();
+        CGSC.OnPause += PauseGame;
         timeElapsed = 0;
         toborProgressValue = 0;
         currentTimerText.timeRemaining = 0;        
@@ -46,6 +47,7 @@ public class HUDManager : PersistableObject
     private void OnDisable()
     {
         _controller.Disable();
+        CGSC.OnPause -= PauseGame;
     }
 
     // Update is called once per frame
@@ -70,12 +72,12 @@ public class HUDManager : PersistableObject
         if (_controller.UI.Pause.IsPressed())
         {
             Debug.Log("Game Paused");
-            PauseGame();
+            //PauseGame();
             CGSC.TogglePauseGame();
             //Debug.Log("Game Unpaused");
             //return;
-        }        
-        
+        }
+
     }
 
     public void SetBestTime(float value)

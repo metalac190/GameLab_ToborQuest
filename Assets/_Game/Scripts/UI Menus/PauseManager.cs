@@ -27,7 +27,7 @@ public class PauseManager : MonoBehaviour
 
     public void UnPause()
     {
-        Time.timeScale = 1;
+        //Time.timeScale = 1;
         CGSC.TogglePauseGame();
     }
 
