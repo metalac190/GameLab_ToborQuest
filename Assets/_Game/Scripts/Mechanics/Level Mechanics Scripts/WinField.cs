@@ -15,15 +15,18 @@ public class WinField : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == _desiredLayer)
+        //Debug.Log(_desiredLayer == (_desiredLayer | (1 << other.gameObject.layer)));
+        //layermask == (layermask | (1 << layer))
+        if (_desiredLayer == (_desiredLayer | (1 << other.gameObject.layer)))
         {
+            Debug.Log("You win!");
             OnWin();
         }
     }
 
     void OnWin()
     {
-        CGSC.WinGame();
+        CGSC.WinGame();        
     }
 
      void OnDrawGizmos()
