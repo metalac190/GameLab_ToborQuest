@@ -41,12 +41,11 @@ public class PauseManager : MonoBehaviour
     {
         UnPause();
         CGSC.LoadScene("MainMenu",true, () => {
-            Debug.Log("Finished loading");
+            Debug.Log("Levek select");
             MenuManager menuManager = GameObject.FindObjectOfType<MenuManager>();
             menuManager.SetCurrentMenu(1);
             menuManager.LevelSelect();
         });
-        
     }
 
     public void SetCurrentSelected(GameObject value)
