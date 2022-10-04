@@ -9,6 +9,7 @@ public class WallBounce : MonoBehaviour
     [SerializeField] private float _verticalBounce = 200f;
     [SerializeField] private float _horizontalBounce = 300f;
     [SerializeField] private float _wallBounceCooldown = 0.1f;
+    [SerializeField] private bool _consistentBouncing = true;
 
     private Rigidbody _rb;
     private MovementController _mc;
@@ -29,13 +30,23 @@ public class WallBounce : MonoBehaviour
     {
         if ((_wallLayer.value & (1 << otherCollider.gameObject.layer)) <= 0) return;
 
-        //to stop boosting into wall
-        StartCoroutine(_mc.BoostCooldown(0.1f));
         
         if (_canWallBounce)
         {
+            //to stop boosting into wall
+            StartCoroutine(_mc.BoostCooldown(0.1f));
+            
+            if (_consistentBouncing)
+            {
+                Vector3 vel = _rb.velocity;
+                vel.y = 0;
+                var perp = Vector2.Perpendicular(new Vector2(normal.x, normal.z));
+                vel = Vector3.Project(vel, new Vector3(perp.x, 0, perp.y));
+                _rb.velocity = vel;
+                _rb.angularVelocity = Vector3.zero;
+            }
             _rb.AddForce(normal * _horizontalBounce + new Vector3(0, _verticalBounce, 0), ForceMode.Impulse);
-            StartCoroutine(WallBounceCooldown());
+            if (_wallBounceCooldown > 0) StartCoroutine(WallBounceCooldown());
         }
     }
     
