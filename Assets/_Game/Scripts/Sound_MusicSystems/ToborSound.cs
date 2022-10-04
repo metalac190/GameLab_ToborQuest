@@ -19,11 +19,13 @@ public class ToborSound : MonoBehaviour
     private void OnEnable()
     {
         CGSC.OnPause += onPause;
+        CGSC.OnUnpause += OnUnPause;
     }
 
     private void OnDisable()
     {
-        CGSC.OnUnpause += OnUnPause;
+        CGSC.OnPause -= onPause;
+        CGSC.OnUnpause -= OnUnPause;
     }
 
     #endregion
