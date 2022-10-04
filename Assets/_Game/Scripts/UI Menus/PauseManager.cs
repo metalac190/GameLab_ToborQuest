@@ -41,7 +41,7 @@ public class PauseManager : MonoBehaviour
     {
         CGSC.UnpauseGame();
         CGSC.LoadScene("MainMenu",true, () => {
-            Debug.Log("Levek select");
+            //Debug.Log("Levek select");
             MenuManager menuManager = GameObject.FindObjectOfType<MenuManager>();
             menuManager.SetCurrentMenu(1);
             menuManager.LevelSelect();
