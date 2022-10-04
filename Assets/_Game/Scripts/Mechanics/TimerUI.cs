@@ -22,7 +22,8 @@ public class TimerUI : MonoBehaviour
         //    return;
         //}
         // timeRemaining -= Time.deltaTime;
-        
+        if (StopTime)
+            return;
         timeRemaining += Time.deltaTime;
         TimeSpan time = TimeSpan.FromSeconds(timeRemaining);
         timerText.text = time.ToString(@"mm\:ss\:fff"); 

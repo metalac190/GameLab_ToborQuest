@@ -53,6 +53,8 @@ public class HUDManager : PersistableObject
     {
         //Update tobor progress once you have a variable to track.
         //SetToborProgress();
+        if (CGSC.GameOver)
+            return;
         //Example of what it could look like
         if(timeElapsed < 10f)
         {

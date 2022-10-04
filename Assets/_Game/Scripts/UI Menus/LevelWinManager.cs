@@ -3,9 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.EventSystems;
 
 public class LevelWinManager : MonoBehaviour
 {
+    public HUDManager hudManager;
+    public TextMeshProUGUI winText;
+    public GameObject returnLevelSelectButton;
+    public GameObject _children;
+    public string LevelSaveTimeName = "Level1BestTime";
 
     private void OnEnable()
     {
@@ -19,12 +25,16 @@ public class LevelWinManager : MonoBehaviour
 
     private void Start()
     {
-        gameObject.SetActive(false);
+        _children.SetActive(false);
     }
 
     private void WinGamePanel()
-    {
-        gameObject.SetActive(true);
+    {        
+        _children.SetActive(true);
+        winText.text = "You arrived in " + hudManager.GetCurrentTimeText();
+        hudManager.currentTimerText.StopTime = true;
+        EventSystem.current.SetSelectedGameObject(returnLevelSelectButton);
+        //PlayerPrefs.Save(LevelSaveTimeName, hudManager.currentTimerText.timeRemaining);
     }
 
 }
