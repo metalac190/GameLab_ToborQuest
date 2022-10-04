@@ -51,6 +51,7 @@ public class HUDManager : PersistableObject
     // Update is called once per frame
     void Update()
     {
+        //Debug.Log(Time.timeScale);
         //Update tobor progress once you have a variable to track.
         //SetToborProgress();
         if (CGSC.GameOver)
