@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7562582078565562957}
   - component: {fileID: 5501826621274724041}
-  m_Layer: 10
+  m_Layer: 9
   m_Name: col_wheel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -103,7 +103,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5479742490088156959}
   - component: {fileID: 7862836127608177874}
-  m_Layer: 10
+  m_Layer: 9
   m_Name: tire_BL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -163,7 +163,7 @@ GameObject:
   m_Component:
   - component: {fileID: 448384850020246129}
   - component: {fileID: 1972211683082103784}
-  m_Layer: 10
+  m_Layer: 9
   m_Name: tire_MR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -388,7 +388,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1706768223657700956}
-  m_Layer: 10
+  m_Layer: 9
   m_Name: tire_mesh_parent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -792,8 +792,9 @@ MonoBehaviour:
   _wallLayer:
     serializedVersion: 2
     m_Bits: 4096
-  _verticalBounce: 300
-  _horizontalBounce: 500
+  _verticalBounce: 250
+  _horizontalBounce: 450
+  _wallBounceCooldown: 0.1
 --- !u!114 &7528695759469318202
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1110,7 +1111,7 @@ GameObject:
   - component: {fileID: 5380769758167025008}
   - component: {fileID: 4420380626071158211}
   - component: {fileID: 3518313175830538121}
-  m_Layer: 10
+  m_Layer: 9
   m_Name: tire_BR_mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1192,7 +1193,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8630298719976962232}
   - component: {fileID: 161348917072412956}
-  m_Layer: 10
+  m_Layer: 9
   m_Name: col_wheel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1253,7 +1254,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4225863867767830323}
-  m_Layer: 10
+  m_Layer: 9
   m_Name: tire_mesh_parent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1998,7 +1999,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2074810752830335652}
-  m_Layer: 10
+  m_Layer: 9
   m_Name: tire_mesh_parent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2069,7 +2070,7 @@ GameObject:
   - component: {fileID: 1100031324689686451}
   - component: {fileID: 2743777107000768239}
   - component: {fileID: 877778458940724605}
-  m_Layer: 10
+  m_Layer: 9
   m_Name: tire_FL_mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2152,7 +2153,7 @@ GameObject:
   - component: {fileID: 2188786471958851122}
   - component: {fileID: 266813986667402712}
   - component: {fileID: 5566593091587648135}
-  m_Layer: 10
+  m_Layer: 9
   m_Name: tire_ML_mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2233,7 +2234,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2880253984019037739}
-  m_Layer: 10
+  m_Layer: 9
   m_Name: tire_mesh_parent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2266,7 +2267,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5777916406858838101}
   - component: {fileID: 1939378951759986455}
-  m_Layer: 10
+  m_Layer: 9
   m_Name: tire_FL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2327,7 +2328,7 @@ GameObject:
   - component: {fileID: 1970753166136953114}
   - component: {fileID: 3790142388794492759}
   - component: {fileID: 5640564575419644932}
-  m_Layer: 10
+  m_Layer: 9
   m_Name: tire_MR_mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2409,7 +2410,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1340041657343953526}
   - component: {fileID: 7873127357999031206}
-  m_Layer: 10
+  m_Layer: 9
   m_Name: col_wheel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2786,7 +2787,7 @@ GameObject:
   m_Component:
   - component: {fileID: 613917661345421991}
   - component: {fileID: 7431299798143943788}
-  m_Layer: 10
+  m_Layer: 9
   m_Name: tire_BR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2929,7 +2930,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4894905138681203963}
   - component: {fileID: 6181132123529602732}
-  m_Layer: 10
+  m_Layer: 9
   m_Name: col_wheel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2991,7 +2992,7 @@ GameObject:
   m_Component:
   - component: {fileID: 41093955046958652}
   - component: {fileID: 8161142601014468069}
-  m_Layer: 10
+  m_Layer: 9
   m_Name: tire_FR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3468,7 +3469,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8266396084693376183}
-  m_Layer: 10
+  m_Layer: 9
   m_Name: tire_GRP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3507,7 +3508,7 @@ GameObject:
   - component: {fileID: 8889193138194338720}
   - component: {fileID: 1946188508716270133}
   - component: {fileID: 6002407369802525401}
-  m_Layer: 10
+  m_Layer: 9
   m_Name: tire_BL_mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3974,7 +3975,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3354118818595776231}
   - component: {fileID: 8363696719315334408}
-  m_Layer: 10
+  m_Layer: 9
   m_Name: tire_ML
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4116,7 +4117,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4150839879352037160}
-  m_Layer: 10
+  m_Layer: 9
   m_Name: tire_mesh_parent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4148,7 +4149,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5690791975694004100}
-  m_Layer: 10
+  m_Layer: 9
   m_Name: tire_mesh_parent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4413,7 +4414,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1877495630094935910}
   - component: {fileID: 3162967461368994472}
-  m_Layer: 10
+  m_Layer: 9
   m_Name: col_wheel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4475,7 +4476,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7325272246510901408}
   - component: {fileID: 6344131970833429737}
-  m_Layer: 10
+  m_Layer: 9
   m_Name: col_wheel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4538,7 +4539,7 @@ GameObject:
   - component: {fileID: 5648035990057262658}
   - component: {fileID: 2990328565838448705}
   - component: {fileID: 8932256715955212712}
-  m_Layer: 10
+  m_Layer: 9
   m_Name: tire_FR_mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}

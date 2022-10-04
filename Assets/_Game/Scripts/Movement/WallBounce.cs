@@ -8,9 +8,11 @@ public class WallBounce : MonoBehaviour
     [SerializeField] private LayerMask _wallLayer;
     [SerializeField] private float _verticalBounce = 200f;
     [SerializeField] private float _horizontalBounce = 300f;
+    [SerializeField] private float _wallBounceCooldown = 0.1f;
 
     private Rigidbody _rb;
     private MovementController _mc;
+    private bool _canWallBounce = true;
 
     private void Start()
     {
@@ -29,6 +31,18 @@ public class WallBounce : MonoBehaviour
 
         //to stop boosting into wall
         StartCoroutine(_mc.BoostCooldown(0.1f));
-        _rb.AddForce(normal * _horizontalBounce + new Vector3(0, _verticalBounce, 0), ForceMode.Impulse);
+        
+        if (_canWallBounce)
+        {
+            _rb.AddForce(normal * _horizontalBounce + new Vector3(0, _verticalBounce, 0), ForceMode.Impulse);
+            StartCoroutine(WallBounceCooldown());
+        }
+    }
+    
+    private IEnumerator WallBounceCooldown()
+    {
+        _canWallBounce = false;
+        yield return new WaitForSeconds(_wallBounceCooldown);
+        _canWallBounce = true;
     }
 }
