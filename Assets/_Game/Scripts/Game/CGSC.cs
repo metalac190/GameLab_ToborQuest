@@ -186,6 +186,12 @@ public class CGSC : MonoBehaviour
         onComplete?.Invoke();
     }
 
+    public static void RestartLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        UnpauseGame();
+    }
+
     public static void QuitGame()
     {
         Application.Quit();
