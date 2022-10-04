@@ -49,6 +49,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "TogglePaused",
+                    "type": "Button",
+                    "id": "418b6141-88c8-4555-b46f-d7ab18a99178",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -293,6 +302,28 @@
                     "action": "SideFlip",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "7c2ee33d-4263-462a-9728-1e260263dcf4",
+                    "path": "*/{Menu}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TogglePaused",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1d7e3846-33e0-4836-a468-e3a749507273",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TogglePaused",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
