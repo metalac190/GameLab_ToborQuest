@@ -14,6 +14,8 @@ public class ToborSound : MonoBehaviour
     [SerializeField] float _MaxPitch;
     Rigidbody _tobor;
 
+    private MovementController _mc;
+
     #region hooking up to CGSC
 
     private void OnEnable()
@@ -33,11 +35,16 @@ public class ToborSound : MonoBehaviour
     {
         _tobor = gameObject.GetComponent<Rigidbody>();
         _engineSound.outputAudioMixerGroup = _mixer;
+
+        _mc = GetComponent<MovementController>();
     }
 
     private void Update()
     {
-        _engineSound.pitch = Mathf.Clamp(Mathf.Log(_tobor.velocity.magnitude), _MinPitch, _MaxPitch);
+        if (_mc.IsGrounded || _mc.IsBoosting)
+        {
+            _engineSound.pitch = Mathf.Clamp(Mathf.Log(_tobor.velocity.magnitude), _MinPitch, _MaxPitch);
+        }
     }
 
     void onPause()
