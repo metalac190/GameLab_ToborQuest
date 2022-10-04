@@ -17,6 +17,11 @@ public class LevelWinManager : MonoBehaviour
         CGSC.OnWinGame -= WinGamePanel;
     }
 
+    private void Start()
+    {
+        gameObject.SetActive(false);
+    }
+
     private void WinGamePanel()
     {
         gameObject.SetActive(true);
