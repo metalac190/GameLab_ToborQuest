@@ -215,22 +215,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 3801965172330672110}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &4896478186035693883
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5187966251400258917}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f01bafca0f9da3f49983e3f631aa8bc8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _brokenVersion: {fileID: 5543745364893174260}
-  _unbrokenVersion: {fileID: 5187966251400258917}
-  _joint: {fileID: 3187838744632011871}
-  _isFractured: 0
 --- !u!54 &5227118582182486223
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -247,21 +231,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!138 &3187838744632011871
-FixedJoint:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5187966251400258917}
-  m_ConnectedBody: {fileID: 0}
-  m_ConnectedArticulationBody: {fileID: 0}
-  m_BreakForce: Infinity
-  m_BreakTorque: Infinity
-  m_EnableCollision: 0
-  m_EnablePreprocessing: 1
-  m_MassScale: 1
-  m_ConnectedMassScale: 1
 --- !u!65 &6679075003305481941
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -273,5 +242,36 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1.4, y: 1.4, z: 1.4}
+  m_Center: {x: 0, y: 0.75, z: 0}
+--- !u!138 &3187838744632011871
+FixedJoint:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5187966251400258917}
+  m_ConnectedBody: {fileID: 0}
+  m_ConnectedArticulationBody: {fileID: 0}
+  m_BreakForce: 1000
+  m_BreakTorque: 5000
+  m_EnableCollision: 0
+  m_EnablePreprocessing: 1
+  m_MassScale: 1
+  m_ConnectedMassScale: 1
+--- !u!114 &4896478186035693883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5187966251400258917}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f01bafca0f9da3f49983e3f631aa8bc8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _brokenVersion: {fileID: 5543745364893174260}
+  _unbrokenVersion: {fileID: 5187966251400258917}
+  _joint: {fileID: 3187838744632011871}
+  _isFractured: 0

@@ -9,6 +9,7 @@ public class GravityController : MonoBehaviour
     [Tooltip("Stacks with rigidbody gravity. 0 is off, 500 is limit")]
     [SerializeField] private float _gravity = 9.81f;
 
+    public bool GravityEnabled { get; set; } = true;
     public bool UseCustomGravity => _useCustomGravity;
     public float Gravity => _gravity;
 
@@ -21,6 +22,6 @@ public class GravityController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (_useCustomGravity) _rb.AddForce(new Vector3(0,-_gravity, 0),ForceMode.Force);
+        if (_useCustomGravity && GravityEnabled) _rb.AddForce(new Vector3(0,-_gravity, 0),ForceMode.Force);
     }
 }
