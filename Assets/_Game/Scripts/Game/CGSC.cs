@@ -99,12 +99,14 @@ public class CGSC : MonoBehaviour
     public static void WinGame()
     {
         OnWinGame?.Invoke();
+        PauseGameResponse();
         GameOver = true;
     }
 
     public static void LoseGame()
     {
         OnLoseGame?.Invoke();
+        PauseGameResponse();
         GameOver = true;
     }
 
