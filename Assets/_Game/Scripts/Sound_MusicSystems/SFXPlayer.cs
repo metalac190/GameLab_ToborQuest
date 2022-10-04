@@ -18,6 +18,7 @@ namespace SoundSystem
             _sfxSound.outputAudioMixerGroup = sfxEvent.Mixer;
             _sfxSound.loop = sfxEvent.IsLooping;
             _sfxSound.volume = sfxEvent.Volume;
+            _sfxSound.pitch = sfxEvent.Pitch;
             _sfxSound.Play();
 
             if (_sfxEvent.PlayTime <= 0)
