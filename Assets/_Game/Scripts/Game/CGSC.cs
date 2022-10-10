@@ -55,16 +55,25 @@ public class CGSC : MonoBehaviour
     }
 
     public static void TogglePauseGame(InputAction.CallbackContext context) => TogglePauseGame();
+
     public static void TogglePauseGame()
     {
+        if (GameOver)
+        {
+            Debug.Log("Cannot pause once game is over");
+            return;
+        }
+            
         Paused = !Paused;
         if (Paused)
         {
+            Debug.Log("Pause");
             OnPause?.Invoke();
             //Debug.Log("Game Paused");
         }
         else
         {
+            Debug.Log("Unpause");
             OnUnpause?.Invoke();
             //Debug.Log("Game Unpaused");
         }
@@ -99,14 +108,14 @@ public class CGSC : MonoBehaviour
     public static void WinGame()
     {
         OnWinGame?.Invoke();
-        PauseGameResponse();
+        //PauseGameResponse();
         GameOver = true;
     }
 
     public static void LoseGame()
     {
         OnLoseGame?.Invoke();
-        PauseGameResponse();
+        //PauseGameResponse();
         GameOver = true;
     }
 
@@ -181,6 +190,12 @@ public class CGSC : MonoBehaviour
         }
         InMainMenu = sceneName.Equals(Instance._mainMenu.Name);
         onComplete?.Invoke();
+    }
+
+    public static void RestartLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        UnpauseGame();        
     }
 
     public static void QuitGame()

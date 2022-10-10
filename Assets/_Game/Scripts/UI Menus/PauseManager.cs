@@ -21,27 +21,33 @@ public class PauseManager : MonoBehaviour
 
     private void OnEnable()
     {
+        CGSC.GameOver = false;
         currentTime.text = hudManager.GetCurrentTimeText();
         bestTime.text = hudManager.GetBestTimeString();
     }
 
-    public void UnPause()
-    {
-        Time.timeScale = 1;
-        CGSC.TogglePauseGame();
-    }
+    //public void UnPause()
+    //{
+    //    //Time.timeScale = 1;
+    //    CGSC.TogglePauseGame();
+    //}
 
-    public void ChangeScene(string value)
+    public void ReturnToMainMenu()
     {
         //SceneManager.LoadScene(value);
         CGSC.LoadMainMenu();        
     }
 
+    public void Restart()
+    {
+        CGSC.RestartLevel();
+    }
+
     public void ReturnToLevels()
     {
-        UnPause();
+        CGSC.UnpauseGame();
         CGSC.LoadScene("MainMenu",true, () => {
-            Debug.Log("Levek select");
+            //Debug.Log("Levek select");
             MenuManager menuManager = GameObject.FindObjectOfType<MenuManager>();
             menuManager.SetCurrentMenu(1);
             menuManager.LevelSelect();

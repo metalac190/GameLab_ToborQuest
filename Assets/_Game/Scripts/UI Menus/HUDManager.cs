@@ -17,42 +17,51 @@ public class HUDManager : PersistableObject
     public Slider toborProgress;
     public TextMeshProUGUI bestTime;
 
-    public GameObject pauseFirstButton;
+    private GameObject pauseFirstButton;
+
+    private LevelWinManager levelWinManager;
 
     private float toborProgressValue;
     private float timeElapsed;
 
     private void Awake()
-    {
+    {        
         _controller = new MovementInput();
+        pauseFirstButton = GameObject.FindObjectOfType<PauseManager>().transform.GetChild(2).GetChild(0).gameObject;
+        levelWinManager = GameObject.FindObjectOfType<LevelWinManager>();
         pausePanel.SetActive(false);
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        SetBestTime(180f);
+        if(PlayerPrefs.HasKey(levelWinManager.LevelSaveName))
+        {
+            float bestTimeFloat = PlayerPrefs.GetFloat(levelWinManager.LevelSaveName);
+            SetBestTime(bestTimeFloat);
+        }
+        else
+        {
+            SetBestTime(180f);
+        }
         SetToborProgress(0f);        
     }
 
     private void OnEnable()
-    {
-        _controller.Enable();
+    {        
         timeElapsed = 0;
         toborProgressValue = 0;
         currentTimerText.timeRemaining = 0;        
     }
 
-    private void OnDisable()
-    {
-        _controller.Disable();
-    }
-
     // Update is called once per frame
     void Update()
     {
+        //Debug.Log(Time.timeScale);
         //Update tobor progress once you have a variable to track.
         //SetToborProgress();
+        if (CGSC.GameOver)
+            return;
         //Example of what it could look like
         if(timeElapsed < 10f)
         {
@@ -61,18 +70,6 @@ public class HUDManager : PersistableObject
         }
         SetToborProgress(toborProgressValue);
 
-        if (pausePanel.activeInHierarchy)
-            return;
-
-        if (_controller.UI.Pause.IsPressed())
-        {
-            Debug.Log("Game Paused");
-            PauseGame();
-            CGSC.TogglePauseGame();
-            //Debug.Log("Game Unpaused");
-            //return;
-        }        
-        
     }
 
     public void SetBestTime(float value)
@@ -94,14 +91,6 @@ public class HUDManager : PersistableObject
     public void SetToborProgress(float value)
     {
         toborProgress.value = value;
-    }
-
-    public void PauseGame()
-    {
-        EventSystem.current.SetSelectedGameObject(pauseFirstButton);
-        pausePanel.SetActive(true);
-        //gameObject.SetActive(false);
-        Time.timeScale = 0;
     }
 
 }

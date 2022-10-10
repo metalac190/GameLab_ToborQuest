@@ -14,19 +14,29 @@ public class CatapultPad : InteractablePad {
     [SerializeField] private Transform catapultLauncher;
     [SerializeField] private Transform art;
     [SerializeField] private Transform targetTransform;
+    [SerializeField, Range(0.1f, 10f)] private float launchSpeedMultiplier = 1;
     [SerializeField, ReadOnly] private float launchSpeed;
 
     private Vector3 arcDirection;
     private float arcDistance;
     private float launchAngleRadians;
-
+    
     private void Awake() {
         art.LookAt(targetTransform);
     }
 
     protected override void OnRigidbodyTrigger(Rigidbody rb) {
         //set the object's velocity to the 3D launch vector times the calculated launch speed
-        rb.velocity = catapultLauncher.up * launchSpeed;
+        var grav = rb.GetComponent<GravityController>();
+        if (grav) StartCoroutine(DisableCustomGravity(grav));
+        rb.velocity = catapultLauncher.up * launchSpeed * launchSpeedMultiplier;
+    }
+
+    private IEnumerator DisableCustomGravity(GravityController controller)
+    {
+        controller.GravityEnabled = false;
+        yield return new WaitForSecondsRealtime(2);
+        controller.GravityEnabled = true;
     }
 
     /*

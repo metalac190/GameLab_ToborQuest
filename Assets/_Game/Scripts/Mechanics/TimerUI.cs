@@ -11,7 +11,7 @@ public class TimerUI : MonoBehaviour
     public float timeRemaining { get; set; }
 
     public bool StopTime { get; set; }
-
+  
     // Update is called once per frame
     void Update()
     {
@@ -22,16 +22,27 @@ public class TimerUI : MonoBehaviour
         //    return;
         //}
         // timeRemaining -= Time.deltaTime;
-        
+
+
+        if (StopTime)
+            return;
         timeRemaining += Time.deltaTime;
         TimeSpan time = TimeSpan.FromSeconds(timeRemaining);
-        timerText.text = time.ToString(@"mm\:ss\:fff"); 
+        if(timeRemaining > 3600)
+            timerText.text = time.ToString(@"hh\:mm\:ss\:fff");
+        else
+            timerText.text = time.ToString(@"mm\:ss\:fff"); 
     }
 
     public string GetCurrentTime()
     {
+        string timeFormat;
         TimeSpan time = TimeSpan.FromSeconds(timeRemaining);
-        return time.ToString(@"mm\:ss\:fff");
+        if (timeRemaining > 3600)
+            timeFormat = time.ToString(@"hh\:mm\:ss\:fff");
+        else
+            timeFormat = time.ToString(@"mm\:ss\:fff");
+        return timeFormat;
     }
 
     //Used to add time if used as a Counter
