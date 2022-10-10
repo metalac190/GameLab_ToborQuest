@@ -1,9 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
+using Vector2 = UnityEngine.Vector2;
+using Vector3 = UnityEngine.Vector3;
 
 public class MovementController : MonoBehaviour
 {
@@ -26,7 +29,7 @@ public class MovementController : MonoBehaviour
     [SerializeField, ShowIf("_showMovementTab")] private float _maxSpeed = 30;
 
     [Header("Steering")] [SerializeField] private bool _showSteeringTab;
-    [SerializeField, ShowIf("_showSteeringTab")] private bool _turnWhenStopped = true;
+    //[SerializeField, ShowIf("_showSteeringTab")] private bool _turnWhenStopped = true;
     [SerializeField, ShowIf("_showSteeringTab")] private float _stoppedTurnSpeed = 2f;
     [SerializeField, ShowIf("_showSteeringTab")] private float _standardTurnSpeed = 3f;
 
@@ -75,8 +78,11 @@ public class MovementController : MonoBehaviour
     public bool IsBoosting => _isBoosting;
     public bool IsFlipping => _isFlipping;
 
+    public Vector3 PreviousVelocity => _previousVel;
+
     private Rigidbody _rb;
     private MovementControls _movementControls;
+    private WheelsController _wheelsController;
     private bool _driftTrailsActive;
     private bool _boostTrailsActive;
 
@@ -89,6 +95,7 @@ public class MovementController : MonoBehaviour
         _rb.centerOfMass = _centerOfMass;
 
         _movementControls = GetComponent<MovementControls>();
+        _wheelsController = GetComponent<WheelsController>();
 
         _currentAcceleration = _acceleration;
         _currentMaxSpeed = _maxSpeed;
@@ -222,8 +229,12 @@ public class MovementController : MonoBehaviour
         {
             _isDrifting = _movementControls.Drift;
             _currentTurnSpeed = _movementControls.Drift ? _driftTurnSpeed : _standardTurnSpeed;
+            //_wheelsController.SetWheelFriction(2);
         }
-        else _isDrifting = false;
+        else
+        {
+            _isDrifting = false;
+        }
     }
 
     private void SideFlip()
