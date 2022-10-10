@@ -21,6 +21,7 @@ public class PauseManager : MonoBehaviour
 
     private void OnEnable()
     {
+        CGSC.GameOver = false;
         currentTime.text = hudManager.GetCurrentTimeText();
         bestTime.text = hudManager.GetBestTimeString();
     }
