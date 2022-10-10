@@ -57,7 +57,13 @@ public class CGSC : MonoBehaviour
     public static void TogglePauseGame(InputAction.CallbackContext context) => TogglePauseGame();
 
     public static void TogglePauseGame()
-    {        
+    {
+        if (GameOver)
+        {
+            Debug.Log("Cannot pause once game is over");
+            return;
+        }
+            
         Paused = !Paused;
         if (Paused)
         {
@@ -189,7 +195,7 @@ public class CGSC : MonoBehaviour
     public static void RestartLevel()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        UnpauseGame();
+        UnpauseGame();        
     }
 
     public static void QuitGame()
