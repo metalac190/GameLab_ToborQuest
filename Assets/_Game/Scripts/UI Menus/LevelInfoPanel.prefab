@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 269218776218330475}
   - component: {fileID: 3340727724859594158}
   m_Layer: 5
-  m_Name: RecentTime
+  m_Name: BestTime
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -147,7 +147,7 @@ GameObject:
   - component: {fileID: 3769382066589515727}
   - component: {fileID: 5437836243837141971}
   m_Layer: 5
-  m_Name: BestTime
+  m_Name: NextGoal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -417,6 +417,7 @@ GameObject:
   - component: {fileID: 3584696121574654822}
   - component: {fileID: 7854545052781750310}
   - component: {fileID: 3891203246144937077}
+  - component: {fileID: 1135213803333560550}
   m_Layer: 5
   m_Name: LevelInfoPanel
   m_TagString: Untagged
@@ -532,6 +533,26 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1135213803333560550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6058903074519046778}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adf725f0de910084c928dc1e2be7c9f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levelSaveName: 
+  bestTimeText: {fileID: 3340727724859594158}
+  nextGoalText: {fileID: 5437836243837141971}
+  levelImage: {fileID: 6260907432736760219}
+  nextGoalArray:
+  - 60
+  - 30
+  - 15
 --- !u!1 &6245579576471922824
 GameObject:
   m_ObjectHideFlags: 0
