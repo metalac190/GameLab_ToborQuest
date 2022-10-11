@@ -1,9 +1,6 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.UIElements;
 
 public class MovementController : MonoBehaviour
 {
@@ -26,7 +23,7 @@ public class MovementController : MonoBehaviour
     [SerializeField, ShowIf("_showMovementTab")] private float _maxSpeed = 30;
 
     [Header("Steering")] [SerializeField] private bool _showSteeringTab;
-    [SerializeField, ShowIf("_showSteeringTab")] private bool _turnWhenStopped = true;
+    //[SerializeField, ShowIf("_showSteeringTab")] private bool _turnWhenStopped = true;
     [SerializeField, ShowIf("_showSteeringTab")] private float _stoppedTurnSpeed = 2f;
     [SerializeField, ShowIf("_showSteeringTab")] private float _standardTurnSpeed = 3f;
 
@@ -75,8 +72,11 @@ public class MovementController : MonoBehaviour
     public bool IsBoosting => _isBoosting;
     public bool IsFlipping => _isFlipping;
 
+    public Vector3 PreviousVelocity => _previousVel;
+
     private Rigidbody _rb;
     private MovementControls _movementControls;
+    private WheelsController _wc;
     private bool _driftTrailsActive;
     private bool _boostTrailsActive;
 
@@ -89,6 +89,7 @@ public class MovementController : MonoBehaviour
         _rb.centerOfMass = _centerOfMass;
 
         _movementControls = GetComponent<MovementControls>();
+        _wc = GetComponent<WheelsController>();
 
         _currentAcceleration = _acceleration;
         _currentMaxSpeed = _maxSpeed;
@@ -221,9 +222,29 @@ public class MovementController : MonoBehaviour
         if (_isGrounded)
         {
             _isDrifting = _movementControls.Drift;
-            _currentTurnSpeed = _movementControls.Drift ? _driftTurnSpeed : _standardTurnSpeed;
+
+            if (_movementControls.Drift)
+            {
+                _currentTurnSpeed = _driftTurnSpeed;
+                //_wc.SetWheelFriction(0,2);
+            }
+            else
+            {
+                _currentTurnSpeed = _standardTurnSpeed;
+                //_wc.SetWheelFriction(_wc.StandardDampeningRate, _wc.StandardFrictionStiffness);
+            }
         }
-        else _isDrifting = false;
+        else
+        {
+            _isDrifting = false;
+        }
+    }
+
+    private IEnumerator DriftFriction()
+    {
+        _wc.SetWheelFriction(2,2);
+        yield return new WaitUntil(() => !_isDrifting);
+        _wc.SetWheelFriction(_wc.StandardDampeningRate,_wc.StandardFrictionStiffness);
     }
 
     private void SideFlip()
