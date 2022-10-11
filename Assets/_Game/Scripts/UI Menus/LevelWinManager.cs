@@ -59,17 +59,17 @@ public class LevelWinManager : MonoBehaviour
             float previousBestTime = PlayerPrefs.GetFloat(levelSaveTimeName);            
             if (previousBestTime > currentTime)
             {
-                Debug.Log("New best time");
+                //Debug.Log("New best time");
                 PlayerPrefs.SetFloat(levelSaveTimeName, currentTime);
             }
             else
             {
-                Debug.Log("Didn't beat best time");
+                //Debug.Log("Didn't beat best time");
             }
         }
         else
         {
-            Debug.Log("Best time set");
+            //Debug.Log("Best time set");
             PlayerPrefs.SetFloat(levelSaveTimeName, currentTime);
         }
             
