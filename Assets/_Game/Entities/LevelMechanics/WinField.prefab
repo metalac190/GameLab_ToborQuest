@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 9221245999811690670}
   - component: {fileID: 9221245999811690665}
   - component: {fileID: 9221245999811690664}
+  - component: {fileID: 2332062528767448959}
   m_Layer: 0
   m_Name: WinField
   m_TagString: Untagged
@@ -58,7 +59,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0262e6d7d02262a4e843877f77f51335, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _desiredLayer:
-    serializedVersion: 2
-    m_Bits: 1024
-  _collider: {fileID: 9221245999811690665}
+--- !u!114 &2332062528767448959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9221245999811690667}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d370742139782e049a42c878b6e98efb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onPlayerEnter:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 9221245999811690664}
+        m_TargetAssemblyTypeName: WinField, Assembly-CSharp
+        m_MethodName: OnWin
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu]
+[CreateAssetMenu(fileName = "New Dialogue", menuName = "DialogueSystem/Dialogue")]
 public class Dialogue : ScriptableObject
 {
 	[SerializeField] private string _speaker;
