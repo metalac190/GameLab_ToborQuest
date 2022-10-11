@@ -8,12 +8,15 @@ using UnityEngine.EventSystems;
 public class LevelWinManager : MonoBehaviour
 {
     private HUDManager hudManager;
+    [SerializeField]
     private TextMeshProUGUI winText;
+    [SerializeField]
     private GameObject returnLevelSelectButton;
     private GameObject _children;
     [SerializeField]
     private string levelSaveTimeName = "Level1BestTime";
-
+    [SerializeField]
+    private int nextLevel = 0; 
     public string LevelSaveName { get { return levelSaveTimeName; } }
 
     private void Awake()
@@ -22,9 +25,9 @@ public class LevelWinManager : MonoBehaviour
         hudManager = GameObject.FindObjectOfType<HUDManager>();
 
         //Get needed objects
-        _children = this.transform.GetChild(0).gameObject;
-        winText = _children.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
-        returnLevelSelectButton = _children.transform.GetChild(1).gameObject;
+        //_children = this.transform.GetChild(0).gameObject;
+        //winText = _children.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+        //returnLevelSelectButton = _children.transform.GetChild(1).gameObject;
     }
 
     private void OnEnable()
@@ -39,16 +42,45 @@ public class LevelWinManager : MonoBehaviour
 
     private void Start()
     {
-        _children.SetActive(false);
+        for(int i = 0; i < transform.childCount; i++)
+        {
+            transform.GetChild(i).gameObject.SetActive(false);
+        }
+        //this.transform.GetChild();
     }
 
     private void WinGamePanel()
-    {        
-        _children.SetActive(true);
-        winText.text = "You arrived in " + hudManager.GetCurrentTimeText();
+    {
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            transform.GetChild(i).gameObject.SetActive(true);
+        }
+        winText.text = "DELIVERY TIME: " + hudManager.GetCurrentTimeText();
         hudManager.currentTimerText.StopTime = true;
         EventSystem.current.SetSelectedGameObject(returnLevelSelectButton);
         SaveBestTime();
+    }
+
+    public void ContinueNextLevel()
+    {
+        CGSC.UnpauseGame();
+        CGSC.LoadScene(CGSC.QuestNames[nextLevel + 1]);
+    }
+
+    public void RestartLevel()
+    {
+        CGSC.RestartLevel();
+    }
+
+    public void ReturnToLevels()
+    {
+        CGSC.UnpauseGame();
+        CGSC.LoadScene(CGSC.QuestNames[0], true, () => {
+            //Debug.Log("Levek select");
+            MenuManager menuManager = GameObject.FindObjectOfType<MenuManager>();
+            menuManager.SetCurrentMenu(1);
+            menuManager.LevelSelect();
+        });
     }
 
     private void SaveBestTime()
