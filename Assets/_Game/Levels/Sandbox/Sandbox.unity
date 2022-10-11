@@ -294,11 +294,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e4793c2a30e8be4e94b6ddac5732002, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hudManager: {fileID: 456121295}
-  winText: {fileID: 1027396168}
-  returnLevelSelectButton: {fileID: 1479050022}
-  _children: {fileID: 1277598025}
-  LevelSaveTimeName: Level1BestTime
+  levelSaveTimeName: Level1BestTime
 --- !u!114 &8318130
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1562,19 +1558,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1692329, guid: 03839630bd9b88045805ea241bba87cc, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.69526625
+      value: 0.6711318
       objectReference: {fileID: 0}
     - target: {fileID: 1692329, guid: 03839630bd9b88045805ea241bba87cc, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.69526625
+      value: 0.6711318
       objectReference: {fileID: 0}
     - target: {fileID: 1692329, guid: 03839630bd9b88045805ea241bba87cc, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.12885997
+      value: 0.22267054
       objectReference: {fileID: 0}
     - target: {fileID: 1692329, guid: 03839630bd9b88045805ea241bba87cc, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.12885997
+      value: -0.22267054
       objectReference: {fileID: 0}
     - target: {fileID: 1073614524358147751, guid: 03839630bd9b88045805ea241bba87cc,
         type: 3}
@@ -1589,12 +1585,12 @@ PrefabInstance:
     - target: {fileID: 3985165626746486642, guid: 03839630bd9b88045805ea241bba87cc,
         type: 3}
       propertyPath: launchAngle
-      value: 69
+      value: 53.29
       objectReference: {fileID: 0}
     - target: {fileID: 3985165626746486642, guid: 03839630bd9b88045805ea241bba87cc,
         type: 3}
       propertyPath: launchSpeed
-      value: 25.518318
+      value: 21.322056
       objectReference: {fileID: 0}
     - target: {fileID: 3985165626746486642, guid: 03839630bd9b88045805ea241bba87cc,
         type: 3}
@@ -2096,8 +2092,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 369244245}
   m_LocalRotation: {x: 0.5036034, y: -0.000000010667427, z: 0.000000006218238, w: 0.863935}
-  m_LocalRotation: {x: 0.5036034, y: -0.00000002553262, z: 0.000000014883427, w: 0.863935}
-  m_LocalPosition: {x: 0.00000023841858, y: 10.270001, z: -5.69}
+  m_LocalPosition: {x: 0, y: 24, z: -12}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2518,16 +2513,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1052709922237273952, guid: ecc48db574314ef49a53f3ff330c1e3b,
         type: 3}
-      propertyPath: m_LocalScale.x
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1052709922237273952, guid: ecc48db574314ef49a53f3ff330c1e3b,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1052709922237273952, guid: ecc48db574314ef49a53f3ff330c1e3b,
-        type: 3}
       propertyPath: m_LocalPosition.x
       value: -55.2
       objectReference: {fileID: 0}
@@ -2583,43 +2568,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5035912875575962908, guid: ecc48db574314ef49a53f3ff330c1e3b,
         type: 3}
-      propertyPath: buttonForce
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5035912875575962908, guid: ecc48db574314ef49a53f3ff330c1e3b,
-        type: 3}
-      propertyPath: onButtonToggleOn.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5035912875575962908, guid: ecc48db574314ef49a53f3ff330c1e3b,
-        type: 3}
-      propertyPath: onButtonToggleOn.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 5035912875575962908, guid: ecc48db574314ef49a53f3ff330c1e3b,
-        type: 3}
       propertyPath: onButtonToggleOn.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1398815603}
     - target: {fileID: 5035912875575962908, guid: ecc48db574314ef49a53f3ff330c1e3b,
         type: 3}
-      propertyPath: onButtonToggleOn.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5035912875575962908, guid: ecc48db574314ef49a53f3ff330c1e3b,
-        type: 3}
-      propertyPath: onButtonToggleOn.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetActive
-      objectReference: {fileID: 0}
-    - target: {fileID: 5035912875575962908, guid: ecc48db574314ef49a53f3ff330c1e3b,
-        type: 3}
-      propertyPath: onButtonToggleOn.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: UnityEngine.GameObject, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 5035912875575962908, guid: ecc48db574314ef49a53f3ff330c1e3b,
-        type: 3}
-      propertyPath: onButtonToggleOn.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
+      propertyPath: onButtonToggleOn.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ecc48db574314ef49a53f3ff330c1e3b, type: 3}
@@ -7526,8 +7481,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1071942171}
   m_LocalRotation: {x: 0.5036034, y: -0.000000010667427, z: 0.000000006218238, w: 0.863935}
-  m_LocalRotation: {x: 0.5036034, y: -0.00000002553262, z: 0.000000014883427, w: 0.863935}
-  m_LocalPosition: {x: 0.00000023841858, y: 10.270001, z: -5.69}
+  m_LocalPosition: {x: 0, y: 24, z: -12}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -14070,7 +14024,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.69999695
-      value: 4.3
       objectReference: {fileID: 0}
     - target: {fileID: 9221245999811690670, guid: a50c022b14347d447b897763c1ee58a1,
         type: 3}
