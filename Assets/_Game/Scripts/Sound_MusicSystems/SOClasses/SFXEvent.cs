@@ -7,15 +7,6 @@ using UnityEngine.Audio;
 
 namespace SoundSystem
 { 
-    public enum SFXLayerType
-    {
-        //2D mainly for ui and other such things
-        twoD,
-        //3D sounds like in world
-        threeD,
-
-    }
-
     [CreateAssetMenu(menuName = "SoundSystem/SFX Event", fileName = "SFX_")]
     public class SFXEvent : ScriptableObject
     {
