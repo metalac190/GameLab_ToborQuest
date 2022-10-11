@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 
 public class MovementController : MonoBehaviour
@@ -34,6 +35,8 @@ public class MovementController : MonoBehaviour
 
     [Header("Drift")] [SerializeField] private bool _showDrifitingTab;
     [SerializeField, ShowIf("_showDrifitingTab")] private float _driftTurnSpeed = 5.0f;
+    [SerializeField, ShowIf("_showDrifitingTab")] private float _driftSlowdown = 2.0f;
+    [SerializeField, ShowIf("_showDrifitingTab")] private float _driftFriction = 0.25f;
 
     [Header("Boost")] [SerializeField] private bool _showBoostTab;
     [SerializeField, ShowIf("_showBoostTab")] private bool _canBoostInAir;
@@ -226,12 +229,12 @@ public class MovementController : MonoBehaviour
             if (_movementControls.Drift)
             {
                 _currentTurnSpeed = _driftTurnSpeed;
-                //_wc.SetWheelFriction(0,2);
+                _wc.SetWheelFriction(5,0.25f);
             }
             else
             {
                 _currentTurnSpeed = _standardTurnSpeed;
-                //_wc.SetWheelFriction(_wc.StandardDampeningRate, _wc.StandardFrictionStiffness);
+                _wc.SetWheelFriction(_wc.StandardDampeningRate, _wc.StandardFrictionStiffness);
             }
         }
         else

@@ -42,10 +42,10 @@ public class WheelsController : MonoBehaviour
 
     public void SetWheelFriction(float wheelDampening = 0, float frictionStiffness = 0)
     {
-        if (wheelDampening != 0) _currentWheelDampeningRate = wheelDampening;
-        if (frictionStiffness != 0) _currentFrictionStiffness = frictionStiffness;
+            _currentWheelDampeningRate = wheelDampening;
+            _currentFrictionStiffness = frictionStiffness;
 
-        UpdateWheelFriction();
+            UpdateWheelFriction();
     }
     
     private void UpdateWheelFriction()
