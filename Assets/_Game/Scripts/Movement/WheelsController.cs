@@ -19,6 +19,8 @@ public class WheelsController : MonoBehaviour
     [SerializeField, ReadOnly] private float _currentWheelDampeningRate;
     [SerializeField, ReadOnly] private float _currentFrictionStiffness;
 
+    public float StandardDampeningRate => _standardWheelDampeningRate;
+    public float StandardFrictionStiffness => _standardFrictionStiffness;
 
     private MovementController _mc;
     private MovementControls _input;

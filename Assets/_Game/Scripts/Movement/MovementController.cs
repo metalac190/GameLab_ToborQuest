@@ -1,12 +1,6 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Numerics;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.UIElements;
-using Vector2 = UnityEngine.Vector2;
-using Vector3 = UnityEngine.Vector3;
 
 public class MovementController : MonoBehaviour
 {
@@ -82,7 +76,7 @@ public class MovementController : MonoBehaviour
 
     private Rigidbody _rb;
     private MovementControls _movementControls;
-    private WheelsController _wheelsController;
+    private WheelsController _wc;
     private bool _driftTrailsActive;
     private bool _boostTrailsActive;
 
@@ -95,7 +89,7 @@ public class MovementController : MonoBehaviour
         _rb.centerOfMass = _centerOfMass;
 
         _movementControls = GetComponent<MovementControls>();
-        _wheelsController = GetComponent<WheelsController>();
+        _wc = GetComponent<WheelsController>();
 
         _currentAcceleration = _acceleration;
         _currentMaxSpeed = _maxSpeed;
@@ -228,13 +222,29 @@ public class MovementController : MonoBehaviour
         if (_isGrounded)
         {
             _isDrifting = _movementControls.Drift;
-            _currentTurnSpeed = _movementControls.Drift ? _driftTurnSpeed : _standardTurnSpeed;
-            //_wheelsController.SetWheelFriction(2);
+
+            if (_movementControls.Drift)
+            {
+                _currentTurnSpeed = _driftTurnSpeed;
+                //_wc.SetWheelFriction(0,2);
+            }
+            else
+            {
+                _currentTurnSpeed = _standardTurnSpeed;
+                //_wc.SetWheelFriction(_wc.StandardDampeningRate, _wc.StandardFrictionStiffness);
+            }
         }
         else
         {
             _isDrifting = false;
         }
+    }
+
+    private IEnumerator DriftFriction()
+    {
+        _wc.SetWheelFriction(2,2);
+        yield return new WaitUntil(() => !_isDrifting);
+        _wc.SetWheelFriction(_wc.StandardDampeningRate,_wc.StandardFrictionStiffness);
     }
 
     private void SideFlip()
