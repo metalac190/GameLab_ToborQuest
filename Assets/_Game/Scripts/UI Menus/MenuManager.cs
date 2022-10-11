@@ -15,8 +15,10 @@ public class MenuManager : MonoBehaviour
 
     public MenuType currentMenu { get; set; } = MenuType.MainMenu;
 
-    public GameObject mainMenuSelect;
-    public GameObject levelSelectGameObject;
+    [SerializeField]
+    private GameObject mainMenuSelect;
+    [SerializeField]
+    private GameObject levelSelectGameObject;
 
     MenuType lastActiveMenu;
 
