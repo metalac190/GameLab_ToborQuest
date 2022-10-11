@@ -74,4 +74,13 @@ public class WheelsController : MonoBehaviour
             w.UpdatePosition();
         }
     }
+
+    public bool WheelsGroundCheck()
+    {
+        foreach (var w in _wheels)
+        {
+            if (w._wheelCollider.isGrounded) return true;
+        }
+        return false;
+    }
 }
