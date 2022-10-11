@@ -9,6 +9,7 @@ using UnityEngine;
 
 public class CatapultPad : InteractablePad {
 
+    [Header("Catapult Settings")]
     [SerializeField] private float launchAngle;
     [SerializeField] private Transform catapultBase;
     [SerializeField] private Transform catapultLauncher;
@@ -23,6 +24,7 @@ public class CatapultPad : InteractablePad {
     
     private void Awake() {
         art.LookAt(targetTransform);
+        SetCatapultArc();
     }
 
     protected override void OnRigidbodyTrigger(Rigidbody rb) {
