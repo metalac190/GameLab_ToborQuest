@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using SoundSystem;
 
 public class Button : MonoBehaviour {
 
@@ -16,6 +17,12 @@ public class Button : MonoBehaviour {
     [SerializeField] private float buttonForce;
     [SerializeField] private float popOutWaitTime;
     [SerializeField] private bool buttonTogglable;
+
+    [Header("VFX and SFX")]
+    [SerializeField] private ParticleSystem particleVFXOnPush;
+    [SerializeField] private ParticleSystem particleVFXOnRelease;
+    [SerializeField] private SFXEvent audioSFXOnPush;
+    [SerializeField] private SFXEvent audioSFXOnRelease;
 
     [Header("Button Events")]
     [SerializeField] private UnityEvent onButtonToggleOn;
@@ -99,7 +106,9 @@ public class Button : MonoBehaviour {
     private void PressButton() {
         prevPressedState = isPressed;
 
-        //TODO: add feedback
+        //play feedback
+        if(particleVFXOnPush != null) StartCoroutine(Particles(particleVFXOnPush, buttonTop.position));
+        audioSFXOnPush?.Play(gameObject);
 
         //set buttonActivated based on settings
         if(buttonTogglable) {
@@ -119,6 +128,14 @@ public class Button : MonoBehaviour {
     private void ReleaseButton() {
         prevPressedState = isPressed;
 
-        //TODO: add feedback maybe?
+        //play feedback
+        if(particleVFXOnPush != null) StartCoroutine(Particles(particleVFXOnPush, buttonTop.position));
+        audioSFXOnRelease.Play(gameObject);
+    }
+
+    private IEnumerator Particles(ParticleSystem vfx, Vector3 spawnPosition) {
+        var particles = Instantiate(vfx, spawnPosition, vfx.transform.rotation);
+        yield return new WaitForSeconds(3); //wait arbitrary 3 seconds to delete particles effects just in case
+        if(particles != null) Destroy(particles);
     }
 }

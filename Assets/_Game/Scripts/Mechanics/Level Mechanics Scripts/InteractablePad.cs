@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using SoundSystem;
 
 public abstract class InteractablePad : MonoBehaviour {
 
+    [Header("General Settings")]
     [SerializeField] private float padForceMaxTime;
     [SerializeField] private ParticleSystem particleVFX;
-    [SerializeField] private AudioClip audioSFX;
+    [SerializeField] private SFXEvent audioSFX;
     [SerializeField] private UnityEvent onPlayerEnter;
 
     //static timer to be shared by all pads
@@ -29,9 +31,12 @@ public abstract class InteractablePad : MonoBehaviour {
         if(rb == null) {
             return;
         }
+        //call pad specific functionality
         OnRigidbodyTrigger(rb);
-        //TODO: spawn particles
-        //TODO: play audio
+        //spawn particles
+        if(particleVFX != null) StartCoroutine(Particles(other.gameObject.transform.position));
+        //play audio
+        audioSFX?.Play(gameObject);
 
         //if the object is Tobor, tell the movement control its using a pad and invoke any unity events
         MovementController movementController = other.GetComponent<MovementController>();
@@ -49,5 +54,11 @@ public abstract class InteractablePad : MonoBehaviour {
 
         //shouldn't trigger until Tobor hasn't touched ANY pad for padForceMaxTime time
         movementController._UsingPad = false;
+    }
+
+    private IEnumerator Particles(Vector3 spawnPosition) {
+        var particles = Instantiate(particleVFX, spawnPosition, particleVFX.transform.rotation);
+        yield return new WaitForSeconds(3); //wait arbitrary 3 seconds to delete particles effects just in case
+        if(particles != null) Destroy(particles);
     }
 }
