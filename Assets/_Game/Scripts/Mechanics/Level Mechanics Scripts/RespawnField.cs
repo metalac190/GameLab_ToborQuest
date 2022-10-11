@@ -14,14 +14,12 @@ public class RespawnField : MonoBehaviour
     Transform UsedTransform =>(_spawnTransform != null) ? _spawnTransform : transform;
     void OnTriggerEnter(Collider other)
     {
-        var _checkpointTracker = other.gameObject.GetComponent<CheckpointTracker>();
-        if (_checkpointTracker != null) { _checkpointTracker._recentCheckpoint = UsedTransform; }
+        SetCheckpoint(other.gameObject);
     }
 
-    void OnDrawGizmos()
+    public void SetCheckpoint(GameObject otherObject)
     {
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireCube(transform.position, _collider.size);
-        Gizmos.DrawWireSphere(_spawnTransform.position, 1f);
+        var _checkpointTracker = otherObject.gameObject.GetComponent<CheckpointTracker>();
+        if (_checkpointTracker != null) { _checkpointTracker._recentCheckpoint = UsedTransform; }
     }
 }

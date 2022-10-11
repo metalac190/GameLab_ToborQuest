@@ -20,4 +20,6 @@ public class DialogueSystem : MonoBehaviour
 		_speaker.text = dialogue.Speaker;
 		_text.text = dialogue.Text;
 	}
+
+	
 }

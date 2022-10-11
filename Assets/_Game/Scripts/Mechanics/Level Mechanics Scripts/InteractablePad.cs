@@ -1,10 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public abstract class InteractablePad : MonoBehaviour {
 
     [SerializeField] private float padForceMaxTime;
+    [SerializeField] private ParticleSystem particleVFX;
+    [SerializeField] private AudioClip audioSFX;
+    [SerializeField] private UnityEvent onPlayerEnter;
 
     //static timer to be shared by all pads
     private static float padTimer;
@@ -26,11 +30,14 @@ public abstract class InteractablePad : MonoBehaviour {
             return;
         }
         OnRigidbodyTrigger(rb);
+        //TODO: spawn particles
+        //TODO: play audio
 
-        //if the object is Tobor, call the coroutine to set its boost pad boolean to turn off max speed
+        //if the object is Tobor, tell the movement control its using a pad and invoke any unity events
         MovementController movementController = other.GetComponent<MovementController>();
         if(movementController != null) {
             StartCoroutine(PadTimer(movementController));
+            onPlayerEnter?.Invoke();
         }
     }
 
