@@ -10,15 +10,16 @@ namespace SoundSystem
         AudioSource _sfxSound;
         float timer;
 
-        public void Play(SFXEvent sfxEvent, GameObject parent)
+        public void Play(SFXEvent sfxEvent, GameObject soundOBJ)
         {
             _sfxEvent = sfxEvent;
-            _sfxSound = parent.AddComponent<AudioSource>();
+            _sfxSound = soundOBJ.AddComponent<AudioSource>();
             _sfxSound.clip = sfxEvent.SFXSound;
             _sfxSound.outputAudioMixerGroup = sfxEvent.Mixer;
             _sfxSound.loop = sfxEvent.IsLooping;
             _sfxSound.volume = sfxEvent.Volume;
             _sfxSound.pitch = sfxEvent.Pitch;
+            _sfxSound.spatialBlend = sfxEvent.SpatialSound;
             _sfxSound.Play();
 
             if (_sfxEvent.PlayTime <= 0)
@@ -26,20 +27,18 @@ namespace SoundSystem
                 print("PLAYTIME IS SET TO ZERO");
             }
 
-            StartCoroutine(waitRoutine(parent));
+            StartCoroutine(waitRoutine(soundOBJ));
         }
 
-        public void Stop(GameObject parent)
+        public void Stop(GameObject soundOBJ)
         {
-            Destroy(_sfxSound);
-            Destroy(parent.GetComponent<SFXPlayer>());
-            Destroy(parent.GetComponent<SFXManager>());
+            Destroy(soundOBJ);
         }
 
-        IEnumerator waitRoutine(GameObject parent)
+        IEnumerator waitRoutine(GameObject soundOBJ)
         {
             yield return new WaitForSeconds(_sfxEvent.PlayTime);
-            Stop(parent);
+            Stop(soundOBJ);
         }
     }
 }
