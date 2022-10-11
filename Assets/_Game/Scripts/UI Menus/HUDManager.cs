@@ -28,7 +28,7 @@ public class HUDManager : PersistableObject
     {        
         _controller = new MovementInput();
         //pauseFirstButton = GameObject.FindObjectOfType<PauseManager>().transform.GetChild(2).GetChild(0).gameObject;
-        levelWinManager = GameObject.FindObjectOfType<LevelWinManager>();
+        levelWinManager = GameObject.FindObjectOfType<LevelWinManager>(true);
         pausePanel.SetActive(false);
     }
 
