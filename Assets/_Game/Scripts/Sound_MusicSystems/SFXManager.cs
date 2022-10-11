@@ -25,17 +25,17 @@ namespace SoundSystem
             }
         }
 
-        void SetUpSFXPlayer(GameObject parent)
+        void SetUpSFXPlayer(GameObject soundOBJ)
         {
-            sfxPlayer = parent.AddComponent<SFXPlayer>();
+            sfxPlayer = soundOBJ.AddComponent<SFXPlayer>();
         }
 
-        public void PlaySFX(SFXEvent sfxEvent, GameObject parent)
+        public void PlaySFX(SFXEvent sfxEvent, GameObject soundOBJ)
         {
 
-            SetUpSFXPlayer(parent);
+            SetUpSFXPlayer(soundOBJ);
             //here
-            sfxPlayer.Play(sfxEvent, parent);
+            sfxPlayer.Play(sfxEvent, soundOBJ);
         }
     }
 }
