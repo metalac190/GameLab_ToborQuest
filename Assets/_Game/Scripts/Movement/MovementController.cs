@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using UnityEditor;
+using UnityEditor.UI;
 using UnityEngine;
 
 public class MovementController : MonoBehaviour
@@ -47,10 +49,6 @@ public class MovementController : MonoBehaviour
     [SerializeField, ShowIf("_showBoostTab")] private float _boostRemaining = 2f;
     [SerializeField, ShowIf("_showBoostTab")] private bool _boostOnCooldown = false;
 
-    [Header("Effects")] [SerializeField] private bool _showEffectsTab;
-    [SerializeField, ShowIf("_showEffectsTab")] private List<TrailRenderer> _driftTrails = new List<TrailRenderer>();
-    [SerializeField, ShowIf("_showEffectsTab")] private List<TrailRenderer> _boostTrails = new List<TrailRenderer>();
-
     [Header("Debug")]
     [SerializeField, ReadOnly] private float _currentAcceleration = 0f;
     [SerializeField, ReadOnly] private float _velocityMagnitude;
@@ -80,11 +78,10 @@ public class MovementController : MonoBehaviour
     private Rigidbody _rb;
     private MovementControls _movementControls;
     private WheelsController _wc;
-    private bool _driftTrailsActive;
-    private bool _boostTrailsActive;
+
 
     //protected bool GroundCheck() => Physics.CheckSphere(_groundCheck.position, _groundCheckRadius, _groundLayer);
-    protected bool GroundCheck() => Physics.CheckSphere(_groundCheck.position, _groundCheckRadius)  || _wc.WheelsGroundCheck();
+    protected bool GroundCheck() => _wc.WheelsGroundCheck();
     protected bool TurtledCheck() => Physics.CheckSphere(_roofCheck.position, _roofCheckRadius, _groundLayer);
 
     private void Start()
@@ -114,25 +111,6 @@ public class MovementController : MonoBehaviour
         if (_isGrounded || _isBoosting) Movement();
 
         Drift();
-
-
-        if (_boostTrailsActive != _isBoosting)
-        {
-            _boostTrailsActive = _isBoosting;
-            foreach (var trail in _boostTrails)
-            {
-                trail.emitting = _boostTrailsActive;
-            }
-        }
-
-        if (_driftTrailsActive != _isDrifting)
-        {
-            _driftTrailsActive = _isDrifting;
-            foreach (var trail in _driftTrails)
-            {
-                trail.emitting = _driftTrailsActive;
-            }
-        }
     }
 
     private void LateUpdate()
@@ -171,9 +149,10 @@ public class MovementController : MonoBehaviour
         if (_isBoosting) force.y = 0;
 
         _rb.AddForce(force, ForceMode.Acceleration);
-        
+
+
         //if not using pad something?
-        if(!_UsingPad) _rb.velocity = Vector3.ClampMagnitude(_rb.velocity, _currentMaxSpeed);
+        if (!_UsingPad) _rb.velocity = Vector3.ClampMagnitude(_rb.velocity, _currentMaxSpeed);
         
         _rb.velocity = Vector3.ClampMagnitude(_rb.velocity, _currentMaxSpeed);
         
@@ -273,5 +252,26 @@ public class MovementController : MonoBehaviour
         yield return new WaitUntil(GroundCheck);
         _rb.angularDrag = tempDrag;
         _isFlipping = false;
+    }
+
+    public void SetActive(bool state)
+    {
+        if (!state)
+        {
+            _isDrifting = false;
+            _isFlipping = true;
+            StartCoroutine(BoostCooldown(_boostCooldown));
+            this.enabled = false;
+        }
+        else
+        {
+            _isFlipping = false;
+            this.enabled = true;
+        }
+    }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.DrawSphere(gameObject.transform.position + _centerOfMass,_groundCheckRadius);
     }
 }

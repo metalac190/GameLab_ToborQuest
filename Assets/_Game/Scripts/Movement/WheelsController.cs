@@ -8,9 +8,6 @@ public class WheelsController : MonoBehaviour
 {
     [SerializeField] private List<Wheel> _wheels = new List<Wheel>();
 
-    [Header("Collisions")]
-    [SerializeField] private LayerMask _wallLayer;
-
     [Header("Friction")]
     [SerializeField] private float _standardWheelDampeningRate = 0.25f;
     [SerializeField] private float _standardFrictionStiffness = 1f;
