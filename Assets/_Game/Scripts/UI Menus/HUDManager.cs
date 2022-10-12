@@ -16,7 +16,7 @@ public class HUDManager : PersistableObject
     public TimerUI currentTimerText;
     public Slider toborProgress;
     public TextMeshProUGUI bestTime;
-
+    [SerializeField]
     private GameObject pauseFirstButton;
 
     private LevelWinManager levelWinManager;
@@ -27,8 +27,8 @@ public class HUDManager : PersistableObject
     private void Awake()
     {        
         _controller = new MovementInput();
-        pauseFirstButton = GameObject.FindObjectOfType<PauseManager>().transform.GetChild(2).GetChild(0).gameObject;
-        levelWinManager = GameObject.FindObjectOfType<LevelWinManager>();
+        //pauseFirstButton = GameObject.FindObjectOfType<PauseManager>().transform.GetChild(2).GetChild(0).gameObject;
+        levelWinManager = GameObject.FindObjectOfType<LevelWinManager>(true);
         pausePanel.SetActive(false);
     }
 

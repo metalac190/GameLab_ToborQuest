@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using SoundSystem;
 
 public class Button : MonoBehaviour {
 
@@ -12,9 +13,16 @@ public class Button : MonoBehaviour {
     [SerializeField] private Transform buttonLowerLimit;
 
     [Header("Button Settings")]
-    [SerializeField] private float thresholdPercentage; //between 0 and 1
+    [SerializeField, Range(0.1f, 1f)] private float thresholdPercentage;
     [SerializeField] private float buttonForce;
+    [SerializeField] private float popOutWaitTime;
     [SerializeField] private bool buttonTogglable;
+
+    [Header("VFX and SFX")]
+    [SerializeField] private ParticleSystem particleVFXOnPush;
+    [SerializeField] private ParticleSystem particleVFXOnRelease;
+    [SerializeField] private SFXEvent audioSFXOnPush;
+    [SerializeField] private SFXEvent audioSFXOnRelease;
 
     [Header("Button Events")]
     [SerializeField] private UnityEvent onButtonToggleOn;
@@ -26,14 +34,20 @@ public class Button : MonoBehaviour {
     private bool isPressed;
     private bool prevPressedState;
 
+    private float buttonPressedTimer;
+    private bool addButtonForce;
+
     private void Awake() {
         buttonActivated = false;
-        isPressed = false;
         buttonTopRb = buttonTop.GetComponent<Rigidbody>();
+        isPressed = false;
+        buttonPressedTimer = 0;
+        addButtonForce = false;
     }
 
     private void Start() {
         //ignore collisions between the two button parts
+        //(seems redundant with the button layers set up, but doesn't work without it)
         Physics.IgnoreCollision(buttonBase.GetComponent<Collider>(), buttonTop.GetComponent<Collider>());
 
         //get the distance between the upper and lower limits
@@ -48,29 +62,26 @@ public class Button : MonoBehaviour {
     }
 
     private void Update() {
-        //lock the button top's local position to only go up and down
-        buttonTop.transform.localPosition = new Vector3(0, buttonTop.transform.localPosition.y, 0);
+        //lock the button top's local position to only go up and down, and clamp between limits
+        float clampedY = Mathf.Clamp(buttonTop.localPosition.y, buttonLowerLimit.localPosition.y, 0);
+        buttonTop.localPosition = new Vector3(0, clampedY, 0);
 
-        //clamp the button's highest position to the upper limit
-        if(buttonTop.localPosition.y > 0) {
-            buttonTop.transform.position = buttonUpperLimit.transform.position;
-                //buttonTopRb.MovePosition(buttonUpperLimit.transform.position);
-                //buttonTopRb.position = buttonUpperLimit.transform.position;
-
-        //if the button is lower than the upper limit, then add a spring-like force upward
-        } else if(buttonTop.localPosition.y < 0) {
-            buttonTopRb.AddForce(buttonForce * Time.fixedDeltaTime * buttonTop.transform.up);
-        }
-
-        //clamp the button's lowest point to the lower limit
-        if(buttonTop.localPosition.y < buttonLowerLimit.localPosition.y) {
-            buttonTop.transform.position = buttonLowerLimit.transform.position;
-                //buttonTopRb.MovePosition(buttonLowerLimit.transform.position);
-                //buttonTopRb.position = buttonLowerLimit.transform.position;
+        if(buttonTop.localPosition.y < 0) {
+            //if the button has been lower than the upper limit for 2 seconds, push it back up
+            if(buttonPressedTimer >= popOutWaitTime) {
+                addButtonForce = true;
+            //else, increase the timer
+            } else {
+                addButtonForce = false;
+                buttonPressedTimer += Time.deltaTime;
+            }
+        } else {
+            buttonPressedTimer = 0;
+            addButtonForce = false;
         }
 
         //set if the button is being pressed by checking if it is past the set threshold
-        if(Vector3.Distance(buttonTop.position, buttonLowerLimit.position) < (upperLowerDiff * thresholdPercentage)) {
+        if(Vector3.Distance(buttonTop.localPosition, buttonLowerLimit.localPosition) < (upperLowerDiff * thresholdPercentage)) {
             isPressed = true;
         } else {
             isPressed = false;
@@ -79,17 +90,25 @@ public class Button : MonoBehaviour {
         //check if the press button function should be called and call it
         if(isPressed && prevPressedState != isPressed) {
             PressButton();
+            addButtonForce = false;
+            buttonPressedTimer = 0;
         } else if(!isPressed && prevPressedState != isPressed) {
             ReleaseButton();
         }
     }
 
-    private void PressButton() {
-        Debug.Log("button pressed");
+    private void FixedUpdate() {
+        if(addButtonForce) {
+            buttonTopRb.AddForce(buttonForce * Time.fixedDeltaTime * buttonTop.up);
+        }
+    }
 
+    private void PressButton() {
         prevPressedState = isPressed;
 
-        //TODO: add feedback
+        //play feedback
+        if(particleVFXOnPush != null) StartCoroutine(Particles(particleVFXOnPush, buttonTop.position));
+        audioSFXOnPush?.Play(gameObject);
 
         //set buttonActivated based on settings
         if(buttonTogglable) {
@@ -109,6 +128,14 @@ public class Button : MonoBehaviour {
     private void ReleaseButton() {
         prevPressedState = isPressed;
 
-        //TODO: add feedback maybe?
+        //play feedback
+        if(particleVFXOnPush != null) StartCoroutine(Particles(particleVFXOnPush, buttonTop.position));
+        audioSFXOnRelease.Play(gameObject);
+    }
+
+    private IEnumerator Particles(ParticleSystem vfx, Vector3 spawnPosition) {
+        var particles = Instantiate(vfx, spawnPosition, vfx.transform.rotation);
+        yield return new WaitForSeconds(3); //wait arbitrary 3 seconds to delete particles effects just in case
+        if(particles != null) Destroy(particles);
     }
 }

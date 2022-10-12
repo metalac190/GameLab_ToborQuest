@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class BoostPad : InteractablePad {
 
+    [Header("Boost Pad Settings")]
     [SerializeField] protected float addedForce;
 
     protected override void OnRigidbodyTrigger(Rigidbody rb) {

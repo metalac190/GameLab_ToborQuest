@@ -7,22 +7,11 @@ using UnityEngine.Audio;
 
 namespace SoundSystem
 { 
-    public enum SFXLayerType
-    {
-        //2D mainly for ui and other such things
-        twoD,
-        //3D sounds like in world
-        threeD,
-
-    }
-
     [CreateAssetMenu(menuName = "SoundSystem/SFX Event", fileName = "SFX_")]
     public class SFXEvent : ScriptableObject
     {
         //music tracks
         [SerializeField] AudioClip _SFXSound;
-        //blend type
-        [SerializeField] SFXLayerType _layerType = SFXLayerType.twoD;
         //mixer group
         [SerializeField] AudioMixerGroup _mixer;
 
@@ -34,11 +23,15 @@ namespace SoundSystem
         [Range(-3f, 3f)]
         public float Pitch;
 
+
+        [Range(0f, 1f)]
+        [SerializeField] float _spatialSound;
+
         [SerializeField] float _playTime;
 
         //getters
         public AudioClip SFXSound => _SFXSound;
-        public SFXLayerType LayerType => _layerType;
+        public float SpatialSound => _spatialSound;
         public AudioMixerGroup Mixer => _mixer;
 
         public float PlayTime => _playTime;
@@ -46,7 +39,9 @@ namespace SoundSystem
 
         public void Play(GameObject parent)
         {
-            parent.AddComponent<SFXManager>().PlaySFX(this, parent);
+            GameObject soundOBJ = new GameObject("SFX" + this.name);
+            soundOBJ.transform.position = parent.transform.position;
+            soundOBJ.AddComponent<SFXManager>().PlaySFX(this, soundOBJ);
         }
     }
 }

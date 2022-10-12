@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class BouncePad : InteractablePad {
 
+    [Header("Bounce Pad Settings")]
     [SerializeField] protected float addedForce;
 
     protected override void OnRigidbodyTrigger(Rigidbody rb) {

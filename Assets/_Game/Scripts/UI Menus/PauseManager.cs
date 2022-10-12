@@ -20,8 +20,7 @@ public class PauseManager : MonoBehaviour
     }
 
     private void OnEnable()
-    {
-        CGSC.GameOver = false;
+    {        
         currentTime.text = hudManager.GetCurrentTimeText();
         bestTime.text = hudManager.GetBestTimeString();
     }
@@ -46,7 +45,7 @@ public class PauseManager : MonoBehaviour
     public void ReturnToLevels()
     {
         CGSC.UnpauseGame();
-        CGSC.LoadScene("MainMenu",true, () => {
+        CGSC.LoadScene(CGSC.QuestNames[0],true, () => {
             //Debug.Log("Levek select");
             MenuManager menuManager = GameObject.FindObjectOfType<MenuManager>();
             menuManager.SetCurrentMenu(1);
