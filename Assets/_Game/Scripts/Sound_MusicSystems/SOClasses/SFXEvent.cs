@@ -23,9 +23,12 @@ namespace SoundSystem
         [Range(-3f, 3f)]
         public float Pitch = 1;
 
+        [Range(-1f, 1f)]
+        public float panStereo = 0;
+
 
         [Range(0f, 1f)]
-        [SerializeField] float _spatialSound;
+        [SerializeField] float _spatialBlend;
 
         [SerializeField] float _playTime;
 
@@ -33,7 +36,7 @@ namespace SoundSystem
 
         //getters
         public AudioClip SFXSound => _SFXSound;
-        public float SpatialSound => _spatialSound;
+        public float SpatialSound => _spatialBlend;
         public AudioMixerGroup Mixer => _mixer;
 
         public float PlayTime => _playTime;
