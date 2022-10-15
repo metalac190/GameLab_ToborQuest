@@ -37,10 +37,9 @@ namespace SoundSystem
         public float PlayTime => _playTime;
         public bool IsLooping => isLooping;
 
-        public void Play(GameObject parent)
+        public void Play()
         {
             GameObject soundOBJ = new GameObject("SFX" + this.name);
-            soundOBJ.transform.position = parent.transform.position;
             soundOBJ.AddComponent<SFXManager>().PlaySFX(this, soundOBJ);
         }
     }
