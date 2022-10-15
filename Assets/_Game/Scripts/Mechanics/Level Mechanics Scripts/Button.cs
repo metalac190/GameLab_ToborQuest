@@ -108,7 +108,7 @@ public class Button : MonoBehaviour {
 
         //play feedback
         if(particleVFXOnPush != null) StartCoroutine(Particles(particleVFXOnPush, buttonTop.position));
-        audioSFXOnPush?.Play(gameObject);
+        audioSFXOnPush?.Play();
 
         //set buttonActivated based on settings
         if(buttonTogglable) {
@@ -130,7 +130,7 @@ public class Button : MonoBehaviour {
 
         //play feedback
         if(particleVFXOnPush != null) StartCoroutine(Particles(particleVFXOnPush, buttonTop.position));
-        audioSFXOnRelease.Play(gameObject);
+        audioSFXOnRelease.Play();
     }
 
     private IEnumerator Particles(ParticleSystem vfx, Vector3 spawnPosition) {

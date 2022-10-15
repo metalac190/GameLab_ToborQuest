@@ -20,6 +20,7 @@ namespace SoundSystem
             _sfxSound.volume = sfxEvent.Volume;
             _sfxSound.pitch = sfxEvent.Pitch;
             _sfxSound.spatialBlend = sfxEvent.SpatialSound;
+            _sfxSound.time = _sfxEvent.StartTime;
             _sfxSound.Play();
 
             if (_sfxEvent.PlayTime <= 0)

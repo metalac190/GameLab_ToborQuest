@@ -36,7 +36,7 @@ public abstract class InteractablePad : MonoBehaviour {
         //spawn particles
         if(particleVFX != null) StartCoroutine(Particles(other.gameObject.transform.position));
         //play audio
-        audioSFX?.Play(gameObject);
+        audioSFX?.Play();
 
         //if the object is Tobor, tell the movement control its using a pad and invoke any unity events
         MovementController movementController = other.GetComponent<MovementController>();
