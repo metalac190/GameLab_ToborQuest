@@ -47,7 +47,7 @@ namespace SoundSystem
             {
                 soundOBJ.transform.parent = gameObject.transform;
             }
-            gameObject.AddComponent<SFXPlayer>().Play(sfxEvent, soundOBJ);
+            soundOBJ.AddComponent<SFXPlayer>().Play(sfxEvent, soundOBJ);
         }
     }
 }
