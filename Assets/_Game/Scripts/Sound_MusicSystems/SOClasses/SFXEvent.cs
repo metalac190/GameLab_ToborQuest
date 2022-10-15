@@ -30,16 +30,12 @@ namespace SoundSystem
         [Range(0f, 1f)]
         [SerializeField] float _spatialBlend;
 
-        [SerializeField] float _playTime;
-
         [SerializeField] float _startTime;
 
         //getters
         public AudioClip SFXSound => _SFXSound;
         public float SpatialSound => _spatialBlend;
         public AudioMixerGroup Mixer => _mixer;
-
-        public float PlayTime => _playTime;
 
         public float StartTime => _startTime;
         public bool IsLooping => isLooping;
