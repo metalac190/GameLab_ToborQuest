@@ -23,24 +23,19 @@ namespace SoundSystem
             _sfxSound.panStereo = sfxEvent.panStereo;
             _sfxSound.time = _sfxEvent.StartTime;
             _sfxSound.Play();
+        }
 
-            if (_sfxEvent.PlayTime <= 0)
+        public void Stop()
+        {
+            Destroy(gameObject);
+        }
+
+        public void Update()
+        {
+            if (_sfxSound.isPlaying != true)
             {
-                print("PLAYTIME IS SET TO ZERO");
+                Stop();
             }
-
-            StartCoroutine(waitRoutine(soundOBJ));
-        }
-
-        public void Stop(GameObject soundOBJ)
-        {
-            Destroy(soundOBJ);
-        }
-
-        IEnumerator waitRoutine(GameObject soundOBJ)
-        {
-            yield return new WaitForSeconds(_sfxEvent.PlayTime);
-            Stop(soundOBJ);
         }
     }
 }
