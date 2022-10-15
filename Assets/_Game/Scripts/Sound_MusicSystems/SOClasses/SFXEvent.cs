@@ -18,10 +18,10 @@ namespace SoundSystem
         [SerializeField] bool isLooping;
 
         [Range(0f, 1f)]
-        public float Volume;
+        public float Volume = 1;
 
         [Range(-3f, 3f)]
-        public float Pitch;
+        public float Pitch = 1;
 
 
         [Range(0f, 1f)]
@@ -29,18 +29,23 @@ namespace SoundSystem
 
         [SerializeField] float _playTime;
 
+        [SerializeField] float _startTime;
+
         //getters
         public AudioClip SFXSound => _SFXSound;
         public float SpatialSound => _spatialSound;
         public AudioMixerGroup Mixer => _mixer;
 
         public float PlayTime => _playTime;
+
+        public float StartTime => _startTime;
         public bool IsLooping => isLooping;
+
 
         public void Play()
         {
             GameObject soundOBJ = new GameObject("SFX" + this.name);
-            soundOBJ.AddComponent<SFXManager>().PlaySFX(this, soundOBJ);
+            SFXManager.Instance.PlaySFX(this, soundOBJ);
         }
     }
 }

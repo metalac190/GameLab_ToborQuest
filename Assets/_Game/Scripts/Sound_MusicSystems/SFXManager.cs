@@ -6,36 +6,48 @@ namespace SoundSystem
 { 
     public class SFXManager : MonoBehaviour
     {
-        int _activeLayerIndex = 0;
-        public int ActiveLayerIndex => _activeLayerIndex;
-
         public SFXPlayer sfxPlayer;
-        SFXManager _sfxManager;
 
-        public const int MaxLayerCount = 1;
-
-        float _volume = 1;
-        public float Volume
+        private static SFXManager _instance;
+        public static SFXManager Instance
         {
-            get => _volume;
-            private set
+            get
             {
-                value = Mathf.Clamp(value, 0, 1);
-                _volume = value;
+                if (_instance == null)
+                {
+                    _instance = FindObjectOfType<SFXManager>();
+                    if (_instance == null)
+                    {
+                        GameObject singletonGO = new GameObject("SFXManger_singleton");
+                        _instance = singletonGO.AddComponent<SFXManager>();
+
+                        DontDestroyOnLoad(singletonGO);
+                    }
+                }
+
+                return _instance;
             }
         }
 
-        void SetUpSFXPlayer(GameObject soundOBJ)
+        private void Awake()
         {
-            sfxPlayer = soundOBJ.AddComponent<SFXPlayer>();
+            if (_instance != null && _instance != this)
+            {
+                Destroy(this.gameObject);
+            }
+            else
+            {
+                _instance = this;
+            }
         }
 
         public void PlaySFX(SFXEvent sfxEvent, GameObject soundOBJ)
         {
-
-            SetUpSFXPlayer(soundOBJ);
-            //here
-            sfxPlayer.Play(sfxEvent, soundOBJ);
+            if (sfxEvent.SpatialSound == 0)
+            {
+                soundOBJ.transform.parent = gameObject.transform;
+            }
+            gameObject.AddComponent<SFXPlayer>().Play(sfxEvent, soundOBJ);
         }
     }
 }
