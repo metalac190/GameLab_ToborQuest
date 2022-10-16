@@ -23,7 +23,8 @@ public class CatapultPad : InteractablePad {
     private float launchAngleRadians;
     
     private void Awake() {
-        art.LookAt(targetTransform);
+        Vector3 artLookAt = new Vector3(targetTransform.position.x, transform.position.y, targetTransform.position.z);
+        art.LookAt(artLookAt);
         SetCatapultArc();
     }
 
