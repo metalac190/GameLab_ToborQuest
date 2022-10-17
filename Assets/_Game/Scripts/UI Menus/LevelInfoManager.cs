@@ -10,6 +10,8 @@ public class LevelInfoManager : MonoBehaviour
     public Image levelPreviewImage;
     public TextMeshProUGUI levelDescriptionText;
     public Button onStart;
+    public Button onBack;
+    private GameObject backLevelButton;
     private LevelInfoObject levelInfoObj;
     [SerializeField] private TextMeshProUGUI bestTimeText;
 
@@ -25,9 +27,18 @@ public class LevelInfoManager : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(onStart.gameObject);
     }
 
+    public void SetBackLevelButton(GameObject value)
+    {
+        backLevelButton = value;
+    }
+
     private void OnEnable()
     {
         SetInfo(levelInfoObj);
+        onBack.onClick.AddListener(() =>
+        {
+            EventSystem.current.SetSelectedGameObject(backLevelButton);
+        });
     }
 
     private void SetInfo(LevelInfoObject value)

@@ -18,23 +18,29 @@ public class LevelInfoObject : ScriptableObject
 
     public string GetLevelSceneName()
     {
+        levelScene.CheckValid();
         return levelScene.Name;
     }
 
     public string GetTimeFormatted()
     {
-        Debug.Log(removeWhiteSpace);
+        levelScene.CheckValid();
         if(removeWhiteSpace)
             levelSaveTimeName = levelScene.Name.Remove(5,1) + "BestTime";
         else
             levelSaveTimeName = levelScene.Name + "BestTime";
-
-        BestTime = PlayerPrefs.GetFloat(levelSaveTimeName);
-        Debug.Log(levelSaveTimeName + " " + BestTime);
-        TimeSpan time = TimeSpan.FromSeconds(BestTime);
-        if (BestTime > 3600)
-            return time.ToString(@"hh\:mm\:ss\:fff");
+        if (PlayerPrefs.HasKey(levelSaveTimeName))
+        {
+            BestTime = PlayerPrefs.GetFloat(levelSaveTimeName);
+            TimeSpan time = TimeSpan.FromSeconds(BestTime);
+            if (BestTime > 3600)
+                return time.ToString(@"hh\:mm\:ss\:fff");
+            else
+                return time.ToString(@"mm\:ss\:fff");
+        }
         else
-            return time.ToString(@"mm\:ss\:fff");
+        {
+            return "--:--:---";
+        }        
     }
 }
