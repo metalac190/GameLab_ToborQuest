@@ -1,0 +1,1 @@
+A sidewalk unit is 5.4 Unity Units large, so to perfectly line them up, multiply along X or Z axis 5.4 times the number of slabs in your premade clump. 
