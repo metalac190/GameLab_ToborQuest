@@ -42,7 +42,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1052709922237273952}
-  - component: {fileID: 5035912875575962908}
+  - component: {fileID: 200259348420002074}
   m_Layer: 17
   m_Name: Button
   m_TagString: Untagged
@@ -66,7 +66,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5035912875575962908
+--- !u!114 &200259348420002074
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -78,44 +78,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3d0fc44111faea458b4d51789fa0932, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonBase: {fileID: 8459891930354361308}
-  buttonTop: {fileID: 1689051710193923053}
-  buttonUpperLimit: {fileID: 3813468694073874170}
-  buttonLowerLimit: {fileID: 4599499397882849130}
-  thresholdPercentage: 0.5
-  buttonForce: 1000
-  popOutWaitTime: 1
-  buttonTogglable: 1
+  buttonBase: {fileID: 0}
+  buttonTop: {fileID: 0}
+  buttonUpperLimit: {fileID: 0}
+  buttonLowerLimit: {fileID: 0}
+  thresholdPercentage: 0
+  buttonForce: 0
+  popOutWaitTime: 0
+  buttonTogglable: 0
+  particleVFXOnPush: {fileID: 0}
+  particleVFXOnRelease: {fileID: 0}
+  audioSFXOnPush: {fileID: 0}
+  audioSFXOnRelease: {fileID: 0}
   onButtonToggleOn:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
+      m_Calls: []
   onButtonToggleOff:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   buttonActivated: 0
 --- !u!1 &4543368941098040463
 GameObject:

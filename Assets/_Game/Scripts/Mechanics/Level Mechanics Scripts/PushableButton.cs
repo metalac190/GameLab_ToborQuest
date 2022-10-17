@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using SoundSystem;
 
-public class Button : MonoBehaviour {
+public class PushableButton : MonoBehaviour {
 
     [Header("Button Parts")]
     [SerializeField] private Transform buttonBase;

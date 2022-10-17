@@ -11,4 +11,9 @@ public class LevelInfoObject : ScriptableObject
     [SerializeField] private Image levelImage;
     public float BestTime { get; set; }
     public bool ghostDataAvailable { get; set; }
+
+    public SerializedScene GetLevelScene()
+    {
+        return levelScene;
+    }
 }
