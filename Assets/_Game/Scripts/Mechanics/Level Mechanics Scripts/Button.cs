@@ -81,7 +81,7 @@ public class Button : MonoBehaviour {
         }
 
         //set if the button is being pressed by checking if it is past the set threshold
-        if(Vector3.Distance(buttonTop.localPosition, buttonLowerLimit.localPosition) < (upperLowerDiff * thresholdPercentage)) {
+        if(Vector3.Distance(buttonTop.position, buttonLowerLimit.position) < (upperLowerDiff * thresholdPercentage)) {
             isPressed = true;
         } else {
             isPressed = false;
@@ -107,8 +107,8 @@ public class Button : MonoBehaviour {
         prevPressedState = isPressed;
 
         //play feedback
-        if(particleVFXOnPush != null) StartCoroutine(Particles(particleVFXOnPush, buttonTop.position));
-        audioSFXOnPush?.Play();
+        if(particleVFXOnPush) StartCoroutine(Particles(particleVFXOnPush, buttonTop.position));
+        if(audioSFXOnPush) audioSFXOnPush.Play();
 
         //set buttonActivated based on settings
         if(buttonTogglable) {
@@ -129,8 +129,8 @@ public class Button : MonoBehaviour {
         prevPressedState = isPressed;
 
         //play feedback
-        if(particleVFXOnPush != null) StartCoroutine(Particles(particleVFXOnPush, buttonTop.position));
-        audioSFXOnRelease.Play();
+        if(particleVFXOnRelease) StartCoroutine(Particles(particleVFXOnRelease, buttonTop.position));
+        if(audioSFXOnRelease) audioSFXOnRelease.Play();
     }
 
     private IEnumerator Particles(ParticleSystem vfx, Vector3 spawnPosition) {

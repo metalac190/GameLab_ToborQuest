@@ -10,6 +10,7 @@ public abstract class InteractablePad : MonoBehaviour {
     [SerializeField] private float padForceMaxTime;
     [SerializeField] private ParticleSystem particleVFX;
     [SerializeField] private SFXEvent audioSFX;
+    [SerializeField] private Animation padAnimation;
     [SerializeField] private UnityEvent onPlayerEnter;
 
     //static timer to be shared by all pads
@@ -33,10 +34,10 @@ public abstract class InteractablePad : MonoBehaviour {
         }
         //call pad specific functionality
         OnRigidbodyTrigger(rb);
-        //spawn particles
-        if(particleVFX != null) StartCoroutine(Particles(other.gameObject.transform.position));
-        //play audio
-        audioSFX?.Play();
+        //spawn particles, play audio, and play animation
+        if(particleVFX) StartCoroutine(Particles(other.gameObject.transform.position));
+        if(audioSFX) audioSFX.Play();
+        if(padAnimation) padAnimation.Play();
 
         //if the object is Tobor, tell the movement control its using a pad and invoke any unity events
         MovementController movementController = other.GetComponent<MovementController>();
