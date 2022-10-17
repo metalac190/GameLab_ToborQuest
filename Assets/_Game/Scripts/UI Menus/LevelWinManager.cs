@@ -42,19 +42,14 @@ public class LevelWinManager : MonoBehaviour
 
     private void Start()
     {
-        for(int i = 0; i < transform.childCount; i++)
-        {
-            transform.GetChild(i).gameObject.SetActive(false);
-        }
+        transform.GetChild(0).gameObject.SetActive(false);
         //this.transform.GetChild();
     }
 
     private void WinGamePanel()
     {
-        for (int i = 0; i < transform.childCount; i++)
-        {
-            transform.GetChild(i).gameObject.SetActive(true);
-        }
+        hudManager.gameObject.SetActive(false);
+        transform.GetChild(0).gameObject.SetActive(true);
         winText.text = "DELIVERY TIME: " + hudManager.GetCurrentTimeText();
         hudManager.currentTimerText.StopTime = true;
         EventSystem.current.SetSelectedGameObject(returnLevelSelectButton);
@@ -75,8 +70,7 @@ public class LevelWinManager : MonoBehaviour
     public void ReturnToLevels()
     {
         CGSC.UnpauseGame();
-        CGSC.LoadScene(CGSC.QuestNames[0], true, () => {
-            //Debug.Log("Levek select");
+        CGSC.LoadMainMenu(true, () => {
             MenuManager menuManager = GameObject.FindObjectOfType<MenuManager>();
             menuManager.SetCurrentMenu(1);
             menuManager.LevelSelect();
