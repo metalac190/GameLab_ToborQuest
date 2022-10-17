@@ -1,0 +1,21 @@
+## For Narrative Design, Level Design, Programmers
+
+### What is Included?
+
+The Dialogue System Prefab is an empty with the Dialogue System Script. Underneath the Dialogue System empty, there are a Panel and 2 Text Objects.
+
+### How will development work?
+
+This Prefab, itself, just needs to be placed in a canvas to work. However creating and hooking up the dialogue is a different process:
+
+### Creating Dialogue Assets:
+
+Find the [_Game\Data\Dialogue] Folder and (Right Click) on it. Find the "Dialogue System" section and hover over it to find the  "Dialogue" asset. (Left Click) it to create a Dialogue Asset. In this asset, you'll find a Text Area for the Speaker of the dialogue, and a list that will carry the lines of the dialogue. If you only want one line of dialogue, only add one line to the Text List. If you want the speaker to randomly choose from a list, add several and the Dialogue System will randomly pick one of the line automatically.
+
+### Hooking Up Dialogue Triggers
+
+In the [_Game\Entities\LevelMechanics] Folder, you'll find a prefab called "Dialogue Trigger". Drag this prefab to where you want it in the Level. On the Dialogue Trigger Prefab, you'll find the Invisible Trigger Component. Create an entry into the Event by pressing the plus button and drag the dialogue asset you've created for this trigger into it. Where it says "No Function", click it and find Dialogue in the dropdown. Pick "RunDialogue ()". This will run the dialogue asset when the player passes through the trigger.
+
+### Hooking Up Dialogue on Level Objects
+
+Level Objects like BouncePads, CatapultPads, Buttons, and ConveyerBelts all have Unity Events that you can drop the dialogue asset in and select "RunDialogue ()".
