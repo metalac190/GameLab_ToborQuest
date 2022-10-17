@@ -38,7 +38,7 @@ public class AutomaticDoor : MonoBehaviour {
         UnlockDoor();
         StartCoroutine(SwingingDoor());
         if(particleVFX != null) StartCoroutine(Particles(gameObject.transform.position));
-        audioSFX?.Play(gameObject);
+        audioSFX?.Play();
     }
 
     //uses the pre-set motor velocity and force on the hinge joint component

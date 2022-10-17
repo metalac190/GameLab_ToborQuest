@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace SoundSystem
 { 
@@ -9,9 +10,19 @@ namespace SoundSystem
         SFXEvent _sfxEvent = null;
         AudioSource _sfxSound;
         float timer;
+        GameObject _soundOBJ;
+
+        Scene _sceneSpawnedIn;
+
+        private void Start()
+        {
+            _sceneSpawnedIn = SceneManager.GetActiveScene();
+            print(_sceneSpawnedIn);
+        }
 
         public void Play(SFXEvent sfxEvent, GameObject soundOBJ)
         {
+            _soundOBJ = soundOBJ;
             _sfxEvent = sfxEvent;
             _sfxSound = soundOBJ.AddComponent<AudioSource>();
             _sfxSound.clip = sfxEvent.SFXSound;
@@ -20,25 +31,26 @@ namespace SoundSystem
             _sfxSound.volume = sfxEvent.Volume;
             _sfxSound.pitch = sfxEvent.Pitch;
             _sfxSound.spatialBlend = sfxEvent.SpatialSound;
+            _sfxSound.panStereo = sfxEvent.panStereo;
+            _sfxSound.time = _sfxEvent.StartTime;
             _sfxSound.Play();
+        }
 
-            if (_sfxEvent.PlayTime <= 0)
+        public void Stop()
+        {
+            Destroy(_soundOBJ);
+        }
+
+        public void Update()
+        {
+            if (_sfxSound.isPlaying != true)
             {
-                print("PLAYTIME IS SET TO ZERO");
+                Stop();
             }
-
-            StartCoroutine(waitRoutine(soundOBJ));
-        }
-
-        public void Stop(GameObject soundOBJ)
-        {
-            Destroy(soundOBJ);
-        }
-
-        IEnumerator waitRoutine(GameObject soundOBJ)
-        {
-            yield return new WaitForSeconds(_sfxEvent.PlayTime);
-            Stop(soundOBJ);
+            if (_sceneSpawnedIn != SceneManager.GetActiveScene() && _sfxEvent.IsLooping == true)
+            {
+                Stop();
+            }
         }
     }
 }
