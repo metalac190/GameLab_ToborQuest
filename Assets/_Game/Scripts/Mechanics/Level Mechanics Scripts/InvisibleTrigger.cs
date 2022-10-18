@@ -15,11 +15,7 @@ public class InvisibleTrigger : MonoBehaviour {
     }
 
     private void OnTriggerEnter(Collider other) {
-        if(other.gameObject.layer == LayerMask.NameToLayer("Player") && !activatedFlag) {
-            Debug.Log("triggered");
-            activatedFlag = true;
-            onPlayerEnter?.Invoke();
-        }
+        OnPlayerTrigger(other);
     }
 
     private void OnDrawGizmos() {
@@ -27,5 +23,13 @@ public class InvisibleTrigger : MonoBehaviour {
         Vector3 center = transform.position + GetComponent<BoxCollider>().center;
         Vector3 size = GetComponent<BoxCollider>().size;
         Gizmos.DrawWireCube(center, size);
+    }
+
+    protected void OnPlayerTrigger(Collider other) {
+        if(other.gameObject.layer == LayerMask.NameToLayer("Player") && !activatedFlag) {
+            Debug.Log("triggered");
+            activatedFlag = true;
+            onPlayerEnter?.Invoke();
+        }
     }
 }
