@@ -14,7 +14,6 @@ public class LevelInfoObject : ScriptableObject
     public float BestTime { get; set; }
     public bool ghostDataAvailable { get; set; }
     private string levelSaveTimeName;
-    public bool removeWhiteSpace = false;
 
     public string GetLevelSceneName()
     {
@@ -25,10 +24,7 @@ public class LevelInfoObject : ScriptableObject
     public string GetTimeFormatted()
     {
         levelScene.CheckValid();
-        if(removeWhiteSpace)
-            levelSaveTimeName = levelScene.Name.Remove(5,1) + "BestTime";
-        else
-            levelSaveTimeName = levelScene.Name + "BestTime";
+        levelSaveTimeName = levelScene.Name + "BestTime";
         if (PlayerPrefs.HasKey(levelSaveTimeName))
         {
             BestTime = PlayerPrefs.GetFloat(levelSaveTimeName);

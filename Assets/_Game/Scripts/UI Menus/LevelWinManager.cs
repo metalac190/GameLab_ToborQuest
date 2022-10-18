@@ -24,6 +24,7 @@ public class LevelWinManager : MonoBehaviour
         //Find hudmanager, should only be 1 in the scene.
         hudManager = GameObject.FindObjectOfType<HUDManager>();
         levelSaveTimeName = SceneManager.GetActiveScene().name + "BestTime";
+        //Debug.Log(levelSaveTimeName);
         //Get needed objects
         //_children = this.transform.GetChild(0).gameObject;
         //winText = _children.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
@@ -57,9 +58,10 @@ public class LevelWinManager : MonoBehaviour
     }
 
     public void ContinueNextLevel()
-    {
-        CGSC.UnpauseGame();
-        CGSC.LoadScene(CGSC.QuestNames[nextLevel + 1]);
+    {        
+        CGSC.LoadScene(CGSC.QuestNames[nextLevel + 1], false ,()=> {
+            CGSC.UnpauseGame();
+        });
     }
 
     public void RestartLevel()
@@ -69,7 +71,6 @@ public class LevelWinManager : MonoBehaviour
 
     public void ReturnToLevels()
     {
-        CGSC.UnpauseGame();
         CGSC.LoadMainMenu(true, () => {
             MenuManager menuManager = GameObject.FindObjectOfType<MenuManager>();
             menuManager.SetCurrentMenu(1);

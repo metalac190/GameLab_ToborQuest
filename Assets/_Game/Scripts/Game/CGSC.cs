@@ -67,17 +67,12 @@ public class CGSC : MonoBehaviour
         Paused = !Paused;
         if (Paused)
         {
-            Debug.Log("Pause");
             OnPause?.Invoke();
-            //Debug.Log("Game Paused");
         }
         else
-        {
-            Debug.Log("Unpause");
+        {         
             OnUnpause?.Invoke();
-            //Debug.Log("Game Unpaused");
         }
-        //Debug.Log("CGSC says game pause is " + Paused);
     }
 
     public static void UnpauseGame()
@@ -148,6 +143,7 @@ public class CGSC : MonoBehaviour
     public static void LoadMainMenu(bool async = false, Action onComplete = null)
     {
         LoadScene(Instance._mainMenu.Name, async, onComplete);
+        UnpauseGameResponse();
     }
 
     public static void LoadQuestLevel(int questIndex, int levelIndex, bool async = false, Action onComplete = null)
@@ -195,7 +191,8 @@ public class CGSC : MonoBehaviour
     public static void RestartLevel()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        UnpauseGame();        
+        UnpauseGame();
+        UnpauseGameResponse();
     }
 
     public static void QuitGame()
