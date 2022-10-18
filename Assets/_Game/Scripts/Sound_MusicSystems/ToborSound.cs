@@ -107,10 +107,12 @@ public class ToborSound : MonoBehaviour
         {
             if (other.gameObject.layer == 18)
             {
+                metalHit.Volume = Mathf.Clamp(_tobor.GetComponent<Rigidbody>().velocity.magnitude ,0, 1);
                 metalHit.Play();
             }
             else if (other.gameObject.layer == 12 || other.gameObject.layer == 11 || other.gameObject.layer == 0)
             {
+                WallHit.Volume = Mathf.Clamp(_tobor.GetComponent<Rigidbody>().velocity.magnitude, 0, 1);
                 WallHit.Play();
             }
 
