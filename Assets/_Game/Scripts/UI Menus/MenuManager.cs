@@ -7,6 +7,7 @@ public enum MenuType
 {
     MainMenu,
     LevelSelect,
+    Settings
 }
 
 public class MenuManager : MonoBehaviour
