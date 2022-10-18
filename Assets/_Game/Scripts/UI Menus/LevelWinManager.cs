@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class LevelWinManager : MonoBehaviour
 {
@@ -13,8 +14,7 @@ public class LevelWinManager : MonoBehaviour
     [SerializeField]
     private GameObject returnLevelSelectButton;
     private GameObject _children;
-    [SerializeField]
-    private string levelSaveTimeName = "Level1BestTime";
+    private string levelSaveTimeName;//"Level1BestTime";
     [SerializeField]
     private int nextLevel = 0; 
     public string LevelSaveName { get { return levelSaveTimeName; } }
@@ -23,7 +23,7 @@ public class LevelWinManager : MonoBehaviour
     {
         //Find hudmanager, should only be 1 in the scene.
         hudManager = GameObject.FindObjectOfType<HUDManager>();
-
+        levelSaveTimeName = SceneManager.GetActiveScene().name + "BestTime";
         //Get needed objects
         //_children = this.transform.GetChild(0).gameObject;
         //winText = _children.transform.GetChild(0).GetComponent<TextMeshProUGUI>();

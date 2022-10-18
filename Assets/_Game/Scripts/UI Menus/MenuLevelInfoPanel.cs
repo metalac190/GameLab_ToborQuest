@@ -50,8 +50,8 @@ public class MenuLevelInfoPanel : MonoBehaviour
         }
         else
         {
-            bestTimeText.text = "--:--:--";
-            nextGoalText.text = "--:--:--";
+            bestTimeText.text = "--:--:---";
+            nextGoalText.text = "--:--:---";
         }
     }
 }
