@@ -15,8 +15,6 @@ public class LevelWinManager : MonoBehaviour
     private GameObject returnLevelSelectButton;
     private GameObject _children;
     private string levelSaveTimeName;//"Level1BestTime";
-    [SerializeField]
-    private int nextLevel = 0; 
     public string LevelSaveName { get { return levelSaveTimeName; } }
 
     private void Awake()
@@ -59,7 +57,7 @@ public class LevelWinManager : MonoBehaviour
 
     public void ContinueNextLevel()
     {
-        CGSC.LoadScene(CGSC.Quests[0].LevelNames[nextLevel - 1], true);
+        CGSC.LoadScene(SceneManager.GetSceneByBuildIndex(SceneManager.GetActiveScene().buildIndex + 1).name, true);
     }
 
     public void RestartLevel()

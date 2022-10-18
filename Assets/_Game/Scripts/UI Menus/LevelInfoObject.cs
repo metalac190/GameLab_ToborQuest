@@ -9,7 +9,7 @@ using UnityEngine.SceneManagement;
 public class LevelInfoObject : ScriptableObject
 {
     [SerializeField] private SerializedScene levelScene;
-    public string levelInfo;
+    [TextArea(3,6)]public string levelInfo;
     public Sprite levelImage;
     public float BestTime { get; set; }
     public bool ghostDataAvailable { get; set; }

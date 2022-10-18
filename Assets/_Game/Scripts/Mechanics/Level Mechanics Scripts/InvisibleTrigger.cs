@@ -27,7 +27,7 @@ public class InvisibleTrigger : MonoBehaviour {
 
     virtual protected void OnPlayerTrigger(Collider other) {
         if(other.gameObject.layer == LayerMask.NameToLayer("Player") && !activatedFlag) {
-            Debug.Log("triggered");
+            //Debug.Log("triggered");
             activatedFlag = true;
             onPlayerEnter?.Invoke();
         }
