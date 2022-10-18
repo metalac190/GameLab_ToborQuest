@@ -33,7 +33,7 @@ public class RespawnField : InvisibleTrigger
 
        if (_respawnAtCheckpoint && _checkpointTracker != null)
        {
-             _checkpointTracker.Respawn();
+             StartCoroutine(_checkpointTracker.Respawn());
              Debug.Log($"[RESPAWN FIELD] Respawned!");
        }
        else if (!_respawnAtCheckpoint && _checkpointTracker != null)
