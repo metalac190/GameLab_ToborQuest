@@ -708,8 +708,8 @@ MonoBehaviour:
   _acceleration: 20
   _maxSpeed: 50
   _showSteeringTab: 0
-  _stoppedTurnSpeed: 2
-  _standardTurnSpeed: 3
+  _stoppedTurnSpeed: 1
+  _standardTurnSpeed: 1.5
   _showSideFlipTab: 0
   _flipLaunch: {x: 7, y: 7}
   _flipLaunchTorque: 4
@@ -724,13 +724,15 @@ MonoBehaviour:
   _boostMaxSpeed: 60
   _boostDuration: 2
   _boostCooldown: 2
-  _boostRemaining: 2
-  _boostOnCooldown: 0
+  _boostTimeRemaining: 2
+  _useRechargeBoost: 1
+  _rechargeDelay: 0.5
   _currentAcceleration: 0
   _velocityMagnitude: 0
   _currentMaxSpeed: 0
   _currentTurnSpeed: 0
   _currentMaxAngularVelocity: 0
+  _boostOnCooldown: 0
   _isMoving: 0
   _isGrounded: 0
   _isTurtled: 0
@@ -759,8 +761,8 @@ MonoBehaviour:
   - {fileID: 1972211683082103784}
   - {fileID: 7862836127608177874}
   - {fileID: 7431299798143943788}
-  _standardWheelDampeningRate: 0.25
-  _standardFrictionStiffness: 1
+  _standardWheelDampeningRate: 0.5
+  _standardFrictionStiffness: 2
   _currentWheelDampeningRate: 0
   _currentFrictionStiffness: 0
 --- !u!114 &61930621753257058
@@ -863,7 +865,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 1
   m_Constraints: 0
-  m_CollisionDetection: 1
+  m_CollisionDetection: 2
 --- !u!136 &1076127496911297579
 CapsuleCollider:
   m_ObjectHideFlags: 0
