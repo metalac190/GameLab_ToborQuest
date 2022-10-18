@@ -29,7 +29,7 @@ namespace SoundSystem
             _sfxSound.outputAudioMixerGroup = sfxEvent.Mixer;
             _sfxSound.loop = sfxEvent.IsLooping;
             _sfxSound.volume = sfxEvent.Volume;
-            _sfxSound.pitch = sfxEvent.Pitch;
+            _sfxSound.pitch = Random.Range(sfxEvent.minPitch, sfxEvent.maxPitch);
             _sfxSound.spatialBlend = sfxEvent.SpatialSound;
             _sfxSound.panStereo = sfxEvent.panStereo;
             _sfxSound.time = _sfxEvent.StartTime;
