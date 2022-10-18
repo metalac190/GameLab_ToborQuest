@@ -71,6 +71,7 @@ public class MovementController : MonoBehaviour
     public bool IsDrifting => _isDrifting;
     public bool IsBoosting => _isBoosting;
     public bool IsFlipping => _isFlipping;
+    public bool UsingRechargeBoost => _useRechargeBoost;
 
     public Vector3 PreviousVelocity => _previousVel;
 
@@ -212,16 +213,11 @@ public class MovementController : MonoBehaviour
         yield return new WaitForSeconds(_rechargeDelay);
         _boostOnCooldown = false;
 
-        _boostTimeRemaining += Time.deltaTime;// * _boostCooldown);
+        _boostTimeRemaining += Time.deltaTime;
         _boostTimeRemaining = Mathf.Clamp(_boostTimeRemaining, 0f, _boostDuration);
 
-        if (_isBoosting)
-        {
-            Debug.Log("Break Recharge");
-            yield break;
-        }
+        if (_isBoosting) yield break;
         yield return new WaitUntil(() => _boostTimeRemaining >= _boostDuration);
-        Debug.Log("Fully recharged");
     }
 
     private void Drift()
@@ -284,7 +280,9 @@ public class MovementController : MonoBehaviour
         {
             _isDrifting = false;
             _isFlipping = true;
-            StartCoroutine(BoostCooldown(_boostCooldown));
+
+            if (_useRechargeBoost) StartCoroutine(BoostRecharge());
+            else StartCoroutine(BoostCooldown(_boostCooldown));
             this.enabled = false;
         }
         else
