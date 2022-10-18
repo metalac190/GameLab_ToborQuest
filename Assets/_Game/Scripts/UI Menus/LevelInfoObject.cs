@@ -17,13 +17,11 @@ public class LevelInfoObject : ScriptableObject
 
     public string GetLevelSceneName()
     {
-        levelScene.CheckValid();
         return levelScene.Name;
     }
 
     public string GetTimeFormatted()
     {
-        levelScene.CheckValid();
         levelSaveTimeName = levelScene.Name + "BestTime";
         if (PlayerPrefs.HasKey(levelSaveTimeName))
         {
