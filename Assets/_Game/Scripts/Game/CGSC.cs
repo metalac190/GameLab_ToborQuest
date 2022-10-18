@@ -169,6 +169,8 @@ public class CGSC : MonoBehaviour
         {
             SceneManager.LoadScene(sceneName);
             InMainMenu = sceneName.Equals(Instance._mainMenu.Name);
+            onComplete?.Invoke();
+            UnpauseGameResponse();
         }
     }
 
@@ -186,6 +188,7 @@ public class CGSC : MonoBehaviour
         }
         InMainMenu = sceneName.Equals(Instance._mainMenu.Name);
         onComplete?.Invoke();
+        UnpauseGameResponse();
     }
 
     public static void RestartLevel()

@@ -58,10 +58,8 @@ public class LevelWinManager : MonoBehaviour
     }
 
     public void ContinueNextLevel()
-    {        
-        CGSC.LoadScene(CGSC.QuestNames[nextLevel + 1], false ,()=> {
-            CGSC.UnpauseGame();
-        });
+    {
+        CGSC.LoadScene(CGSC.Quests[0].LevelNames[nextLevel - 1], true);
     }
 
     public void RestartLevel()
