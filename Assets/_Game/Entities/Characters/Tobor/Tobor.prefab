@@ -421,7 +421,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3889438207291122671}
   - component: {fileID: 1699395317210108599}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: boostTrail_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -708,8 +708,8 @@ MonoBehaviour:
   _acceleration: 20
   _maxSpeed: 50
   _showSteeringTab: 0
-  _stoppedTurnSpeed: 2
-  _standardTurnSpeed: 3
+  _stoppedTurnSpeed: 1
+  _standardTurnSpeed: 1.5
   _showSideFlipTab: 0
   _flipLaunch: {x: 7, y: 7}
   _flipLaunchTorque: 4
@@ -724,13 +724,15 @@ MonoBehaviour:
   _boostMaxSpeed: 60
   _boostDuration: 2
   _boostCooldown: 2
-  _boostRemaining: 2
-  _boostOnCooldown: 0
+  _boostTimeRemaining: 2
+  _useRechargeBoost: 1
+  _rechargeDelay: 0.5
   _currentAcceleration: 0
   _velocityMagnitude: 0
   _currentMaxSpeed: 0
   _currentTurnSpeed: 0
   _currentMaxAngularVelocity: 0
+  _boostOnCooldown: 0
   _isMoving: 0
   _isGrounded: 0
   _isTurtled: 0
@@ -759,8 +761,8 @@ MonoBehaviour:
   - {fileID: 1972211683082103784}
   - {fileID: 7862836127608177874}
   - {fileID: 7431299798143943788}
-  _standardWheelDampeningRate: 0.25
-  _standardFrictionStiffness: 1
+  _standardWheelDampeningRate: 0.5
+  _standardFrictionStiffness: 2
   _currentWheelDampeningRate: 0
   _currentFrictionStiffness: 0
 --- !u!114 &61930621753257058
@@ -863,7 +865,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 1
   m_Constraints: 0
-  m_CollisionDetection: 1
+  m_CollisionDetection: 2
 --- !u!136 &1076127496911297579
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1495,7 +1497,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2331617611098554}
   - component: {fileID: 2766205465424269572}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: driftTrail_FR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1644,7 +1646,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3444843482698582756}
   - component: {fileID: 1117680040954234110}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: boostTrail_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1867,7 +1869,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3704919059256842743}
   - component: {fileID: 6803409749246239546}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: boostTrail_M
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2661,7 +2663,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2828693621388578698}
   - component: {fileID: 5350220870122357192}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: driftTrail_BR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3075,7 +3077,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3899373440431141509}
   - component: {fileID: 5977690628034659885}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: driftTrail_BL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3339,7 +3341,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5230306928402966155}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Drift Trail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3354,7 +3356,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5230306928402966152}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.05, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3377,7 +3379,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5230306928813502646}
   - component: {fileID: 5230306928813502641}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: driftTrail_FL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3728,7 +3730,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2525823765583377342}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Boost Tails
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3846,7 +3848,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1233341991687146757}
   - component: {fileID: 3222953959175090862}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: driftTrail_ML
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4354,7 +4356,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7303214744920073791}
   - component: {fileID: 1311241798095276013}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: driftTrail_MR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
