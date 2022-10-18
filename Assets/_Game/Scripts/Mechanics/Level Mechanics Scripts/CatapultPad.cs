@@ -9,34 +9,48 @@ using UnityEngine;
 
 public class CatapultPad : InteractablePad {
 
+    [Header("Catapult Settings")]
     [SerializeField] private float launchAngle;
     [SerializeField] private Transform catapultBase;
     [SerializeField] private Transform catapultLauncher;
     [SerializeField] private Transform art;
     [SerializeField] private Transform targetTransform;
-    [SerializeField, Range(0.1f, 10f)] private float launchSpeedMultiplier = 1;
     [SerializeField, ReadOnly] private float launchSpeed;
+    [SerializeField, ReadOnly] private float flightTime;
 
     private Vector3 arcDirection;
     private float arcDistance;
     private float launchAngleRadians;
     
     private void Awake() {
-        art.LookAt(targetTransform);
+        Vector3 artLookAt = new Vector3(targetTransform.position.x, transform.position.y, targetTransform.position.z);
+        art.LookAt(artLookAt);
+        SetCatapultArc();
     }
 
     protected override void OnRigidbodyTrigger(Rigidbody rb) {
+        //start a coroutine to disable custom gravity and drag during flight time
+        StartCoroutine(DisableOddities(rb));
         //set the object's velocity to the 3D launch vector times the calculated launch speed
-        var grav = rb.GetComponent<GravityController>();
-        if (grav) StartCoroutine(DisableCustomGravity(grav));
-        rb.velocity = catapultLauncher.up * launchSpeed * launchSpeedMultiplier;
+        rb.angularVelocity = Vector3.zero;
+        rb.velocity = catapultLauncher.up * launchSpeed;
     }
 
-    private IEnumerator DisableCustomGravity(GravityController controller)
+    private IEnumerator DisableOddities(Rigidbody rb)
     {
-        controller.GravityEnabled = false;
-        yield return new WaitForSecondsRealtime(2);
-        controller.GravityEnabled = true;
+        GravityController grav = rb.GetComponent<GravityController>();
+        MovementController move = rb.GetComponent<MovementController>();
+        float originalDrag = rb.drag;
+
+        rb.drag = 0;
+        if(grav) grav.GravityEnabled = false;
+        if(move) move.SetActive(false);
+
+        yield return new WaitForSecondsRealtime(flightTime);
+
+        if(grav) grav.GravityEnabled = true;
+        if(move) move.SetActive(true);
+        rb.drag = originalDrag;
     }
 
     /*
@@ -49,12 +63,17 @@ public class CatapultPad : InteractablePad {
         arcDirection -= Vector3.Dot(arcDirection, Vector3.up) * Vector3.up; //project direction vector onto the Up plane
         arcDistance = arcDirection.magnitude; //magnitude of the straight line between end points
 
+        float gravity = Physics.gravity.magnitude;
+
         //calculate the necessary launch speed to make the object move along the desired curve using physics
         launchAngleRadians = launchAngle * Mathf.Deg2Rad;
-        launchSpeed = (arcDistance * Mathf.Sqrt(Physics.gravity.magnitude) * Mathf.Sqrt(1 / Mathf.Cos(launchAngleRadians))) / Mathf.Sqrt(2 * arcDistance * Mathf.Sin(launchAngleRadians) + 2 * yOffset * Mathf.Cos(launchAngleRadians));
+        launchSpeed = (arcDistance * Mathf.Sqrt(gravity) * Mathf.Sqrt(1 / Mathf.Cos(launchAngleRadians))) / Mathf.Sqrt(2 * arcDistance * Mathf.Sin(launchAngleRadians) + 2 * yOffset * Mathf.Cos(launchAngleRadians));
 
         catapultBase.rotation = Quaternion.LookRotation(arcDirection) * Quaternion.Euler(-90, -90, 0); //rotate Base object to rotate launch vector on the y axis
         catapultLauncher.localRotation = Quaternion.Euler(90, 90, 0) * Quaternion.AngleAxis(launchAngle, Vector3.forward); //rotate Launcher object to rotate the launch vector up and down
+
+        float ySpeed = launchSpeed * Mathf.Sin(launchAngleRadians);
+        flightTime = (ySpeed + Mathf.Sqrt((ySpeed * ySpeed) + 2 * gravity * yOffset)) / gravity;
     }
 
     private Vector3[] MakeArcPoints() {

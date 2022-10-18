@@ -1,10 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+using SoundSystem;
 
 public abstract class InteractablePad : MonoBehaviour {
 
+    [Header("General Settings")]
     [SerializeField] private float padForceMaxTime;
+    [SerializeField] private ParticleSystem particleVFX;
+    [SerializeField] private SFXEvent audioSFX;
+    [SerializeField] private Animation padAnimation;
+    [SerializeField] private UnityEvent onPlayerEnter;
 
     //static timer to be shared by all pads
     private static float padTimer;
@@ -25,12 +32,18 @@ public abstract class InteractablePad : MonoBehaviour {
         if(rb == null) {
             return;
         }
+        //call pad specific functionality
         OnRigidbodyTrigger(rb);
+        //spawn particles, play audio, and play animation
+        if(particleVFX) StartCoroutine(Particles(other.gameObject.transform.position));
+        if(audioSFX) audioSFX.Play();
+        if(padAnimation) padAnimation.Play();
 
-        //if the object is Tobor, call the coroutine to set its boost pad boolean to turn off max speed
+        //if the object is Tobor, tell the movement control its using a pad and invoke any unity events
         MovementController movementController = other.GetComponent<MovementController>();
         if(movementController != null) {
             StartCoroutine(PadTimer(movementController));
+            onPlayerEnter?.Invoke();
         }
     }
 
@@ -42,5 +55,11 @@ public abstract class InteractablePad : MonoBehaviour {
 
         //shouldn't trigger until Tobor hasn't touched ANY pad for padForceMaxTime time
         movementController._UsingPad = false;
+    }
+
+    private IEnumerator Particles(Vector3 spawnPosition) {
+        var particles = Instantiate(particleVFX, spawnPosition, particleVFX.transform.rotation);
+        yield return new WaitForSeconds(3); //wait arbitrary 3 seconds to delete particles effects just in case
+        if(particles != null) Destroy(particles);
     }
 }
