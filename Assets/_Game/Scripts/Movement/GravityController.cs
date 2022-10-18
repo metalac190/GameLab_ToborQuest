@@ -5,8 +5,8 @@ using UnityEngine;
 public class GravityController : MonoBehaviour
 {
     [SerializeField] private bool _useCustomGravity = false;
-    [Range(0,500)]
-    [Tooltip("Stacks with rigidbody gravity. 0 is off, 500 is limit")]
+    [Range(0,400)]
+    [Tooltip("Stacks with rigidbody gravity. 0 is off, 400 is limit")]
     [SerializeField] private float _groundedGravity = 9.81f;
     //[Range(0,500)]
     //[SerializeField] private float _inAirGravity = 9.81f;
