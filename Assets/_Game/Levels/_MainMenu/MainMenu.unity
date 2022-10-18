@@ -2453,7 +2453,7 @@ MonoBehaviour:
   - {fileID: 1338751307}
   - {fileID: 204449573}
   mainMenuSelect: {fileID: 1285973317}
-  levelSelectGameObject: {fileID: 941947697}
+  levelSelectGameObject: {fileID: 1147591597}
 --- !u!114 &577549129
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4000,7 +4000,7 @@ PrefabInstance:
     - target: {fileID: 221964787267102549, guid: 2bca33d143b3ddd44af184bb3b34f0dc,
         type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 221964787267102549, guid: 2bca33d143b3ddd44af184bb3b34f0dc,
         type: 3}
@@ -4122,12 +4122,12 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Navigation.m_SelectOnLeft
       value: 
-      objectReference: {fileID: 2056676294}
+      objectReference: {fileID: 1129692730}
     - target: {fileID: 3891203246144937077, guid: 2bca33d143b3ddd44af184bb3b34f0dc,
         type: 3}
       propertyPath: m_Navigation.m_SelectOnRight
       value: 
-      objectReference: {fileID: 1155591883}
+      objectReference: {fileID: 0}
     - target: {fileID: 3891203246144937077, guid: 2bca33d143b3ddd44af184bb3b34f0dc,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
@@ -4176,6 +4176,11 @@ PrefabInstance:
     - target: {fileID: 3891203246144937077, guid: 2bca33d143b3ddd44af184bb3b34f0dc,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: LevelInfoManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3891203246144937077, guid: 2bca33d143b3ddd44af184bb3b34f0dc,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
       value: LevelInfoManager, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 3891203246144937077, guid: 2bca33d143b3ddd44af184bb3b34f0dc,
@@ -4811,7 +4816,7 @@ PrefabInstance:
     - target: {fileID: 221964787267102549, guid: 2bca33d143b3ddd44af184bb3b34f0dc,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 221964787267102549, guid: 2bca33d143b3ddd44af184bb3b34f0dc,
         type: 3}
@@ -5682,7 +5687,7 @@ PrefabInstance:
     - target: {fileID: 221964787267102549, guid: 2bca33d143b3ddd44af184bb3b34f0dc,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 221964787267102549, guid: 2bca33d143b3ddd44af184bb3b34f0dc,
         type: 3}
@@ -5809,7 +5814,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Navigation.m_SelectOnRight
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 941947698}
     - target: {fileID: 3891203246144937077, guid: 2bca33d143b3ddd44af184bb3b34f0dc,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
@@ -6193,7 +6198,7 @@ PrefabInstance:
     - target: {fileID: 221964787267102549, guid: 2bca33d143b3ddd44af184bb3b34f0dc,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 221964787267102549, guid: 2bca33d143b3ddd44af184bb3b34f0dc,
         type: 3}
@@ -6299,7 +6304,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Navigation.m_SelectOnLeft
       value: 
-      objectReference: {fileID: 941947698}
+      objectReference: {fileID: 2056676294}
     - target: {fileID: 3891203246144937077, guid: 2bca33d143b3ddd44af184bb3b34f0dc,
         type: 3}
       propertyPath: m_Navigation.m_SelectOnRight
@@ -7501,10 +7506,10 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 941947696}
   - {fileID: 1155591884}
   - {fileID: 989184967}
   - {fileID: 1129692731}
+  - {fileID: 941947696}
   m_Father: {fileID: 528029416}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -9252,7 +9257,7 @@ MonoBehaviour:
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 941947698}
+    m_SelectOnRight: {fileID: 1155591883}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
