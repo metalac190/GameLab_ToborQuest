@@ -1,8 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Security.Cryptography;
-using UnityEditor;
-using UnityEditor.UI;
 using UnityEngine;
 
 public class MovementController : MonoBehaviour
