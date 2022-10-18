@@ -32,6 +32,7 @@ public class CatapultPad : InteractablePad {
         //start a coroutine to disable custom gravity and drag during flight time
         StartCoroutine(DisableOddities(rb));
         //set the object's velocity to the 3D launch vector times the calculated launch speed
+        rb.angularVelocity = Vector3.zero;
         rb.velocity = catapultLauncher.up * launchSpeed;
     }
 
@@ -43,12 +44,12 @@ public class CatapultPad : InteractablePad {
 
         rb.drag = 0;
         if(grav) grav.GravityEnabled = false;
-        if(move) move.enabled = false;
+        if(move) move.SetActive(false);
 
         yield return new WaitForSecondsRealtime(flightTime);
 
         if(grav) grav.GravityEnabled = true;
-        if(move) move.enabled = true;
+        if(move) move.SetActive(true);
         rb.drag = originalDrag;
     }
 
