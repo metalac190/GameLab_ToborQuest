@@ -35,6 +35,7 @@ public class WheelsController : MonoBehaviour
     private void FixedUpdate()
     {
         UpdateWheels();
+        SetWheelFriction(_standardWheelDampeningRate, _standardFrictionStiffness);
     }
 
     public void SetWheelFriction(float wheelDampening = 0, float frictionStiffness = 0)
