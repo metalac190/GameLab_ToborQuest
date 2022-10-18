@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1318505627426299918}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.15, y: 1.41, z: 25.92}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -59,8 +59,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 719df94e57999e845a9507a68bfa373e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spawnTransform: {fileID: 6160885165484463767}
-  _collider: {fileID: 8811220667274033301}
+  onPlayerEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  _respawnAtCheckpoint: 0
 --- !u!1 &7654668383422329812
 GameObject:
   m_ObjectHideFlags: 0
