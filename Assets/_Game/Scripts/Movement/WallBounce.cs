@@ -56,7 +56,8 @@ public class WallBounce : MonoBehaviour
         if (_canWallBounce)
         {
             //to stop boosting into wall
-            StartCoroutine(_mc.BoostCooldown(0.1f));
+            if (_mc.UsingRechargeBoost) StartCoroutine(_mc.BoostRecharge());
+            else StartCoroutine(_mc.BoostCooldown(0.1f));
             
             if (_consistentBouncing)
             {
@@ -79,7 +80,8 @@ public class WallBounce : MonoBehaviour
         //effects
         _toborEffects.PlayOnCollision();
 
-        StartCoroutine(_mc.BoostCooldown(0.25f));
+        if (_mc.UsingRechargeBoost) StartCoroutine(_mc.BoostRecharge());
+        else StartCoroutine(_mc.BoostCooldown(0.25f));
 
         Vector3 vel = _rb.velocity;
         vel.y = 0;

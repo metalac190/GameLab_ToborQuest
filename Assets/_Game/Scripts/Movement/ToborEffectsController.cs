@@ -80,11 +80,26 @@ public class ToborEffectsController : MonoBehaviour
                 _animator.SetFloat("ImpactMultiplier", 0.5f);
                 _animator.SetTrigger("Impact");
             }
-            StartCoroutine(LockAnimation());
+            StartCoroutine(LockImpactAnimation());
         }
     }
 
-    private IEnumerator LockAnimation()
+    public void PlayOnBouncePad()
+    {
+
+    }
+
+    public void PlayOnCatapult()
+    {
+
+    }
+
+    public void PlayOnBoostPad()
+    {
+
+    }
+
+    private IEnumerator LockImpactAnimation()
     {
         _canPlayImpactAnim = false;
         yield return new WaitForSeconds(_animator.GetCurrentAnimatorClipInfo(0).Length);

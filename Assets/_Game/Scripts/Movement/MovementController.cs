@@ -43,8 +43,9 @@ public class MovementController : MonoBehaviour
     [SerializeField, ShowIf("_showBoostTab")] private float _boostMaxSpeed = 60;
     [SerializeField, ShowIf("_showBoostTab")] private float _boostDuration = 2f;
     [SerializeField, ShowIf("_showBoostTab")] private float _boostCooldown = 2f;
-    [SerializeField, ShowIf("_showBoostTab")] private float _boostRemaining = 2f;
-    [SerializeField, ShowIf("_showBoostTab")] private bool _boostOnCooldown = false;
+    [SerializeField, ShowIf("_showBoostTab")] private float _boostTimeRemaining = 2f;
+    [SerializeField, ShowIf("_showBoostTab")] private bool _useRechargeBoost = false;
+    [SerializeField, ShowIf("_showBoostTab")] private float _rechargeDelay = 0.5f;
 
     [Header("Debug")]
     [SerializeField, ReadOnly] private float _currentAcceleration = 0f;
@@ -52,6 +53,7 @@ public class MovementController : MonoBehaviour
     [SerializeField, ReadOnly] private float _currentMaxSpeed = 0f;
     [SerializeField, ReadOnly] private float _currentTurnSpeed = 0f;
     [SerializeField, ReadOnly] private float _currentMaxAngularVelocity = 0f;
+    [SerializeField, ReadOnly] private bool _boostOnCooldown = false;
     //[SerializeField, ReadOnly] private float _turnSmoothVel;
     [SerializeField, ReadOnly] private bool _isMoving;
     [SerializeField, ReadOnly] private bool _isGrounded;
@@ -69,6 +71,7 @@ public class MovementController : MonoBehaviour
     public bool IsDrifting => _isDrifting;
     public bool IsBoosting => _isBoosting;
     public bool IsFlipping => _isFlipping;
+    public bool UsingRechargeBoost => _useRechargeBoost;
 
     public Vector3 PreviousVelocity => _previousVel;
 
@@ -92,7 +95,6 @@ public class MovementController : MonoBehaviour
         _currentAcceleration = _acceleration;
         _currentMaxSpeed = _maxSpeed;
         _currentTurnSpeed = _stoppedTurnSpeed;
-
         _rb.inertiaTensor = _customInertiaTensor;
     }
 
@@ -124,9 +126,10 @@ public class MovementController : MonoBehaviour
         if (_direction.magnitude >= 0.1f)
         {
             var torque = Mathf.LerpAngle(_direction.x,_direction.z,Time.fixedDeltaTime) * _rb.transform.up * 1000 * Time.fixedDeltaTime;
+
+            // Max Angular Velocity set
             _rb.maxAngularVelocity = _currentTurnSpeed;
             _rb.AddRelativeTorque(torque,ForceMode.VelocityChange);
-
         }
     }
 
@@ -138,7 +141,11 @@ public class MovementController : MonoBehaviour
 
         //if tobor is not boosting AND boost has not been fully used
         //start boost cooldown
-        if (!_movementControls.Boost && _boostRemaining < _boostDuration) StartCoroutine(BoostCooldown());
+        if (!_movementControls.Boost && _boostTimeRemaining < _boostDuration)
+        {
+            if (_useRechargeBoost) StartCoroutine(BoostRecharge());
+            else StartCoroutine(BoostCooldown());
+        }
 
         var force = transform.forward * (_currentAcceleration * _movementControls.Speed);
 
@@ -168,33 +175,49 @@ public class MovementController : MonoBehaviour
     private void Boost()
     {
         if (_movementControls.Speed <= 0) return;
-
+        
         _currentAcceleration = _boostAcceleration;
         _currentMaxSpeed = _boostMaxSpeed;
 
-        if (_boostRemaining > 0)
+        if (_boostTimeRemaining > 0)
         {
             _isBoosting = true;
-            _boostRemaining -= Time.deltaTime;
+            _boostTimeRemaining -= Time.deltaTime;
         }
         else
         {
-            StartCoroutine(BoostCooldown());
+            if (_useRechargeBoost) StartCoroutine(BoostRecharge());
+            else StartCoroutine(BoostCooldown());
         }
+
     }
 
 
     public IEnumerator BoostCooldown(float cooldown = 0)
     {
         _boostOnCooldown = true;
-        _boostRemaining = 0;
+        _boostTimeRemaining = 0;
         _isBoosting = false;
-        _boostRemaining = _boostDuration;
+        _boostTimeRemaining = _boostDuration;
 
         if (cooldown == 0) yield return new WaitForSeconds(_boostCooldown);
         else yield return new WaitForSeconds(cooldown);
 
         _boostOnCooldown = false;
+    }
+
+    public IEnumerator BoostRecharge()
+    {
+        _boostOnCooldown = true;
+        _isBoosting = false;
+        yield return new WaitForSeconds(_rechargeDelay);
+        _boostOnCooldown = false;
+
+        _boostTimeRemaining += Time.deltaTime;
+        _boostTimeRemaining = Mathf.Clamp(_boostTimeRemaining, 0f, _boostDuration);
+
+        if (_isBoosting) yield break;
+        yield return new WaitUntil(() => _boostTimeRemaining >= _boostDuration);
     }
 
     private void Drift()
@@ -206,12 +229,12 @@ public class MovementController : MonoBehaviour
             if (_movementControls.Drift)
             {
                 _currentTurnSpeed = _driftTurnSpeed;
-                _wc.SetWheelFriction(5,0.25f);
+                //_wc.SetWheelFriction(5,0.25f);
             }
             else
             {
                 _currentTurnSpeed = _standardTurnSpeed;
-                _wc.SetWheelFriction(_wc.StandardDampeningRate, _wc.StandardFrictionStiffness);
+                //_wc.SetWheelFriction(_wc.StandardDampeningRate, _wc.StandardFrictionStiffness);
             }
         }
         else
@@ -257,7 +280,9 @@ public class MovementController : MonoBehaviour
         {
             _isDrifting = false;
             _isFlipping = true;
-            StartCoroutine(BoostCooldown(_boostCooldown));
+
+            if (_useRechargeBoost) StartCoroutine(BoostRecharge());
+            else StartCoroutine(BoostCooldown(_boostCooldown));
             this.enabled = false;
         }
         else
