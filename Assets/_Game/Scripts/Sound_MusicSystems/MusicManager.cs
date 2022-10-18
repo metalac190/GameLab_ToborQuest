@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
 
@@ -20,7 +21,11 @@ namespace SoundSystem
 
         MusicEvent _activeMusicEvent;
 
-        public const int MaxLayerCount = 3;
+        Scene _songScene;
+
+        public const int MaxLayerCount = 2;
+
+        float _fadeTime;
 
         float _volume = 1;
         public float Volume
@@ -53,7 +58,22 @@ namespace SoundSystem
                 return _instance;
             }
         }
-
+        private void Update()
+        {
+            if (SceneManager.GetActiveScene() != _songScene)
+            {
+                if (SceneManager.GetActiveScene().name != "MainMenu")
+                {
+                    IncreaseLayerIndex(_fadeTime);
+                }
+                else
+                {
+                    _activeLayerIndex = -1;
+                    IncreaseLayerIndex(_fadeTime);
+                }
+                _songScene = SceneManager.GetActiveScene();
+            }
+        }
         private void Awake()
         {
             if (_instance != null && _instance != this)
@@ -70,6 +90,7 @@ namespace SoundSystem
 
         void SetUpMusicPlayer()
         {
+            _songScene = SceneManager.GetActiveScene();
             _musicPlayer1 = gameObject.AddComponent<MusicPlayer>();
             _musicPlayer2 = gameObject.AddComponent<MusicPlayer>();
         }
@@ -77,6 +98,7 @@ namespace SoundSystem
         public void PlayMusic(MusicEvent musicEvent, float fadeTime)
 
         {
+            _fadeTime = fadeTime;
             if (musicEvent == null) return;
             //checking if this is already the music playing
             if (musicEvent == _activeMusicEvent) return;
@@ -108,7 +130,6 @@ namespace SoundSystem
 
             _activeLayerIndex = newLayerIndex;
             ActivePlayer.FadeVolume(Volume, fadeTime);
-            print(_activeLayerIndex);
         }
 
         public void DecreaseLayerIndex(float fadeTime)
@@ -121,7 +142,6 @@ namespace SoundSystem
 
             _activeLayerIndex = newLayerIndex;
             ActivePlayer.FadeVolume(Volume, fadeTime);
-            print(_activeLayerIndex);
         }
     }
 }

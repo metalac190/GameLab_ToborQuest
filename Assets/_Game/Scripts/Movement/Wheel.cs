@@ -53,7 +53,7 @@ public class Wheel : MonoBehaviour
         _inertia = (1 / 2) * _mass * Mathf.Pow(_radius, 2);
 
         //spring rate = vehicle mass / num wheels * 2 * 9.81 / suspension distance
-        //if (_gc.UseCustomGravity) _springRate = _rb.mass / 6 * 2 * _gc.Gravity / _distance;
+        //if (_gc.UseCustomGravity) _springRate = _rb.mass / 6 * 2 * (_gc.Gravity) / _distance;
         _springRate = _rb.mass / 6 * 2 * 9.81f / _distance;
         //Damper rate = spring rate / 20
         _damperRate = _springRate / 20;

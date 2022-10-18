@@ -15,6 +15,7 @@ public class GamePlayMenuManger : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        CGSC.GameOver = false;
         hudPanel.SetActive(true);
         CGSC.UnpauseGame();
     }

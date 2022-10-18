@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+using SoundSystem;
 
 public class ToborSound : MonoBehaviour
 {
@@ -15,6 +16,9 @@ public class ToborSound : MonoBehaviour
     Rigidbody _tobor;
 
     private MovementController _mc;
+
+    [SerializeField] SFXEvent WallHit;
+    [SerializeField] SFXEvent metalHit;
 
     #region hooking up to CGSC
 
@@ -55,6 +59,22 @@ public class ToborSound : MonoBehaviour
     void OnUnPause()
     {
         _engineSound.Play();
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        if (Time.time >= 1)
+        {
+            if (other.gameObject.layer == 18)
+            {
+                metalHit.Play();
+            }
+            else if (other.gameObject.layer == 12 || other.gameObject.layer == 11 || other.gameObject.layer == 0)
+            {
+                WallHit.Play();
+            }
+
+        }
     }
 
 }

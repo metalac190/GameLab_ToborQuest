@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using SoundSystem;
 
 [RequireComponent(typeof(HingeJoint))]
 public class AutomaticDoor : MonoBehaviour {
 
     [SerializeField] private bool startLocked;
+    [SerializeField] private ParticleSystem particleVFX;
+    [SerializeField] private SFXEvent audioSFX;
     private Rigidbody rb;
     private HingeJoint hinge;
 
@@ -34,6 +37,8 @@ public class AutomaticDoor : MonoBehaviour {
     public void SwingDoor() {
         UnlockDoor();
         StartCoroutine(SwingingDoor());
+        if(particleVFX != null) StartCoroutine(Particles(gameObject.transform.position));
+        audioSFX?.Play();
     }
 
     //uses the pre-set motor velocity and force on the hinge joint component
@@ -44,5 +49,11 @@ public class AutomaticDoor : MonoBehaviour {
             yield return null;
         }
         hinge.useMotor = false;
+    }
+
+    private IEnumerator Particles(Vector3 spawnPosition) {
+        var particles = Instantiate(particleVFX, spawnPosition, particleVFX.transform.rotation);
+        yield return new WaitForSeconds(3); //wait arbitrary 3 seconds to delete particles effects just in case
+        if(particles != null) Destroy(particles);
     }
 }

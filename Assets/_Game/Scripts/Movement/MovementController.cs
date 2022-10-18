@@ -1,9 +1,9 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
+using UnityEditor;
+using UnityEditor.UI;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.UIElements;
 
 public class MovementController : MonoBehaviour
 {
@@ -26,7 +26,7 @@ public class MovementController : MonoBehaviour
     [SerializeField, ShowIf("_showMovementTab")] private float _maxSpeed = 30;
 
     [Header("Steering")] [SerializeField] private bool _showSteeringTab;
-    [SerializeField, ShowIf("_showSteeringTab")] private bool _turnWhenStopped = true;
+    //[SerializeField, ShowIf("_showSteeringTab")] private bool _turnWhenStopped = true;
     [SerializeField, ShowIf("_showSteeringTab")] private float _stoppedTurnSpeed = 2f;
     [SerializeField, ShowIf("_showSteeringTab")] private float _standardTurnSpeed = 3f;
 
@@ -37,6 +37,8 @@ public class MovementController : MonoBehaviour
 
     [Header("Drift")] [SerializeField] private bool _showDrifitingTab;
     [SerializeField, ShowIf("_showDrifitingTab")] private float _driftTurnSpeed = 5.0f;
+    [SerializeField, ShowIf("_showDrifitingTab")] private float _driftSlowdown = 2.0f;
+    [SerializeField, ShowIf("_showDrifitingTab")] private float _driftFriction = 0.25f;
 
     [Header("Boost")] [SerializeField] private bool _showBoostTab;
     [SerializeField, ShowIf("_showBoostTab")] private bool _canBoostInAir;
@@ -46,10 +48,6 @@ public class MovementController : MonoBehaviour
     [SerializeField, ShowIf("_showBoostTab")] private float _boostCooldown = 2f;
     [SerializeField, ShowIf("_showBoostTab")] private float _boostRemaining = 2f;
     [SerializeField, ShowIf("_showBoostTab")] private bool _boostOnCooldown = false;
-
-    [Header("Effects")] [SerializeField] private bool _showEffectsTab;
-    [SerializeField, ShowIf("_showEffectsTab")] private List<TrailRenderer> _driftTrails = new List<TrailRenderer>();
-    [SerializeField, ShowIf("_showEffectsTab")] private List<TrailRenderer> _boostTrails = new List<TrailRenderer>();
 
     [Header("Debug")]
     [SerializeField, ReadOnly] private float _currentAcceleration = 0f;
@@ -75,12 +73,15 @@ public class MovementController : MonoBehaviour
     public bool IsBoosting => _isBoosting;
     public bool IsFlipping => _isFlipping;
 
+    public Vector3 PreviousVelocity => _previousVel;
+
     private Rigidbody _rb;
     private MovementControls _movementControls;
-    private bool _driftTrailsActive;
-    private bool _boostTrailsActive;
+    private WheelsController _wc;
 
-    protected bool GroundCheck() => Physics.CheckSphere(_groundCheck.position, _groundCheckRadius, _groundLayer);
+
+    //protected bool GroundCheck() => Physics.CheckSphere(_groundCheck.position, _groundCheckRadius, _groundLayer);
+    protected bool GroundCheck() => _wc.WheelsGroundCheck();
     protected bool TurtledCheck() => Physics.CheckSphere(_roofCheck.position, _roofCheckRadius, _groundLayer);
 
     private void Start()
@@ -89,6 +90,7 @@ public class MovementController : MonoBehaviour
         _rb.centerOfMass = _centerOfMass;
 
         _movementControls = GetComponent<MovementControls>();
+        _wc = GetComponent<WheelsController>();
 
         _currentAcceleration = _acceleration;
         _currentMaxSpeed = _maxSpeed;
@@ -109,25 +111,6 @@ public class MovementController : MonoBehaviour
         if (_isGrounded || _isBoosting) Movement();
 
         Drift();
-
-
-        if (_boostTrailsActive != _isBoosting)
-        {
-            _boostTrailsActive = _isBoosting;
-            foreach (var trail in _boostTrails)
-            {
-                trail.emitting = _boostTrailsActive;
-            }
-        }
-
-        if (_driftTrailsActive != _isDrifting)
-        {
-            _driftTrailsActive = _isDrifting;
-            foreach (var trail in _driftTrails)
-            {
-                trail.emitting = _driftTrailsActive;
-            }
-        }
     }
 
     private void LateUpdate()
@@ -166,9 +149,10 @@ public class MovementController : MonoBehaviour
         if (_isBoosting) force.y = 0;
 
         _rb.AddForce(force, ForceMode.Acceleration);
-        
+
+
         //if not using pad something?
-        if(!_UsingPad) _rb.velocity = Vector3.ClampMagnitude(_rb.velocity, _currentMaxSpeed);
+        if (!_UsingPad) _rb.velocity = Vector3.ClampMagnitude(_rb.velocity, _currentMaxSpeed);
         
         _rb.velocity = Vector3.ClampMagnitude(_rb.velocity, _currentMaxSpeed);
         
@@ -221,9 +205,29 @@ public class MovementController : MonoBehaviour
         if (_isGrounded)
         {
             _isDrifting = _movementControls.Drift;
-            _currentTurnSpeed = _movementControls.Drift ? _driftTurnSpeed : _standardTurnSpeed;
+
+            if (_movementControls.Drift)
+            {
+                _currentTurnSpeed = _driftTurnSpeed;
+                _wc.SetWheelFriction(5,0.25f);
+            }
+            else
+            {
+                _currentTurnSpeed = _standardTurnSpeed;
+                _wc.SetWheelFriction(_wc.StandardDampeningRate, _wc.StandardFrictionStiffness);
+            }
         }
-        else _isDrifting = false;
+        else
+        {
+            _isDrifting = false;
+        }
+    }
+
+    private IEnumerator DriftFriction()
+    {
+        _wc.SetWheelFriction(2,2);
+        yield return new WaitUntil(() => !_isDrifting);
+        _wc.SetWheelFriction(_wc.StandardDampeningRate,_wc.StandardFrictionStiffness);
     }
 
     private void SideFlip()
@@ -248,5 +252,26 @@ public class MovementController : MonoBehaviour
         yield return new WaitUntil(GroundCheck);
         _rb.angularDrag = tempDrag;
         _isFlipping = false;
+    }
+
+    public void SetActive(bool state)
+    {
+        if (!state)
+        {
+            _isDrifting = false;
+            _isFlipping = true;
+            StartCoroutine(BoostCooldown(_boostCooldown));
+            this.enabled = false;
+        }
+        else
+        {
+            _isFlipping = false;
+            this.enabled = true;
+        }
+    }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.DrawSphere(gameObject.transform.position + _centerOfMass,_groundCheckRadius);
     }
 }

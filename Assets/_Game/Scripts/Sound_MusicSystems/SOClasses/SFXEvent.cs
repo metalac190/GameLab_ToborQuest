@@ -7,46 +7,47 @@ using UnityEngine.Audio;
 
 namespace SoundSystem
 { 
-    public enum SFXLayerType
-    {
-        //2D mainly for ui and other such things
-        twoD,
-        //3D sounds like in world
-        threeD,
-
-    }
-
     [CreateAssetMenu(menuName = "SoundSystem/SFX Event", fileName = "SFX_")]
     public class SFXEvent : ScriptableObject
     {
         //music tracks
         [SerializeField] AudioClip _SFXSound;
-        //blend type
-        [SerializeField] SFXLayerType _layerType = SFXLayerType.twoD;
         //mixer group
         [SerializeField] AudioMixerGroup _mixer;
 
         [SerializeField] bool isLooping;
 
         [Range(0f, 1f)]
-        public float Volume;
+        public float Volume = 1;
 
         [Range(-3f, 3f)]
-        public float Pitch;
+        public float maxPitch = 2f;
 
-        [SerializeField] float _playTime;
+        [Range(-3f, 3f)]
+        public float minPitch = 0.25f;
+
+        [Range(-1f, 1f)]
+        public float panStereo = 0;
+
+
+        [Range(0f, 1f)]
+        [SerializeField] float _spatialBlend;
+
+        [SerializeField] float _startTime;
 
         //getters
         public AudioClip SFXSound => _SFXSound;
-        public SFXLayerType LayerType => _layerType;
+        public float SpatialSound => _spatialBlend;
         public AudioMixerGroup Mixer => _mixer;
 
-        public float PlayTime => _playTime;
+        public float StartTime => _startTime;
         public bool IsLooping => isLooping;
 
-        public void Play(GameObject parent)
+
+        public void Play()
         {
-            parent.AddComponent<SFXManager>().PlaySFX(this, parent);
+            GameObject soundOBJ = new GameObject("SFX" + this.name);
+            SFXManager.Instance.PlaySFX(this, soundOBJ);
         }
     }
 }

@@ -647,6 +647,7 @@ GameObject:
   - component: {fileID: 381337252041802221}
   - component: {fileID: 61930621753257058}
   - component: {fileID: 7528695759469318202}
+  - component: {fileID: 8946465618379171708}
   - component: {fileID: 1076127496911297585}
   - component: {fileID: 2345064586588846204}
   - component: {fileID: 1076127496911297589}
@@ -693,8 +694,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f25e323a276abb4e9236cc4cb0b10c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _centerOfMass: {x: 0, y: 0.1, z: 0}
-  _customInertiaTensor: {x: 2.09, y: 40, z: 5}
+  _centerOfMass: {x: 0, y: 0.1, z: -0.1}
+  _customInertiaTensor: {x: 2, y: 40, z: 5}
   _showPositionCheckTab: 0
   _groundCheck: {fileID: 1076127497694386359}
   _groundCheckRadius: 0.5
@@ -707,7 +708,6 @@ MonoBehaviour:
   _acceleration: 20
   _maxSpeed: 50
   _showSteeringTab: 0
-  _turnWhenStopped: 1
   _stoppedTurnSpeed: 2
   _standardTurnSpeed: 3
   _showSideFlipTab: 0
@@ -716,6 +716,8 @@ MonoBehaviour:
   _sideFlipAngularDrag: 1
   _showDrifitingTab: 0
   _driftTurnSpeed: 5
+  _driftSlowdown: 2
+  _driftFriction: 0.25
   _showBoostTab: 0
   _canBoostInAir: 0
   _boostAcceleration: 30
@@ -724,18 +726,6 @@ MonoBehaviour:
   _boostCooldown: 2
   _boostRemaining: 2
   _boostOnCooldown: 0
-  _showEffectsTab: 0
-  _driftTrails:
-  - {fileID: 5230306928813502641}
-  - {fileID: 2766205465424269572}
-  - {fileID: 3222953959175090862}
-  - {fileID: 1311241798095276013}
-  - {fileID: 5977690628034659885}
-  - {fileID: 5350220870122357192}
-  _boostTrails:
-  - {fileID: 1117680040954234110}
-  - {fileID: 6803409749246239546}
-  - {fileID: 1699395317210108599}
   _currentAcceleration: 0
   _velocityMagnitude: 0
   _currentMaxSpeed: 0
@@ -769,9 +759,6 @@ MonoBehaviour:
   - {fileID: 1972211683082103784}
   - {fileID: 7862836127608177874}
   - {fileID: 7431299798143943788}
-  _wallLayer:
-    serializedVersion: 2
-    m_Bits: 4096
   _standardWheelDampeningRate: 0.25
   _standardFrictionStiffness: 1
   _currentWheelDampeningRate: 0
@@ -791,10 +778,12 @@ MonoBehaviour:
   _wallLayer:
     serializedVersion: 2
     m_Bits: 4096
+  _wallBounceCooldown: 0.5
+  _useVelocityBounce: 1
   _verticalBounce: 300
   _horizontalBounce: 400
-  _wallBounceCooldown: 0.5
   _consistentBouncing: 1
+  _velocityBounceMultiplier: {x: 8, y: 8}
 --- !u!114 &7528695759469318202
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -808,7 +797,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _useCustomGravity: 1
-  _gravity: 250
+  _groundedGravity: 500
+  _currentGravity: 9.81
+--- !u!114 &8946465618379171708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1076127496911297578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4eec010288116f64b8615c773183ee69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _driftTrails:
+  - {fileID: 5230306928813502641}
+  - {fileID: 2766205465424269572}
+  - {fileID: 3222953959175090862}
+  - {fileID: 1311241798095276013}
+  - {fileID: 5977690628034659885}
+  - {fileID: 5350220870122357192}
+  _boostTrails:
+  - {fileID: 1117680040954234110}
+  - {fileID: 6803409749246239546}
+  - {fileID: 1699395317210108599}
 --- !u!114 &1076127496911297585
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -921,10 +934,11 @@ AudioSource:
   m_GameObject: {fileID: 1076127496911297578}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 3637252542199706657, guid: dd072f17528689a44b5648a103e6bacf,
+    type: 2}
   m_audioClip: {fileID: 8300000, guid: e73473a74c142884cac456ebf0ad06cc, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.5
+  m_Volume: 0.25
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -1024,6 +1038,8 @@ MonoBehaviour:
   _mixer: {fileID: 3637252542199706657, guid: dd072f17528689a44b5648a103e6bacf, type: 2}
   _MinPitch: 0.25
   _MaxPitch: 4
+  WallHit: {fileID: 11400000, guid: e549793904c0cd04dbeb6f4c8dffb676, type: 2}
+  metalHit: {fileID: 11400000, guid: 1658b36339986dc4b91cfaece3ec71af, type: 2}
 --- !u!1 &1076127497694386358
 GameObject:
   m_ObjectHideFlags: 0

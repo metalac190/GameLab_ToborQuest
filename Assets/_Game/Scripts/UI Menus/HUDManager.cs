@@ -16,22 +16,34 @@ public class HUDManager : PersistableObject
     public TimerUI currentTimerText;
     public Slider toborProgress;
     public TextMeshProUGUI bestTime;
+    [SerializeField]
+    private GameObject pauseFirstButton;
 
-    public GameObject pauseFirstButton;
+    private LevelWinManager levelWinManager;
 
     private float toborProgressValue;
     private float timeElapsed;
 
     private void Awake()
-    {
+    {        
         _controller = new MovementInput();
+        //pauseFirstButton = GameObject.FindObjectOfType<PauseManager>().transform.GetChild(2).GetChild(0).gameObject;
+        levelWinManager = GameObject.FindObjectOfType<LevelWinManager>(true);
         pausePanel.SetActive(false);
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        SetBestTime(180f);
+        if(PlayerPrefs.HasKey(levelWinManager.LevelSaveName))
+        {
+            float bestTimeFloat = PlayerPrefs.GetFloat(levelWinManager.LevelSaveName);
+            SetBestTime(bestTimeFloat);
+        }
+        else
+        {
+            SetBestTime(180f);
+        }
         SetToborProgress(0f);        
     }
 
@@ -80,13 +92,5 @@ public class HUDManager : PersistableObject
     {
         toborProgress.value = value;
     }
-
-    //public void PauseGame()
-    //{
-    //    EventSystem.current.SetSelectedGameObject(pauseFirstButton);
-    //    pausePanel.SetActive(true);
-    //    //gameObject.SetActive(false);
-    //    //Time.timeScale = 0;
-    //}
 
 }

@@ -8,9 +8,6 @@ public class WheelsController : MonoBehaviour
 {
     [SerializeField] private List<Wheel> _wheels = new List<Wheel>();
 
-    [Header("Collisions")]
-    [SerializeField] private LayerMask _wallLayer;
-
     [Header("Friction")]
     [SerializeField] private float _standardWheelDampeningRate = 0.25f;
     [SerializeField] private float _standardFrictionStiffness = 1f;
@@ -19,6 +16,8 @@ public class WheelsController : MonoBehaviour
     [SerializeField, ReadOnly] private float _currentWheelDampeningRate;
     [SerializeField, ReadOnly] private float _currentFrictionStiffness;
 
+    public float StandardDampeningRate => _standardWheelDampeningRate;
+    public float StandardFrictionStiffness => _standardFrictionStiffness;
 
     private MovementController _mc;
     private MovementControls _input;
@@ -38,12 +37,12 @@ public class WheelsController : MonoBehaviour
         UpdateWheels();
     }
 
-    public void SetWheelFriction(float wheelDampening, float frictionStiffness)
+    public void SetWheelFriction(float wheelDampening = 0, float frictionStiffness = 0)
     {
-        _currentWheelDampeningRate = wheelDampening;
-        _currentFrictionStiffness = frictionStiffness;
+            _currentWheelDampeningRate = wheelDampening;
+            _currentFrictionStiffness = frictionStiffness;
 
-        UpdateWheelFriction();
+            UpdateWheelFriction();
     }
     
     private void UpdateWheelFriction()
@@ -71,5 +70,14 @@ public class WheelsController : MonoBehaviour
             w.Steer(_input.DirectionVector.x);
             w.UpdatePosition();
         }
+    }
+
+    public bool WheelsGroundCheck()
+    {
+        foreach (var w in _wheels)
+        {
+            if (w._wheelCollider.isGrounded) return true;
+        }
+        return false;
     }
 }

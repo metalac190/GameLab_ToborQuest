@@ -57,21 +57,22 @@ public class CGSC : MonoBehaviour
     public static void TogglePauseGame(InputAction.CallbackContext context) => TogglePauseGame();
 
     public static void TogglePauseGame()
-    {        
+    {
+        if (GameOver)
+        {
+            Debug.Log("Cannot pause once game is over");
+            return;
+        }
+            
         Paused = !Paused;
         if (Paused)
         {
-            Debug.Log("Pause");
             OnPause?.Invoke();
-            //Debug.Log("Game Paused");
         }
         else
-        {
-            Debug.Log("Unpause");
+        {         
             OnUnpause?.Invoke();
-            //Debug.Log("Game Unpaused");
         }
-        //Debug.Log("CGSC says game pause is " + Paused);
     }
 
     public static void UnpauseGame()
@@ -102,14 +103,14 @@ public class CGSC : MonoBehaviour
     public static void WinGame()
     {
         OnWinGame?.Invoke();
-        //PauseGameResponse();
+        PauseGameResponse();
         GameOver = true;
     }
 
     public static void LoseGame()
     {
         OnLoseGame?.Invoke();
-        //PauseGameResponse();
+        PauseGameResponse();
         GameOver = true;
     }
 
@@ -142,6 +143,7 @@ public class CGSC : MonoBehaviour
     public static void LoadMainMenu(bool async = false, Action onComplete = null)
     {
         LoadScene(Instance._mainMenu.Name, async, onComplete);
+        UnpauseGameResponse();
     }
 
     public static void LoadQuestLevel(int questIndex, int levelIndex, bool async = false, Action onComplete = null)
@@ -190,6 +192,7 @@ public class CGSC : MonoBehaviour
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         UnpauseGame();
+        UnpauseGameResponse();
     }
 
     public static void QuitGame()
