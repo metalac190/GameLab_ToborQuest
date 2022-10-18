@@ -26,18 +26,22 @@ public class ToborSound : MonoBehaviour
     GameObject _driftSound;
     GameObject _boostSound;
 
+    bool _won;
+
     #region hooking up to CGSC
 
     private void OnEnable()
     {
         CGSC.OnPause += onPause;
         CGSC.OnUnpause += OnUnPause;
+        CGSC.OnWinGame += OnWin;
     }
 
     private void OnDisable()
     {
         CGSC.OnPause -= onPause;
         CGSC.OnUnpause -= OnUnPause;
+        CGSC.OnWinGame -= OnWin;
     }
 
     #endregion
@@ -47,6 +51,7 @@ public class ToborSound : MonoBehaviour
         _engineSound.outputAudioMixerGroup = _mixer;
 
         _mc = GetComponent<MovementController>();
+        _won = false;
 
     }
 
@@ -88,6 +93,31 @@ public class ToborSound : MonoBehaviour
                 Destroy(_boostSound);
                 _boostSound = null;
             }
+        }
+        if (_won == true)
+        {
+            if (_boostSound != null)
+            {
+                Destroy(_boostSound);
+            }
+            if (_driftSound != null)
+            {
+                Destroy(_driftSound);
+            }
+        }
+    }
+
+    void OnWin()
+    {
+        _won = true;
+        _engineSound.Pause();
+        if (_boostSound != null)
+        {
+            Destroy(_boostSound);
+        }
+        if (_driftSound != null)
+        {
+            Destroy(_driftSound);
         }
     }
 
