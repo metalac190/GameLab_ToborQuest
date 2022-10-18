@@ -17,7 +17,6 @@ namespace SoundSystem
         private void Start()
         {
             _sceneSpawnedIn = SceneManager.GetActiveScene();
-            print(_sceneSpawnedIn);
         }
 
         public void Play(SFXEvent sfxEvent, GameObject soundOBJ)
