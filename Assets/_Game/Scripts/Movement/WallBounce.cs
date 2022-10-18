@@ -43,7 +43,7 @@ public class WallBounce : MonoBehaviour
     {
         if (collision.gameObject == _currentWallCollision.gameObject)
         {
-            _canPlayImpactAnim = true;
+            //_canPlayImpactAnim = true;
         }
     } 
     
