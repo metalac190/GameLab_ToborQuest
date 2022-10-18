@@ -30,9 +30,15 @@ public class CheckpointTracker : MonoBehaviour
 
     public IEnumerator Respawn()
     {
+        var mc = GetComponent<MovementController>();
+        mc.SetActive(false);
+        _rb.isKinematic = true;
         yield return new WaitForSeconds(_respawnTime);
+        mc.SetActive(true);
+        transform.position = _recentCheckpoint.position;
+        transform.rotation = _recentCheckpoint.rotation;
         _rb.velocity = Vector3.zero;
         _rb.angularVelocity = Vector3.zero;
-        gameObject.transform.position = _recentCheckpoint.position + new Vector3(0, 5, 0);
+        _rb.isKinematic = false;
     }
 }
