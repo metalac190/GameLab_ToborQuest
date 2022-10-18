@@ -19,20 +19,34 @@ public class WallBounce : MonoBehaviour
 
     private Rigidbody _rb;
     private MovementController _mc;
+    private ToborEffectsController _toborEffects;
+
     private bool _canWallBounce = true;
+    private Collision _currentWallCollision;
 
     private void Start()
     {
-        _rb = GetComponentInParent<Rigidbody>();
-        _mc = GetComponentInParent<MovementController>();
+        _rb = GetComponent<Rigidbody>();
+        _mc = GetComponent<MovementController>();
+        _toborEffects = GetComponent<ToborEffectsController>();
     }
 
     private void OnCollisionEnter(Collision collision)
     {
+        _currentWallCollision = collision;
         if (_useVelocityBounce) VelocityWallBounce(collision.collider, collision.GetContact(0).normal);
         else ExaggeratedWallBounce(collision.collider, collision.GetContact(0).normal);
-
     }
+
+    
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject == _currentWallCollision.gameObject)
+        {
+            _canPlayImpactAnim = true;
+        }
+    } 
+    
 
     private void ExaggeratedWallBounce(Collider otherCollider, Vector3 normal)
     {
@@ -61,6 +75,9 @@ public class WallBounce : MonoBehaviour
     private void VelocityWallBounce(Collider otherCollider, Vector3 normal)
     {
         if ((_wallLayer.value & (1 << otherCollider.gameObject.layer)) <= 0) return;
+
+        //effects
+        _toborEffects.PlayOnCollision();
 
         StartCoroutine(_mc.BoostCooldown(0.25f));
 
