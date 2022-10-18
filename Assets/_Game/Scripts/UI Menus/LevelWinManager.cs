@@ -22,7 +22,7 @@ public class LevelWinManager : MonoBehaviour
     private void Awake()
     {
         //Find hudmanager, should only be 1 in the scene.
-        hudManager = GameObject.FindObjectOfType<HUDManager>();
+        hudManager = GameObject.FindObjectOfType<HUDManager>(true);
         levelSaveTimeName = SceneManager.GetActiveScene().name + "BestTime";
         //Debug.Log(levelSaveTimeName);
         //Get needed objects
