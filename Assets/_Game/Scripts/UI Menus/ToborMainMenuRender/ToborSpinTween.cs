@@ -4,11 +4,15 @@ using UnityEngine;
 
 public class ToborSpinTween : MonoBehaviour
 {
-    [SerializeField]public float spinRate = 5f;
+    [SerializeField] private float spinRate = 5f;
+    [SerializeField] private List<Transform> _transformsToSpin = new List<Transform>();
 
     void Update()
     {
-        transform.Rotate(Vector3.up, Time.deltaTime * spinRate);
+        foreach (var t in _transformsToSpin)
+        {
+            t.Rotate(Vector3.up, Time.deltaTime * spinRate);
+        }
     }
 
 }
