@@ -13,12 +13,15 @@ public abstract class InteractablePad : MonoBehaviour {
     [SerializeField] private Animation padAnimation;
     [SerializeField] private UnityEvent onPlayerEnter;
 
+    private Animator animator;
+
     //static timer to be shared by all pads
     private static float padTimer;
 
-    abstract protected void OnRigidbodyTrigger(Rigidbody rb);
+    abstract protected void OnRigidbodyTrigger(Rigidbody rb, ToborEffectsController effects);
 
     private void Awake() {
+        animator = GetComponentInChildren<Animator>();
         padTimer = 0;
     }
 
@@ -32,12 +35,15 @@ public abstract class InteractablePad : MonoBehaviour {
         if(rb == null) {
             return;
         }
+
+        //get the effect controller if there is one to pass into the specific pad
+        ToborEffectsController effects = other.GetComponent<ToborEffectsController>();
         //call pad specific functionality
-        OnRigidbodyTrigger(rb);
+        OnRigidbodyTrigger(rb, effects);
         //spawn particles, play audio, and play animation
         if(particleVFX) StartCoroutine(Particles(other.gameObject.transform.position));
         if(audioSFX) audioSFX.Play();
-        if(padAnimation) padAnimation.Play();
+        if(animator) animator.SetTrigger("Trigger");
 
         //if the object is Tobor, tell the movement control its using a pad and invoke any unity events
         MovementController movementController = other.GetComponent<MovementController>();

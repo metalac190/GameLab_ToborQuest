@@ -28,12 +28,14 @@ public class CatapultPad : InteractablePad {
         SetCatapultArc();
     }
 
-    protected override void OnRigidbodyTrigger(Rigidbody rb) {
+    protected override void OnRigidbodyTrigger(Rigidbody rb, ToborEffectsController effects) {
         //start a coroutine to disable custom gravity and drag during flight time
         StartCoroutine(DisableOddities(rb));
         //set the object's velocity to the 3D launch vector times the calculated launch speed
         rb.angularVelocity = Vector3.zero;
         rb.velocity = catapultLauncher.up * launchSpeed;
+        //trigger the catapult's effects on Tobor
+        if(effects) effects.PlayOnCatapult();
     }
 
     private IEnumerator DisableOddities(Rigidbody rb)
