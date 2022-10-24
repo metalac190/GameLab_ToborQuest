@@ -9,6 +9,8 @@ namespace SoundSystem
 {
     public class MusicManager : MonoBehaviour
     {
+        bool _paused;
+
         int _activeLayerIndex = 0;
         public int ActiveLayerIndex => _activeLayerIndex;
         MusicPlayer _musicPlayer1;
@@ -23,20 +25,27 @@ namespace SoundSystem
 
         Scene _songScene;
 
-        public const int MaxLayerCount = 2;
+        public const int MaxLayerCount = 5;
 
         float _fadeTime;
 
-        float _volume = 1;
-        public float Volume
+        #region hooking up to CGSC
+
+        private void OnEnable()
         {
-            get => _volume;
-            private set
-            {
-                value = Mathf.Clamp(value, 0, 1);
-                _volume = value;
-            }
+            CGSC.OnPause += onPause;
+            CGSC.OnUnpause += OnUnPause;
+            CGSC.OnWinGame += OnWin;
         }
+
+        private void OnDisable()
+        {
+            CGSC.OnPause -= onPause;
+            CGSC.OnUnpause -= OnUnPause;
+            CGSC.OnWinGame -= OnWin;
+        }
+
+        #endregion
 
         private static MusicManager _instance;
         public static MusicManager Instance
@@ -60,15 +69,31 @@ namespace SoundSystem
         }
         private void Update()
         {
-            if (SceneManager.GetActiveScene() != _songScene)
+            if (SceneManager.GetActiveScene() != _songScene && _paused == false)
             {
-                if (SceneManager.GetActiveScene().name != "MainMenu")
-                {
-                    IncreaseLayerIndex(_fadeTime);
-                }
-                else
+                if (SceneManager.GetActiveScene().name == "MainMenu")
                 {
                     _activeLayerIndex = -1;
+                    IncreaseLayerIndex(_fadeTime);
+                }
+                if (SceneManager.GetActiveScene().name == "Level 1")
+                {
+                    _activeLayerIndex = 0;
+                    IncreaseLayerIndex(_fadeTime);
+                }
+                if (SceneManager.GetActiveScene().name == "Level 2")
+                {
+                    _activeLayerIndex = 1;
+                    IncreaseLayerIndex(_fadeTime);
+                }
+                if (SceneManager.GetActiveScene().name == "Level 3")
+                {
+                    _activeLayerIndex = 2;
+                    IncreaseLayerIndex(_fadeTime);
+                }
+                if (SceneManager.GetActiveScene().name == "Level 4")
+                {
+                    _activeLayerIndex = 3;
                     IncreaseLayerIndex(_fadeTime);
                 }
                 _songScene = SceneManager.GetActiveScene();
@@ -84,8 +109,8 @@ namespace SoundSystem
             {
                 _instance = this;
             }
-
             SetUpMusicPlayer();
+            _paused = false;
         }
 
         void SetUpMusicPlayer()
@@ -129,7 +154,7 @@ namespace SoundSystem
                 return;
 
             _activeLayerIndex = newLayerIndex;
-            ActivePlayer.FadeVolume(Volume, fadeTime);
+            ActivePlayer.FadeVolume(_activeMusicEvent.VolumeToFadeTo, fadeTime);
         }
 
         public void DecreaseLayerIndex(float fadeTime)
@@ -141,7 +166,24 @@ namespace SoundSystem
                 return;
 
             _activeLayerIndex = newLayerIndex;
-            ActivePlayer.FadeVolume(Volume, fadeTime);
+            ActivePlayer.FadeVolume(_activeMusicEvent.VolumeToFadeTo, fadeTime);
+        }
+
+        private void onPause()
+        {
+            _paused = true;
+            _activeLayerIndex = -1;
+           IncreaseLayerIndex(_fadeTime);
+        }
+        private void OnUnPause()
+        {
+            _activeLayerIndex = 0;
+           IncreaseLayerIndex(_fadeTime);
+            _paused = false;
+        }
+        private void OnWin()
+        {
+            //play win sound
         }
     }
 }
