@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class MovementController : MonoBehaviour
@@ -31,11 +33,12 @@ public class MovementController : MonoBehaviour
     [SerializeField, ShowIf("_showSideFlipTab")] private Vector2 _flipLaunch;
     [SerializeField, ShowIf("_showSideFlipTab")] private float _flipLaunchTorque = 10f;
     [SerializeField, ShowIf("_showSideFlipTab")] private float _sideFlipAngularDrag = 2f;
+    [SerializeField, ShowIf("_showSideFlipTab")] private bool _cancelMomentumBeforeFlip = false;
 
     [Header("Drift")] [SerializeField] private bool _showDrifitingTab;
     [SerializeField, ShowIf("_showDrifitingTab")] private float _driftTurnSpeed = 5.0f;
-    [SerializeField, ShowIf("_showDrifitingTab")] private float _driftSlowdown = 2.0f;
-    [SerializeField, ShowIf("_showDrifitingTab")] private float _driftFriction = 0.25f;
+    [SerializeField, ShowIf("_showDrifitingTab")] private float _driftWheelDampeningRate = 2.0f;
+    [SerializeField, ShowIf("_showDrifitingTab")] private float _driftFrictionStiffness = 0.25f;
 
     [Header("Boost")] [SerializeField] private bool _showBoostTab;
     [SerializeField, ShowIf("_showBoostTab")] private bool _canBoostInAir;
@@ -77,21 +80,25 @@ public class MovementController : MonoBehaviour
 
     private Rigidbody _rb;
     private MovementControls _movementControls;
+    private ToborEffectsController _ec;
     private WheelsController _wc;
-
 
     //protected bool GroundCheck() => Physics.CheckSphere(_groundCheck.position, _groundCheckRadius, _groundLayer);
     public bool GroundCheck() => _wc.WheelsGroundCheck();
     protected bool TurtledCheck() => Physics.CheckSphere(_roofCheck.position, _roofCheckRadius, _groundLayer);
 
-    private void Start()
+    private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
-        _rb.centerOfMass = _centerOfMass;
-
         _movementControls = GetComponent<MovementControls>();
         _wc = GetComponent<WheelsController>();
+        _ec = GetComponent<ToborEffectsController>();
+    }
 
+    private void Start()
+    {
+
+        _rb.centerOfMass = _centerOfMass;
         _currentAcceleration = _acceleration;
         _currentMaxSpeed = _maxSpeed;
         _currentTurnSpeed = _stoppedTurnSpeed;
@@ -229,12 +236,14 @@ public class MovementController : MonoBehaviour
             if (_movementControls.Drift)
             {
                 _currentTurnSpeed = _driftTurnSpeed;
-                //_wc.SetWheelFriction(5,0.25f);
+                _ec.SetFoodTrail(2);
+                _wc.SetWheelFriction(_driftWheelDampeningRate, _driftFrictionStiffness);
             }
             else
             {
                 _currentTurnSpeed = _standardTurnSpeed;
-                //_wc.SetWheelFriction(_wc.StandardDampeningRate, _wc.StandardFrictionStiffness);
+                _ec.SetFoodTrail(0);
+                _wc.SetWheelFriction(_wc.StandardDampeningRate, _wc.StandardFrictionStiffness);
             }
         }
         else
@@ -258,8 +267,12 @@ public class MovementController : MonoBehaviour
     private IEnumerator FlipForces(float direction)
     {
         _isFlipping = true;
-        _rb.velocity = Vector3.zero;
-        _rb.angularVelocity = Vector3.zero;
+        if (!_cancelMomentumBeforeFlip)
+        {
+            _rb.velocity = Vector3.zero;
+            _rb.angularVelocity = Vector3.zero;
+        }
+
         _rb.maxAngularVelocity = float.PositiveInfinity;
         var tempDrag = _rb.angularDrag;
 
@@ -292,8 +305,10 @@ public class MovementController : MonoBehaviour
         }
     }
 
+    /*
     void OnDrawGizmos()
     {
         Gizmos.DrawSphere(gameObject.transform.position + _centerOfMass,_groundCheckRadius);
     }
+    */
 }

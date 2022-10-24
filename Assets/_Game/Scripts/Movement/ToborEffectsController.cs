@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ToborEffectsController : MonoBehaviour
@@ -7,6 +9,7 @@ public class ToborEffectsController : MonoBehaviour
     [Header("Effects")]
     [SerializeField] private List<TrailRenderer> _driftTrails = new List<TrailRenderer>();
     [SerializeField] private List<TrailRenderer> _boostTrails = new List<TrailRenderer>();
+    [SerializeField] private ParticleSystem _foodTrail;
 
     private MovementController _mc;
     private Animator _animator;
@@ -16,6 +19,7 @@ public class ToborEffectsController : MonoBehaviour
     private bool _boostTrailsActive;
 
     private bool _canPlayImpactAnim = true;
+    private bool _burstFoodTrail = true;
 
     private void Start()
     {
@@ -66,6 +70,17 @@ public class ToborEffectsController : MonoBehaviour
         _animator.SetBool("Idle", false);
     }
 
+    public void SetFoodTrail(int count)
+    {
+        var em = _foodTrail.emission;
+        em.rateOverDistance = count;
+    }
+
+    public void FoodTrailBurst(int count)
+    {
+        _foodTrail.Emit(count);
+    }
+
     public void PlayOnCollision()
     {
         if (_canPlayImpactAnim)
@@ -74,11 +89,13 @@ public class ToborEffectsController : MonoBehaviour
             {
                 _animator.SetFloat("ImpactMultiplier", 1f);
                 _animator.SetTrigger("Impact");
+                FoodTrailBurst(30);
             }
             else
             {
                 _animator.SetFloat("ImpactMultiplier", 0.5f);
                 _animator.SetTrigger("Impact");
+                FoodTrailBurst(10);
             }
             StartCoroutine(LockImpactAnimation());
         }
