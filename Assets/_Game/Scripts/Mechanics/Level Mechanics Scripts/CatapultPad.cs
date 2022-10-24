@@ -38,6 +38,7 @@ public class CatapultPad : InteractablePad {
         if(effects) effects.PlayOnCatapult();
     }
 
+    //disable custom gravity, movement controls, and drag on Tobor
     private IEnumerator DisableOddities(Rigidbody rb)
     {
         GravityController grav = rb.GetComponent<GravityController>();
@@ -48,7 +49,13 @@ public class CatapultPad : InteractablePad {
         if(grav) grav.GravityEnabled = false;
         if(move) move.SetActive(false);
 
-        yield return new WaitForSecondsRealtime(flightTime);
+        //waits until Tobor is grounded, or the time has run out, whichever happens first
+        yield return new WaitForSeconds(0.1f); //buffer for wheels to get off the ground
+        float inAirTimer = 0;
+        while(!move.GroundCheck() && inAirTimer < flightTime) {
+            inAirTimer += Time.deltaTime;
+            yield return null;
+        }
 
         if(grav) grav.GravityEnabled = true;
         if(move) move.SetActive(true);
@@ -93,7 +100,7 @@ public class CatapultPad : InteractablePad {
 
             //get y positions for points along the curve
             float t = step / (launchSpeed * Mathf.Cos(launchAngleRadians));
-            float y = -0.5f * Physics.gravity.magnitude * (t * t) + launchSpeed * Mathf.Sin(launchAngleRadians) * t;
+            float y = (-0.5f * Physics.gravity.magnitude * (t * t) + launchSpeed * Mathf.Sin(launchAngleRadians) * t) + transform.position.y;
 
             //get the x and z positions with the straight line from end to end
             Vector3 xzLine = transform.position + (step * linearVector);
