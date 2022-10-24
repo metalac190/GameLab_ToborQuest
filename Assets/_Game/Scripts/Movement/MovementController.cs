@@ -81,7 +81,7 @@ public class MovementController : MonoBehaviour
 
 
     //protected bool GroundCheck() => Physics.CheckSphere(_groundCheck.position, _groundCheckRadius, _groundLayer);
-    protected bool GroundCheck() => _wc.WheelsGroundCheck();
+    public bool GroundCheck() => _wc.WheelsGroundCheck();
     protected bool TurtledCheck() => Physics.CheckSphere(_roofCheck.position, _roofCheckRadius, _groundLayer);
 
     private void Start()
