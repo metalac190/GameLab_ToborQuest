@@ -57,7 +57,8 @@ public class LevelWinManager : MonoBehaviour
 
     public void ContinueNextLevel()
     {
-        CGSC.LoadScene(SceneManager.GetSceneByBuildIndex(SceneManager.GetActiveScene().buildIndex + 1).name, true);
+        //CGSC.LoadScene(SceneManager.GetSceneByBuildIndex(SceneManager.GetActiveScene().buildIndex + 1).name, true);
+        CGSC.LoadNextSceneRaw();
     }
 
     public void RestartLevel()

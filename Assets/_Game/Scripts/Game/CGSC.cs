@@ -140,10 +140,43 @@ public class CGSC : MonoBehaviour
 
     #region Scene Loading
 
+    [SerializeField] private int _currentQuest;
+    [SerializeField] private int _currentLevel;
+
     public static void LoadMainMenu(bool async = false, Action onComplete = null)
     {
+        Instance._currentQuest = -1;
+        Instance._currentLevel = -1;
         LoadScene(Instance._mainMenu.Name, async, onComplete);
         UnpauseGameResponse();
+    }
+
+    public static void LoadFirstQuestLevel(int questIndex, bool async = false, Action onComplete = null)
+    {
+        Instance._currentQuest = questIndex;
+        Instance._currentLevel = 0;
+        LoadScene(Instance._quests[questIndex].GetLevelName(0), async, onComplete);
+    }
+
+    public static void LoadNextLevel() => Instance.LoadNextLevelActual();
+    private void LoadNextLevelActual(bool async = false, Action onComplete = null)
+    {
+        if (_currentLevel < 0)
+        {
+            LoadFirstQuestLevel(_currentQuest < 0 ? 0 : _currentQuest);
+            return;
+        }
+        var quest = Instance._quests[_currentQuest];
+        _currentLevel++;
+        
+        if (_currentLevel >= quest.LevelNames.Count)
+        {
+            LoadMainMenu();
+        }
+        else
+        {
+            LoadScene(quest.GetLevelName(_currentLevel), async, onComplete);
+        }
     }
 
     public static void LoadQuestLevel(int questIndex, int levelIndex, bool async = false, Action onComplete = null)
@@ -155,11 +188,19 @@ public class CGSC : MonoBehaviour
             return;
         }
 #endif
+        Instance._currentQuest = questIndex;
+        Instance._currentLevel = levelIndex;
         LoadScene(Instance._quests[questIndex].GetLevelName(levelIndex), async, onComplete);
+    }
+
+    public static void LoadNextSceneRaw(bool async = false, Action onComplete = null)
+    {
+        LoadScene(SceneManager.GetActiveScene().buildIndex + 1, async, onComplete);
     }
 
     public static void LoadScene(string sceneName, bool async = false, Action onComplete = null)
     {
+        InMainMenu = sceneName.Equals(Instance._mainMenu.Name);
         if (async)
         {
             if (Instance) Instance.LoadSceneAsync(sceneName, onComplete);
@@ -168,7 +209,22 @@ public class CGSC : MonoBehaviour
         else
         {
             SceneManager.LoadScene(sceneName);
-            InMainMenu = sceneName.Equals(Instance._mainMenu.Name);
+            onComplete?.Invoke();
+            UnpauseGameResponse();
+        }
+    }
+
+    public static void LoadScene(int sceneIndex, bool async = false, Action onComplete = null)
+    {
+        InMainMenu = sceneIndex == 0;
+        if (async)
+        {
+            if (Instance) Instance.LoadSceneAsync(sceneIndex, onComplete);
+            else Debug.LogError("CGSC Missing in Scene!");
+        }
+        else
+        {
+            SceneManager.LoadScene(sceneIndex);
             onComplete?.Invoke();
             UnpauseGameResponse();
         }
@@ -176,17 +232,22 @@ public class CGSC : MonoBehaviour
 
     private void LoadSceneAsync(string sceneName, Action onComplete)
     {
-        StartCoroutine(LoadSceneAsyncRoutine(sceneName, onComplete));
+        var operation = SceneManager.LoadSceneAsync(sceneName);
+        StartCoroutine(LoadSceneAsyncRoutine(operation, onComplete));
+    }
+
+    private void LoadSceneAsync(int sceneIndex, Action onComplete)
+    {
+        var operation = SceneManager.LoadSceneAsync(sceneIndex);
+        StartCoroutine(LoadSceneAsyncRoutine(operation, onComplete));
     }
     
-    private static IEnumerator LoadSceneAsyncRoutine(string sceneName, Action onComplete)
+    private static IEnumerator LoadSceneAsyncRoutine(AsyncOperation operation, Action onComplete)
     {
-        var operation = SceneManager.LoadSceneAsync(sceneName);
         while (!operation.isDone)
         {
             yield return null;
         }
-        InMainMenu = sceneName.Equals(Instance._mainMenu.Name);
         onComplete?.Invoke();
         UnpauseGameResponse();
     }
