@@ -35,6 +35,8 @@ public class MovementController : MonoBehaviour
     [SerializeField, ShowIf("_showSideFlipTab")] private bool _cancelMomentumBeforeFlip = false;
 
     [Header("Drift")] [SerializeField] private bool _showDrifitingTab;
+    [Range(0,1), ShowIf("_showDrifitingTab")]
+    [SerializeField] private float _driftAccelerationMultiplier = 0.5f;
     [SerializeField, ShowIf("_showDrifitingTab")] private float _driftTurnSpeed = 5.0f;
     [SerializeField, ShowIf("_showDrifitingTab")] private float _driftWheelDampeningRate = 2.0f;
     [SerializeField, ShowIf("_showDrifitingTab")] private float _driftFrictionStiffness = 0.25f;
@@ -63,7 +65,6 @@ public class MovementController : MonoBehaviour
     [SerializeField, ReadOnly] private bool _isDrifting;
     [SerializeField, ReadOnly] private bool _isBoosting;
     [SerializeField, ReadOnly] private bool _isFlipping;
-    [SerializeField, ReadOnly] public bool _UsingPad;
     [SerializeField, ReadOnly] private Vector3 _direction;
     [SerializeField, ReadOnly] private Vector3 _previousVel;
 
@@ -74,7 +75,6 @@ public class MovementController : MonoBehaviour
     public bool IsBoosting => _isBoosting;
     public bool IsFlipping => _isFlipping;
     public bool UsingRechargeBoost => _useRechargeBoost;
-
     public Vector3 PreviousVelocity => _previousVel;
 
     private Rigidbody _rb;
@@ -155,17 +155,17 @@ public class MovementController : MonoBehaviour
             else StartCoroutine(BoostCooldown());
         }
 
-        var force = transform.forward * (_currentAcceleration * _movementControls.Speed);
+        var force = new Vector3();
+        var speed = _movementControls.Speed;
+
+        if (_isDrifting) force = transform.forward * (_currentAcceleration * Mathf.Clamp(speed, -_driftAccelerationMultiplier, _driftAccelerationMultiplier));
+        else force = transform.forward * (_currentAcceleration * speed);
 
         //boosting gives no y velocity
         if (_isBoosting) force.y = 0;
 
         _rb.AddForce(force, ForceMode.Acceleration);
 
-        //if not using pad something?
-        if (!_UsingPad) _rb.velocity = Vector3.ClampMagnitude(_rb.velocity, _currentMaxSpeed);
-        
-        /////ISSSUUUEEEE
         _rb.velocity = Vector3.ClampMagnitude(_rb.velocity, _currentMaxSpeed);
         
         _isMoving = _rb.velocity.magnitude > 0.25f;
@@ -234,12 +234,13 @@ public class MovementController : MonoBehaviour
             if (_movementControls.Drift)
             {
                 _currentTurnSpeed = _driftTurnSpeed;
-                _wc.SetWheelFriction(_driftWheelDampeningRate, _driftFrictionStiffness);
+                //_wc.SetWheelFriction(_driftWheelDampeningRate, _driftFrictionStiffness);
+                StartCoroutine(DriftFriction());
             }
             else
             {
                 _currentTurnSpeed = _standardTurnSpeed;
-                _wc.SetWheelFriction(_wc.StandardDampeningRate, _wc.StandardFrictionStiffness);
+                //_wc.SetWheelFriction(_wc.StandardDampeningRate, _wc.StandardFrictionStiffness);
             }
         }
         else
@@ -250,7 +251,7 @@ public class MovementController : MonoBehaviour
 
     private IEnumerator DriftFriction()
     {
-        _wc.SetWheelFriction(2,2);
+        _wc.SetWheelFriction(_driftWheelDampeningRate, _driftFrictionStiffness);
         yield return new WaitUntil(() => !_isDrifting);
         _wc.SetWheelFriction(_wc.StandardDampeningRate,_wc.StandardFrictionStiffness);
     }

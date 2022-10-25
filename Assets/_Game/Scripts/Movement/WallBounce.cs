@@ -103,11 +103,11 @@ public class WallBounce : MonoBehaviour
         if (_wallBounceCooldown > 0) StartCoroutine(WallBounceCooldown());
     }
 
-    private static Vector3 TrueClampMagnitude(Vector3 vector, float min, float max)
+    public static Vector3 TrueClampMagnitude(Vector3 vector, float min, float max)
     {
-        double sm = vector.sqrMagnitude;
-        if (sm > (double) max * (double) max) return vector.normalized * max;
-        else if (sm < (double) min * (double) min) return vector.normalized * min;
+        double sqrVectorMag = vector.sqrMagnitude;
+        if (sqrVectorMag > (double) max * (double) max) return vector.normalized * max;
+        else if (sqrVectorMag < (double) min * (double) min) return vector.normalized * min;
         return vector;
     }
     
