@@ -54,13 +54,13 @@ public abstract class InteractablePad : MonoBehaviour {
     }
 
     private IEnumerator PadTimer(MovementController movementController) {
-        movementController._UsingPad = true;
+        //movementController._UsingPad = true;
         padTimer = 0;
 
         yield return new WaitUntil(() => padTimer >= padForceMaxTime);
 
         //shouldn't trigger until Tobor hasn't touched ANY pad for padForceMaxTime time
-        movementController._UsingPad = false;
+        //movementController._UsingPad = false;
     }
 
     private IEnumerator Particles(Vector3 spawnPosition) {
