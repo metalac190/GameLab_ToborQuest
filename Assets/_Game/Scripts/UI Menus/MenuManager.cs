@@ -108,8 +108,9 @@ public class MenuManager : MonoBehaviour
 
     public void StartLevelSelect()
     {
-        menuAnimations.AnimatorController.SetTrigger("GameToLevelSelect");
-        currentMenu = MenuType.LevelSelect;
+        Debug.Log(currentMenu);
+        //menuAnimations.AnimatorController.Play("LevelSelect");
+        //currentMenu = MenuType.LevelSelect;
     }
 
     public void ExitGame()

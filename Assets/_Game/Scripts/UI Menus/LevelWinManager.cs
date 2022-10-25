@@ -69,10 +69,10 @@ public class LevelWinManager : MonoBehaviour
     public void ReturnToLevels()
     {
         CGSC.LoadMainMenu(true, () => {
-            MenuManager menuManager = GameObject.FindObjectOfType<MenuManager>();
-            menuManager.StartLevelSelect();
+            //MenuManager menuManager = GameObject.FindObjectOfType<MenuManager>();
+            //menuManager.StartLevelSelect();
             //menuManager.SetCurrentMenu(1);
-            menuManager.LevelSelect();            
+            //menuManager.LevelSelect();            
         });
     }
 
