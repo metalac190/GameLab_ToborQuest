@@ -55,7 +55,7 @@ public class ToborSound : MonoBehaviour
     {
         if (_mc.IsGrounded || _mc.IsBoosting)
         {
-            //_engineSound.pitch = Mathf.Clamp(Mathf.Log(_tobor.velocity.magnitude), _MinPitch, _MaxPitch);
+            _engineSound.pitch = Mathf.Clamp(Mathf.Log(_tobor.velocity.magnitude), _MinPitch, _MaxPitch);
         }
         /*
         if (_tobor.GetComponent<MovementController>().IsDrifting == true)
