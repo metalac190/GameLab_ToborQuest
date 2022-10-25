@@ -10,23 +10,14 @@ public abstract class InteractablePad : MonoBehaviour {
     [SerializeField] private float padForceMaxTime;
     [SerializeField] private ParticleSystem particleVFX;
     [SerializeField] private SFXEvent audioSFX;
-    [SerializeField] private Animation padAnimation;
     [SerializeField] private UnityEvent onPlayerEnter;
 
     private Animator animator;
-
-    //static timer to be shared by all pads
-    private static float padTimer;
 
     abstract protected void OnRigidbodyTrigger(Rigidbody rb, ToborEffectsController effects);
 
     private void Awake() {
         animator = GetComponentInChildren<Animator>();
-        padTimer = 0;
-    }
-
-    private void Update() {
-        padTimer += Time.deltaTime;
     }
 
     private void OnTriggerEnter(Collider other) {
@@ -47,20 +38,7 @@ public abstract class InteractablePad : MonoBehaviour {
 
         //if the object is Tobor, tell the movement control its using a pad and invoke any unity events
         MovementController movementController = other.GetComponent<MovementController>();
-        if(movementController != null) {
-            StartCoroutine(PadTimer(movementController));
-            onPlayerEnter?.Invoke();
-        }
-    }
-
-    private IEnumerator PadTimer(MovementController movementController) {
-        //movementController._UsingPad = true;
-        padTimer = 0;
-
-        yield return new WaitUntil(() => padTimer >= padForceMaxTime);
-
-        //shouldn't trigger until Tobor hasn't touched ANY pad for padForceMaxTime time
-        //movementController._UsingPad = false;
+        if(movementController) onPlayerEnter?.Invoke();
     }
 
     private IEnumerator Particles(Vector3 spawnPosition) {
