@@ -52,9 +52,9 @@ public class WallBounce : MonoBehaviour
     {
         if ((_wallLayer.value & (1 << otherCollider.gameObject.layer)) <= 0) return;
 
-        
         if (_canWallBounce)
         {
+            _toborEffects.PlayOnCollision();
             //to stop boosting into wall
             if (_mc.UsingRechargeBoost) StartCoroutine(_mc.BoostRecharge());
             else StartCoroutine(_mc.BoostCooldown(0.1f));

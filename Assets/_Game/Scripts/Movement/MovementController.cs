@@ -1,8 +1,7 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
+using Random = System.Random;
 
 public class MovementController : MonoBehaviour
 {
@@ -236,13 +235,11 @@ public class MovementController : MonoBehaviour
             if (_movementControls.Drift)
             {
                 _currentTurnSpeed = _driftTurnSpeed;
-                _ec.SetFoodTrail(2);
                 _wc.SetWheelFriction(_driftWheelDampeningRate, _driftFrictionStiffness);
             }
             else
             {
                 _currentTurnSpeed = _standardTurnSpeed;
-                _ec.SetFoodTrail(0);
                 _wc.SetWheelFriction(_wc.StandardDampeningRate, _wc.StandardFrictionStiffness);
             }
         }
@@ -304,6 +301,8 @@ public class MovementController : MonoBehaviour
             this.enabled = true;
         }
     }
+
+
 
     /*
     void OnDrawGizmos()
