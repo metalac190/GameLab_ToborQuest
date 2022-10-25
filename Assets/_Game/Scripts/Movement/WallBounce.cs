@@ -94,17 +94,8 @@ public class WallBounce : MonoBehaviour
         _rb.velocity = vel;
         _rb.angularVelocity = Vector3.zero;
 
-        /*
-        if (_rb.velocity.magnitude < 3f)
-        {
-            _rb.velocity = new Vector3(_horizontalBounce,_horizontalBounce,_verticalBounce);
-        }
-        */
-
         var additionalForce = _mc.PreviousVelocity.magnitude * new Vector3(0, _velocityBounceMultiplier.y, 0);
         var bounceForce = normal * _mc.PreviousVelocity.magnitude * _velocityBounceMultiplier.x + additionalForce;
-
-        Debug.Log("Old Bounce Force: " + bounceForce.magnitude);
 
         _rb.AddForce(TrueClampMagnitude(bounceForce,_minimumVelocityBounce,_maximumVelocityBounce), ForceMode.Impulse);
         //Debug.Log("Bounce Force: " + bounceForce);
