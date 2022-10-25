@@ -27,6 +27,8 @@ public class ToborEffectsController : MonoBehaviour
     [SerializeField] private bool _enableDriftSmoke = true;
     [SerializeField] private List<VisualEffect> _driftSmoke = new List<VisualEffect>();
 
+    [SerializeField] private List<GameObject> _mesh = new List<GameObject>();
+
     private MovementController _mc;
     private Animator _animator;
     private Rigidbody _rb;
@@ -99,7 +101,7 @@ public class ToborEffectsController : MonoBehaviour
         var difference = _storedVelocity - _rb.velocity.magnitude;
         if (difference > velocityMinimum)
         {
-            FoodTrailBurst();
+            FoodTrailBurst(1);
             _storedVelocity = _rb.velocity.magnitude;
         }
     }
@@ -132,9 +134,25 @@ public class ToborEffectsController : MonoBehaviour
         em.rateOverDistance = count;
     }
 
-    public void FoodTrailBurst()
+    public void FoodTrailBurst(int count)
     { 
-        if (_enableFoodTrail) _foodTrail.Emit(_foodTrail.main.maxParticles);
+        //if (_enableFoodTrail) _foodTrail.Emit(_foodTrail.main.maxParticles);
+
+        foreach (var food in _mesh)
+        {
+            for (var i = 0; i < count; i++)
+            {
+                var obj = Instantiate(food);
+                obj.transform.position = _foodTrail.transform.position;
+                obj.GetComponent<Rigidbody>().velocity = _rb.velocity;
+                obj.GetComponent<Rigidbody>().angularVelocity = _rb.angularVelocity;
+                Destroy(obj, 3f);
+            }
+            _storedVelocity = _rb.velocity.magnitude;
+        }
+
+
+
     }
 
     public void PlayOnCollision()
