@@ -52,10 +52,18 @@ public class CatapultPad : InteractablePad {
         //waits until Tobor is grounded, or the time has run out, whichever happens first
         yield return new WaitForSeconds(0.1f); //buffer for wheels to get off the ground
         float inAirTimer = 0;
-        while(!move.GroundCheck() && inAirTimer < flightTime) {
-            inAirTimer += Time.deltaTime;
-            yield return null;
+        if(move) {
+            while(!move.GroundCheck() && inAirTimer < flightTime) {
+                inAirTimer += Time.deltaTime;
+                yield return null;
+            }
+        } else {
+            while(inAirTimer < flightTime) {
+                inAirTimer += Time.deltaTime;
+                yield return null;
+            }
         }
+        
 
         if(grav) grav.GravityEnabled = true;
         if(move) move.SetActive(true);
