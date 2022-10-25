@@ -8,11 +8,17 @@ public class MenuAnimations : MonoBehaviour
     private Animator menuAnimator;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         menuAnimator = GetComponent<Animator>();
         LevelSelect(false);
     }
+
+    //private void Update()
+    //{
+    //    Debug.Log("LevelSelect is " + menuAnimator.GetBool("LevelSelect"));
+    //    Debug.Log("LevelInfoMenu is " + menuAnimator.GetBool("LevelInfoMenu"));
+    //}
 
     public void LevelSelect(bool value, Action onComplete = null)
     {
@@ -32,5 +38,11 @@ public class MenuAnimations : MonoBehaviour
         {
             return menuAnimator;
         }
+    }
+
+    public void StartLevelSelectMenu()
+    {
+        menuAnimator.SetBool("LevelSelect", true);
+        menuAnimator.Play("LevelSelect");
     }
 }
