@@ -106,6 +106,12 @@ public class MenuManager : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(levelSelectGameObject);
     }
 
+    public void StartLevelSelect()
+    {
+        menuAnimations.AnimatorController.SetTrigger("GameToLevelSelect");
+        currentMenu = MenuType.LevelSelect;
+    }
+
     public void ExitGame()
     {
         CGSC.QuitGame();
