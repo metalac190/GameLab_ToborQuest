@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using SoundSystem;
 using UnityEngine.UI;
 using TMPro;
 
@@ -48,6 +49,8 @@ public class DialogueSystem : MonoBehaviour
 
 		_speakerSpriteOpen = dialogue.SpriteOpenMouth;
 		_speakerSpriteClosed = dialogue.SpriteClosedMouth;
+
+		dialogue.DialogueSFX.Play();
 		
 		if (_speakerSpriteClosed != null) 
 		{ 
