@@ -27,7 +27,7 @@ namespace SoundSystem
         [SerializeField] float fadeTime;
 
         [Range(0f, 1f)]
-        public float VolumeToFadeTo;
+        public float VolumeToFadeTo = 1;
 
         //getters
         public AudioClip[] MusicLayers => _musicLayers;

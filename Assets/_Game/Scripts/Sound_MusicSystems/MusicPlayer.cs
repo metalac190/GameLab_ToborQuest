@@ -44,7 +44,7 @@ namespace SoundSystem
                     _layerSources[i].Play();
                 }
             }
-            FadeVolume(MusicManager.Instance.Volume, fadeTime);
+            FadeVolume(musicEvent.VolumeToFadeTo, fadeTime);
         }
 
         public void Stop(float fadeTime)
@@ -130,6 +130,7 @@ namespace SoundSystem
                 else
                 {
                     _layerSources[i].volume = 0;
+                    _layerSources[i].time = 0;
                 }
             }
         }
@@ -139,8 +140,7 @@ namespace SoundSystem
 
             float newVolume;
             float startVolume;
-
-            for (float elapsedTime = 0; elapsedTime <= fadeTime; elapsedTime += Time.deltaTime)
+            for (float elapsedTime = 0; elapsedTime <= fadeTime; elapsedTime += 0.005f)
             {
                 for (int i = 0; i < _layerSources.Count; i++)
                 {
@@ -169,6 +169,7 @@ namespace SoundSystem
                 else
                 {
                     _layerSources[i].volume = 0;
+                    _layerSources[i].time = 0;
                 }
             }
         }

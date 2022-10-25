@@ -42,7 +42,7 @@ public class levelPanelHoverTween : MonoBehaviour, ISelectHandler, IDeselectHand
 
     public void OnSubmit(BaseEventData eventData)
     {
-        _button.onClick.Invoke();
+        //_button.onClick.Invoke();
     }
 
     public void OnPointerEnter(PointerEventData eventData)

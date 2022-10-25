@@ -21,10 +21,10 @@ namespace SoundSystem
         public float Volume = 1;
 
         [Range(-3f, 3f)]
-        public float maxPitch = 2f;
+        public float maxPitch = 1f;
 
         [Range(-3f, 3f)]
-        public float minPitch = 0.25f;
+        public float minPitch = 0.8f;
 
         [Range(-1f, 1f)]
         public float panStereo = 0;

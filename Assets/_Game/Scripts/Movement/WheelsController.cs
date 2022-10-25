@@ -9,8 +9,8 @@ public class WheelsController : MonoBehaviour
     [SerializeField] private List<Wheel> _wheels = new List<Wheel>();
 
     [Header("Friction")]
-    [SerializeField] private float _standardWheelDampeningRate = 0.25f;
-    [SerializeField] private float _standardFrictionStiffness = 1f;
+    [SerializeField] private float _standardWheelDampeningRate = 0.5f;
+    [SerializeField] private float _standardFrictionStiffness = 2f;
 
     [Header("Debug")]
     [SerializeField, ReadOnly] private float _currentWheelDampeningRate;
@@ -38,12 +38,12 @@ public class WheelsController : MonoBehaviour
         SetWheelFriction(_standardWheelDampeningRate, _standardFrictionStiffness);
     }
 
-    public void SetWheelFriction(float wheelDampening = 0, float frictionStiffness = 0)
+    public void SetWheelFriction(float wheelDampening, float frictionStiffness)
     {
-            _currentWheelDampeningRate = wheelDampening;
-            _currentFrictionStiffness = frictionStiffness;
+        _currentWheelDampeningRate = wheelDampening;
+        _currentFrictionStiffness = frictionStiffness;
 
-            UpdateWheelFriction();
+        UpdateWheelFriction();
     }
     
     private void UpdateWheelFriction()

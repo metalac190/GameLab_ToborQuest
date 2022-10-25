@@ -6,8 +6,6 @@ namespace SoundSystem
 { 
     public class SFXManager : MonoBehaviour
     {
-        public SFXPlayer sfxPlayer;
-
         private static SFXManager _instance;
         public static SFXManager Instance
         {
@@ -48,6 +46,15 @@ namespace SoundSystem
                 soundOBJ.transform.parent = gameObject.transform;
             }
             soundOBJ.AddComponent<SFXPlayer>().Play(sfxEvent, soundOBJ);
+        }
+
+        public void PlayMultiSFX(MultiSFXEvent MsfxEvent, GameObject soundOBJ)
+        {
+            if (MsfxEvent.SpatialSound == 0)
+            {
+                soundOBJ.transform.parent = gameObject.transform;
+            }
+            soundOBJ.AddComponent<MultiSFXPlayer>().Play(MsfxEvent, soundOBJ);
         }
     }
 }

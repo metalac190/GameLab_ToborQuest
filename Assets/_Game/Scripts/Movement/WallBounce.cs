@@ -15,7 +15,10 @@ public class WallBounce : MonoBehaviour
     [SerializeField] private bool _consistentBouncing = true;
 
     [Header("Velocity Bounce Stats")]
-    [SerializeField] private Vector2 _velocityBounceMultiplier;
+    [Range(100,300)]
+    [SerializeField] private float _minimumVelocityBounce = 200f;
+    [SerializeField] private float _maximumVelocityBounce = 500f;
+    [SerializeField, ReadOnly] private Vector2 _velocityBounceMultiplier;
 
     private Rigidbody _rb;
     private MovementController _mc;
@@ -52,9 +55,9 @@ public class WallBounce : MonoBehaviour
     {
         if ((_wallLayer.value & (1 << otherCollider.gameObject.layer)) <= 0) return;
 
-        
         if (_canWallBounce)
         {
+            _toborEffects.PlayOnCollision();
             //to stop boosting into wall
             if (_mc.UsingRechargeBoost) StartCoroutine(_mc.BoostRecharge());
             else StartCoroutine(_mc.BoostCooldown(0.1f));
@@ -68,6 +71,7 @@ public class WallBounce : MonoBehaviour
                 _rb.velocity = vel;
                 _rb.angularVelocity = Vector3.zero;
             }
+
             _rb.AddForce(normal * _horizontalBounce + new Vector3(0, _verticalBounce, 0), ForceMode.Impulse);
             if (_wallBounceCooldown > 0) StartCoroutine(WallBounceCooldown());
         }
@@ -93,10 +97,18 @@ public class WallBounce : MonoBehaviour
         var additionalForce = _mc.PreviousVelocity.magnitude * new Vector3(0, _velocityBounceMultiplier.y, 0);
         var bounceForce = normal * _mc.PreviousVelocity.magnitude * _velocityBounceMultiplier.x + additionalForce;
 
-        _rb.AddForce(bounceForce, ForceMode.Impulse);
+        _rb.AddForce(TrueClampMagnitude(bounceForce,_minimumVelocityBounce,_maximumVelocityBounce), ForceMode.Impulse);
         //Debug.Log("Bounce Force: " + bounceForce);
         //Debug.Log("Additional Bounce: " + additionalForce);
         if (_wallBounceCooldown > 0) StartCoroutine(WallBounceCooldown());
+    }
+
+    public static Vector3 TrueClampMagnitude(Vector3 vector, float min, float max)
+    {
+        double sqrVectorMag = vector.sqrMagnitude;
+        if (sqrVectorMag > (double) max * (double) max) return vector.normalized * max;
+        else if (sqrVectorMag < (double) min * (double) min) return vector.normalized * min;
+        return vector;
     }
     
     private IEnumerator WallBounceCooldown()

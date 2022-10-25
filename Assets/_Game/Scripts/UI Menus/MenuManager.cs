@@ -7,6 +7,7 @@ public enum MenuType
 {
     MainMenu,
     LevelSelect,
+    LevelInfoMenu,
     Settings
 }
 
@@ -20,11 +21,13 @@ public class MenuManager : MonoBehaviour
     private GameObject mainMenuSelect;
     [SerializeField]
     private GameObject levelSelectGameObject;
+    private MenuAnimations menuAnimations;
 
     MenuType lastActiveMenu;
 
     private void Awake()
     {
+        menuAnimations = GetComponent<MenuAnimations>();
         menuControllerList.ForEach(x => x.gameObject.SetActive(true));
         SetActiveMenu(currentMenu);
         SetCurrentButtonSelect(mainMenuSelect);
@@ -57,7 +60,38 @@ public class MenuManager : MonoBehaviour
 
     public void SetCurrentMenu(int value)
     {
-        currentMenu = (MenuType)value;
+        MenuType tempMenu = (MenuType)value;
+        switch (tempMenu)
+        {
+            case (MenuType.MainMenu):
+                menuAnimations.LevelSelect(false, () =>
+                {                    
+                    currentMenu = tempMenu;
+                });
+                break;
+            case (MenuType.LevelSelect):
+                if (menuAnimations.AnimatorController.GetBool("LevelSelect"))
+                {
+                    menuAnimations.LevelInfoMenu(false, () =>
+                    {
+                        currentMenu = tempMenu;
+                    });
+                }
+                else
+                {
+                    menuAnimations.LevelSelect(true, () =>
+                    {
+                        currentMenu = tempMenu;
+                    });
+                }
+                break;
+            case (MenuType.LevelInfoMenu):
+                menuAnimations.LevelInfoMenu(true, () =>
+                {
+                    currentMenu = tempMenu;
+                });
+                break;
+        }            
     }
 
     public void ChangeScene(string value)

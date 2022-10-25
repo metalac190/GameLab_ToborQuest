@@ -14,7 +14,7 @@ public class PushableButton : MonoBehaviour {
 
     [Header("Button Settings")]
     [SerializeField, Range(0.1f, 1f)] private float thresholdPercentage;
-    [SerializeField] private float buttonForce;
+    [SerializeField] private float buttonPopOutForce;
     [SerializeField] private float popOutWaitTime;
     [SerializeField] private bool buttonTogglable;
 
@@ -99,7 +99,7 @@ public class PushableButton : MonoBehaviour {
 
     private void FixedUpdate() {
         if(addButtonForce) {
-            buttonTopRb.AddForce(buttonForce * Time.fixedDeltaTime * buttonTop.up);
+            buttonTopRb.AddForce(buttonPopOutForce * Time.fixedDeltaTime * buttonTop.up);
         }
     }
 
