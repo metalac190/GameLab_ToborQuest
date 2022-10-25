@@ -23,12 +23,13 @@ public class LevelInfoManager : MonoBehaviour
     public void SetLevelInfoObject(LevelInfoObject value)
     {
         levelInfoObj = value;
-        this.gameObject.SetActive(true);
+        //this.gameObject.SetActive(true);
+        //Debug.Log("Activating " + transform.name);
         EventSystem.current.SetSelectedGameObject(onStart.gameObject);
     }
 
     public void SetBackLevelButton(GameObject value)
-    {
+    {        
         backLevelButton = value;
     }
 
@@ -51,5 +52,4 @@ public class LevelInfoManager : MonoBehaviour
             CGSC.LoadScene(value.GetLevelSceneName());
         });
     }
-
 }
