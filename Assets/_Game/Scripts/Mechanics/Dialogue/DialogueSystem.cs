@@ -9,12 +9,18 @@ public class DialogueSystem : MonoBehaviour
 {
 	public static DialogueSystem Instance;
 	
+	[SerializeField, HighlightIfNull] GameObject _panel;
 	[SerializeField] float _typingSpeed = 0.04f;
 	[SerializeField] private TextMeshProUGUI _speaker;
 	[SerializeField] private TextMeshProUGUI _text;
 	[SerializeField] private Image _speakerSprite;
 	private Sprite _speakerSpriteClosed;
 	private Sprite _speakerSpriteOpen;
+	
+	private float _xOffScreen = -105f;
+	private float _xOnScreen = -960f;
+	
+	private int counterMax;
 
 	private Coroutine _displayLineCoroutine;
 	private bool _talking;
@@ -25,22 +31,40 @@ public class DialogueSystem : MonoBehaviour
 	{
 		Instance = this;
 		counter = 0;
+		counterMax = 0;
 		_talking = false;
 
 	}
 
+	void OnValidate()
+	{
+		if (_panel == null) { _panel = gameObject; }
+	}
+
+	void Start()
+	{
+		_panel = gameObject;
+	}
+
 	void Update()
 	{
-		if (_talking && counter < 300) { counter++; }
-		else if (_talking && counter >= 300)
+		if (_talking && counter < counterMax) { counter++; }
+		else if (_talking && counter >= counterMax)
 		{
 			_talking = false;
 			counter = 0;
+			counterMax = 0;
+			
+			ExitDialogue();
 		}
 	}
 
 	public void RunDialogue(Dialogue dialogue)
 	{
+		
+		
+		counterMax = (int)dialogue.DialogueDuration * 60;
+		
 		if (_displayLineCoroutine != null) { StopCoroutine(_displayLineCoroutine); }
 
 		if (!dialogue.Speaker.Equals("")) { _displayLineCoroutine = StartCoroutine(PrintName(dialogue.Speaker)); }
@@ -58,11 +82,16 @@ public class DialogueSystem : MonoBehaviour
 			_talking = true;
 		}
 	}
+	
+	void ExitDialogue()
+	{
+		
+	}
 
 	IEnumerator AnimateSprite(float _timeBetween)
 	{
 		
-		while(counter < 300)
+		while(counter < counterMax)
 		{
 			_speakerSprite.sprite = _speakerSpriteOpen;
 			yield return new WaitForSeconds(_timeBetween);
@@ -94,6 +123,8 @@ public class DialogueSystem : MonoBehaviour
 		}
 
 	}
+	
+	
 
 	
 }
