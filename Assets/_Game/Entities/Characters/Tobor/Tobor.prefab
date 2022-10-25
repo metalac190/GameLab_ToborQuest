@@ -139,7 +139,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e23799b41fb91584da61794631758cc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mass: 40
+  _mass: 8
   _radius: 0.58
   _inertia: 0
   _center: {x: 0, y: 0.1, z: 0}
@@ -199,7 +199,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e23799b41fb91584da61794631758cc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mass: 20
+  _mass: 5
   _radius: 0.36
   _inertia: 0
   _center: {x: 0, y: 0.1, z: 0}
@@ -712,7 +712,7 @@ MonoBehaviour:
   _maxSpeed: 50
   _showSteeringTab: 0
   _stoppedTurnSpeed: 1
-  _standardTurnSpeed: 2
+  _standardTurnSpeed: 1.5
   _showSideFlipTab: 0
   _flipLaunch: {x: 7, y: 7}
   _flipLaunchTorque: 4
@@ -785,11 +785,13 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4096
   _wallBounceCooldown: 0.5
-  _useVelocityBounce: 0
+  _useVelocityBounce: 1
   _verticalBounce: 300
   _horizontalBounce: 400
   _consistentBouncing: 1
-  _velocityBounceMultiplier: {x: 8, y: 8}
+  _minimumVelocityBounce: 200
+  _maximumVelocityBounce: 500
+  _velocityBounceMultiplier: {x: 20, y: 15}
 --- !u!114 &7528695759469318202
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -803,7 +805,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _useCustomGravity: 1
-  _groundedGravity: 400
+  _groundedGravity: 350
   _currentGravity: 9.81
 --- !u!114 &8946465618379171708
 MonoBehaviour:
@@ -2451,7 +2453,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e23799b41fb91584da61794631758cc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mass: 20
+  _mass: 5
   _radius: 0.36
   _inertia: 0
   _center: {x: 0, y: 0.1, z: 0}
@@ -2971,7 +2973,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e23799b41fb91584da61794631758cc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mass: 40
+  _mass: 8
   _radius: 0.58
   _inertia: 0
   _center: {x: 0, y: 0.1, z: 0}
@@ -3286,7 +3288,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e23799b41fb91584da61794631758cc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mass: 20
+  _mass: 5
   _radius: 0.36
   _inertia: 0
   _center: {x: 0, y: 0.1, z: 0}
@@ -4333,7 +4335,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e23799b41fb91584da61794631758cc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mass: 20
+  _mass: 5
   _radius: 0.36
   _inertia: 0
   _center: {x: 0, y: 0.1, z: 0}

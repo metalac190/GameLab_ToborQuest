@@ -15,7 +15,10 @@ public class WallBounce : MonoBehaviour
     [SerializeField] private bool _consistentBouncing = true;
 
     [Header("Velocity Bounce Stats")]
-    [SerializeField] private Vector2 _velocityBounceMultiplier;
+    [Range(100,300)]
+    [SerializeField] private float _minimumVelocityBounce = 200f;
+    [SerializeField] private float _maximumVelocityBounce = 500f;
+    [SerializeField, ReadOnly] private Vector2 _velocityBounceMultiplier;
 
     private Rigidbody _rb;
     private MovementController _mc;
@@ -68,6 +71,7 @@ public class WallBounce : MonoBehaviour
                 _rb.velocity = vel;
                 _rb.angularVelocity = Vector3.zero;
             }
+
             _rb.AddForce(normal * _horizontalBounce + new Vector3(0, _verticalBounce, 0), ForceMode.Impulse);
             if (_wallBounceCooldown > 0) StartCoroutine(WallBounceCooldown());
         }
@@ -90,13 +94,30 @@ public class WallBounce : MonoBehaviour
         _rb.velocity = vel;
         _rb.angularVelocity = Vector3.zero;
 
+        /*
+        if (_rb.velocity.magnitude < 3f)
+        {
+            _rb.velocity = new Vector3(_horizontalBounce,_horizontalBounce,_verticalBounce);
+        }
+        */
+
         var additionalForce = _mc.PreviousVelocity.magnitude * new Vector3(0, _velocityBounceMultiplier.y, 0);
         var bounceForce = normal * _mc.PreviousVelocity.magnitude * _velocityBounceMultiplier.x + additionalForce;
 
-        _rb.AddForce(bounceForce, ForceMode.Impulse);
+        Debug.Log("Old Bounce Force: " + bounceForce.magnitude);
+
+        _rb.AddForce(TrueClampMagnitude(bounceForce,_minimumVelocityBounce,_maximumVelocityBounce), ForceMode.Impulse);
         //Debug.Log("Bounce Force: " + bounceForce);
         //Debug.Log("Additional Bounce: " + additionalForce);
         if (_wallBounceCooldown > 0) StartCoroutine(WallBounceCooldown());
+    }
+
+    private static Vector3 TrueClampMagnitude(Vector3 vector, float min, float max)
+    {
+        double sm = vector.sqrMagnitude;
+        if (sm > (double) max * (double) max) return vector.normalized * max;
+        else if (sm < (double) min * (double) min) return vector.normalized * min;
+        return vector;
     }
     
     private IEnumerator WallBounceCooldown()

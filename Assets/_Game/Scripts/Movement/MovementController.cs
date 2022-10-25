@@ -82,7 +82,7 @@ public class MovementController : MonoBehaviour
     private ToborEffectsController _ec;
     private WheelsController _wc;
 
-    //protected bool GroundCheck() => Physics.CheckSphere(_groundCheck.position, _groundCheckRadius, _groundLayer);
+    //public bool GroundCheck() => Physics.CheckSphere(_groundCheck.position, _groundCheckRadius, _groundLayer);
     public bool GroundCheck() => _wc.WheelsGroundCheck();
     protected bool TurtledCheck() => Physics.CheckSphere(_roofCheck.position, _roofCheckRadius, _groundLayer);
 
@@ -114,6 +114,8 @@ public class MovementController : MonoBehaviour
         if (_movementControls.Boost && !_boostOnCooldown) Boost();
 
         if (_isGrounded || _isBoosting) Movement();
+
+        if (_isGrounded) SideFlip();
 
         Drift();
     }
@@ -160,16 +162,13 @@ public class MovementController : MonoBehaviour
 
         _rb.AddForce(force, ForceMode.Acceleration);
 
-
         //if not using pad something?
         if (!_UsingPad) _rb.velocity = Vector3.ClampMagnitude(_rb.velocity, _currentMaxSpeed);
         
+        /////ISSSUUUEEEE
         _rb.velocity = Vector3.ClampMagnitude(_rb.velocity, _currentMaxSpeed);
         
         _isMoving = _rb.velocity.magnitude > 0.25f;
-
-        SideFlip();
-
     }
 
     private void Drive()
