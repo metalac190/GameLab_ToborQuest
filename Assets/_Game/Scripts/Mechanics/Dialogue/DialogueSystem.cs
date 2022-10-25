@@ -43,14 +43,14 @@ public class DialogueSystem : MonoBehaviour
 	{
 		if (_displayLineCoroutine != null) { StopCoroutine(_displayLineCoroutine); }
 
-		_speaker.text = dialogue.Speaker;
+		if (!dialogue.Speaker.Equals("")) { _displayLineCoroutine = StartCoroutine(PrintName(dialogue.Speaker)); }
 
-		if (!dialogue.Text.Equals("")) { _displayLineCoroutine = StartCoroutine(Print(dialogue.Text)); }
+		if (!dialogue.Text.Equals("")) { _displayLineCoroutine = StartCoroutine(PrintText(dialogue.Text)); }
 
 		_speakerSpriteOpen = dialogue.SpriteOpenMouth;
 		_speakerSpriteClosed = dialogue.SpriteClosedMouth;
 
-		dialogue.DialogueSFX.Play();
+		if (dialogue.DialogueSFX) { dialogue.DialogueSFX.Play(); }
 		
 		if (_speakerSpriteClosed != null) 
 		{ 
@@ -71,13 +71,25 @@ public class DialogueSystem : MonoBehaviour
 		}
 	}
 
-	IEnumerator Print(string _dialogueText)
+	IEnumerator PrintText(string _dialogueText)
 	{
 		_text.text = "";
 
 		foreach (char c in _dialogueText)
 		{
 			_text.text += c;
+			yield return new WaitForSeconds(_typingSpeed);
+		}
+
+	}
+
+	IEnumerator PrintName(string _dialogueName)
+	{
+		_speaker.text = "";
+
+		foreach (char c in _dialogueName)
+		{
+			_speaker.text += c;
 			yield return new WaitForSeconds(_typingSpeed);
 		}
 
