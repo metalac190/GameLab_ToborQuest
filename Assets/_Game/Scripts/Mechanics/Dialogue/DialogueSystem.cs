@@ -10,15 +10,19 @@ public class DialogueSystem : MonoBehaviour
 	public static DialogueSystem Instance;
 	
 	[SerializeField, HighlightIfNull] GameObject _panel;
+	[SerializeField] DialogueAnimator _animator;
 	[SerializeField] float _typingSpeed = 0.04f;
 	[SerializeField] private TextMeshProUGUI _speaker;
 	[SerializeField] private TextMeshProUGUI _text;
 	[SerializeField] private Image _speakerSprite;
+	
+
 	private Sprite _speakerSpriteClosed;
 	private Sprite _speakerSpriteOpen;
 	
-	private float _xOffScreen = -105f;
-	private float _xOnScreen = -960f;
+
+
+	private Dialogue _dialogue;
 	
 	private int counterMax;
 
@@ -39,6 +43,7 @@ public class DialogueSystem : MonoBehaviour
 	void OnValidate()
 	{
 		if (_panel == null) { _panel = gameObject; }
+		if (_animator == null) { _animator = GetComponent<DialogueAnimator>(); }
 	}
 
 	void Start()
@@ -55,14 +60,13 @@ public class DialogueSystem : MonoBehaviour
 			counter = 0;
 			counterMax = 0;
 			
-			ExitDialogue();
 		}
 	}
 
 	public void RunDialogue(Dialogue dialogue)
 	{
 		
-		EnterDialogue();
+		_dialogue = dialogue;
 		
 		counterMax = (int)dialogue.DialogueDuration * 60;
 		
@@ -75,6 +79,9 @@ public class DialogueSystem : MonoBehaviour
 		_speakerSpriteOpen = dialogue.SpriteOpenMouth;
 		_speakerSpriteClosed = dialogue.SpriteClosedMouth;
 
+		_animator.IntroAndExitAnimation(dialogue.TimeToEnter, dialogue.DialogueDuration, dialogue.TimeToExit);
+
+
 		if (dialogue.DialogueSFX) { dialogue.DialogueSFX.Play(); }
 		
 		if (_speakerSpriteClosed != null) 
@@ -84,15 +91,7 @@ public class DialogueSystem : MonoBehaviour
 		}
 	}
 	
-	void ExitDialogue()
-	{
-		
-	}
 
-	void EnterDialogue()
-	{
-
-	}
 
 	IEnumerator AnimateSprite(float _timeBetween)
 	{
