@@ -62,6 +62,7 @@ public class DialogueSystem : MonoBehaviour
 	public void RunDialogue(Dialogue dialogue)
 	{
 		
+		EnterDialogue();
 		
 		counterMax = (int)dialogue.DialogueDuration * 60;
 		
@@ -78,7 +79,7 @@ public class DialogueSystem : MonoBehaviour
 		
 		if (_speakerSpriteClosed != null) 
 		{ 
-			StartCoroutine(AnimateSprite(1f)); 
+			StartCoroutine(AnimateSprite(dialogue.AnimationSpeed)); 
 			_talking = true;
 		}
 	}
@@ -86,6 +87,11 @@ public class DialogueSystem : MonoBehaviour
 	void ExitDialogue()
 	{
 		
+	}
+
+	void EnterDialogue()
+	{
+
 	}
 
 	IEnumerator AnimateSprite(float _timeBetween)
