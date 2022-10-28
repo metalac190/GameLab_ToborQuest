@@ -10,11 +10,13 @@ public class DialogueSystem : MonoBehaviour
 	public static DialogueSystem Instance;
 	
 	[SerializeField, HighlightIfNull] GameObject _panel;
-	[SerializeField] DialogueAnimator _animator;
+	[SerializeField] public DialogueAnimator _animator;
 	[SerializeField] float _typingSpeed = 0.04f;
 	[SerializeField] private TextMeshProUGUI _speaker;
 	[SerializeField] private TextMeshProUGUI _text;
 	[SerializeField] private Image _speakerSprite;
+	[ReadOnly] public bool _disableAnimation = false; 
+	[ReadOnly] public float _totalWaitTime;
 	
 
 	private Sprite _speakerSpriteClosed;
@@ -59,8 +61,9 @@ public class DialogueSystem : MonoBehaviour
 			_talking = false;
 			counter = 0;
 			counterMax = 0;
-			
 		}
+
+		if (!_disableAnimation) { _totalWaitTime = 0f; }
 	}
 
 	public void RunDialogue(Dialogue dialogue)
@@ -79,9 +82,11 @@ public class DialogueSystem : MonoBehaviour
 		_speakerSpriteOpen = dialogue.SpriteOpenMouth;
 		_speakerSpriteClosed = dialogue.SpriteClosedMouth;
 
-		_animator.IntroAndExitAnimation(dialogue.TimeToEnter, dialogue.DialogueDuration, dialogue.TimeToExit);
-
-
+		if (!_disableAnimation) 
+		{
+			_animator.IntroAndExitAnimation(dialogue.TimeToEnter, dialogue.DialogueDuration, dialogue.TimeToExit);
+		}
+		
 		if (dialogue.DialogueSFX) { dialogue.DialogueSFX.Play(); }
 		
 		if (_speakerSpriteClosed != null) 
