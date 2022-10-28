@@ -1,8 +1,7 @@
 ## Level Design Only
 
 ### What is Included?
-A whitebox of the Level.
-All static (not moving) colliders for the level.
+A whitebox of the Level. All Ground and Wall Colliders.
 
 ### How will development work?
 The Level Blockout / Whitebox should be fully complete by Alpha.
@@ -16,3 +15,4 @@ For colliders, No. ProBuilder's colliders do not always work and can be clipped 
 ### How will Art be Implemented?
 The set designers will bring art into the Environment Art Prefab, matching the location of objects in the whitebox.
 Then, the whitebox will be disabled (Not deleted, please) from inside this prefab. Make sure to keep colliders active!
+^^^ In the search bar (while in the prefab), type "MeshRenderer", and then disable the MeshRenderer on all objects.

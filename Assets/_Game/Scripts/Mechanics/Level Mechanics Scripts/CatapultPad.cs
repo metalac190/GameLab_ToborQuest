@@ -45,7 +45,7 @@ public class CatapultPad : InteractablePad {
         MovementController move = rb.GetComponent<MovementController>();
         float originalDrag = rb.drag;
 
-        rb.drag = 0;
+        if(rb) rb.drag = 0;
         if(grav) grav.GravityEnabled = false;
         if(move) move.SetActive(false);
 
@@ -67,7 +67,7 @@ public class CatapultPad : InteractablePad {
 
         if(grav) grav.GravityEnabled = true;
         if(move) move.SetActive(true);
-        rb.drag = originalDrag;
+        if(rb) rb.drag = originalDrag;
     }
 
     /*

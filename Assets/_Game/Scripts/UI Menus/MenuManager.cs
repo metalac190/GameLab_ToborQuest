@@ -23,6 +23,11 @@ public class MenuManager : MonoBehaviour
     private GameObject levelSelectGameObject;
     private MenuAnimations menuAnimations;
 
+    public MenuAnimations MenuAnimations
+    {
+        get { return MenuAnimations; }
+    }
+
     MenuType lastActiveMenu;
 
     private void Awake()
@@ -104,6 +109,12 @@ public class MenuManager : MonoBehaviour
     public void LevelSelect()
     {
         EventSystem.current.SetSelectedGameObject(levelSelectGameObject);
+    }
+
+    public void StartLevelSelect()
+    {
+        menuAnimations.StartLevelSelectMenu();
+        currentMenu = MenuType.LevelSelect;
     }
 
     public void ExitGame()

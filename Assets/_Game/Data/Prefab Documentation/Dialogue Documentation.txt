@@ -1,0 +1,11 @@
+## Narrative Only
+
+### What is Included?
+All Dialogue Triggers
+
+### How will development work?
+In the [_Game\Entities\LevelMechanics] Folder, you'll find a prefab called "Dialogue Trigger". Drag this prefab to where you want it in the Level.
+
+On the Dialogue Trigger Prefab, you'll find the Invisible Trigger Component. Create an entry into the Event by pressing the plus button and drag the dialogue asset you've created for this trigger into it.
+
+Where it says "No Function", click it and find Dialogue in the dropdown. Pick "RunDialogue ()". This will run the dialogue asset when the player passes through the trigger.
