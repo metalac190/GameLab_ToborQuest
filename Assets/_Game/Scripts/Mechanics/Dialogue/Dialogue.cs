@@ -36,7 +36,11 @@ public class Dialogue : ScriptableObject
 	
 	public void RunDialogue()
 	{
-		if (DialogueSystem.Instance) DialogueSystem.Instance.RunDialogue(this);
+		if (DialogueSystem.Instance)
+		{
+			DialogueSystem.Instance.RunDialogue(this);
+			Debug.Log("[Dialogue] Run Dialogue");
+		}
 		else Debug.LogWarning("No Dialogue System in Place");
 	}
 }
