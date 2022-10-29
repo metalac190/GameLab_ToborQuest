@@ -44,12 +44,8 @@ public class DialogueSystem : MonoBehaviour
 
 	void Start()
 	{
-		if (_panel == null) { _panel = gameObject; }
-		if (_animator == null) { _animator = GetComponent<DialogueAnimator>(); }
 		_panel = gameObject;
-
-
-
+		_animator = GetComponent<DialogueAnimator>();
 	}
 
 	

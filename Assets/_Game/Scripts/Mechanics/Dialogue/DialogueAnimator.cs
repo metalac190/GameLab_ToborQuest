@@ -13,29 +13,34 @@ public class DialogueAnimator : MonoBehaviour
     void Start()
     {
      
-        if (_cachedOriginalTransform == null) { _cachedOriginalTransform = GetComponent<RectTransform>(); }
+         _cachedOriginalTransform = GetComponent<RectTransform>();
     }
 
     [Button]
     public void IntroAnimation(float _time = 1f)
     {
-        // LeanTween.move(_cachedOriginalTransform, _cachedFinalTransform, _time).setEase(LeanTweenType.easeInCubic);
+        Debug.Log("[Dialogue Animator] Intro");
+
         LeanTween.move(_cachedOriginalTransform, _visiblePosition, _time).setEase(LeanTweenType.easeInOutQuart);
+
+
 
     }
 
     [Button]
     public void ExitAnimation(float _time = 1f)
     {
-        // LeanTween.move(_cachedOriginalTransform, _startTransform, _time).setEase(LeanTweenType.easeInOutQuart);
+       
         LeanTween.move(_cachedOriginalTransform, _hiddenPosition, _time).setEase(LeanTweenType.easeInOutQuart);
+        Debug.Log("[Dialogue Animator] Exit");
+
 
 
 
     }
 
     [Button]
-    public void IntroAndExitAnimation(float enterTime, float timeWait, float exitTime)
+    public void IntroAndExitAnimation(float enterTime = 1f, float timeWait = 3f, float exitTime = 1f)
     {
         StartCoroutine(Animation(enterTime, timeWait, exitTime));
     }
@@ -47,11 +52,10 @@ public class DialogueAnimator : MonoBehaviour
 
     IEnumerator Animation(float enterTime, float timeWait, float exitTime)
     {
-        Debug.Log("[Dialogue Animator] Intro");
-        IntroAnimation(1f);
+        IntroAnimation(enterTime);
         yield return new WaitForSeconds(timeWait);
         Debug.Log("[Dialogue Animator] Exit");
-        ExitAnimation(1f);
+        ExitAnimation(exitTime);
     }
 
 }
