@@ -17,7 +17,7 @@ public class DialogueAnimator : MonoBehaviour
     }
 
     [Button]
-    public void IntroAnimation(float _time = 1f)
+    public void IntroAnimation(float _time)
     {
         Debug.Log("[Dialogue Animator] Intro");
 
@@ -28,7 +28,7 @@ public class DialogueAnimator : MonoBehaviour
     }
 
     [Button]
-    public void ExitAnimation(float _time = 1f)
+    public void ExitAnimation(float _time)
     {
        
         LeanTween.move(_cachedOriginalTransform, _hiddenPosition, _time).setEase(LeanTweenType.easeInOutQuart);
@@ -40,7 +40,7 @@ public class DialogueAnimator : MonoBehaviour
     }
 
     [Button]
-    public void IntroAndExitAnimation(float enterTime = 1f, float timeWait = 3f, float exitTime = 1f)
+    public void IntroAndExitAnimation(float enterTime, float timeWait, float exitTime)
     {
         StartCoroutine(Animation(enterTime, timeWait, exitTime));
     }
