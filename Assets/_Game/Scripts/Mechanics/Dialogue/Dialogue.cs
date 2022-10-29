@@ -12,8 +12,10 @@ public class Dialogue : ScriptableObject
 	[SerializeField] private Sprite _spriteClosedMouth;
 	[SerializeField] private Sprite _spriteOpenMouth;
 	[SerializeField] private SFXEvent _dialogueSoundEffect;
-	[SerializeField] private float _dialogueEnterScreenTime;
-	[SerializeField] private float _dialogueDuration;
+	[SerializeField] private float _dialogueScreenEnterTime = 0.2f;
+	[SerializeField] private float _animationSpeed = 0.2f;
+	[SerializeField] private float _dialogueScreenExitTime = 0.2f;
+	[SerializeField] private float _dialogueDuration = 2f;
 	[SerializeField] private bool _freezeTobor;
 	
 
@@ -25,9 +27,11 @@ public class Dialogue : ScriptableObject
 	public SFXEvent DialogueSFX => _dialogueSoundEffect;
 	public Sprite SpriteClosedMouth => _spriteClosedMouth;
 	public Sprite SpriteOpenMouth => _spriteOpenMouth;
-	public float DialogueDuration => _dialogueDuration;
 	public bool FreezeTobor => _freezeTobor;
-	public float TimeToEnter => _dialogueEnterScreenTime;
+	public float TimeToEnter => _dialogueScreenEnterTime;
+	public float TimeToExit => _dialogueScreenExitTime;
+	public float DialogueDuration => _dialogueDuration;
+	public float AnimationSpeed => _animationSpeed;
 
 	
 	public void RunDialogue()
