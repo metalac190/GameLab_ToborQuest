@@ -5,41 +5,39 @@ using UnityEngine;
 public class DialogueAnimator : MonoBehaviour
 {
     [SerializeField] RectTransform _cachedOriginalTransform;
-    [SerializeField] Vector3 _hiddenPosition;
-    [SerializeField] Vector3 _visiblePosition;
+    Vector3 _hiddenPosition = new Vector3(-90, -540, 0);
+    Vector3 _visiblePosition = new Vector3(-960, -540, 0);
 
     
 
-    void Start()
+    void Awake()
     {
      
          _cachedOriginalTransform = GetComponent<RectTransform>();
+        LeanTween.reset();
+
     }
 
-    [Button]
+
     public void IntroAnimation(float _time)
     {
         Debug.Log("[Dialogue Animator] Intro");
-
+        
         LeanTween.move(_cachedOriginalTransform, _visiblePosition, _time).setEase(LeanTweenType.easeInOutQuart);
-
-
-
+        
+        
     }
 
-    [Button]
+
     public void ExitAnimation(float _time)
     {
-       
+        
         LeanTween.move(_cachedOriginalTransform, _hiddenPosition, _time).setEase(LeanTweenType.easeInOutQuart);
         Debug.Log("[Dialogue Animator] Exit");
 
-
-
-
     }
 
-    [Button]
+
     public void IntroAndExitAnimation(float enterTime, float timeWait, float exitTime)
     {
         StartCoroutine(Animation(enterTime, timeWait, exitTime));
