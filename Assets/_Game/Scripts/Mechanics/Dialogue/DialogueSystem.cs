@@ -15,8 +15,6 @@ public class DialogueSystem : MonoBehaviour
 	[SerializeField] private TextMeshProUGUI _speaker;
 	[SerializeField] private TextMeshProUGUI _text;
 	[SerializeField] private Image _speakerSprite;
-	[ReadOnly] public bool _disableAnimation = false; 
-	[ReadOnly] public float _totalWaitTime;
 	
 
 	private Sprite _speakerSpriteClosed;
@@ -24,7 +22,7 @@ public class DialogueSystem : MonoBehaviour
 	
 
 
-	private Dialogue _dialogue;
+
 	
 	private int counterMax;
 
@@ -36,9 +34,7 @@ public class DialogueSystem : MonoBehaviour
 	private void Awake()
 	{
 		Instance = this;
-		counter = 0;
-		counterMax = 0;
-		_talking = false;
+		
 
 	}
 
@@ -46,6 +42,9 @@ public class DialogueSystem : MonoBehaviour
 	{
 		_panel = gameObject;
 		_animator = GetComponent<DialogueAnimator>();
+		counter = 0;
+		counterMax = 0;
+		_talking = false;
 	}
 
 	
@@ -65,14 +64,14 @@ public class DialogueSystem : MonoBehaviour
 
 	public void RunDialogue(Dialogue dialogue)
 	{
-		
-		_dialogue = dialogue;
-		
+		_animator.IntroAnimation(dialogue.TimeToEnter);
+		StartCoroutine(HandlePanelAnimation(dialogue.DialogueDuration, dialogue.TimeToExit));
+
+
 		counterMax = (int)dialogue.DialogueDuration * 60;
 		
 		if (_displayLineCoroutine != null) { StopCoroutine(_displayLineCoroutine); }
 
-		//if (!dialogue.Speaker.Equals("")) { _displayLineCoroutine = StartCoroutine(PrintName(dialogue.Speaker)); }
 		if (!dialogue.Speaker.Equals("")) { _speaker.text = dialogue.Speaker; }
 
 		if (!dialogue.Text.Equals("")) { _displayLineCoroutine = StartCoroutine(PrintText(dialogue.Text)); }
@@ -80,7 +79,6 @@ public class DialogueSystem : MonoBehaviour
 		_speakerSpriteOpen = dialogue.SpriteOpenMouth;
 		_speakerSpriteClosed = dialogue.SpriteClosedMouth;
 
-        _animator.IntroAndExitAnimation(dialogue.TimeToEnter, dialogue.DialogueDuration, dialogue.TimeToExit);
 
         if (dialogue.DialogueSFX) { dialogue.DialogueSFX.Play(); }
 		
@@ -89,6 +87,12 @@ public class DialogueSystem : MonoBehaviour
 			StartCoroutine(AnimateSprite(dialogue.AnimationSpeed)); 
 			_talking = true;
 		}
+	}
+
+	IEnumerator HandlePanelAnimation( float wait, float exit)
+	{
+		yield return new WaitForSeconds(wait);
+		_animator.ExitAnimation(exit);
 	}
 	
 
