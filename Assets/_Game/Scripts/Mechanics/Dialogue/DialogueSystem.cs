@@ -34,14 +34,14 @@ public class DialogueSystem : MonoBehaviour
 	private void Awake()
 	{
 		Instance = this;
-		
+		_animator = GetComponent<DialogueAnimator>();
 
 	}
 
 	void Start()
 	{
 		_panel = gameObject;
-		_animator = GetComponent<DialogueAnimator>();
+		
 		counter = 0;
 		counterMax = 0;
 		_talking = false;
@@ -65,6 +65,7 @@ public class DialogueSystem : MonoBehaviour
 	public void RunDialogue(Dialogue dialogue)
 	{
 		_animator.IntroAnimation(dialogue.TimeToEnter);
+
 		StartCoroutine(HandlePanelAnimation(dialogue.DialogueDuration, dialogue.TimeToExit));
 
 
