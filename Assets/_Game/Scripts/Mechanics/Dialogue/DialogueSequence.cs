@@ -17,10 +17,11 @@ public class DialogueSequence : MonoBehaviour
 
         if (DialogueSystem.Instance)
         {
-            DialogueSystem.Instance._totalWaitTime = _totalTime;
-            DialogueSystem.Instance._disableAnimation = true;
-            DialogueSystem.Instance._animator.IntroAndExitAnimation(1f, _totalTime, 1f);
-            StartCoroutine(HandleDisabledAnimation(_totalTime + 2f));
+            //DialogueSystem.Instance._animator.IntroAnimation(1f);
+            //DialogueSystem.Instance._totalWaitTime = _totalTime;
+
+            ////DialogueSystem.Instance._animator.IntroAndExitAnimation(1f, _totalTime, 1f);
+            //StartCoroutine(HandleDisabledAnimation(_totalTime));
             Debug.Log($"[Dialogue System]: {_totalTime}");
         }
         else
@@ -32,22 +33,25 @@ public class DialogueSequence : MonoBehaviour
 
     }
 
-    IEnumerator HandleDisabledAnimation(float _time)
-    {
-        yield return new WaitForSeconds(_time);
-        if (DialogueSystem.Instance) { DialogueSystem.Instance._disableAnimation = false; }
-        Debug.Log("[Dialogue System]: Animations Enabled");
-    }
+    //IEnumerator HandleDisabledAnimation(float _time)
+    //{
+    //    yield return new WaitForSeconds(_time);
+
+    //    Debug.Log("[Dialogue System]: Animations Enabled");
+    //}
 
     IEnumerator RunDialogueAfterTime()
     {
-        // yield return new WaitForSeconds(seconds);
-        // dialogue.RunDialogue();
+      
+
 
         foreach (Dialogue d in _dialogues)
         {
+
             d.RunDialogue();
             yield return new WaitForSeconds(d.DialogueDuration);
+
         }
+        
     }
 }
