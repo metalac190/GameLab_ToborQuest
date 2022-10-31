@@ -32,6 +32,12 @@ public class MenuAnimations : MonoBehaviour
         onComplete?.Invoke();
     }
 
+    public void SettingsMenu(bool value, Action onComplete = null)
+    {
+        menuAnimator.SetBool("SettingsMenu", value);
+        onComplete?.Invoke();
+    }
+
     public Animator AnimatorController
     {
         get
