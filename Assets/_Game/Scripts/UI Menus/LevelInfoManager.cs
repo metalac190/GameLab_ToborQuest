@@ -35,6 +35,8 @@ public class LevelInfoManager : MonoBehaviour
 
     private void OnEnable()
     {
+        if (!levelInfoObj)
+            return;
         SetInfo(levelInfoObj);
         onBack.onClick.AddListener(() =>
         {
