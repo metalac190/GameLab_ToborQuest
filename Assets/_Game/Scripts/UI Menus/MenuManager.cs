@@ -69,10 +69,20 @@ public class MenuManager : MonoBehaviour
         switch (tempMenu)
         {
             case (MenuType.MainMenu):
-                menuAnimations.LevelSelect(false, () =>
-                {                    
-                    currentMenu = tempMenu;
-                });
+                if (menuAnimations.AnimatorController.GetBool("LevelSelect"))
+                {
+                    menuAnimations.LevelSelect(false, () =>
+                    {
+                        currentMenu = tempMenu;
+                    });
+                }
+                else
+                {
+                    menuAnimations.SettingsMenu(false, ()=> 
+                    {
+                        currentMenu = tempMenu;
+                    });
+                }
                 break;
             case (MenuType.LevelSelect):
                 if (menuAnimations.AnimatorController.GetBool("LevelSelect"))
@@ -92,6 +102,12 @@ public class MenuManager : MonoBehaviour
                 break;
             case (MenuType.LevelInfoMenu):
                 menuAnimations.LevelInfoMenu(true, () =>
+                {
+                    currentMenu = tempMenu;
+                });
+                break;
+            case (MenuType.Settings):
+                menuAnimations.SettingsMenu(true, () =>
                 {
                     currentMenu = tempMenu;
                 });
