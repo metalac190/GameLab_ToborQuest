@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028331, g: 0.2257133, b: 0.3069217, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1150,7 +1150,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2623,6 +2623,8 @@ GameObject:
   - component: {fileID: 577549128}
   - component: {fileID: 577549133}
   - component: {fileID: 577549134}
+  - component: {fileID: 577549136}
+  - component: {fileID: 577549135}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -2762,6 +2764,44 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf9e0e56add64574e8a67ad731a84bfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &577549135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 577549127}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: bb68ad1ec3eab4d40839ef684a0433f7, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &577549136
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 577549127}
+  m_CullTransparentMesh: 1
 --- !u!1 &592376761
 GameObject:
   m_ObjectHideFlags: 0
@@ -3797,7 +3837,7 @@ GameObject:
   - component: {fileID: 781899488}
   - component: {fileID: 781899487}
   m_Layer: 5
-  m_Name: Metal (1)
+  m_Name: NextMedal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4447,6 +4487,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1135213803333560550, guid: 2bca33d143b3ddd44af184bb3b34f0dc,
+        type: 3}
+      propertyPath: levelInfoObj
+      value: 
+      objectReference: {fileID: 11400000, guid: 0d38dd1964bc6bf44acd213062b0116d,
+        type: 2}
     - target: {fileID: 1135213803333560550, guid: 2bca33d143b3ddd44af184bb3b34f0dc,
         type: 3}
       propertyPath: levelSaveName
@@ -5229,6 +5275,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1135213803333560550, guid: 2bca33d143b3ddd44af184bb3b34f0dc,
         type: 3}
+      propertyPath: levelInfoObj
+      value: 
+      objectReference: {fileID: 11400000, guid: eb13f80e635c1044b90243fa15508db7,
+        type: 2}
+    - target: {fileID: 1135213803333560550, guid: 2bca33d143b3ddd44af184bb3b34f0dc,
+        type: 3}
       propertyPath: levelSaveName
       value: Level 2BestTime
       objectReference: {fileID: 0}
@@ -5591,7 +5643,7 @@ GameObject:
   - component: {fileID: 1093725101}
   - component: {fileID: 1093725100}
   m_Layer: 5
-  m_Name: Metal
+  m_Name: CurrentMedal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6069,6 +6121,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1135213803333560550, guid: 2bca33d143b3ddd44af184bb3b34f0dc,
         type: 3}
+      propertyPath: levelInfoObj
+      value: 
+      objectReference: {fileID: 11400000, guid: a5b1dfa3f81388e44b36116acd48f7ed,
+        type: 2}
+    - target: {fileID: 1135213803333560550, guid: 2bca33d143b3ddd44af184bb3b34f0dc,
+        type: 3}
       propertyPath: levelSaveName
       value: Level 3BestTime
       objectReference: {fileID: 0}
@@ -6537,6 +6595,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1135213803333560550, guid: 2bca33d143b3ddd44af184bb3b34f0dc,
+        type: 3}
+      propertyPath: levelInfoObj
+      value: 
+      objectReference: {fileID: 11400000, guid: c34d6f21ee2f4d54cad74f29a325c824,
+        type: 2}
     - target: {fileID: 1135213803333560550, guid: 2bca33d143b3ddd44af184bb3b34f0dc,
         type: 3}
       propertyPath: levelSaveName
@@ -7967,7 +8031,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1572823093
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8042,11 +8106,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2819bf1ac8982e247930ef5610012e91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelTitleImage: {fileID: 790984352}
+  levelNameImage: {fileID: 1210051338}
   levelPreviewImage: {fileID: 1117112441}
   levelDescriptionText: {fileID: 2095779883}
   onStart: {fileID: 16301751}
   onBack: {fileID: 820235709}
   bestTimeText: {fileID: 1746963855}
+  medalHelper: {fileID: 11400000, guid: 252332d1270384c49bbeff2a8892da5f, type: 2}
+  currentMedalStatusText: {fileID: 2051958695}
+  currentMedalImage: {fileID: 1093725100}
+  nextMedalGoalImage: {fileID: 781899487}
+  nextGoalTimeText: {fileID: 686618424}
 --- !u!1 &1599954029
 GameObject:
   m_ObjectHideFlags: 0
