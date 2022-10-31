@@ -9,7 +9,6 @@ public class DialogueSystem : MonoBehaviour
 {
 	public static DialogueSystem Instance;
 	
-	[SerializeField, HighlightIfNull] GameObject _panel;
 	[SerializeField] public DialogueAnimator _animator;
 	[SerializeField] float _typingSpeed = 0.04f;
 	[SerializeField] private TextMeshProUGUI _speaker;
@@ -20,7 +19,7 @@ public class DialogueSystem : MonoBehaviour
 	private Sprite _speakerSpriteClosed;
 	private Sprite _speakerSpriteOpen;
 	private bool _printingText = false;
-
+	private AudioSource _source;
 
 
 	
@@ -35,12 +34,11 @@ public class DialogueSystem : MonoBehaviour
 	{
 		Instance = this;
 		_animator = GetComponent<DialogueAnimator>();
-
+		_source = GetComponent<AudioSource>();
 	}
 
 	void Start()
 	{
-		_panel = gameObject;
 		
 		counter = 0;
 		counterMax = 0;
@@ -67,6 +65,8 @@ public class DialogueSystem : MonoBehaviour
 	{
 		_animator.IntroAnimation(dialogue.TimeToEnter);
 
+
+
 		StartCoroutine(HandlePanelAnimation(dialogue.DialogueDuration, dialogue.TimeToExit));
 
 
@@ -85,7 +85,7 @@ public class DialogueSystem : MonoBehaviour
 		_speakerSpriteClosed = dialogue.SpriteClosedMouth;
 
 
-        if (dialogue.DialogueSFX) { dialogue.DialogueSFX.Play(); }
+        if (dialogue.DialogueSFX) { _source.PlayOneShot(dialogue.DialogueSFX); }
 		
 		if (_speakerSpriteClosed != null) 
 		{ 
@@ -94,7 +94,9 @@ public class DialogueSystem : MonoBehaviour
 		}
 	}
 
-	IEnumerator HandlePanelAnimation( float wait, float exit)
+
+    #region Coroutines
+    IEnumerator HandlePanelAnimation( float wait, float exit)
 	{
 		yield return new WaitForSeconds(wait);
 		_animator.ExitAnimation(exit);
@@ -129,6 +131,7 @@ public class DialogueSystem : MonoBehaviour
 			else
             {
 				_printingText = false;
+				_source.Stop();
             }
 		}
 
@@ -145,8 +148,12 @@ public class DialogueSystem : MonoBehaviour
 		}
 
 	}
-	
-	
+	#endregion
+
+	#region SFX Events
 
 	
+
+	#endregion
+
 }
