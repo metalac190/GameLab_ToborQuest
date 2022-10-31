@@ -19,7 +19,7 @@ public class DialogueSystem : MonoBehaviour
 
 	private Sprite _speakerSpriteClosed;
 	private Sprite _speakerSpriteOpen;
-	
+	private bool _printingText = false;
 
 
 
@@ -51,6 +51,7 @@ public class DialogueSystem : MonoBehaviour
 
 	void Update()
 	{
+		
 		if (_talking && counter < counterMax) { counter++; }
 		else if (_talking && counter >= counterMax)
 		{
@@ -70,7 +71,10 @@ public class DialogueSystem : MonoBehaviour
 
 
 		counterMax = (int)dialogue.DialogueDuration * 60;
-		
+		counterMax += (int)dialogue.TimeToEnter * 60;
+		counterMax += (int)dialogue.TimeToExit * 60;
+
+
 		if (_displayLineCoroutine != null) { StopCoroutine(_displayLineCoroutine); }
 
 		if (!dialogue.Speaker.Equals("")) { _speaker.text = dialogue.Speaker; }
@@ -101,7 +105,7 @@ public class DialogueSystem : MonoBehaviour
 	IEnumerator AnimateSprite(float _timeBetween)
 	{
 		
-		while(counter < counterMax)
+		while(_printingText)
 		{
 			_speakerSprite.sprite = _speakerSpriteOpen;
 			yield return new WaitForSeconds(_timeBetween);
@@ -114,10 +118,18 @@ public class DialogueSystem : MonoBehaviour
 	{
 		_text.text = "";
 
-		foreach (char c in _dialogueText)
+		for (int i = 0; i < _dialogueText.Length + 1; i++)
 		{
-			_text.text += c;
-			yield return new WaitForSeconds(_typingSpeed);
+			if (i < _dialogueText.Length)
+			{
+				_printingText = true;
+				_text.text += _dialogueText[i];
+				yield return new WaitForSeconds(_typingSpeed);
+			}
+			else
+            {
+				_printingText = false;
+            }
 		}
 
 	}
