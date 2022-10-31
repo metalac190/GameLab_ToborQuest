@@ -9,6 +9,7 @@ public class Dialogue : ScriptableObject
 {
 	[Header("Data")]
 	[SerializeField] private string _speaker;
+	[SerializeField] float _typingSpeed = 0.04f;
 	[SerializeField, TextArea] private List<string> _text;
 
 	[Header("Animation Settings")]
@@ -21,22 +22,24 @@ public class Dialogue : ScriptableObject
 
 	[Header("Sound Settings")]
 	[SerializeField] private AudioClip _dialogueSoundEffect;
-
+	[Range(0f, 1f)]	private float _volume = 0.5f;
 
 	[Header("Tobor Settings")]
 	[SerializeField] private bool _freezeTobor;
 
 
+
 	public string Speaker => _speaker;
 	public string Text => _text[Random.Range(0, _text.Count - 1)];
-	// public string Text => _text[0];
+	public float TypingSpeed => _typingSpeed;
 	public AudioClip DialogueSFX => _dialogueSoundEffect;
+	public float DialogueVolume => _volume;
 	public Sprite SpriteClosedMouth => _spriteClosedMouth;
 	public Sprite SpriteOpenMouth => _spriteOpenMouth;
 	public bool FreezeTobor => _freezeTobor;
 	public float TimeToEnter => _dialogueScreenEnterTime;
 	public float TimeToExit => _dialogueScreenExitTime;
-	public float DialogueDuration => _dialogueDuration;
+	public float DialogueDuration => _dialogueDuration + _dialogueScreenEnterTime + _dialogueScreenExitTime;
 	public float AnimationSpeed => _animationSpeed;
 
 	
