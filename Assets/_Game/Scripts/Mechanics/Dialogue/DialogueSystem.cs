@@ -9,9 +9,7 @@ public class DialogueSystem : MonoBehaviour
 {
 	public static DialogueSystem Instance;
 	
-	[SerializeField, HighlightIfNull] GameObject _panel;
 	[SerializeField] public DialogueAnimator _animator;
-	[SerializeField] float _typingSpeed = 0.04f;
 	[SerializeField] private TextMeshProUGUI _speaker;
 	[SerializeField] private TextMeshProUGUI _text;
 	[SerializeField] private Image _speakerSprite;
@@ -20,7 +18,7 @@ public class DialogueSystem : MonoBehaviour
 	private Sprite _speakerSpriteClosed;
 	private Sprite _speakerSpriteOpen;
 	private bool _printingText = false;
-
+	private AudioSource _source;
 
 
 	
@@ -35,12 +33,11 @@ public class DialogueSystem : MonoBehaviour
 	{
 		Instance = this;
 		_animator = GetComponent<DialogueAnimator>();
-
+		_source = GetComponent<AudioSource>();
 	}
 
 	void Start()
 	{
-		_panel = gameObject;
 		
 		counter = 0;
 		counterMax = 0;
@@ -66,26 +63,34 @@ public class DialogueSystem : MonoBehaviour
 	public void RunDialogue(Dialogue dialogue)
 	{
 		_animator.IntroAnimation(dialogue.TimeToEnter);
+		//Freeze Tobor Code
 
-		StartCoroutine(HandlePanelAnimation(dialogue.DialogueDuration, dialogue.TimeToExit));
-
+		float _timeAmount = 0f;
+        foreach (char c in dialogue.Text) { _timeAmount += dialogue.TypingSpeed; }
+		if (dialogue.DialogueDuration < _timeAmount) 
+		{ 
+			StartCoroutine(HandlePanelAnimation(_timeAmount, dialogue.TimeToExit));
+			if (dialogue.FreezeTobor) { HandleToborFreeze(_timeAmount); }
+		}
+		else 
+		{ 
+			StartCoroutine(HandlePanelAnimation(dialogue.DialogueDuration, dialogue.TimeToExit));
+			if (dialogue.FreezeTobor) { HandleToborFreeze(dialogue.DialogueDuration); }
+		}
 
 		counterMax = (int)dialogue.DialogueDuration * 60;
-		counterMax += (int)dialogue.TimeToEnter * 60;
-		counterMax += (int)dialogue.TimeToExit * 60;
-
 
 		if (_displayLineCoroutine != null) { StopCoroutine(_displayLineCoroutine); }
 
 		if (!dialogue.Speaker.Equals("")) { _speaker.text = dialogue.Speaker; }
 
-		if (!dialogue.Text.Equals("")) { _displayLineCoroutine = StartCoroutine(PrintText(dialogue.Text)); }
+		if (!dialogue.Text.Equals("")) { _displayLineCoroutine = StartCoroutine(PrintText(dialogue.Text, dialogue.TypingSpeed)); }
 
 		_speakerSpriteOpen = dialogue.SpriteOpenMouth;
 		_speakerSpriteClosed = dialogue.SpriteClosedMouth;
 
 
-        if (dialogue.DialogueSFX) { dialogue.DialogueSFX.Play(); }
+        if (dialogue.DialogueSFX) { _source.PlayOneShot(dialogue.DialogueSFX, dialogue.DialogueVolume); }
 		
 		if (_speakerSpriteClosed != null) 
 		{ 
@@ -94,7 +99,20 @@ public class DialogueSystem : MonoBehaviour
 		}
 	}
 
-	IEnumerator HandlePanelAnimation( float wait, float exit)
+	public void FreezeTobor(float _seconds)
+	{
+		StartCoroutine(HandleToborFreeze(_seconds));
+	}
+
+	#region Coroutines
+	IEnumerator HandleToborFreeze(float s)
+	{
+		
+		yield return new WaitForSeconds(s);
+		//Unfreeze Tobor Code
+	}
+
+    IEnumerator HandlePanelAnimation( float wait, float exit)
 	{
 		yield return new WaitForSeconds(wait);
 		_animator.ExitAnimation(exit);
@@ -114,7 +132,7 @@ public class DialogueSystem : MonoBehaviour
 		}
 	}
 
-	IEnumerator PrintText(string _dialogueText)
+	IEnumerator PrintText(string _dialogueText, float _typingSpeed)
 	{
 		_text.text = "";
 
@@ -129,6 +147,7 @@ public class DialogueSystem : MonoBehaviour
 			else
             {
 				_printingText = false;
+				_source.Stop();
             }
 		}
 
@@ -145,8 +164,12 @@ public class DialogueSystem : MonoBehaviour
 		}
 
 	}
-	
-	
+	#endregion
+
+	#region SFX Events
 
 	
+
+	#endregion
+
 }
