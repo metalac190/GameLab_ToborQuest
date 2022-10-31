@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7946734137693047606}
   - component: {fileID: 7725715751198570192}
   - component: {fileID: 2322643183373134400}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_BenchBolts_1_4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 1144343296965836652}
   - component: {fileID: 7912043800312198791}
   - component: {fileID: 4485403141130555101}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_BenchBolts_1_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -177,7 +177,7 @@ GameObject:
   - component: {fileID: 3320591507912720019}
   - component: {fileID: 6211430629384420209}
   - component: {fileID: 5303173058338486317}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_BenchBolts_2_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -258,7 +258,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 379271725032389702}
-  m_Layer: 0
+  - component: {fileID: 469615032085703554}
+  - component: {fileID: 1683319731861089724}
+  m_Layer: 12
   m_Name: PF_Bench
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -272,7 +274,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1011235357856360188}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -11.533928, y: 0, z: 3.8985922}
   m_LocalScale: {x: 0.0055806, y: 0.0055806, z: 0.0055806}
   m_ConstrainProportionsScale: 0
@@ -285,6 +287,32 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &469615032085703554
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1011235357856360188}
+  m_Material: {fileID: 13400000, guid: 800ae5cf91dda7d4995693a343ea394f, type: 2}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1000, y: 300, z: 150}
+  m_Center: {x: 0, y: 400, z: -150}
+--- !u!65 &1683319731861089724
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1011235357856360188}
+  m_Material: {fileID: 13400000, guid: 800ae5cf91dda7d4995693a343ea394f, type: 2}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1000, y: 250, z: 450}
+  m_Center: {x: 0, y: 125, z: 0}
 --- !u!1 &1018548386824471740
 GameObject:
   m_ObjectHideFlags: 0
@@ -296,7 +324,7 @@ GameObject:
   - component: {fileID: 913861432510132797}
   - component: {fileID: 1503521871743257874}
   - component: {fileID: 461714988813703891}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_BenchBolts_2_7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -377,7 +405,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5997123348062366344}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: G_BenchBolts_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -422,7 +450,7 @@ GameObject:
   - component: {fileID: 4536547503541828947}
   - component: {fileID: 273607973831935065}
   - component: {fileID: 310227723210501520}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_BenchBolts_1_5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -505,7 +533,7 @@ GameObject:
   - component: {fileID: 5486289475577370047}
   - component: {fileID: 7034081754728697511}
   - component: {fileID: 4673866505075492862}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_BenchBolts_2_6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -588,7 +616,7 @@ GameObject:
   - component: {fileID: 3130391447257462038}
   - component: {fileID: 5632373042664081261}
   - component: {fileID: 5499677147575506978}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_BenchPlank_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -671,7 +699,7 @@ GameObject:
   - component: {fileID: 1616522951701526694}
   - component: {fileID: 7016820149446819179}
   - component: {fileID: 2834378029828562545}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_BenchBolts_1_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -754,7 +782,7 @@ GameObject:
   - component: {fileID: 3598330164898291333}
   - component: {fileID: 3038455654923698490}
   - component: {fileID: 430184225877670287}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_BenchBolts_1_12
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -837,7 +865,7 @@ GameObject:
   - component: {fileID: 351976940651370987}
   - component: {fileID: 3823648723395059641}
   - component: {fileID: 8010491836817491203}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_BenchBolts_1_9
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -920,7 +948,7 @@ GameObject:
   - component: {fileID: 6763098382912034891}
   - component: {fileID: 7320067459387089051}
   - component: {fileID: 6484648167175292243}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_BenchBolts_2_9
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1003,7 +1031,7 @@ GameObject:
   - component: {fileID: 8976316920834878149}
   - component: {fileID: 1339996353450868654}
   - component: {fileID: 7401923153295165419}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_BenchBolts_2_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1086,7 +1114,7 @@ GameObject:
   - component: {fileID: 1851785743810034249}
   - component: {fileID: 588645899605762035}
   - component: {fileID: 432166780487923265}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_BenchBolts_2_10
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1169,7 +1197,7 @@ GameObject:
   - component: {fileID: 8369679688847900377}
   - component: {fileID: 8360103011901727284}
   - component: {fileID: 4329068630908072419}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_BenchBolts_1_6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1252,7 +1280,7 @@ GameObject:
   - component: {fileID: 3189126857666875188}
   - component: {fileID: 4287943311315199365}
   - component: {fileID: 699761247866154419}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_BenchChair_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1335,7 +1363,7 @@ GameObject:
   - component: {fileID: 2607731461832751036}
   - component: {fileID: 2148773739288072458}
   - component: {fileID: 6992197826917164550}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_BenchPlank_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1418,7 +1446,7 @@ GameObject:
   - component: {fileID: 5053957643503537762}
   - component: {fileID: 1559839101919876602}
   - component: {fileID: 7902716374308194237}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_BenchBolts_1_11
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1501,7 +1529,7 @@ GameObject:
   - component: {fileID: 8474192173007209688}
   - component: {fileID: 4048088917722167123}
   - component: {fileID: 5457429346573194767}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_BenchBolts_1_8
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1584,7 +1612,7 @@ GameObject:
   - component: {fileID: 298103779542893859}
   - component: {fileID: 881874813671029266}
   - component: {fileID: 8569255150360849853}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_BenchChair_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1665,7 +1693,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4827845170132562229}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: G_BenchPlanks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1704,7 +1732,7 @@ GameObject:
   - component: {fileID: 3624047712407295177}
   - component: {fileID: 8050014192566078521}
   - component: {fileID: 6705763495268455730}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_BenchBolts_2_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1787,7 +1815,7 @@ GameObject:
   - component: {fileID: 9167649316442074111}
   - component: {fileID: 4253381882877747389}
   - component: {fileID: 4000192931895428079}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_BenchPlank_4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1868,7 +1896,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8228451828184534339}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: G_BenchBolts_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1913,7 +1941,7 @@ GameObject:
   - component: {fileID: 5635183714513112489}
   - component: {fileID: 5132458391654510575}
   - component: {fileID: 6205583731457102757}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_BenchPlank_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1996,7 +2024,7 @@ GameObject:
   - component: {fileID: 6131899376664546212}
   - component: {fileID: 8489009258482057069}
   - component: {fileID: 7861956393332879268}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_BenchPlank_6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2079,7 +2107,7 @@ GameObject:
   - component: {fileID: 5355192573895672769}
   - component: {fileID: 7837473563505969523}
   - component: {fileID: 4267187386182873641}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_BenchBolts_2_5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2162,7 +2190,7 @@ GameObject:
   - component: {fileID: 1504987732361434205}
   - component: {fileID: 8340533959728793920}
   - component: {fileID: 3275466919333068662}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_BenchBolts_1_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2245,7 +2273,7 @@ GameObject:
   - component: {fileID: 5351426388437735735}
   - component: {fileID: 7904144346197964935}
   - component: {fileID: 7671268050802889394}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_BenchBolts_2_12
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2328,7 +2356,7 @@ GameObject:
   - component: {fileID: 7306000705604619539}
   - component: {fileID: 1657454511561222433}
   - component: {fileID: 3202034037742858696}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_BenchPlank_5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2411,7 +2439,7 @@ GameObject:
   - component: {fileID: 7478732702483081685}
   - component: {fileID: 5032065517176229591}
   - component: {fileID: 3289036184127993360}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_BenchBolts_2_11
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2494,7 +2522,7 @@ GameObject:
   - component: {fileID: 6068910558165262273}
   - component: {fileID: 1664722417006715935}
   - component: {fileID: 6831139408518008941}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_BenchBolts_2_4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2577,7 +2605,7 @@ GameObject:
   - component: {fileID: 3500410042974226565}
   - component: {fileID: 7625928883974215907}
   - component: {fileID: 8157929055456827124}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_BenchBolts_1_10
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2660,7 +2688,7 @@ GameObject:
   - component: {fileID: 2918397060718376434}
   - component: {fileID: 7255183404369825566}
   - component: {fileID: 1237882610517944441}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_BenchBolts_2_8
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2743,7 +2771,7 @@ GameObject:
   - component: {fileID: 4276268446045775594}
   - component: {fileID: 4821853499089642413}
   - component: {fileID: 1479507941925079571}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_BenchBolts_1_7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
