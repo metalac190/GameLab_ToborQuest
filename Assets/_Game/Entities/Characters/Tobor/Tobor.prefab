@@ -721,7 +721,7 @@ MonoBehaviour:
   _sideFlipAngularDrag: 1
   _cancelMomentumBeforeFlip: 0
   _showDrifitingTab: 0
-  _driftAccelerationMultiplier: 1
+  _driftAccelerationMultiplier: 0.5
   _driftTurnSpeed: 4
   _driftWheelDampeningRate: 0.5
   _driftFrictionStiffness: 2
@@ -791,8 +791,8 @@ MonoBehaviour:
   _verticalBounce: 300
   _horizontalBounce: 400
   _consistentBouncing: 1
-  _minimumVelocityBounce: 200
-  _maximumVelocityBounce: 500
+  _minimumVelocityBounce: 150
+  _maximumVelocityBounce: 300
   _velocityBounceMultiplier: {x: 20, y: 15}
 --- !u!114 &7528695759469318202
 MonoBehaviour:
@@ -841,6 +841,7 @@ MonoBehaviour:
   _driftSmoke:
   - {fileID: 8069422686914816441}
   - {fileID: 6164271541359355491}
+  _mesh: []
 --- !u!114 &1076127496911297585
 MonoBehaviour:
   m_ObjectHideFlags: 0
