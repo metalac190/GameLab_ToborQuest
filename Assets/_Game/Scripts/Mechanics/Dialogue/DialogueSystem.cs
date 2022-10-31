@@ -19,6 +19,7 @@ public class DialogueSystem : MonoBehaviour
 	private Sprite _speakerSpriteOpen;
 	private bool _printingText = false;
 	private AudioSource _source;
+	private MovementController _movement;
 
 
 	
@@ -42,13 +43,13 @@ public class DialogueSystem : MonoBehaviour
 		counter = 0;
 		counterMax = 0;
 		_talking = false;
+		_movement = GameObject.FindObjectOfType<MovementController>();
 	}
 
 	
 
 	void Update()
 	{
-		
 		if (_talking && counter < counterMax) { counter++; }
 		else if (_talking && counter >= counterMax)
 		{
@@ -56,26 +57,24 @@ public class DialogueSystem : MonoBehaviour
 			counter = 0;
 			counterMax = 0;
 		}
-
-		
 	}
 
 	public void RunDialogue(Dialogue dialogue)
 	{
 		_animator.IntroAnimation(dialogue.TimeToEnter);
-		//Freeze Tobor Code
+		if (dialogue.FreezeTobor) { _movement.SetActive(false); }
 
 		float _timeAmount = 0f;
         foreach (char c in dialogue.Text) { _timeAmount += dialogue.TypingSpeed; }
 		if (dialogue.DialogueDuration < _timeAmount) 
 		{ 
 			StartCoroutine(HandlePanelAnimation(_timeAmount, dialogue.TimeToExit));
-			if (dialogue.FreezeTobor) { HandleToborFreeze(_timeAmount); }
+			if (dialogue.FreezeTobor) { StartCoroutine(HandleToborFreeze(_timeAmount)); }
 		}
 		else 
 		{ 
 			StartCoroutine(HandlePanelAnimation(dialogue.DialogueDuration, dialogue.TimeToExit));
-			if (dialogue.FreezeTobor) { HandleToborFreeze(dialogue.DialogueDuration); }
+			if (dialogue.FreezeTobor) { StartCoroutine(HandleToborFreeze(dialogue.DialogueDuration)); }
 		}
 
 		counterMax = (int)dialogue.DialogueDuration * 60;
@@ -103,16 +102,15 @@ public class DialogueSystem : MonoBehaviour
 	{
 		StartCoroutine(HandleToborFreeze(_seconds));
 	}
-
+	
 	#region Coroutines
 	IEnumerator HandleToborFreeze(float s)
 	{
-		
 		yield return new WaitForSeconds(s);
-		//Unfreeze Tobor Code
+		_movement.SetActive(true);
 	}
 
-    IEnumerator HandlePanelAnimation( float wait, float exit)
+	IEnumerator HandlePanelAnimation( float wait, float exit)
 	{
 		yield return new WaitForSeconds(wait);
 		_animator.ExitAnimation(exit);
