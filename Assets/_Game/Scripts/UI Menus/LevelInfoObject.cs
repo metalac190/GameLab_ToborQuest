@@ -10,7 +10,7 @@ public enum MedalType { None, Bronze, Silver, Gold }
 [CreateAssetMenu()]
 public class LevelInfoObject : ScriptableObject
 {
-    [SerializeField] private SerializedScene levelScene;
+    [SerializeField] private string levelScene;
     [TextArea(3,6)] public string levelDecription;
     public Sprite levelPanelPreviewSprite; //preview image on level select page
     public Sprite levelTitleSprite;
@@ -31,21 +31,11 @@ public class LevelInfoObject : ScriptableObject
     public float SilverGoal => silverGoal;
     public float GoldGoal => goldGoal;
 
-    private void Awake()
-    {
-        levelScene.CheckValid();
-    }
-
-
-    public string GetLevelSceneName()
-    {
-        levelScene.CheckValid();
-        return levelScene.Name;
-    }
+    public string GetLevelSceneName() => levelScene;
 
     public string GetBestTimeFormatted()
     {
-        string levelSaveTimeName = levelScene.Name + "BestTime";
+        string levelSaveTimeName = levelScene + "BestTime";
         if (PlayerPrefs.HasKey(levelSaveTimeName))
         {
             BestTime = PlayerPrefs.GetFloat(levelSaveTimeName);
