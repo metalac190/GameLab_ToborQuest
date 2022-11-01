@@ -39,6 +39,11 @@ public class DialogueSystem : MonoBehaviour
 
 	void Start()
 	{
+		if (ExtrasSettings.DialogueDisabled)
+		{
+			gameObject.SetActive(false);
+			return;
+		}
 		
 		counter = 0;
 		counterMax = 0;
