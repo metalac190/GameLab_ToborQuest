@@ -50,6 +50,7 @@ public class MovementController : MonoBehaviour
     [SerializeField, ShowIf("_showBoostTab")] private float _boostTimeRemaining = 2f;
     [SerializeField, ShowIf("_showBoostTab")] private bool _useRechargeBoost = false;
     [SerializeField, ShowIf("_showBoostTab")] private float _rechargeDelay = 0.5f;
+    public Light _boostLight = null;
 
     [Header("Debug")]
     [SerializeField, ReadOnly] private float _currentAcceleration = 0f;
@@ -218,6 +219,7 @@ public class MovementController : MonoBehaviour
     {
         _boostOnCooldown = true;
         _isBoosting = false;
+        _boostLight.intensity = 0;
         yield return new WaitForSeconds(_rechargeDelay);
         _boostOnCooldown = false;
 
@@ -226,6 +228,7 @@ public class MovementController : MonoBehaviour
 
         if (_isBoosting) yield break;
         yield return new WaitUntil(() => _boostTimeRemaining >= _boostDuration);
+        _boostLight.intensity = 1;
     }
 
     public float BoostPercentage()
