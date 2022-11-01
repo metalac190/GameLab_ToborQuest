@@ -31,5 +31,5 @@ public class soundSettings : MonoBehaviour
         masterMixer.ClearFloat("musicVol");
     }
 
-    private float Convert(float value) => Mathf.Log10(value) * 20;
+    private static float Convert(float value) => value == 0 ? -80 : Mathf.Log10(value) * 20;
 }
