@@ -1805,6 +1805,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 233816435}
+  - component: {fileID: 233816436}
   m_Layer: 5
   m_Name: Audio
   m_TagString: Untagged
@@ -1833,6 +1834,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1206.0135, y: 666.26}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &233816436
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 233816434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cda1487411a1534f9bf311105e36566, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  masterMixer: {fileID: 24100000, guid: dd072f17528689a44b5648a103e6bacf, type: 2}
 --- !u!1 &243606626
 GameObject:
   m_ObjectHideFlags: 0
@@ -1916,8 +1930,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 611689091}
   m_HandleRect: {fileID: 611689090}
   m_Direction: 2
-  m_Value: 1.0000005
-  m_Size: 0.797673
+  m_Value: 1.0000007
+  m_Size: 0.7976731
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -3623,13 +3637,25 @@ MonoBehaviour:
   m_FillRect: {fileID: 1623630580}
   m_HandleRect: {fileID: 977915075}
   m_Direction: 0
-  m_MinValue: 0
-  m_MaxValue: 1
+  m_MinValue: -80
+  m_MaxValue: 0
   m_WholeNumbers: 0
   m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 233816436}
+        m_TargetAssemblyTypeName: soundSettings, Assembly-CSharp
+        m_MethodName: setSFXLvl
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &528029415
 GameObject:
   m_ObjectHideFlags: 0
@@ -5202,13 +5228,25 @@ MonoBehaviour:
   m_FillRect: {fileID: 121283161}
   m_HandleRect: {fileID: 1061299534}
   m_Direction: 0
-  m_MinValue: 0
-  m_MaxValue: 1
+  m_MinValue: -80
+  m_MaxValue: 0
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: -10
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 233816436}
+        m_TargetAssemblyTypeName: soundSettings, Assembly-CSharp
+        m_MethodName: setMusicLvl
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &721180988
 GameObject:
   m_ObjectHideFlags: 0
@@ -6232,13 +6270,25 @@ MonoBehaviour:
   m_FillRect: {fileID: 1866215115}
   m_HandleRect: {fileID: 1846196133}
   m_Direction: 0
-  m_MinValue: 0
-  m_MaxValue: 1
+  m_MinValue: -80
+  m_MaxValue: 0
   m_WholeNumbers: 0
   m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 233816436}
+        m_TargetAssemblyTypeName: soundSettings, Assembly-CSharp
+        m_MethodName: setAmbientLvl
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &941947695
 PrefabInstance:
   m_ObjectHideFlags: 0
