@@ -22,13 +22,14 @@ public class PauseManager : MonoBehaviour
     private void Awake()
     {
         QuestionBox.SetActive(false);
+        levelInfoObj.GetBestTimeFormatted(); //just an easy way to set the BestTime
+        goalTimeText.text = levelInfoObj.GetNextTimeGoalFormatted();
+        medalHelper.SetMedalUI(goalMedalImage, levelInfoObj.GetNextMedalGoal());
     }
 
     private void OnEnable()
     {        
         currentTime.text = hudManager.GetCurrentTimeText();
-        goalTimeText.text = levelInfoObj.GetNextTimeGoalFormatted();
-        medalHelper.SetMedalUI(goalMedalImage, levelInfoObj.GetNextMedalGoal());
     }
 
     //public void UnPause()
