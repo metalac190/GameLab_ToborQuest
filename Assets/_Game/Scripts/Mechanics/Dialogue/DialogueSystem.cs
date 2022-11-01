@@ -107,7 +107,7 @@ public class DialogueSystem : MonoBehaviour
 	IEnumerator HandleToborFreeze(float s)
 	{
 		yield return new WaitForSecondsRealtime(s);
-		Time.timeScale = 0f;
+		Time.timeScale = 1f;
 	}
 
 	IEnumerator HandlePanelAnimation( float wait, float exit)
