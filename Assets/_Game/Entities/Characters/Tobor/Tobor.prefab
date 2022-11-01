@@ -844,11 +844,64 @@ MonoBehaviour:
   _canBoostInAir: 0
   _boostAcceleration: 30
   _boostMaxSpeed: 60
-  _boostDuration: 1.5
-  _boostCooldown: 2
+  _boostRechargeCurveSpeed: 0.5
+  _boostRechargeCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: -9.962084
+      outSlope: -9.962084
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.08333473
+    - serializedVersion: 3
+      time: 0.05
+      value: 0.01
+      inSlope: Infinity
+      outSlope: Infinity
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.1
+      value: 0
+      inSlope: Infinity
+      outSlope: Infinity
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.25
+      value: 0
+      inSlope: 0.28301978
+      outSlope: 0.28301978
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.26666713
+    - serializedVersion: 3
+      time: 1
+      value: 0.75
+      inSlope: 1.6627359
+      outSlope: 1.6627359
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.08888888
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _boostChargeMax: 3
+  _disableBoosting: 0
+  _boostCharge: 0
   _boostTimeRemaining: 2
-  _useRechargeBoost: 1
-  _rechargeDelay: 0.5
+  _rechargeTimeRemaining: 0
+  _timeSinceBoosting: 0
   _boostLight: {fileID: 2048363057940199591}
   _currentAcceleration: 0
   _velocityMagnitude: 0
@@ -977,6 +1030,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e47d57144fe0ec488e287c51c8f7c94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _speed: 0
+  _drift: 0
+  _boost: 0
+  _sideFlip: 0
 --- !u!114 &2345064586588846204
 MonoBehaviour:
   m_ObjectHideFlags: 0
