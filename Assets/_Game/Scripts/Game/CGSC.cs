@@ -252,6 +252,7 @@ public class CGSC : MonoBehaviour
         UnpauseGameResponse();
     }
 
+    public static void RestartLevel(InputAction.CallbackContext context) => RestartLevel();
     public static void RestartLevel()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);

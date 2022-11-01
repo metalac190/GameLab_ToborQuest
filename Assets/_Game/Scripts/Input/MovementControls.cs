@@ -32,11 +32,13 @@ public class MovementControls : MonoBehaviour
     {
         _movementInput.Enable();
         _movementInput.Player.TogglePaused.performed += CGSC.TogglePauseGame;
+        _movementInput.Player.Reset.performed += CGSC.RestartLevel;
     }
 
     private void OnDisable()
     {
         _movementInput.Player.TogglePaused.performed -= CGSC.TogglePauseGame;
+        _movementInput.Player.Reset.performed -= CGSC.RestartLevel;
         _movementInput.Disable();
     }
 
