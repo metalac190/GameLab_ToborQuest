@@ -89,6 +89,15 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SkipDialogue"",
+                    ""type"": ""Button"",
+                    ""id"": ""5ea5e0e8-66e9-4b4d-9201-cc17444ae73b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -386,6 +395,61 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Reset"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5fa1b351-f9ea-443d-9464-7a78e0febf27"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SkipDialogue"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a0087733-0cb1-443e-9534-c6506388bed5"",
+                    ""path"": ""<Gamepad>/dpad/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SkipDialogue"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ffa0f2b1-f84d-447c-afac-359f35aef19d"",
+                    ""path"": ""<Gamepad>/dpad/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SkipDialogue"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""738a5d93-5b78-4d78-871a-a97304ee713e"",
+                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SkipDialogue"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""dfc8feda-9e52-4d04-b14c-6a7e175e7763"",
+                    ""path"": ""<Gamepad>/dpad/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SkipDialogue"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1011,6 +1075,7 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
         m_Player_SideFlip = m_Player.FindAction("SideFlip", throwIfNotFound: true);
         m_Player_TogglePaused = m_Player.FindAction("TogglePaused", throwIfNotFound: true);
         m_Player_Reset = m_Player.FindAction("Reset", throwIfNotFound: true);
+        m_Player_SkipDialogue = m_Player.FindAction("SkipDialogue", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1090,6 +1155,7 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_SideFlip;
     private readonly InputAction m_Player_TogglePaused;
     private readonly InputAction m_Player_Reset;
+    private readonly InputAction m_Player_SkipDialogue;
     public struct PlayerActions
     {
         private @MovementInput m_Wrapper;
@@ -1101,6 +1167,7 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
         public InputAction @SideFlip => m_Wrapper.m_Player_SideFlip;
         public InputAction @TogglePaused => m_Wrapper.m_Player_TogglePaused;
         public InputAction @Reset => m_Wrapper.m_Player_Reset;
+        public InputAction @SkipDialogue => m_Wrapper.m_Player_SkipDialogue;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1131,6 +1198,9 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
                 @Reset.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReset;
                 @Reset.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReset;
                 @Reset.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReset;
+                @SkipDialogue.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSkipDialogue;
+                @SkipDialogue.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSkipDialogue;
+                @SkipDialogue.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSkipDialogue;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -1156,6 +1226,9 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
                 @Reset.started += instance.OnReset;
                 @Reset.performed += instance.OnReset;
                 @Reset.canceled += instance.OnReset;
+                @SkipDialogue.started += instance.OnSkipDialogue;
+                @SkipDialogue.performed += instance.OnSkipDialogue;
+                @SkipDialogue.canceled += instance.OnSkipDialogue;
             }
         }
     }
@@ -1327,6 +1400,7 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
         void OnSideFlip(InputAction.CallbackContext context);
         void OnTogglePaused(InputAction.CallbackContext context);
         void OnReset(InputAction.CallbackContext context);
+        void OnSkipDialogue(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
