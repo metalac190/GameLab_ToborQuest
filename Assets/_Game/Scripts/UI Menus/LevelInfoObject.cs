@@ -30,9 +30,15 @@ public class LevelInfoObject : ScriptableObject
     public float SilverGoal => silverGoal;
     public float GoldGoal => goldGoal;
 
+    private void Awake()
+    {
+        levelScene.CheckValid();
+    }
+
 
     public string GetLevelSceneName()
     {
+        levelScene.CheckValid();
         return levelScene.Name;
     }
 
