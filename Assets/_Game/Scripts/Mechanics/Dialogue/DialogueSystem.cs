@@ -62,7 +62,7 @@ public class DialogueSystem : MonoBehaviour
 	public void RunDialogue(Dialogue dialogue)
 	{
 		_animator.IntroAnimation(dialogue.TimeToEnter);
-		if (dialogue.FreezeTobor) { Time.timeScale = 0f; }
+		if (dialogue.FreezeTobor) { _movement.SetActive(false); }
 
 		float _timeAmount = 0f;
         foreach (char c in dialogue.Text) { _timeAmount += dialogue.TypingSpeed; }
@@ -107,7 +107,7 @@ public class DialogueSystem : MonoBehaviour
 	IEnumerator HandleToborFreeze(float s)
 	{
 		yield return new WaitForSecondsRealtime(s);
-		Time.timeScale = 1f;
+		_movement.SetActive(true);
 	}
 
 	IEnumerator HandlePanelAnimation( float wait, float exit)
