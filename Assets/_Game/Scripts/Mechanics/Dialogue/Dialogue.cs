@@ -22,7 +22,7 @@ public class Dialogue : ScriptableObject
 
 	[Header("Sound Settings")]
 	[SerializeField] private AudioClip _dialogueSoundEffect;
-	[Range(0f, 1f)]	private float _volume = 0.5f;
+	[SerializeField, Range(0f, 1f)] private float _volume = 0.5f;
 
 	[Header("Tobor Settings")]
 	[SerializeField] private bool _freezeTobor;
