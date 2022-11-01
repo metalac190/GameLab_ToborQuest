@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -11,6 +10,7 @@ public class PauseManager : MonoBehaviour
     public HUDManager hudManager;
     [SerializeField] private LevelInfoObject levelInfoObj;
     [SerializeField] private MedalUIHelper medalHelper;
+    [SerializeField] private TextMeshProUGUI levelNameText;
 
     public GameObject QuestionBox;
 
@@ -25,6 +25,7 @@ public class PauseManager : MonoBehaviour
         levelInfoObj.GetBestTimeFormatted(); //just an easy way to set the BestTime
         goalTimeText.text = levelInfoObj.GetNextTimeGoalFormatted();
         medalHelper.SetMedalUI(goalMedalImage, levelInfoObj.GetNextMedalGoal());
+        levelNameText.text = levelInfoObj.GetLevelSceneName();
     }
 
     private void OnEnable()

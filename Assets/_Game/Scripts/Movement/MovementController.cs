@@ -228,6 +228,11 @@ public class MovementController : MonoBehaviour
         yield return new WaitUntil(() => _boostTimeRemaining >= _boostDuration);
     }
 
+    public float BoostPercentage()
+    {
+        return (_boostTimeRemaining / _boostDuration);
+    }
+
     private void Drift()
     {
         if (_isGrounded)
