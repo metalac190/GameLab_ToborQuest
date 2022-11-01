@@ -1,9 +1,12 @@
 ﻿using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using SoundSystem;
 using UnityEngine.UI;
+using UnityEngine.Events;
 using TMPro;
+using UnityEngine.InputSystem;
 
 public class DialogueSystem : MonoBehaviour
 {
@@ -13,19 +16,27 @@ public class DialogueSystem : MonoBehaviour
 	[SerializeField] private TextMeshProUGUI _speaker;
 	[SerializeField] private TextMeshProUGUI _text;
 	[SerializeField] private Image _speakerSprite;
-	
+	[SerializeField] private UnityEvent _onFirstSkipEvent;
+	[SerializeField] private UnityEvent _onSecondSkipEvent;
+
+
+	public static Action OnSkipDialogue = delegate { };
 
 	private Sprite _speakerSpriteClosed;
 	private Sprite _speakerSpriteOpen;
 	private bool _printingText = false;
 	private AudioSource _source;
 	private MovementController _movement;
+	private Dialogue _currentDialogue;
 
 
-	
+	[SerializeField, ReadOnly] private int skip = 0;
+	public int Skip => skip;
 	private int counterMax;
+	private float _dialogueTime;
 
 	private Coroutine _displayLineCoroutine;
+	private Coroutine _panelAnimationCoroutine;
 	private bool _talking;
 
 	int counter = 0;
@@ -39,6 +50,11 @@ public class DialogueSystem : MonoBehaviour
 
 	void Start()
 	{
+		if (ExtrasSettings.DialogueDisabled)
+		{
+			gameObject.SetActive(false);
+			return;
+		}
 		
 		counter = 0;
 		counterMax = 0;
@@ -46,9 +62,8 @@ public class DialogueSystem : MonoBehaviour
 		_movement = GameObject.FindObjectOfType<MovementController>();
 	}
 
-	
 
-	void Update()
+    void Update()
 	{
 		if (_talking && counter < counterMax) { counter++; }
 		else if (_talking && counter >= counterMax)
@@ -57,25 +72,59 @@ public class DialogueSystem : MonoBehaviour
 			counter = 0;
 			counterMax = 0;
 		}
+		
+		
+		if (skip == 1)
+		{
+			if (_displayLineCoroutine != null) StopCoroutine(_displayLineCoroutine);
+			_text.text = _currentDialogue.Text;
+		}
+
+		if (skip == 2)
+		{
+			if (_panelAnimationCoroutine != null) StopCoroutine(_panelAnimationCoroutine);
+			_dialogueTime = 0.01f;
+			_panelAnimationCoroutine = StartCoroutine(HandlePanelAnimation(_dialogueTime, _currentDialogue.TimeToExit));
+			_animator.CancelAnimations();
+			OnSkipDialogue?.Invoke();
+			skip = 0;
+		}
+	}
+
+	public static void SkipDialogueStatic(InputAction.CallbackContext context)
+	{
+		if (Instance) Instance.SkipDialogue();
+	}
+
+	[Button]
+	public void SkipDialogue()
+	{
+		skip++;
+		if (skip == 1) { _onFirstSkipEvent?.Invoke(); }
+		if (skip == 2) { _onSecondSkipEvent?.Invoke(); }
 	}
 
 	public void RunDialogue(Dialogue dialogue)
 	{
+		_currentDialogue = dialogue;
+
+		if (_panelAnimationCoroutine != null) StopCoroutine(_panelAnimationCoroutine);
 		_animator.IntroAnimation(dialogue.TimeToEnter);
 		if (dialogue.FreezeTobor) { _movement.SetActive(false); }
 
 		float _timeAmount = 0f;
         foreach (char c in dialogue.Text) { _timeAmount += dialogue.TypingSpeed; }
 		if (dialogue.DialogueDuration < _timeAmount) 
-		{ 
-			StartCoroutine(HandlePanelAnimation(_timeAmount, dialogue.TimeToExit));
-			if (dialogue.FreezeTobor) { StartCoroutine(HandleToborFreeze(_timeAmount)); }
+		{
+			_dialogueTime = _timeAmount;
 		}
 		else 
-		{ 
-			StartCoroutine(HandlePanelAnimation(dialogue.DialogueDuration, dialogue.TimeToExit));
-			if (dialogue.FreezeTobor) { StartCoroutine(HandleToborFreeze(dialogue.DialogueDuration)); }
+		{
+			_dialogueTime = dialogue.DialogueDuration;
 		}
+		
+		_panelAnimationCoroutine = StartCoroutine(HandlePanelAnimation(_dialogueTime, dialogue.TimeToExit));
+		if (dialogue.FreezeTobor) { StartCoroutine(HandleToborFreeze(_dialogueTime)); }
 
 		counterMax = (int)dialogue.DialogueDuration * 60;
 
@@ -106,13 +155,13 @@ public class DialogueSystem : MonoBehaviour
 	#region Coroutines
 	IEnumerator HandleToborFreeze(float s)
 	{
-		yield return new WaitForSeconds(s);
+		yield return new WaitForSecondsRealtime(s);
 		_movement.SetActive(true);
 	}
 
 	IEnumerator HandlePanelAnimation( float wait, float exit)
 	{
-		yield return new WaitForSeconds(wait);
+		yield return new WaitForSecondsRealtime(wait);
 		_animator.ExitAnimation(exit);
 	}
 	
@@ -124,9 +173,9 @@ public class DialogueSystem : MonoBehaviour
 		while(_printingText)
 		{
 			_speakerSprite.sprite = _speakerSpriteOpen;
-			yield return new WaitForSeconds(_timeBetween);
+			yield return new WaitForSecondsRealtime(_timeBetween);
 			_speakerSprite.sprite = _speakerSpriteClosed;
-			yield return new WaitForSeconds(_timeBetween);
+			yield return new WaitForSecondsRealtime(_timeBetween);
 		}
 	}
 
@@ -140,7 +189,7 @@ public class DialogueSystem : MonoBehaviour
 			{
 				_printingText = true;
 				_text.text += _dialogueText[i];
-				yield return new WaitForSeconds(_typingSpeed);
+				yield return new WaitForSecondsRealtime(_typingSpeed);
 			}
 			else
             {
@@ -158,7 +207,7 @@ public class DialogueSystem : MonoBehaviour
 		foreach (char c in _dialogueName)
 		{
 			_speaker.text += c;
-			yield return new WaitForSeconds(0);
+			yield return new WaitForSecondsRealtime(0);
 		}
 
 	}

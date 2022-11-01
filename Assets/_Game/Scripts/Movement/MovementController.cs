@@ -45,11 +45,18 @@ public class MovementController : MonoBehaviour
     [SerializeField, ShowIf("_showBoostTab")] private bool _canBoostInAir;
     [SerializeField, ShowIf("_showBoostTab")] private float _boostAcceleration = 30;
     [SerializeField, ShowIf("_showBoostTab")] private float _boostMaxSpeed = 60;
-    [SerializeField, ShowIf("_showBoostTab")] private float _boostDuration = 2f;
-    [SerializeField, ShowIf("_showBoostTab")] private float _boostCooldown = 2f;
-    [SerializeField, ShowIf("_showBoostTab")] private float _boostTimeRemaining = 2f;
-    [SerializeField, ShowIf("_showBoostTab")] private bool _useRechargeBoost = false;
-    [SerializeField, ShowIf("_showBoostTab")] private float _rechargeDelay = 0.5f;
+    [SerializeField, ShowIf("_showBoostTab")] private float _boostRechargeCurveSpeed = 0.5f;
+    [SerializeField, ShowIf("_showBoostTab")] private AnimationCurve _boostRechargeCurve = new AnimationCurve(new Keyframe(0, 0.25f), new Keyframe(1, 1));
+    [SerializeField, ShowIf("_showBoostTab")] private float _boostChargeMax;
+
+    [SerializeField, ReadOnly] private bool _disableBoosting;
+    [SerializeField, ReadOnly] private float _boostCharge;
+    [SerializeField, ReadOnly] private float _boostTimeRemaining;
+    [SerializeField, ReadOnly] private float _rechargeTimeRemaining;
+    [SerializeField, ReadOnly] private float _timeSinceBoosting;
+
+    [Header("Feedback")]
+    [SerializeField] private Light _boostLight = null;
 
     [Header("Debug")]
     [SerializeField, ReadOnly] private float _currentAcceleration = 0f;
@@ -74,8 +81,10 @@ public class MovementController : MonoBehaviour
     public bool IsDrifting => _isDrifting;
     public bool IsBoosting => _isBoosting;
     public bool IsFlipping => _isFlipping;
-    public bool UsingRechargeBoost => _useRechargeBoost;
+    public bool UsingRechargeBoost => true;
     public Vector3 PreviousVelocity => _previousVel;
+
+    private float _inputSpeed;
 
     private Rigidbody _rb;
     private MovementControls _movementControls;
@@ -85,6 +94,8 @@ public class MovementController : MonoBehaviour
     //public bool GroundCheck() => Physics.CheckSphere(_groundCheck.position, _groundCheckRadius, _groundLayer);
     public bool GroundCheck() => _wc.WheelsGroundCheck();
     protected bool TurtledCheck() => Physics.CheckSphere(_roofCheck.position, _roofCheckRadius, _groundLayer);
+
+    #region Unity Functions
 
     private void Awake()
     {
@@ -96,12 +107,14 @@ public class MovementController : MonoBehaviour
 
     private void Start()
     {
-
         _rb.centerOfMass = _centerOfMass;
         _currentAcceleration = _acceleration;
         _currentMaxSpeed = _maxSpeed;
         _currentTurnSpeed = _stoppedTurnSpeed;
         _rb.inertiaTensor = _customInertiaTensor;
+
+        if (_boostChargeMax <= 0) _boostChargeMax = 1;
+        _boostCharge = _boostChargeMax;
     }
 
     private void FixedUpdate()
@@ -111,7 +124,7 @@ public class MovementController : MonoBehaviour
 
         if (!_isFlipping) Steer();
 
-        if (_movementControls.Boost && !_boostOnCooldown) Boost();
+        HandleBoost();
 
         if (_isGrounded || _isBoosting) Movement();
 
@@ -126,6 +139,8 @@ public class MovementController : MonoBehaviour
         _currentMaxAngularVelocity = _rb.maxAngularVelocity;
         _velocityMagnitude = _rb.velocity.magnitude;
     }
+
+    #endregion
 
     private void Steer()
     {
@@ -147,19 +162,12 @@ public class MovementController : MonoBehaviour
         //tobor can drive
         if (_movementControls.Speed != 0 && !_isBoosting) Drive();
 
-        //if tobor is not boosting AND boost has not been fully used
-        //start boost cooldown
-        if (!_movementControls.Boost && _boostTimeRemaining < _boostDuration)
-        {
-            if (_useRechargeBoost) StartCoroutine(BoostRecharge());
-            else StartCoroutine(BoostCooldown());
-        }
-
         var force = new Vector3();
-        var speed = _movementControls.Speed;
+        if (_isBoosting) _inputSpeed = 1f;
+        else _inputSpeed = _movementControls.Speed;
 
-        if (_isDrifting) force = transform.forward * (_currentAcceleration * Mathf.Clamp(speed, -_driftAccelerationMultiplier, _driftAccelerationMultiplier));
-        else force = transform.forward * (_currentAcceleration * speed);
+        if (_isDrifting) force = transform.forward * (_currentAcceleration * Mathf.Clamp(_inputSpeed, -_driftAccelerationMultiplier, _driftAccelerationMultiplier));
+        else force = transform.forward * (_currentAcceleration * _inputSpeed);
 
         //boosting gives no y velocity
         if (_isBoosting) force.y = 0;
@@ -177,52 +185,34 @@ public class MovementController : MonoBehaviour
         _currentMaxSpeed = _maxSpeed;
     }
 
-    private void Boost()
+    private void HandleBoost()
     {
-        if (_movementControls.Speed <= 0) return;
-        
-        _currentAcceleration = _boostAcceleration;
-        _currentMaxSpeed = _boostMaxSpeed;
-
-        if (_boostTimeRemaining > 0)
+        if (!_disableBoosting && _movementControls.Boost && _boostCharge > 0)
         {
             _isBoosting = true;
-            _boostTimeRemaining -= Time.deltaTime;
+            _timeSinceBoosting = 0;
+            _boostCharge -= Time.deltaTime;
         }
         else
         {
-            if (_useRechargeBoost) StartCoroutine(BoostRecharge());
-            else StartCoroutine(BoostCooldown());
+            _isBoosting = false;
+            _timeSinceBoosting += _boostRechargeCurveSpeed * Time.deltaTime;
         }
-
+        float recharge = _boostRechargeCurve.Evaluate(Mathf.Clamp01(_timeSinceBoosting));
+        _boostCharge += recharge * Time.deltaTime;
+        _boostCharge = Mathf.Clamp(_boostCharge, 0, _boostChargeMax);
     }
 
+    public float BoostPercentage() => _boostCharge / _boostChargeMax;
 
-    public IEnumerator BoostCooldown(float cooldown = 0)
+    public IEnumerator DisableBoosting(float time)
     {
-        _boostOnCooldown = true;
-        _boostTimeRemaining = 0;
-        _isBoosting = false;
-        _boostTimeRemaining = _boostDuration;
-
-        if (cooldown == 0) yield return new WaitForSeconds(_boostCooldown);
-        else yield return new WaitForSeconds(cooldown);
-
-        _boostOnCooldown = false;
-    }
-
-    public IEnumerator BoostRecharge()
-    {
-        _boostOnCooldown = true;
-        _isBoosting = false;
-        yield return new WaitForSeconds(_rechargeDelay);
-        _boostOnCooldown = false;
-
-        _boostTimeRemaining += Time.deltaTime;
-        _boostTimeRemaining = Mathf.Clamp(_boostTimeRemaining, 0f, _boostDuration);
-
-        if (_isBoosting) yield break;
-        yield return new WaitUntil(() => _boostTimeRemaining >= _boostDuration);
+        _disableBoosting = true;
+        for (float t = 0; t < time; t += Time.deltaTime)
+        {
+            yield return null;
+        }
+        _disableBoosting = false;
     }
 
     private void Drift()
@@ -290,9 +280,7 @@ public class MovementController : MonoBehaviour
         {
             _isDrifting = false;
             _isFlipping = true;
-
-            if (_useRechargeBoost) StartCoroutine(BoostRecharge());
-            else StartCoroutine(BoostCooldown(_boostCooldown));
+            _isBoosting = false;
             this.enabled = false;
         }
         else

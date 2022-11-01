@@ -1,8 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.VFX;
 using UnityEngine.VFX.Utility;
@@ -37,6 +35,7 @@ public class ToborEffectsController : MonoBehaviour
     private bool _boostTrailsActive;
 
     private bool _canPlayImpactAnim = true;
+    private bool _canFoodBurst = true;
 
     private float _storedVelocity;
     private bool _checkingVelocity = false;
@@ -101,7 +100,7 @@ public class ToborEffectsController : MonoBehaviour
         var difference = _storedVelocity - _rb.velocity.magnitude;
         if (difference > velocityMinimum)
         {
-            FoodTrailBurst(1);
+            if (_canFoodBurst) StartCoroutine(FoodTrailBurstDelay());
             _storedVelocity = _rb.velocity.magnitude;
         }
     }
@@ -140,19 +139,27 @@ public class ToborEffectsController : MonoBehaviour
 
         foreach (var food in _mesh)
         {
-            for (var i = 0; i < count; i++)
+            if (UnityEngine.Random.Range(0f, 1f) < 0.5f)
             {
-                var obj = Instantiate(food);
-                obj.transform.position = _foodTrail.transform.position;
-                obj.GetComponent<Rigidbody>().velocity = _rb.velocity;
-                obj.GetComponent<Rigidbody>().angularVelocity = _rb.angularVelocity;
-                Destroy(obj, 3f);
+                for (var i = 0; i < count; i++)
+                {
+                    var obj = Instantiate(food);
+                    obj.transform.position = _foodTrail.transform.position;
+                    obj.GetComponent<Rigidbody>().velocity = _rb.velocity;
+                    obj.GetComponent<Rigidbody>().angularVelocity = _rb.angularVelocity;
+                    Destroy(obj, 3f);
+                }
+                _storedVelocity = _rb.velocity.magnitude;
             }
-            _storedVelocity = _rb.velocity.magnitude;
         }
+    }
 
-
-
+    private IEnumerator FoodTrailBurstDelay()
+    {
+        _canFoodBurst = false;
+        FoodTrailBurst(1);
+        yield return new WaitForSecondsRealtime(1f);
+        _canFoodBurst = true;
     }
 
     public void PlayOnCollision()

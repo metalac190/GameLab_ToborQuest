@@ -23,11 +23,22 @@ public class MenuLevelInfoPanel : MonoBehaviour
 
     float levelBestTime;
 
-    void Start()
+    private void OnEnable()
+    {
+        SetTimes();
+        ExtrasSettings.OnResetData += SetTimes;
+    }
+
+    private void OnDisable()
+    {
+        ExtrasSettings.OnResetData -= SetTimes;
+    }
+
+    private void SetTimes()
     {
         bestTimeText.text = levelInfoObj.GetBestTimeFormatted();
-        medalHelper.SetMedalUI(medalImage, levelInfoObj.CurrentMedal);
         nextGoalText.text = levelInfoObj.GetNextTimeGoalFormatted();
+        medalHelper.SetMedalUI(medalImage, levelInfoObj.CurrentMedal);
         /*
         if (PlayerPrefs.HasKey(levelSaveName))
         {

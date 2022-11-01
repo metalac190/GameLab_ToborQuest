@@ -9,8 +9,8 @@ public class Dialogue : ScriptableObject
 {
 	[Header("Data")]
 	[SerializeField] private string _speaker;
-	[SerializeField] float _typingSpeed = 0.04f;
-	[SerializeField, TextArea] private List<string> _text;
+	[SerializeField] private float _typingSpeed = 0.04f;
+	[SerializeField] private List<string> _text;
 
 	[Header("Animation Settings")]
 	[SerializeField] private Sprite _spriteClosedMouth;
@@ -22,7 +22,8 @@ public class Dialogue : ScriptableObject
 
 	[Header("Sound Settings")]
 	[SerializeField] private AudioClip _dialogueSoundEffect;
-	[Range(0f, 1f)]	private float _volume = 0.5f;
+	[SerializeField, ReadOnly] private float _audioClipDuration;
+	[SerializeField, Range(0f, 1f)] private float _volume = 0.5f;
 
 	[Header("Tobor Settings")]
 	[SerializeField] private bool _freezeTobor;
@@ -39,10 +40,15 @@ public class Dialogue : ScriptableObject
 	public bool FreezeTobor => _freezeTobor;
 	public float TimeToEnter => _dialogueScreenEnterTime;
 	public float TimeToExit => _dialogueScreenExitTime;
-	public float DialogueDuration => _dialogueDuration + _dialogueScreenEnterTime + _dialogueScreenExitTime;
+	public float DialogueDuration => Mathf.Max(_dialogueDuration, _audioClipDuration) + _dialogueScreenEnterTime + _dialogueScreenExitTime;
 	public float AnimationSpeed => _animationSpeed;
 
-	
+	private void OnValidate()
+	{
+		_audioClipDuration = _dialogueSoundEffect != null ? _dialogueSoundEffect.length : 0;
+	}
+
+	[Button(Spacing = 20, Mode = ButtonMode.InPlayMode)]
 	public void RunDialogue()
 	{
 		if (DialogueSystem.Instance)

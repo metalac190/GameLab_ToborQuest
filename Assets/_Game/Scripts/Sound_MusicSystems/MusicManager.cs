@@ -172,13 +172,13 @@ namespace SoundSystem
         private void onPause()
         {
             _paused = true;
-            _activeLayerIndex = -1;
-           IncreaseLayerIndex(_fadeTime);
+            _activeLayerIndex = 3;
+           IncreaseLayerIndex(2);
         }
         private void OnUnPause()
         {
             _activeLayerIndex = 0;
-           IncreaseLayerIndex(_fadeTime);
+           IncreaseLayerIndex(2);
             _paused = false;
         }
         private void OnWin()

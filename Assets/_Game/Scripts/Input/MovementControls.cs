@@ -10,16 +10,16 @@ public class MovementControls : MonoBehaviour
     private Vector2 _directionVector;
     public Vector2 DirectionVector => _directionVector;
 
-    private float _speed;
+    [SerializeField, ReadOnly] private float _speed;
     public float Speed => _speed;
 
-    private bool _drift;
+    [SerializeField, ReadOnly] private bool _drift;
     public bool Drift => _drift;
 
-    private bool _boost;
+    [SerializeField, ReadOnly] private bool _boost;
     public bool Boost => _boost;
 
-    private float _sideFlip;
+    [SerializeField, ReadOnly] private float _sideFlip;
     public float SideFlip => _sideFlip;
     
 
@@ -32,11 +32,15 @@ public class MovementControls : MonoBehaviour
     {
         _movementInput.Enable();
         _movementInput.Player.TogglePaused.performed += CGSC.TogglePauseGame;
+        _movementInput.Player.Reset.performed += CGSC.RestartLevel;
+        _movementInput.Player.SkipDialogue.performed += DialogueSystem.SkipDialogueStatic;
     }
 
     private void OnDisable()
     {
         _movementInput.Player.TogglePaused.performed -= CGSC.TogglePauseGame;
+        _movementInput.Player.Reset.performed -= CGSC.RestartLevel;
+        _movementInput.Player.SkipDialogue.performed -= DialogueSystem.SkipDialogueStatic;
         _movementInput.Disable();
     }
 
@@ -51,10 +55,5 @@ public class MovementControls : MonoBehaviour
         _drift = _movementInput.Player.Drift.IsPressed();
         _boost = _movementInput.Player.Boost.IsPressed();
         _sideFlip = _movementInput.Player.SideFlip.ReadValue<float>();
-    }
-
-    private void TogglePausedGame(InputAction.CallbackContext context)
-    {
-        
     }
 }
