@@ -10,7 +10,23 @@ public class LevelWinManager : MonoBehaviour
 {
     private HUDManager hudManager;
     [SerializeField]
-    private TextMeshProUGUI winText;
+    private TextMeshProUGUI deliveryTimeText;
+    [SerializeField] private LevelInfoObject levelInfoObj;
+    [SerializeField] private MedalUIHelper medalHelper;
+
+    [SerializeField] private Image levelCompleteImage;
+
+    [Header("New Best Time")]
+    [SerializeField] private GameObject newBestTimeObjects;
+    [SerializeField] private TextMeshProUGUI newMedalText;
+    [SerializeField] private Image newMedalImage;
+    [SerializeField] private TextMeshProUGUI newBestTimeText;
+
+    [Header("Next Goal")]
+    [SerializeField] private TextMeshProUGUI nextGoalTimeText;
+    [SerializeField] private Image nextGoalMedalImage;
+
+    [Header("Buttons")]
     [SerializeField]
     private GameObject returnLevelSelectButton;
     private GameObject _children;
@@ -21,7 +37,7 @@ public class LevelWinManager : MonoBehaviour
     {
         //Find hudmanager, should only be 1 in the scene.
         hudManager = GameObject.FindObjectOfType<HUDManager>(true);
-        levelSaveTimeName = SceneManager.GetActiveScene().name + "BestTime";
+        levelSaveTimeName = levelInfoObj.GetLevelSceneName() + "BestTime";
         //Debug.Log(levelSaveTimeName);
         //Get needed objects
         //_children = this.transform.GetChild(0).gameObject;
@@ -49,10 +65,12 @@ public class LevelWinManager : MonoBehaviour
     {
         hudManager.gameObject.SetActive(false);
         transform.GetChild(0).gameObject.SetActive(true);
-        winText.text = "DELIVERY TIME: " + hudManager.GetCurrentTimeText();
+        levelCompleteImage.sprite = levelInfoObj.levelCompleteSprite;
+        deliveryTimeText.text = "DELIVERY TIME: " + hudManager.GetCurrentTimeText();
         hudManager.currentTimerText.StopTime = true;
         EventSystem.current.SetSelectedGameObject(returnLevelSelectButton);
         SaveBestTime();
+        ShowNextGoal();
     }
 
     public void ContinueNextLevel()
@@ -84,19 +102,32 @@ public class LevelWinManager : MonoBehaviour
             if (previousBestTime > currentTime)
             {
                 //Debug.Log("New best time");
+                //save the new best tiem to Player Prefs
                 PlayerPrefs.SetFloat(levelSaveTimeName, currentTime);
+
+                //show and update the new best time objs
+                newBestTimeObjects.SetActive(true);
+                newBestTimeText.text = "Best time: " + levelInfoObj.GetBestTimeFormatted();
+                newMedalText.text = "You Earned " + levelInfoObj.CurrentMedal.ToString();
+                medalHelper.SetMedalUI(newMedalImage, levelInfoObj.CurrentMedal);
             }
             else
             {
                 //Debug.Log("Didn't beat best time");
+                newBestTimeObjects.SetActive(false);
             }
         }
         else
         {
             //Debug.Log("Best time set");
             PlayerPrefs.SetFloat(levelSaveTimeName, currentTime);
+            newBestTimeObjects.SetActive(false);
         }
             
     }
 
+    private void ShowNextGoal() {
+        nextGoalTimeText.text = "Next Goal: " + levelInfoObj.GetNextTimeGoalFormatted();
+        medalHelper.SetMedalUI(newMedalImage, levelInfoObj.GetNextMedalGoal());
+    }
 }
