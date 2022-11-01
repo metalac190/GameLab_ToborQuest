@@ -4,15 +4,20 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class PauseManager : MonoBehaviour
 {
     public HUDManager hudManager;
+    [SerializeField] private LevelInfoObject levelInfoObj;
+    [SerializeField] private MedalUIHelper medalHelper;
 
     public GameObject QuestionBox;
 
     public TextMeshProUGUI currentTime;
-    public TextMeshProUGUI bestTime;
+
+    [SerializeField] private TextMeshProUGUI goalTimeText;
+    [SerializeField] private Image goalMedalImage;
 
     private void Awake()
     {
@@ -22,7 +27,8 @@ public class PauseManager : MonoBehaviour
     private void OnEnable()
     {        
         currentTime.text = hudManager.GetCurrentTimeText();
-        bestTime.text = hudManager.GetBestTimeString();
+        goalTimeText.text = levelInfoObj.GetNextTimeGoalFormatted();
+        medalHelper.SetMedalUI(goalMedalImage, levelInfoObj.GetNextMedalGoal());
     }
 
     //public void UnPause()

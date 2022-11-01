@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3273960205206140997}
   - component: {fileID: 354584979958701281}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: GoalTimeTitle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1549,9 +1549,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hudManager: {fileID: 0}
+  levelInfoObj: {fileID: 0}
+  medalHelper: {fileID: 11400000, guid: 252332d1270384c49bbeff2a8892da5f, type: 2}
   QuestionBox: {fileID: 1839418656893131143}
   currentTime: {fileID: 1839418656046628741}
-  bestTime: {fileID: 1839418656999470903}
+  goalTimeText: {fileID: 1839418656999470903}
+  goalMedalImage: {fileID: 2773748255692340140}
 --- !u!1 &1839418656893131143
 GameObject:
   m_ObjectHideFlags: 0
@@ -1900,7 +1903,7 @@ GameObject:
   - component: {fileID: 1839418656999470900}
   - component: {fileID: 1839418656999470903}
   m_Layer: 5
-  m_Name: BestTime
+  m_Name: GoalTimeText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2645,7 +2648,7 @@ GameObject:
   - component: {fileID: 2917278051355374070}
   - component: {fileID: 2886347799879770557}
   m_Layer: 5
-  m_Name: BestTimeImg
+  m_Name: GoalTimeTextBackground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2722,7 +2725,7 @@ GameObject:
   - component: {fileID: 5928665283367773323}
   - component: {fileID: 2773748255692340140}
   m_Layer: 5
-  m_Name: Image
+  m_Name: GoalMedal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2798,7 +2801,7 @@ GameObject:
   - component: {fileID: 8925842058953795645}
   - component: {fileID: 8464596871362360266}
   m_Layer: 5
-  m_Name: BestTime
+  m_Name: GoalTimeTitleBackground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
