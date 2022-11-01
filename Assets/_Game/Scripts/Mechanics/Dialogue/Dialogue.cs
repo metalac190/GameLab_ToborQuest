@@ -9,8 +9,8 @@ public class Dialogue : ScriptableObject
 {
 	[Header("Data")]
 	[SerializeField] private string _speaker;
-	[SerializeField] float _typingSpeed = 0.04f;
-	[SerializeField, TextArea] private List<string> _text;
+	[SerializeField] private float _typingSpeed = 0.04f;
+	[SerializeField] private List<string> _text;
 
 	[Header("Animation Settings")]
 	[SerializeField] private Sprite _spriteClosedMouth;
