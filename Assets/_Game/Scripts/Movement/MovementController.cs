@@ -77,6 +77,8 @@ public class MovementController : MonoBehaviour
     public bool UsingRechargeBoost => _useRechargeBoost;
     public Vector3 PreviousVelocity => _previousVel;
 
+    private float _inputSpeed;
+
     private Rigidbody _rb;
     private MovementControls _movementControls;
     private ToborEffectsController _ec;
@@ -156,10 +158,11 @@ public class MovementController : MonoBehaviour
         }
 
         var force = new Vector3();
-        var speed = _movementControls.Speed;
+        if (_isBoosting) _inputSpeed = 1f;
+        else _inputSpeed = _movementControls.Speed;
 
-        if (_isDrifting) force = transform.forward * (_currentAcceleration * Mathf.Clamp(speed, -_driftAccelerationMultiplier, _driftAccelerationMultiplier));
-        else force = transform.forward * (_currentAcceleration * speed);
+        if (_isDrifting) force = transform.forward * (_currentAcceleration * Mathf.Clamp(_inputSpeed, -_driftAccelerationMultiplier, _driftAccelerationMultiplier));
+        else force = transform.forward * (_currentAcceleration * _inputSpeed);
 
         //boosting gives no y velocity
         if (_isBoosting) force.y = 0;
@@ -179,7 +182,7 @@ public class MovementController : MonoBehaviour
 
     private void Boost()
     {
-        if (_movementControls.Speed <= 0) return;
+        //if (_movementControls.Speed <= 0) return;
         
         _currentAcceleration = _boostAcceleration;
         _currentMaxSpeed = _boostMaxSpeed;
