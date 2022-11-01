@@ -65,9 +65,11 @@ public class LevelInfoManager : MonoBehaviour
         medalHelper.SetMedalUI(nextMedalGoalImage, levelInfoObj.GetNextMedalGoal());
         nextGoalTimeText.text = levelInfoObj.GetNextTimeGoalFormatted();
 
+        onStart.onClick.RemoveAllListeners();
         onStart.onClick.AddListener(() =>
         {
-            CGSC.LoadScene(value.GetLevelSceneName());
+            Debug.Log(value.GetLevelSceneName());
+            //CGSC.LoadScene(value.GetLevelSceneName());
         });
     }
 }
