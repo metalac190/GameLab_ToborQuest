@@ -25,7 +25,7 @@ public class DialogueSequence : MonoBehaviour
             for (float t = 0; t < d.DialogueDuration; t += Time.deltaTime) {
                 if (_skipDialogue)
                 {
-                    Debug.Log("skipped");
+                    //Debug.Log("skipped");
                     _skipDialogue = false;
                     break;
                 }

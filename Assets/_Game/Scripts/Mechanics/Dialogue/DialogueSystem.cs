@@ -6,6 +6,7 @@ using SoundSystem;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using TMPro;
+using UnityEngine.InputSystem;
 
 public class DialogueSystem : MonoBehaviour
 {
@@ -61,9 +62,8 @@ public class DialogueSystem : MonoBehaviour
 		_movement = GameObject.FindObjectOfType<MovementController>();
 	}
 
-	
 
-	void Update()
+    void Update()
 	{
 		if (_talking && counter < counterMax) { counter++; }
 		else if (_talking && counter >= counterMax)
@@ -89,6 +89,11 @@ public class DialogueSystem : MonoBehaviour
 			OnSkipDialogue?.Invoke();
 			skip = 0;
 		}
+	}
+
+	public static void SkipDialogueStatic(InputAction.CallbackContext context)
+	{
+		if (Instance) Instance.SkipDialogue();
 	}
 
 	[Button]
