@@ -5,10 +5,11 @@ using UnityEngine;
 public class DialogueAnimator : MonoBehaviour
 {
     [SerializeField] RectTransform _cachedOriginalTransform;
-    Vector3 _hiddenPosition = new Vector3(-90, -540, 0);
-    Vector3 _visiblePosition = new Vector3(-960, -540, 0);
+    Vector3 _hiddenPosition = new Vector3(840, 0, 0);
+    Vector3 _visiblePosition = new Vector3(0, 0, 0);
 
-    
+    [SerializeField, Range(0.65f, 1)]
+    private float dialogueScale;
 
     void Awake()
     {
@@ -18,6 +19,10 @@ public class DialogueAnimator : MonoBehaviour
 
     }
 
+    private void Update()
+    {
+        _cachedOriginalTransform.transform.localScale = new Vector3(dialogueScale, dialogueScale, 1);
+    }
 
     public void IntroAnimation(float _time)
     {
