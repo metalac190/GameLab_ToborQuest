@@ -9,25 +9,27 @@ public class soundSettings : MonoBehaviour
 
     public void setSFXLvl(float _sfxLvl)
     {
-        masterMixer.SetFloat("SFXVol", _sfxLvl);
-        masterMixer.SetFloat("ToborVol", _sfxLvl);
+        masterMixer.SetFloat("SFXVol", Convert(_sfxLvl));
+        masterMixer.SetFloat("ToborVol", Convert(_sfxLvl));
     }
     public void setAmbientLvl(float _ambientVol)
     {
-        masterMixer.SetFloat("AmbientVol", _ambientVol);
+        masterMixer.SetFloat("AmbientVol", Convert(_ambientVol));
 
     }
     public void setMusicLvl(float _musicLvl)
     {
-        masterMixer.SetFloat("MusicVol", _musicLvl);
+        masterMixer.SetFloat("MusicVol", Convert(_musicLvl));
     }
     public void setMasterVol(float _masterLvl)
     {
-        masterMixer.SetFloat("MasterVol", _masterLvl);
+        masterMixer.SetFloat("MasterVol", Convert(_masterLvl));
     }
 
     public void ClearVolume()
     {
         masterMixer.ClearFloat("musicVol");
     }
+
+    private float Convert(float value) => Mathf.Log10(value) * 20;
 }
