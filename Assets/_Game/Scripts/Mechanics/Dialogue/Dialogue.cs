@@ -48,7 +48,7 @@ public class Dialogue : ScriptableObject
 		_audioClipDuration = _dialogueSoundEffect != null ? _dialogueSoundEffect.length : 0;
 	}
 
-	
+	[Button(Spacing = 20, Mode = ButtonMode.InPlayMode)]
 	public void RunDialogue()
 	{
 		if (DialogueSystem.Instance)
