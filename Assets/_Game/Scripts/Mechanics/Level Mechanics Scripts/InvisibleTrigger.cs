@@ -1,11 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(BoxCollider))]
-public class InvisibleTrigger : MonoBehaviour {
-
+public class InvisibleTrigger : MonoBehaviour
+{
+    [SerializeField, ReadOnly] private BoxCollider _collider;
     [SerializeField] private UnityEvent onPlayerEnter;
     [SerializeField] private Color32 gizmoColor = Color.green;
 
@@ -15,11 +17,16 @@ public class InvisibleTrigger : MonoBehaviour {
         activatedFlag = false;
     }
 
+    private void OnValidate() {
+        if (!_collider) _collider = GetComponent<BoxCollider>();
+        if (!_collider) _collider = gameObject.AddComponent<BoxCollider>();
+    }
+
     private void OnTriggerEnter(Collider other) {
         OnPlayerTrigger(other);
     }
 
-    virtual protected void OnPlayerTrigger(Collider other) {
+    protected virtual void OnPlayerTrigger(Collider other) {
         if(other.gameObject.layer == LayerMask.NameToLayer("Player") && !activatedFlag) {
             activatedFlag = true;
             onPlayerEnter?.Invoke();
@@ -28,8 +35,9 @@ public class InvisibleTrigger : MonoBehaviour {
 
     private void OnDrawGizmos() {
         Gizmos.color = gizmoColor;
-        Vector3 center = transform.position + GetComponent<BoxCollider>().center;
-        Vector3 size = GetComponent<BoxCollider>().size;
-        Gizmos.DrawWireCube(center, size);
+        var t = transform;
+        Matrix4x4 rotationMatrix = Matrix4x4.TRS(t.position, t.rotation, t.lossyScale);
+        Gizmos.matrix = rotationMatrix;
+        Gizmos.DrawWireCube(_collider.center, _collider.size);
     }
 }

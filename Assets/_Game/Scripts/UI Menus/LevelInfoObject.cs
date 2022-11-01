@@ -16,6 +16,7 @@ public class LevelInfoObject : ScriptableObject
     public Sprite levelTitleSprite;
     public Sprite levelNameSprite;
     public Sprite levelInfoPreviewSprite; //preview image on level info page
+    public Sprite levelCompleteSprite;
 
     //a time at or below these values, gets the medal
     [SerializeField] private float bronzeGoal;

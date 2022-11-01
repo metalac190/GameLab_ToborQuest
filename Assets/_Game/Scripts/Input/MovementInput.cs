@@ -80,6 +80,15 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Reset"",
+                    ""type"": ""Button"",
+                    ""id"": ""3df2a812-c79c-47e3-919b-2def5fce03da"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -355,6 +364,17 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""TogglePaused"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1dde6310-cbba-468e-b30c-996c8ba6d1e3"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Reset"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -979,6 +999,7 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
         m_Player_Boost = m_Player.FindAction("Boost", throwIfNotFound: true);
         m_Player_SideFlip = m_Player.FindAction("SideFlip", throwIfNotFound: true);
         m_Player_TogglePaused = m_Player.FindAction("TogglePaused", throwIfNotFound: true);
+        m_Player_Reset = m_Player.FindAction("Reset", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1057,6 +1078,7 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Boost;
     private readonly InputAction m_Player_SideFlip;
     private readonly InputAction m_Player_TogglePaused;
+    private readonly InputAction m_Player_Reset;
     public struct PlayerActions
     {
         private @MovementInput m_Wrapper;
@@ -1067,6 +1089,7 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
         public InputAction @Boost => m_Wrapper.m_Player_Boost;
         public InputAction @SideFlip => m_Wrapper.m_Player_SideFlip;
         public InputAction @TogglePaused => m_Wrapper.m_Player_TogglePaused;
+        public InputAction @Reset => m_Wrapper.m_Player_Reset;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1094,6 +1117,9 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
                 @TogglePaused.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTogglePaused;
                 @TogglePaused.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTogglePaused;
                 @TogglePaused.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTogglePaused;
+                @Reset.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReset;
+                @Reset.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReset;
+                @Reset.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReset;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -1116,6 +1142,9 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
                 @TogglePaused.started += instance.OnTogglePaused;
                 @TogglePaused.performed += instance.OnTogglePaused;
                 @TogglePaused.canceled += instance.OnTogglePaused;
+                @Reset.started += instance.OnReset;
+                @Reset.performed += instance.OnReset;
+                @Reset.canceled += instance.OnReset;
             }
         }
     }
@@ -1286,6 +1315,7 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
         void OnBoost(InputAction.CallbackContext context);
         void OnSideFlip(InputAction.CallbackContext context);
         void OnTogglePaused(InputAction.CallbackContext context);
+        void OnReset(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

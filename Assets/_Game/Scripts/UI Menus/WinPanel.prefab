@@ -147,7 +147,7 @@ GameObject:
   - component: {fileID: 3664239512631551100}
   - component: {fileID: 7803864829070251470}
   m_Layer: 5
-  m_Name: LevelOneComplete
+  m_Name: LevelCompleteImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -211,6 +211,46 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &1454300405086612637
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7704749030005155065}
+  m_Layer: 5
+  m_Name: NewBestTimeObjs
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &7704749030005155065
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1454300405086612637}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 5009438144704931210}
+  - {fileID: 7304536585219429153}
+  - {fileID: 2879201903116061452}
+  - {fileID: 5484306992293922875}
+  m_Father: {fileID: 3177993920315142152}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2382424841607865007
 GameObject:
   m_ObjectHideFlags: 0
@@ -223,7 +263,7 @@ GameObject:
   - component: {fileID: 3973644509034392561}
   - component: {fileID: 1414660340227356688}
   m_Layer: 5
-  m_Name: NewBestTime (1)
+  m_Name: DeliveryTime
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -756,7 +796,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e4793c2a30e8be4e94b6ddac5732002, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  winText: {fileID: 1414660340227356688}
+  deliveryTimeText: {fileID: 1414660340227356688}
+  levelInfoObj: {fileID: 0}
+  medalHelper: {fileID: 11400000, guid: 252332d1270384c49bbeff2a8892da5f, type: 2}
+  levelCompleteImage: {fileID: 7803864829070251470}
+  newBestTimeObjects: {fileID: 1454300405086612637}
+  newMedalText: {fileID: 7903295379156644745}
+  newMedalImage: {fileID: 973594251141945479}
+  newBestTimeText: {fileID: 8211983347708940877}
+  nextGoalTimeText: {fileID: 4096040107187919264}
+  nextGoalMedalImage: {fileID: 1793299825359645141}
   returnLevelSelectButton: {fileID: 3529023086804300883}
 --- !u!1 &3019911546748873568
 GameObject:
@@ -864,11 +913,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5009438144704931210}
+  - {fileID: 7704749030005155065}
   - {fileID: 6696843854479525519}
-  - {fileID: 2879201903116061452}
-  - {fileID: 7304536585219429153}
-  - {fileID: 5484306992293922875}
   - {fileID: 7466957030309617275}
   - {fileID: 5381572187900365602}
   m_Father: {fileID: 2635974310577865107}
@@ -1075,7 +1121,7 @@ GameObject:
   - component: {fileID: 5837537276982275710}
   - component: {fileID: 973594251141945479}
   m_Layer: 5
-  m_Name: Metal
+  m_Name: NewMedal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1088,17 +1134,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3537008599813808932}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 3177993920315142152}
+  m_Father: {fileID: 7704749030005155065}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.0000038146973, y: -35}
+  m_AnchoredPosition: {x: 0, y: -35}
   m_SizeDelta: {x: 162.6053, y: 209.5593}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5837537276982275710
@@ -1240,17 +1286,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4460981360591344733}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 3177993920315142152}
+  m_Father: {fileID: 7704749030005155065}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 11.7385, y: -58.2397}
+  m_AnchoredPosition: {x: 11.7385, y: 221.25798}
   m_SizeDelta: {x: 405.4237, y: 73.477}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7659346227363388088
@@ -1576,7 +1622,7 @@ GameObject:
   - component: {fileID: 191334329655301694}
   - component: {fileID: 4096040107187919264}
   m_Layer: 5
-  m_Name: EarnedMetalText (2)
+  m_Name: NextGoalText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1595,7 +1641,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3177993920315142152}
-  m_RootOrder: 5
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
@@ -1923,7 +1969,7 @@ GameObject:
   - component: {fileID: 2935707008472887807}
   - component: {fileID: 8211983347708940877}
   m_Layer: 5
-  m_Name: EarnedMetalText (1)
+  m_Name: NewBestTimeText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1936,17 +1982,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8000847186474099426}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 3177993920315142152}
-  m_RootOrder: 4
+  m_Father: {fileID: 7704749030005155065}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 194, y: -364.5}
+  m_AnchoredPosition: {x: 194, y: -85.00229}
   m_SizeDelta: {x: 221.19, y: 209.56}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2935707008472887807
@@ -2058,7 +2104,7 @@ GameObject:
   - component: {fileID: 4373262559080899480}
   - component: {fileID: 7903295379156644745}
   m_Layer: 5
-  m_Name: EarnedMetalText
+  m_Name: NewMedalText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2071,17 +2117,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8984478957950598338}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 3177993920315142152}
-  m_RootOrder: 3
+  m_Father: {fileID: 7704749030005155065}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -191.9, y: -364.5}
+  m_AnchoredPosition: {x: -191.9, y: -85.00229}
   m_SizeDelta: {x: 221.19, y: 209.56}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4373262559080899480
@@ -2193,7 +2239,7 @@ GameObject:
   - component: {fileID: 5959528444764412603}
   - component: {fileID: 1793299825359645141}
   m_Layer: 5
-  m_Name: Metal (1)
+  m_Name: NextGoalMedal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2212,7 +2258,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3177993920315142152}
-  m_RootOrder: 6
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
