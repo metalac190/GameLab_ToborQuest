@@ -21,7 +21,7 @@ public class DialogueAnimator : MonoBehaviour
 
     public void IntroAnimation(float _time)
     {
-        
+        //Debug.Log("Intro");
         LeanTween.move(_cachedOriginalTransform, _visiblePosition, _time).setEase(LeanTweenType.easeInOutQuart);
         
         
@@ -30,7 +30,7 @@ public class DialogueAnimator : MonoBehaviour
 
     public void ExitAnimation(float _time)
     {
-        
+        //Debug.Log("Exit");
         LeanTween.move(_cachedOriginalTransform, _hiddenPosition, _time).setEase(LeanTweenType.easeInOutQuart);
 
     }

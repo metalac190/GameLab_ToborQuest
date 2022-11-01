@@ -5,7 +5,7 @@ using UnityEngine;
 public class DialogueSequence : MonoBehaviour
 {
     [SerializeField] List<Dialogue> _dialogues = new List<Dialogue>();
-
+    [SerializeField, ReadOnly] bool _skipDialogue = false;
 
     public void RunDialogues()
     {
@@ -18,10 +18,24 @@ public class DialogueSequence : MonoBehaviour
 
     IEnumerator RunDialogueAfterTime()
     {
+        _skipDialogue = false;
         foreach (Dialogue d in _dialogues)
         {
             d.RunDialogue();
-            yield return new WaitForSeconds(d.DialogueDuration);
+            for (float t = 0; t < d.DialogueDuration; t += Time.deltaTime) {
+                if (_skipDialogue)
+                {
+                    //Debug.Log("skipped");
+                    _skipDialogue = false;
+                    break;
+                }
+                yield return null;
+            }
         }
+    }
+
+    private void Start()
+    {
+        DialogueSystem.OnSkipDialogue += () => _skipDialogue = true;
     }
 }
