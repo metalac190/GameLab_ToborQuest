@@ -21,6 +21,10 @@ public class soundSettings : MonoBehaviour
     {
         masterMixer.SetFloat("MusicVol", Convert(_musicLvl));
     }
+    public void setDialogueVol(float _dialogueVol)
+    {
+        masterMixer.SetFloat("dialogueVol", Convert(_dialogueVol));
+    }
     public void setMasterVol(float _masterLvl)
     {
         masterMixer.SetFloat("MasterVol", Convert(_masterLvl));
