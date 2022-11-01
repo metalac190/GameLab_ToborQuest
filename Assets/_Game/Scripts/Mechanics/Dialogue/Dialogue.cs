@@ -22,6 +22,7 @@ public class Dialogue : ScriptableObject
 
 	[Header("Sound Settings")]
 	[SerializeField] private AudioClip _dialogueSoundEffect;
+	[SerializeField, ReadOnly] private float _audioClipDuration;
 	[SerializeField, Range(0f, 1f)] private float _volume = 0.5f;
 
 	[Header("Tobor Settings")]
@@ -39,8 +40,13 @@ public class Dialogue : ScriptableObject
 	public bool FreezeTobor => _freezeTobor;
 	public float TimeToEnter => _dialogueScreenEnterTime;
 	public float TimeToExit => _dialogueScreenExitTime;
-	public float DialogueDuration => _dialogueDuration + _dialogueScreenEnterTime + _dialogueScreenExitTime;
+	public float DialogueDuration => Mathf.Max(_dialogueDuration, _audioClipDuration) + _dialogueScreenEnterTime + _dialogueScreenExitTime;
 	public float AnimationSpeed => _animationSpeed;
+
+	private void OnValidate()
+	{
+		_audioClipDuration = _dialogueSoundEffect != null ? _dialogueSoundEffect.length : 0;
+	}
 
 	
 	public void RunDialogue()
