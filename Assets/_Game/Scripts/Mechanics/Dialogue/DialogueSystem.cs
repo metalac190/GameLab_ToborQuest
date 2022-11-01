@@ -62,7 +62,7 @@ public class DialogueSystem : MonoBehaviour
 	public void RunDialogue(Dialogue dialogue)
 	{
 		_animator.IntroAnimation(dialogue.TimeToEnter);
-		if (dialogue.FreezeTobor) { _movement.SetActive(false); }
+		if (dialogue.FreezeTobor) { Time.timeScale = 0f; }
 
 		float _timeAmount = 0f;
         foreach (char c in dialogue.Text) { _timeAmount += dialogue.TypingSpeed; }
@@ -106,13 +106,13 @@ public class DialogueSystem : MonoBehaviour
 	#region Coroutines
 	IEnumerator HandleToborFreeze(float s)
 	{
-		yield return new WaitForSeconds(s);
-		_movement.SetActive(true);
+		yield return new WaitForSecondsRealtime(s);
+		Time.timeScale = 0f;
 	}
 
 	IEnumerator HandlePanelAnimation( float wait, float exit)
 	{
-		yield return new WaitForSeconds(wait);
+		yield return new WaitForSecondsRealtime(wait);
 		_animator.ExitAnimation(exit);
 	}
 	
@@ -124,9 +124,9 @@ public class DialogueSystem : MonoBehaviour
 		while(_printingText)
 		{
 			_speakerSprite.sprite = _speakerSpriteOpen;
-			yield return new WaitForSeconds(_timeBetween);
+			yield return new WaitForSecondsRealtime(_timeBetween);
 			_speakerSprite.sprite = _speakerSpriteClosed;
-			yield return new WaitForSeconds(_timeBetween);
+			yield return new WaitForSecondsRealtime(_timeBetween);
 		}
 	}
 
@@ -140,7 +140,7 @@ public class DialogueSystem : MonoBehaviour
 			{
 				_printingText = true;
 				_text.text += _dialogueText[i];
-				yield return new WaitForSeconds(_typingSpeed);
+				yield return new WaitForSecondsRealtime(_typingSpeed);
 			}
 			else
             {
@@ -158,7 +158,7 @@ public class DialogueSystem : MonoBehaviour
 		foreach (char c in _dialogueName)
 		{
 			_speaker.text += c;
-			yield return new WaitForSeconds(0);
+			yield return new WaitForSecondsRealtime(0);
 		}
 
 	}

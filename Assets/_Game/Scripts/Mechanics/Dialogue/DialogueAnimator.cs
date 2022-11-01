@@ -49,7 +49,7 @@ public class DialogueAnimator : MonoBehaviour
     IEnumerator Animation(float enterTime, float timeWait, float exitTime)
     {
         IntroAnimation(enterTime);
-        yield return new WaitForSeconds(timeWait);
+        yield return new WaitForSecondsRealtime(timeWait);
         Debug.Log("[Dialogue Animator] Exit");
         ExitAnimation(exitTime);
     }
