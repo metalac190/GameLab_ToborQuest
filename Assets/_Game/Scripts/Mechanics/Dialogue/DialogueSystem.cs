@@ -107,6 +107,8 @@ public class DialogueSystem : MonoBehaviour
 
 	public void RunDialogue(Dialogue dialogue)
 	{
+		_source.Stop();
+
 		_currentDialogue = dialogue;
 
 		if (_panelAnimationCoroutine != null) StopCoroutine(_panelAnimationCoroutine);
