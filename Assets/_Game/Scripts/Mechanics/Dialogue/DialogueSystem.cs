@@ -87,6 +87,7 @@ public class DialogueSystem : MonoBehaviour
 			_panelAnimationCoroutine = StartCoroutine(HandlePanelAnimation(_dialogueTime, _currentDialogue.TimeToExit));
 			_animator.CancelAnimations();
 			OnSkipDialogue?.Invoke();
+			_source.Stop();
 			skip = 0;
 		}
 	}
