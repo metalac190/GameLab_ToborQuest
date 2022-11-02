@@ -37,6 +37,8 @@ public class DialogueSystem : MonoBehaviour
 
 	private Coroutine _displayLineCoroutine;
 	private Coroutine _panelAnimationCoroutine;
+	private Coroutine _freezeToborCoroutine;
+	private Coroutine _animateSpriteCoroutine;
 	private bool _talking;
 
 	int counter = 0;
@@ -83,8 +85,14 @@ public class DialogueSystem : MonoBehaviour
 		if (skip == 2)
 		{
 			if (_panelAnimationCoroutine != null) StopCoroutine(_panelAnimationCoroutine);
-			_dialogueTime = 0.01f;
-			_panelAnimationCoroutine = StartCoroutine(HandlePanelAnimation(_dialogueTime, _currentDialogue.TimeToExit));
+			if (_freezeToborCoroutine != null) StopCoroutine(_freezeToborCoroutine);
+			if (_animateSpriteCoroutine != null) StopCoroutine(_animateSpriteCoroutine);
+
+			_talking = false;
+			counter = 0;
+			counterMax = 0;
+			_panelAnimationCoroutine = StartCoroutine(HandlePanelAnimation(0.01f, _currentDialogue.TimeToExit));
+			_freezeToborCoroutine = StartCoroutine(HandleToborFreeze(0.01f));
 			_animator.CancelAnimations();
 			OnSkipDialogue?.Invoke();
 			_source.Stop();
@@ -127,7 +135,7 @@ public class DialogueSystem : MonoBehaviour
 		}
 		
 		_panelAnimationCoroutine = StartCoroutine(HandlePanelAnimation(_dialogueTime, dialogue.TimeToExit));
-		if (dialogue.FreezeTobor) { StartCoroutine(HandleToborFreeze(_dialogueTime)); }
+		if (dialogue.FreezeTobor) { _freezeToborCoroutine = StartCoroutine(HandleToborFreeze(_dialogueTime)); }
 
 		counterMax = (int)dialogue.DialogueDuration * 60;
 
@@ -144,8 +152,8 @@ public class DialogueSystem : MonoBehaviour
         if (dialogue.DialogueSFX) { _source.PlayOneShot(dialogue.DialogueSFX, dialogue.DialogueVolume); }
 		
 		if (_speakerSpriteClosed != null) 
-		{ 
-			StartCoroutine(AnimateSprite(dialogue.AnimationSpeed)); 
+		{
+			_animateSpriteCoroutine = StartCoroutine(AnimateSprite(dialogue.AnimationSpeed)); 
 			_talking = true;
 		}
 	}
