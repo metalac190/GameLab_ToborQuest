@@ -49,6 +49,9 @@ public class ToborSound : MonoBehaviour
         _mc = GetComponent<MovementController>();
         _won = false;
 
+        _driftSound.Pause();
+        _boostSound.Pause();
+
     }
 
     private void Update()
