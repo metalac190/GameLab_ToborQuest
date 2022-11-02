@@ -187,15 +187,19 @@ public class MovementController : MonoBehaviour
 
     private void HandleBoost()
     {
-        if (!_disableBoosting && _movementControls.Boost && _boostCharge > 0)
+        if (!_disableBoosting && _movementControls.Boost && _boostCharge > 0 && (_isGrounded || _canBoostInAir))
         {
             _isBoosting = true;
+            _currentAcceleration = _boostAcceleration;
+            _currentMaxSpeed = _boostMaxSpeed;
             _timeSinceBoosting = 0;
             _boostCharge -= Time.deltaTime;
         }
         else
         {
             _isBoosting = false;
+            _currentAcceleration = _acceleration;
+            _currentMaxSpeed = _maxSpeed;
             _timeSinceBoosting += _boostRechargeCurveSpeed * Time.deltaTime;
         }
         float recharge = _boostRechargeCurve.Evaluate(Mathf.Clamp01(_timeSinceBoosting));
