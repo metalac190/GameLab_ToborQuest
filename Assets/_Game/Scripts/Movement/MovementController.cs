@@ -51,8 +51,6 @@ public class MovementController : MonoBehaviour
 
     [SerializeField, ReadOnly] private bool _disableBoosting;
     [SerializeField, ReadOnly] private float _boostCharge;
-    [SerializeField, ReadOnly] private float _boostTimeRemaining;
-    [SerializeField, ReadOnly] private float _rechargeTimeRemaining;
     [SerializeField, ReadOnly] private float _timeSinceBoosting;
 
     [Header("Feedback")]
@@ -187,20 +185,27 @@ public class MovementController : MonoBehaviour
 
     private void HandleBoost()
     {
-        if (!_disableBoosting && _movementControls.Boost && _boostCharge > 0)
+        if (!_disableBoosting && _movementControls.Boost && _boostCharge > 0 && (_isGrounded || _canBoostInAir))
         {
             _isBoosting = true;
+            _currentAcceleration = _boostAcceleration;
+            _currentMaxSpeed = _boostMaxSpeed;
             _timeSinceBoosting = 0;
             _boostCharge -= Time.deltaTime;
+            _boostLight.gameObject.SetActive(false);
         }
         else
         {
             _isBoosting = false;
+            _currentAcceleration = _acceleration;
+            _currentMaxSpeed = _maxSpeed;
             _timeSinceBoosting += _boostRechargeCurveSpeed * Time.deltaTime;
+            _boostLight.intensity = 0;
         }
         float recharge = _boostRechargeCurve.Evaluate(Mathf.Clamp01(_timeSinceBoosting));
         _boostCharge += recharge * Time.deltaTime;
         _boostCharge = Mathf.Clamp(_boostCharge, 0, _boostChargeMax);
+        if (BoostPercentage() > 0.75f) _boostLight.gameObject.SetActive(true);
     }
 
     public float BoostPercentage() => _boostCharge / _boostChargeMax;
