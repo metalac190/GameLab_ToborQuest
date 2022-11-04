@@ -31,7 +31,6 @@ public class HUDManager : PersistableObject
     {        
         _controller = new MovementInput();
         _movementCtrl = FindObjectOfType<MovementController>(true);
-        //pauseFirstButton = GameObject.FindObjectOfType<PauseManager>().transform.GetChild(2).GetChild(0).gameObject;
         levelWinManager = FindObjectOfType<LevelWinManager>(true);
         pausePanel.SetActive(false);
     }
@@ -65,13 +64,13 @@ public class HUDManager : PersistableObject
             return;
 
         SetBoostPercentage();
-        //Example of what it could look like
-        if (timeElapsed < 10f)
-        {
-            toborProgressValue = Mathf.Lerp(0, 1, timeElapsed / 10f);
-            timeElapsed += Time.deltaTime;
-        }
-        SetToborProgress(toborProgressValue);
+        //Tobor progress bar
+        //if (timeElapsed < 10f)
+        //{
+        //    toborProgressValue = Mathf.Lerp(0, 1, timeElapsed / 10f);
+        //    timeElapsed += Time.deltaTime;
+        //}
+        //SetToborProgress(toborProgressValue);
 
     }
 
