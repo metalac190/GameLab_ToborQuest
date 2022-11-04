@@ -10,7 +10,7 @@ public class ToborSound : MonoBehaviour
     [SerializeField] AudioSource _driftSound;
     [SerializeField] AudioSource _boostSound;
     [SerializeField] AudioMixerGroup _mixer;
-
+    
     [Range(0f, 4f)]
     [SerializeField] float _MinPitch;
     [Range(0f, 4f)]
@@ -49,6 +49,9 @@ public class ToborSound : MonoBehaviour
         _mc = GetComponent<MovementController>();
         _won = false;
 
+        _driftSound.Pause();
+        _boostSound.Pause();
+
     }
 
     private void Update()
@@ -57,19 +60,27 @@ public class ToborSound : MonoBehaviour
         {
             _engineSound.pitch = Mathf.Clamp(Mathf.Log(_tobor.velocity.magnitude), _MinPitch, _MaxPitch);
         }
-        /*
+        
         if (_tobor.GetComponent<MovementController>().IsDrifting == true)
         {
-            _driftSound.Play();
+            if (_driftSound.isPlaying == false)
+            {
+                _driftSound.time = 0.2f;
+                _driftSound.volume = 1;
+                _driftSound.Play();
+            }
         }
 
 
         if (_tobor.GetComponent<MovementController>().IsBoosting == true)
         {
-           _boost.Play();
-           _boostSound = GameObject.Find("SFXSFX_Tobor_RocketThrust");
+            if (_boostSound.isPlaying == false)
+            {
+                _boostSound.volume = 1;
+                _boostSound.Play();
+            }
         }
-        */
+        
         
     }
 
