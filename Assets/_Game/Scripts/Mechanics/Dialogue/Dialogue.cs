@@ -54,6 +54,7 @@ public class Dialogue : ScriptableObject
 		if (DialogueSystem.Instance)
 		{
 			DialogueSystem.Instance.RunDialogue(this);
+			// Debug.Log($"Ran Dialogue: {this.name}");
 		}
 		else Debug.LogWarning("No Dialogue System in Place");
 	}

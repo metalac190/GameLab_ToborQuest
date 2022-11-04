@@ -108,14 +108,21 @@ public class DialogueSystem : MonoBehaviour
 	[Button]
 	public void SkipDialogue()
 	{
-		skip++;
-		if (skip == 1) { _onFirstSkipEvent?.Invoke(); }
-		if (skip == 2) { _onSecondSkipEvent?.Invoke(); }
+		if (_currentDialogue.FreezeTobor)
+		{
+			skip++;
+			if (skip == 1) { _onFirstSkipEvent?.Invoke(); }
+			if (skip == 2) { _onSecondSkipEvent?.Invoke(); }
+		}
 	}
 
 	public void RunDialogue(Dialogue dialogue)
 	{
+		Debug.Log("test");
+
 		_source.Stop();
+		if (_displayLineCoroutine != null) { StopCoroutine(_displayLineCoroutine); }
+
 
 		_currentDialogue = dialogue;
 
@@ -139,11 +146,12 @@ public class DialogueSystem : MonoBehaviour
 
 		counterMax = (int)dialogue.DialogueDuration * 60;
 
-		if (_displayLineCoroutine != null) { StopCoroutine(_displayLineCoroutine); }
 
 		if (!dialogue.Speaker.Equals("")) { _speaker.text = dialogue.Speaker; }
 
 		if (!dialogue.Text.Equals("")) { _displayLineCoroutine = StartCoroutine(PrintText(dialogue.Text, dialogue.TypingSpeed)); }
+		// Debug.Log(dialogue.Text);
+
 
 		_speakerSpriteOpen = dialogue.SpriteOpenMouth;
 		_speakerSpriteClosed = dialogue.SpriteClosedMouth;
@@ -176,8 +184,6 @@ public class DialogueSystem : MonoBehaviour
 		_animator.ExitAnimation(exit);
 	}
 	
-
-
 	IEnumerator AnimateSprite(float _timeBetween)
 	{
 		
@@ -193,6 +199,7 @@ public class DialogueSystem : MonoBehaviour
 	IEnumerator PrintText(string _dialogueText, float _typingSpeed)
 	{
 		_text.text = "";
+
 
 		for (int i = 0; i < _dialogueText.Length + 1; i++)
 		{
@@ -211,17 +218,6 @@ public class DialogueSystem : MonoBehaviour
 
 	}
 
-	IEnumerator PrintName(string _dialogueName)
-	{
-		_speaker.text = "";
-
-		foreach (char c in _dialogueName)
-		{
-			_speaker.text += c;
-			yield return new WaitForSecondsRealtime(0);
-		}
-
-	}
 	#endregion
 
 	#region SFX Events
