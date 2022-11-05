@@ -28,6 +28,7 @@ public class ColliderGizmos : MonoBehaviour
 
     private void Start()
     {
+        if (!_showColliders) return;
         Debug.LogError("DO NOT SHIP DEBUG COLLIDERS!", gameObject);
         FindAllColliders();
     }
