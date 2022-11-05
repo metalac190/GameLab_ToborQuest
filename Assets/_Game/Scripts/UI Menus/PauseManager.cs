@@ -53,7 +53,7 @@ public class PauseManager : MonoBehaviour
     public void ReturnToLevels()
     {
         CGSC.UnpauseGame();
-        CGSC.LoadMainMenu(true, () =>
+        CGSC.LoadMainMenu(true, true,() =>
         {
             MenuManager menuManager = GameObject.FindObjectOfType<MenuManager>();
             menuManager.StartLevelSelect();

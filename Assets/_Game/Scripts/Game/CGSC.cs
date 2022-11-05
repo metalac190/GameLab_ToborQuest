@@ -89,6 +89,7 @@ public class CGSC : MonoBehaviour
     private static void UnpauseGameResponse()
     {
         Time.timeScale = 1;
+        Instance.SetSceneTransitionBool(false);
     }
 
     #endregion
@@ -140,14 +141,20 @@ public class CGSC : MonoBehaviour
 
     #region Scene Loading
 
+    [SerializeField] private Animator _sceneTransitonAnimator;
     [SerializeField] private int _currentQuest;
     [SerializeField] private int _currentLevel;
 
-    public static void LoadMainMenu(bool async = false, Action onComplete = null)
+    public static void LoadMainMenu(bool async = false,bool useFade = false, Action onComplete = null)
     {
+        if (useFade)
+        {
+            Instance.StartCoroutine(Instance.FadeScene("MainMenu", async, onComplete));
+            return;
+        }
         Instance._currentQuest = -1;
         Instance._currentLevel = -1;
-        LoadScene(Instance._mainMenu.Name, async, onComplete);
+        LoadScene(Instance._mainMenu.Name, async, false, onComplete);
         UnpauseGameResponse();
     }
 
@@ -155,7 +162,7 @@ public class CGSC : MonoBehaviour
     {
         Instance._currentQuest = questIndex;
         Instance._currentLevel = 0;
-        LoadScene(Instance._quests[questIndex].GetLevelName(0), async, onComplete);
+        LoadScene(Instance._quests[questIndex].GetLevelName(0), async, false, onComplete);
     }
 
     public static void LoadNextLevel() => Instance.LoadNextLevelActual();
@@ -175,7 +182,7 @@ public class CGSC : MonoBehaviour
         }
         else
         {
-            LoadScene(quest.GetLevelName(_currentLevel), async, onComplete);
+            LoadScene(quest.GetLevelName(_currentLevel), async, false , onComplete);
         }
     }
 
@@ -190,16 +197,22 @@ public class CGSC : MonoBehaviour
 #endif
         Instance._currentQuest = questIndex;
         Instance._currentLevel = levelIndex;
-        LoadScene(Instance._quests[questIndex].GetLevelName(levelIndex), async, onComplete);
+        LoadScene(Instance._quests[questIndex].GetLevelName(levelIndex), async, false, onComplete);
     }
 
-    public static void LoadNextSceneRaw(bool async = false, Action onComplete = null)
+    public static void LoadNextSceneRaw(bool async = false, bool useBool = false, Action onComplete = null)
     {
-        LoadScene(SceneManager.GetActiveScene().buildIndex + 1, async, onComplete);
+        LoadScene(SceneManager.GetActiveScene().buildIndex + 1, async,useBool, onComplete);
     }
 
-    public static void LoadScene(string sceneName, bool async = false, Action onComplete = null)
+    public static void LoadScene(string sceneName, bool async = false, bool useFade = false ,Action onComplete = null)
     {
+        if(useFade)
+        {
+            Instance.StartCoroutine(Instance.FadeScene(sceneName, async, onComplete));
+            return;
+        }
+
         InMainMenu = sceneName.Equals(Instance._mainMenu.Name);
         if (async)
         {
@@ -214,8 +227,13 @@ public class CGSC : MonoBehaviour
         }
     }
 
-    public static void LoadScene(int sceneIndex, bool async = false, Action onComplete = null)
+    public static void LoadScene(int sceneIndex, bool async = false, bool useFade = false,Action onComplete = null)
     {
+        if (useFade)
+        {
+            Instance.StartCoroutine(Instance.FadeScene(sceneIndex, async, onComplete));
+            return;
+        }
         InMainMenu = sceneIndex == 0;
         if (async)
         {
@@ -269,13 +287,38 @@ public class CGSC : MonoBehaviour
 #endif
     }
 
+    #region SceneTransition
+
+    private string _animatorStateName = "CloudFade";
+
+    private void SetSceneTransitionBool(bool fade)
+    {
+        _sceneTransitonAnimator.SetBool(_animatorStateName, fade);
+    }
+
+    private IEnumerator FadeScene(string sceneName, bool async, Action onComplete)
+    {
+        Instance.SetSceneTransitionBool(true);
+        yield return new WaitForSeconds(1f);
+        LoadScene(sceneName, async, false, onComplete);        
+    }
+
+    private IEnumerator FadeScene(int sceneIndex, bool async, Action onComplete)
+    {
+        Instance.SetSceneTransitionBool(true);
+        yield return new WaitForSeconds(1f);
+        LoadScene(sceneIndex, async, false, onComplete);
+    }
+
+    #endregion
+
     #endregion
 
     #region Debug
-
-    [SerializeField, ReadOnly] private bool _gamePaused;
-    [SerializeField, ReadOnly] private bool _inMainMenu;
-    [SerializeField, ReadOnly] private bool _gameOver;
+    [Header("DebugValues")] [SerializeField] private bool _showDebugValues;
+    [SerializeField, ReadOnly, ShowIf("_showDebugValues")] private bool _gamePaused;
+    [SerializeField, ReadOnly, ShowIf("_showDebugValues")] private bool _inMainMenu;
+    [SerializeField, ReadOnly, ShowIf("_showDebugValues")] private bool _gameOver;
 
     private void UpdateDebug()
     {

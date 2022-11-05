@@ -8,7 +8,7 @@ public class DialogueAnimator : MonoBehaviour
     Vector3 _hiddenPosition = new Vector3(840, 0, 0);
     Vector3 _visiblePosition = new Vector3(0, 0, 0);
 
-    [SerializeField, Range(0.65f, 1)]
+    [SerializeField, Range(0.75f, 1)]
     private float dialogueScale;
 
     void Awake()
@@ -16,7 +16,7 @@ public class DialogueAnimator : MonoBehaviour
      
          _cachedOriginalTransform = GetComponent<RectTransform>();
         LeanTween.reset();
-
+        //Set dialogue scale if playerPref or saved value exists
     }
 
     private void Update()
