@@ -50,7 +50,7 @@ public class ColliderGizmos : MonoBehaviour
             if (!SetColor(col.gameObject)) continue;
             var t = col.transform;
             Gizmos.matrix = Matrix4x4.TRS(t.position, t.rotation, t.lossyScale);
-            if (_solid) Gizmos.DrawMesh(_capsuleMesh, col.center, Quaternion.identity, new Vector3(1, col.height, 1));
+            if (_solid) Gizmos.DrawMesh(_capsuleMesh, col.center, Quaternion.identity, new Vector3(2 * col.radius, col.height * 0.5f, 2 * col.radius));
             else Gizmos.DrawWireMesh(_capsuleMesh, col.center, Quaternion.identity, new Vector3(2 * col.radius, col.height * 0.5f, 2 * col.radius));
         }
         foreach (var col in _boxColliders)
@@ -58,7 +58,7 @@ public class ColliderGizmos : MonoBehaviour
             if (!SetColor(col.gameObject)) continue;
             var t = col.transform;
             Gizmos.matrix = Matrix4x4.TRS(t.position, t.rotation, t.lossyScale);
-            if (_solid)Gizmos.DrawCube(col.center, col.size);
+            if (_solid)Gizmos.DrawCube(col.center, col.size + Vector3.one * 0.001f);
             else Gizmos.DrawWireCube(col.center, col.size);
         }
         foreach (var col in _sphereColliders)
@@ -66,7 +66,7 @@ public class ColliderGizmos : MonoBehaviour
             if (!SetColor(col.gameObject)) continue;
             var t = col.transform;
             Gizmos.matrix = Matrix4x4.TRS(t.position, t.rotation, t.lossyScale);
-            if (_solid)Gizmos.DrawSphere(col.center, col.radius);
+            if (_solid)Gizmos.DrawSphere(col.center, col.radius + 0.001f);
             else Gizmos.DrawWireSphere(col.center, col.radius);
         }
 
