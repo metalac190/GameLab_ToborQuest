@@ -259,6 +259,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8360305751130796942, guid: 66872f25fe3e3dc40b810eb2af31ba61,
+        type: 3}
+      propertyPath: _showColliders
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 66872f25fe3e3dc40b810eb2af31ba61, type: 3}
 --- !u!1001 &479536026
@@ -804,59 +809,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f93ac8b0883e0aa4d89a480b8f8b0fc4, type: 3}
---- !u!1 &1632588209
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1632588211}
-  - component: {fileID: 1632588210}
-  m_Layer: 0
-  m_Name: DebugColliders
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1632588210
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1632588209}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cedb12c0b9145714a946a0abae2a7deb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _showColliders: 1
-  _solid: 0
-  _groundColor: {r: 0, g: 1, b: 1, a: 1}
-  _wallColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  _breakableColor: {r: 1, g: 0, b: 1, a: 1}
-  _interactable: {r: 1, g: 0, b: 1, a: 1}
-  _npcColor: {r: 1, g: 0, b: 1, a: 1}
-  _defaultColor: {r: 1, g: 0, b: 0, a: 1}
-  _capsuleMesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
---- !u!4 &1632588211
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1632588209}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 12
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1701148174
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -864,6 +816,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 685608562177055568, guid: 547a40b1bf5bb254d9c184ad753a3232,
+        type: 3}
+      propertyPath: _showColliders
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4110855545136904216, guid: 547a40b1bf5bb254d9c184ad753a3232,
         type: 3}
       propertyPath: m_Name
@@ -1140,6 +1097,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2557786146723974662, guid: 37cfccb99971edd449e433cb7e8b4082,
+        type: 3}
+      propertyPath: _showColliders
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6209065813978795844, guid: 37cfccb99971edd449e433cb7e8b4082,
         type: 3}
       propertyPath: m_RootOrder

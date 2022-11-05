@@ -8,9 +8,11 @@ public class ColliderGizmos : MonoBehaviour
 {
 #if UNITY_EDITOR
 
+    [Header("Settings")]
     [SerializeField] private bool _showColliders = true;
     [SerializeField] private bool _solid;
 
+    [Header("Colors")]
     [SerializeField] private Color _groundColor = Color.cyan;
     [SerializeField] private Color _wallColor = Color.yellow;
     [SerializeField] private Color _breakableColor = Color.magenta;
