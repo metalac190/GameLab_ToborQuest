@@ -118,7 +118,7 @@ public class DialogueSystem : MonoBehaviour
 
 	public void RunDialogue(Dialogue dialogue)
 	{
-		Debug.Log("test");
+		//Debug.Log("test");
 
 		_source.Stop();
 		if (_displayLineCoroutine != null) { StopCoroutine(_displayLineCoroutine); }

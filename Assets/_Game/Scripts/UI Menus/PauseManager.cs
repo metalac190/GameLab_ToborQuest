@@ -42,7 +42,8 @@ public class PauseManager : MonoBehaviour
     public void ReturnToMainMenu()
     {
         //SceneManager.LoadScene(value);
-        CGSC.LoadMainMenu();        
+        CGSC.UnpauseGame();
+        CGSC.LoadMainMenu(true, true);     
     }
 
     public void Restart()
