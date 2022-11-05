@@ -2304,7 +2304,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 243606626}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -5979,7 +5979,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 29.302979}
-  m_SizeDelta: {x: 20, y: -38.606}
+  m_SizeDelta: {x: 20, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &611689091
 MonoBehaviour:
@@ -7553,6 +7553,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 543450652815011189, guid: af191ede935c1bc4781f413abd562b1a,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3158913436551149686, guid: af191ede935c1bc4781f413abd562b1a,
         type: 3}
       propertyPath: m_Name
@@ -8437,12 +8442,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!95 &877369045 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 7728213901268803980, guid: 55bdc756c6b28454aa1e06ffb587c257,
-    type: 3}
-  m_PrefabInstance: {fileID: 1377941711}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &941947695
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12828,11 +12827,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 393186180575228082, guid: 55bdc756c6b28454aa1e06ffb587c257,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3853504418651190568, guid: 55bdc756c6b28454aa1e06ffb587c257,
         type: 3}
       propertyPath: m_RootOrder
@@ -12892,26 +12886,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: GameStateController
-      objectReference: {fileID: 0}
-    - target: {fileID: 5890366209796670293, guid: 55bdc756c6b28454aa1e06ffb587c257,
-        type: 3}
-      propertyPath: m_Color.a
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7013580136569588018, guid: 55bdc756c6b28454aa1e06ffb587c257,
-        type: 3}
-      propertyPath: _showDebugValues
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7013580136569588018, guid: 55bdc756c6b28454aa1e06ffb587c257,
-        type: 3}
-      propertyPath: _sceneTransitonAnimator
-      value: 
-      objectReference: {fileID: 877369045}
-    - target: {fileID: 7728213901268803980, guid: 55bdc756c6b28454aa1e06ffb587c257,
-        type: 3}
-      propertyPath: m_UpdateMode
-      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 55bdc756c6b28454aa1e06ffb587c257, type: 3}
@@ -16847,9 +16821,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2074832300}
   - component: {fileID: 2074832303}
+  - component: {fileID: 2074832304}
   - component: {fileID: 2074832302}
   - component: {fileID: 2074832301}
-  - component: {fileID: 2074832304}
   m_Layer: 5
   m_Name: ScrollBack
   m_TagString: Untagged
@@ -16929,7 +16903,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 54f36efeaa719a8469d2556a11808ecf, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

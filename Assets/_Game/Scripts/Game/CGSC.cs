@@ -145,8 +145,13 @@ public class CGSC : MonoBehaviour
     [SerializeField] private int _currentQuest;
     [SerializeField] private int _currentLevel;
 
-    public static void LoadMainMenu(bool async = false, Action onComplete = null)
+    public static void LoadMainMenu(bool async = false,bool useFade = false, Action onComplete = null)
     {
+        if (useFade)
+        {
+            Instance.StartCoroutine(Instance.FadeScene("MainMenu", async, onComplete));
+            return;
+        }
         Instance._currentQuest = -1;
         Instance._currentLevel = -1;
         LoadScene(Instance._mainMenu.Name, async, false, onComplete);
@@ -195,9 +200,9 @@ public class CGSC : MonoBehaviour
         LoadScene(Instance._quests[questIndex].GetLevelName(levelIndex), async, false, onComplete);
     }
 
-    public static void LoadNextSceneRaw(bool async = false, Action onComplete = null)
+    public static void LoadNextSceneRaw(bool async = false, bool useBool = false, Action onComplete = null)
     {
-        LoadScene(SceneManager.GetActiveScene().buildIndex + 1, async, onComplete);
+        LoadScene(SceneManager.GetActiveScene().buildIndex + 1, async,useBool, onComplete);
     }
 
     public static void LoadScene(string sceneName, bool async = false, bool useFade = false ,Action onComplete = null)
@@ -222,8 +227,13 @@ public class CGSC : MonoBehaviour
         }
     }
 
-    public static void LoadScene(int sceneIndex, bool async = false, Action onComplete = null)
+    public static void LoadScene(int sceneIndex, bool async = false, bool useFade = false,Action onComplete = null)
     {
+        if (useFade)
+        {
+            Instance.StartCoroutine(Instance.FadeScene(sceneIndex, async, onComplete));
+            return;
+        }
         InMainMenu = sceneIndex == 0;
         if (async)
         {
@@ -279,7 +289,7 @@ public class CGSC : MonoBehaviour
 
     #region SceneTransition
 
-    private string _animatorStateName = "Fade";
+    private string _animatorStateName = "CloudFade";
 
     private void SetSceneTransitionBool(bool fade)
     {
@@ -291,6 +301,13 @@ public class CGSC : MonoBehaviour
         Instance.SetSceneTransitionBool(true);
         yield return new WaitForSeconds(1f);
         LoadScene(sceneName, async, false, onComplete);        
+    }
+
+    private IEnumerator FadeScene(int sceneIndex, bool async, Action onComplete)
+    {
+        Instance.SetSceneTransitionBool(true);
+        yield return new WaitForSeconds(1f);
+        LoadScene(sceneIndex, async, false, onComplete);
     }
 
     #endregion
