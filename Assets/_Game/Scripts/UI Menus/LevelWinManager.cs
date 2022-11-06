@@ -67,7 +67,7 @@ public class LevelWinManager : MonoBehaviour
         transform.GetChild(0).gameObject.SetActive(true);
         levelCompleteImage.sprite = levelInfoObj.levelCompleteSprite;
         deliveryTimeText.text = "DELIVERY TIME: " + hudManager.GetCurrentTimeText();
-        hudManager.currentTimerText.StopTime = true;
+        hudManager.currentTimerText.startTimer = false;
         EventSystem.current.SetSelectedGameObject(returnLevelSelectButton);
         SaveBestTime();
         ShowNextGoal();

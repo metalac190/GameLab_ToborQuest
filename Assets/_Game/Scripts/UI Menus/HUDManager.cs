@@ -100,4 +100,9 @@ public class HUDManager : PersistableObject
         _boostImage.fillAmount = _movementCtrl.BoostPercentage();
     }
 
+    public void StartTimer()
+    {
+        currentTimerText.StartTimer();
+    }
+
 }

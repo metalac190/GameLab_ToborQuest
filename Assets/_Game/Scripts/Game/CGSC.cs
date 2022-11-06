@@ -149,12 +149,12 @@ public class CGSC : MonoBehaviour
     {
         if (useFade)
         {
-            Instance.StartCoroutine(Instance.FadeScene("MainMenu", async, onComplete));
+            Instance.StartCoroutine(Instance.FadeScene(Instance._mainMenu.Name, async, onComplete));
             return;
         }
         Instance._currentQuest = -1;
         Instance._currentLevel = -1;
-        LoadScene(Instance._mainMenu.Name, async, false, onComplete);
+        LoadScene(Instance._mainMenu.Name, async, useFade, onComplete);
         UnpauseGameResponse();
     }
 
