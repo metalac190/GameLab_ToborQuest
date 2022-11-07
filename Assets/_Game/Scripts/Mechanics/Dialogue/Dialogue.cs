@@ -19,6 +19,7 @@ public class Dialogue : ScriptableObject
 	[SerializeField] private float _animationSpeed = 0.2f;
 	[SerializeField] private float _dialogueScreenExitTime = 0.2f;
 	[SerializeField] private float _dialogueDuration = 2f;
+	[SerializeField, ReadOnly] private bool _isSequence = false;
 
 	[Header("Sound Settings")]
 	[SerializeField] private AudioClip _dialogueSoundEffect;
@@ -42,6 +43,10 @@ public class Dialogue : ScriptableObject
 	public float TimeToExit => _dialogueScreenExitTime;
 	public float DialogueDuration => Mathf.Max(_dialogueDuration, _audioClipDuration) + _dialogueScreenEnterTime + _dialogueScreenExitTime;
 	public float AnimationSpeed => _animationSpeed;
+	public bool IsSequence {
+		get { return _isSequence; } 
+		set { _isSequence = value; }
+	}
 
 	private void OnValidate()
 	{

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,6 +21,8 @@ public class DialogueSystem : MonoBehaviour
 
 
 	public static Action OnSkipDialogue = delegate { };
+	public static Action OnResetDialogue = delegate { };
+
 
 	private Sprite _speakerSpriteClosed;
 	private Sprite _speakerSpriteOpen;
@@ -29,6 +31,7 @@ public class DialogueSystem : MonoBehaviour
 	private MovementController _movement;
 	private Dialogue _currentDialogue;
 
+	public Dialogue CurrentDialogue => _currentDialogue;
 
 	[SerializeField, ReadOnly] private int skip = 0;
 	public int Skip => skip;
@@ -118,18 +121,112 @@ public class DialogueSystem : MonoBehaviour
 
 	public void RunDialogue(Dialogue dialogue)
 	{
-		//Debug.Log("test");
+		// Debug.Log("test");
+        #region DO NOT LOOK AT THIS PLEASE!!!
+		// _source.Stop();
+		// if (_displayLineCoroutine != null) { StopCoroutine(_displayLineCoroutine); }
 
+
+		// _currentDialogue = dialogue;
+
+		// if (_panelAnimationCoroutine != null) StopCoroutine(_panelAnimationCoroutine);
+		// _animator.IntroAnimation(dialogue.TimeToEnter);
+		// if (dialogue.FreezeTobor) { _movement.SetActive(false); }
+
+		// float _timeAmount = 0f;
+        // foreach (char c in dialogue.Text) { _timeAmount += dialogue.TypingSpeed; }
+		// if (dialogue.DialogueDuration < _timeAmount) 
+		// {
+		// 	_dialogueTime = _timeAmount;
+		// }
+		// else 
+		// {
+		// 	_dialogueTime = dialogue.DialogueDuration;
+		// }
+		
+		
+		// _panelAnimationCoroutine = StartCoroutine(HandlePanelAnimation(_dialogueTime, dialogue.TimeToExit));
+		// if (dialogue.FreezeTobor) { _freezeToborCoroutine = StartCoroutine(HandleToborFreeze(_dialogueTime)); }
+
+		// counterMax = (int)dialogue.DialogueDuration * 60;
+
+
+		// if (!dialogue.Speaker.Equals("")) { _speaker.text = dialogue.Speaker; }
+
+		// if (!dialogue.Text.Equals("")) { _displayLineCoroutine = StartCoroutine(PrintText(dialogue.Text, dialogue.TypingSpeed)); }
+		// // Debug.Log(dialogue.Text);
+
+
+		// _speakerSpriteOpen = dialogue.SpriteOpenMouth;
+		// _speakerSpriteClosed = dialogue.SpriteClosedMouth;
+
+
+        // if (dialogue.DialogueSFX) { _source.PlayOneShot(dialogue.DialogueSFX, dialogue.DialogueVolume); }
+		
+		// if (_speakerSpriteClosed != null) 
+		// {
+		// 	_animateSpriteCoroutine = StartCoroutine(AnimateSprite(dialogue.AnimationSpeed)); 
+		// 	_talking = true;
+		// }
+		#endregion
+
+		HandleDialogueReset();
+		HandleDialogueIn(dialogue);
+		HandleDialogueRun(dialogue);
+	}
+
+	void HandleDialogueIn(Dialogue _currDialogue)
+	{
+		_currentDialogue = _currDialogue;
+		_animator.IntroAnimation(_currDialogue.TimeToEnter);
+		CheckDialogueTime(_currDialogue);
+		counterMax = (int)_currDialogue.DialogueDuration * 60;
+		_speakerSpriteOpen = _currDialogue.SpriteOpenMouth;
+		_speakerSpriteClosed = _currDialogue.SpriteClosedMouth;
+
+		if (_currDialogue.FreezeTobor) 
+		{ 
+			_movement.SetActive(false);
+			_freezeToborCoroutine = StartCoroutine(HandleToborFreeze(_dialogueTime)); 
+		}
+
+	}
+
+	void HandleDialogueRun(Dialogue _currDialogue)
+	{
+		_panelAnimationCoroutine = StartCoroutine(HandlePanelAnimation(_dialogueTime, _currDialogue.TimeToExit));
+		if (!_currDialogue.Text.Equals("")) { _displayLineCoroutine = StartCoroutine(PrintText(_currDialogue.Text, _currDialogue.TypingSpeed)); }
+		if (!_currDialogue.Speaker.Equals("")) { _speaker.text = _currDialogue.Speaker; }
+
+        if (_currDialogue.DialogueSFX) { _source.PlayOneShot(_currDialogue.DialogueSFX, _currDialogue.DialogueVolume); }
+		if (_speakerSpriteClosed != null) 
+		{
+			_animateSpriteCoroutine = StartCoroutine(AnimateSprite(_currDialogue.AnimationSpeed)); 
+			_talking = true;
+		}
+
+	}
+
+	void HandleDialogueReset()
+	{
+		OnResetDialogue?.Invoke();
+		_animator.CancelAnimations();
 		_source.Stop();
 		if (_displayLineCoroutine != null) { StopCoroutine(_displayLineCoroutine); }
-
-
-		_currentDialogue = dialogue;
-
 		if (_panelAnimationCoroutine != null) StopCoroutine(_panelAnimationCoroutine);
-		_animator.IntroAnimation(dialogue.TimeToEnter);
-		if (dialogue.FreezeTobor) { _movement.SetActive(false); }
+		if (_freezeToborCoroutine != null) StopCoroutine(_freezeToborCoroutine);
+		if (_animateSpriteCoroutine != null) StopCoroutine(_animateSpriteCoroutine);
+		counter = 0;
+		counterMax = 0;
+		_talking = false;
+		skip = 0;
+		_currentDialogue = null;
+		_movement.SetActive(true);
+		
+	}
 
+	void CheckDialogueTime(Dialogue dialogue)
+	{
 		float _timeAmount = 0f;
         foreach (char c in dialogue.Text) { _timeAmount += dialogue.TypingSpeed; }
 		if (dialogue.DialogueDuration < _timeAmount) 
@@ -139,30 +236,6 @@ public class DialogueSystem : MonoBehaviour
 		else 
 		{
 			_dialogueTime = dialogue.DialogueDuration;
-		}
-		
-		_panelAnimationCoroutine = StartCoroutine(HandlePanelAnimation(_dialogueTime, dialogue.TimeToExit));
-		if (dialogue.FreezeTobor) { _freezeToborCoroutine = StartCoroutine(HandleToborFreeze(_dialogueTime)); }
-
-		counterMax = (int)dialogue.DialogueDuration * 60;
-
-
-		if (!dialogue.Speaker.Equals("")) { _speaker.text = dialogue.Speaker; }
-
-		if (!dialogue.Text.Equals("")) { _displayLineCoroutine = StartCoroutine(PrintText(dialogue.Text, dialogue.TypingSpeed)); }
-		// Debug.Log(dialogue.Text);
-
-
-		_speakerSpriteOpen = dialogue.SpriteOpenMouth;
-		_speakerSpriteClosed = dialogue.SpriteClosedMouth;
-
-
-        if (dialogue.DialogueSFX) { _source.PlayOneShot(dialogue.DialogueSFX, dialogue.DialogueVolume); }
-		
-		if (_speakerSpriteClosed != null) 
-		{
-			_animateSpriteCoroutine = StartCoroutine(AnimateSprite(dialogue.AnimationSpeed)); 
-			_talking = true;
 		}
 	}
 
@@ -220,10 +293,5 @@ public class DialogueSystem : MonoBehaviour
 
 	#endregion
 
-	#region SFX Events
-
 	
-
-	#endregion
-
 }
