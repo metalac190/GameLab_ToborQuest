@@ -49,19 +49,19 @@ public class DialogueSequence : MonoBehaviour
         }
     }
 
-    void OnEnable()
-    {
-        DialogueSystem.OnResetDialogue += ResetDialogue;
-    }
+    // void OnEnable()
+    // {
+    //     DialogueSystem.OnResetDialogue += ResetDialogue;
+    // }
 
-    void OnDisable()
-    {
-        DialogueSystem.OnResetDialogue -= ResetDialogue;
-    }
+    // void OnDisable()
+    // {
+    //     DialogueSystem.OnResetDialogue -= ResetDialogue;
+    // }
 
-    void ResetDialogue()
-    {
-        if (_runDialogueCoroutine != null) { StopCoroutine(_runDialogueCoroutine); }
-        Debug.Log("Stopped Old Coroutine...now Moving On To new One!");
-    }
+    // void ResetDialogue()
+    // {
+    //     if (_runDialogueCoroutine != null) { StopCoroutine(_runDialogueCoroutine); }
+    //     Debug.Log("Stopped Old Coroutine...now Moving On To new One!");
+    // }
 }
