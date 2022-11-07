@@ -46,8 +46,7 @@ namespace SoundSystem
 
         public void Play()
         {
-            GameObject soundOBJ = new GameObject("SFX" + this.name);
-            SFXManager.Instance.PlaySFX(this, soundOBJ);
+            SFXManager.Instance.PlaySFX(this);
         }
     }
 }
