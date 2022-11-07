@@ -9,7 +9,6 @@ namespace SoundSystem
     {
         SFXEvent _sfxEvent = null;
         AudioSource _sfxSound;
-        float timer;
         GameObject _soundOBJ;
 
         Scene _sceneSpawnedIn;

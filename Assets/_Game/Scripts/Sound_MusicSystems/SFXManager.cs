@@ -6,6 +6,7 @@ namespace SoundSystem
 { 
     public class SFXManager : MonoBehaviour
     {
+
         private static SFXManager _instance;
         public static SFXManager Instance
         {
