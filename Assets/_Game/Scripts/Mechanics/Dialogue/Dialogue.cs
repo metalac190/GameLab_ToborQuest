@@ -58,7 +58,25 @@ public class Dialogue : ScriptableObject
 	{
 		if (DialogueSystem.Instance)
 		{
-			DialogueSystem.Instance.RunDialogue(this);
+
+			if (DialogueSystem.Instance.CurrentDialogue == null) 
+			{ 
+				DialogueSystem.Instance.RunDialogue(this);
+				return; 
+			}
+			// DialogueSystem.Instance.RunDialogue(this);
+			if (_isSequence)
+			{
+				DialogueSystem.Instance.RunDialogue(this);
+			}
+			else if (!DialogueSystem.Instance.CurrentDialogue.IsSequence && !_isSequence)
+			{
+				DialogueSystem.Instance.RunDialogue(this);
+			}
+			else if (DialogueSystem.Instance.CurrentDialogue.IsSequence && !_isSequence)
+			{
+				return;
+			}
 			// Debug.Log($"Ran Dialogue: {this.name}");
 		}
 		else Debug.LogWarning("No Dialogue System in Place");

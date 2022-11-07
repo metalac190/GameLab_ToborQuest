@@ -123,6 +123,8 @@ public class DialogueSystem : MonoBehaviour
 	{
 		// Debug.Log("test");
         #region DO NOT LOOK AT THIS PLEASE!!!
+		// OnResetDialogue?.Invoke();
+
 		// _source.Stop();
 		// if (_displayLineCoroutine != null) { StopCoroutine(_displayLineCoroutine); }
 
@@ -170,7 +172,7 @@ public class DialogueSystem : MonoBehaviour
 		// }
 		#endregion
 
-		HandleDialogueReset();
+		HandleDialogueReset(dialogue);
 		HandleDialogueIn(dialogue);
 		HandleDialogueRun(dialogue);
 	}
@@ -189,12 +191,13 @@ public class DialogueSystem : MonoBehaviour
 			_movement.SetActive(false);
 			_freezeToborCoroutine = StartCoroutine(HandleToborFreeze(_dialogueTime)); 
 		}
+		_panelAnimationCoroutine = StartCoroutine(HandlePanelAnimation(_dialogueTime, _currDialogue.TimeToExit));
 
 	}
 
 	void HandleDialogueRun(Dialogue _currDialogue)
 	{
-		_panelAnimationCoroutine = StartCoroutine(HandlePanelAnimation(_dialogueTime, _currDialogue.TimeToExit));
+		
 		if (!_currDialogue.Text.Equals("")) { _displayLineCoroutine = StartCoroutine(PrintText(_currDialogue.Text, _currDialogue.TypingSpeed)); }
 		if (!_currDialogue.Speaker.Equals("")) { _speaker.text = _currDialogue.Speaker; }
 
@@ -207,9 +210,9 @@ public class DialogueSystem : MonoBehaviour
 
 	}
 
-	void HandleDialogueReset()
+	void HandleDialogueReset(Dialogue _currDialogue)
 	{
-		OnResetDialogue?.Invoke();
+		
 		_animator.CancelAnimations();
 		_source.Stop();
 		if (_displayLineCoroutine != null) { StopCoroutine(_displayLineCoroutine); }
