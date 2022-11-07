@@ -25,7 +25,7 @@ namespace SoundSystem
 
         Scene _songScene;
 
-        public const int MaxLayerCount = 5;
+        public const int MaxLayerCount = 3;
 
         float _fadeTime;
 
@@ -69,35 +69,7 @@ namespace SoundSystem
         }
         private void Update()
         {
-            if (SceneManager.GetActiveScene() != _songScene && _paused == false)
-            {
-                if (SceneManager.GetActiveScene().name == "MainMenu")
-                {
-                    _activeLayerIndex = -1;
-                    IncreaseLayerIndex(_fadeTime);
-                }
-                if (SceneManager.GetActiveScene().name == "Level 1")
-                {
-                    _activeLayerIndex = 0;
-                    IncreaseLayerIndex(_fadeTime);
-                }
-                if (SceneManager.GetActiveScene().name == "Level 2")
-                {
-                    _activeLayerIndex = 1;
-                    IncreaseLayerIndex(_fadeTime);
-                }
-                if (SceneManager.GetActiveScene().name == "Level 3")
-                {
-                    _activeLayerIndex = 2;
-                    IncreaseLayerIndex(_fadeTime);
-                }
-                if (SceneManager.GetActiveScene().name == "Level 4")
-                {
-                    _activeLayerIndex = 3;
-                    IncreaseLayerIndex(_fadeTime);
-                }
-                _songScene = SceneManager.GetActiveScene();
-            }
+            
         }
         private void Awake()
         {
@@ -109,6 +81,7 @@ namespace SoundSystem
             {
                 _instance = this;
             }
+
             SetUpMusicPlayer();
             _paused = false;
         }
