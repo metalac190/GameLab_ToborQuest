@@ -14,7 +14,7 @@ public class ToborEffectsController : MonoBehaviour
     [Header("Food Particles")]
     [SerializeField] private bool _enableFoodTrail = true;
     [SerializeField] private ParticleSystem _foodTrail;
-    [Range(2,6)]
+    [Range(2,10)]
     [SerializeField] private float _velocityChangeRequired = 3f;
 
     [Header("Impact Stars")]
@@ -25,7 +25,7 @@ public class ToborEffectsController : MonoBehaviour
     [SerializeField] private bool _enableDriftSmoke = true;
     [SerializeField] private List<VisualEffect> _driftSmoke = new List<VisualEffect>();
 
-    [SerializeField] private List<GameObject> _mesh = new List<GameObject>();
+    [SerializeField] private List<GameObject> _foodPool = new List<GameObject>();
 
     private MovementController _mc;
     private Animator _animator;
@@ -55,7 +55,8 @@ public class ToborEffectsController : MonoBehaviour
         if (_mc.IsDrifting) PlayOnDrift();
 
         StartCoroutine(VelocityChange(0.5f));
-        VelocityCheck(_velocityChangeRequired);
+
+        if (_mc.IsGrounded) VelocityCheck(_velocityChangeRequired);
     }
 
     private void FixedUpdate()
@@ -137,17 +138,16 @@ public class ToborEffectsController : MonoBehaviour
     { 
         //if (_enableFoodTrail) _foodTrail.Emit(_foodTrail.main.maxParticles);
 
-        foreach (var food in _mesh)
+        foreach (var food in _foodPool)
         {
             if (UnityEngine.Random.Range(0f, 1f) < 0.5f)
             {
                 for (var i = 0; i < count; i++)
                 {
-                    var obj = Instantiate(food);
-                    obj.transform.position = _foodTrail.transform.position;
-                    obj.GetComponent<Rigidbody>().velocity = _rb.velocity;
-                    obj.GetComponent<Rigidbody>().angularVelocity = _rb.angularVelocity;
-                    Destroy(obj, 3f);
+                    food.SetActive(true);
+                    food.transform.position = _foodTrail.transform.position;
+                    food.GetComponent<Rigidbody>().velocity = _rb.velocity;
+                    food.GetComponent<Rigidbody>().angularVelocity = _rb.angularVelocity;
                 }
                 _storedVelocity = _rb.velocity.magnitude;
             }
@@ -158,7 +158,11 @@ public class ToborEffectsController : MonoBehaviour
     {
         _canFoodBurst = false;
         FoodTrailBurst(1);
-        yield return new WaitForSecondsRealtime(1f);
+        yield return new WaitForSecondsRealtime(3f);
+        foreach (var food in _foodPool)
+        {
+            food.SetActive(false);
+        }
         _canFoodBurst = true;
     }
 
