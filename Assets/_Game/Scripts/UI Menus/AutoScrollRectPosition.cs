@@ -37,8 +37,9 @@ public class AutoScrollRectPosition : MonoBehaviour
             Debug.LogWarning("Scrollbar only takes values from 0 to 1");
             return;
         }
-        targetValue = value;
-        startValue = _scrollbar.value;
+        //targetValue = value;
+        //startValue = _scrollbar.value;
+        _scrollbar.value = value;
     }
 
     //public void SetPositionFromParent(GameObject obj)

@@ -104,8 +104,9 @@ public class CGSC : MonoBehaviour
     public static void WinGame()
     {
         OnWinGame?.Invoke();
-        PauseGameResponse();
+        //PauseGameResponse();
         GameOver = true;
+        Debug.Log("Game won!");
     }
 
     public static void LoseGame()
@@ -200,9 +201,10 @@ public class CGSC : MonoBehaviour
         LoadScene(Instance._quests[questIndex].GetLevelName(levelIndex), async, false, onComplete);
     }
 
-    public static void LoadNextSceneRaw(bool async = false, bool useBool = false, Action onComplete = null)
+    public static void LoadNextSceneRaw(bool async = false, bool useFade = false, Action onComplete = null)
     {
-        LoadScene(SceneManager.GetActiveScene().buildIndex + 1, async,useBool, onComplete);
+        UnpauseGameResponse();
+        LoadScene(SceneManager.GetActiveScene().buildIndex + 1, async,useFade, onComplete);
     }
 
     public static void LoadScene(string sceneName, bool async = false, bool useFade = false ,Action onComplete = null)
@@ -300,7 +302,7 @@ public class CGSC : MonoBehaviour
     {
         Instance.SetSceneTransitionBool(true);
         yield return new WaitForSeconds(1f);
-        LoadScene(sceneName, async, false, onComplete);        
+        LoadScene(sceneName, async, false, onComplete);  
     }
 
     private IEnumerator FadeScene(int sceneIndex, bool async, Action onComplete)

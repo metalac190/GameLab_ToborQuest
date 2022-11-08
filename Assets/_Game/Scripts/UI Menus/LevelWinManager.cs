@@ -76,7 +76,8 @@ public class LevelWinManager : MonoBehaviour
     public void ContinueNextLevel()
     {
         //CGSC.LoadScene(SceneManager.GetSceneByBuildIndex(SceneManager.GetActiveScene().buildIndex + 1).name, true);
-        CGSC.LoadNextSceneRaw();
+        //CGSC.UnpauseGame();
+        CGSC.LoadNextSceneRaw(true, true);
     }
 
     public void RestartLevel()
@@ -86,7 +87,9 @@ public class LevelWinManager : MonoBehaviour
 
     public void ReturnToLevels()
     {
-        CGSC.LoadMainMenu(true, true,() => {
+        //CGSC.UnpauseGame();
+        CGSC.LoadMainMenu(true, true, () =>
+        {
             MenuManager menuManager = GameObject.FindObjectOfType<MenuManager>();
             menuManager.StartLevelSelect();
             menuManager.LevelSelect();
