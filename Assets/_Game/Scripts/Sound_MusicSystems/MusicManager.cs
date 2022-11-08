@@ -185,7 +185,6 @@ namespace SoundSystem
 
         private void onPause()
         {
-            print("yea");
             _paused = true;
             _priorToPauseLayerIndex = _activeLayerIndex;
             _activeLayerIndex = 5;
