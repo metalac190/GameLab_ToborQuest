@@ -119,7 +119,7 @@ public class ToborSound : MonoBehaviour
             {
                 EngineCoolDown.Play();
                 _boosted = false;
-                _coolDownTime = Time.time + 2f;
+                _coolDownTime = Time.time + 1f;
             }
         }
 
