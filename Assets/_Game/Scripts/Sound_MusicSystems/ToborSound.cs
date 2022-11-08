@@ -34,6 +34,7 @@ public class ToborSound : MonoBehaviour
     bool _FlipSoundPlayed;
     bool _boosted;
     float _coolDownTime;
+    float _impactSoundCoolDown;
 
     #region hooking up to CGSC
 
@@ -161,9 +162,13 @@ public class ToborSound : MonoBehaviour
                 WallHit.Play();
             }
             else if (other.gameObject.layer == 11)
-            { 
-                LandingImpact.Volume = Mathf.Clamp(_tobor.GetComponent<Rigidbody>().velocity.magnitude, 0, 1);
-                LandingImpact.Play();
+            {
+                if (Time.time >= _impactSoundCoolDown)
+                {
+                    _impactSoundCoolDown = Time.time + 1;
+                    LandingImpact.Volume = Mathf.Clamp(_tobor.GetComponent<Rigidbody>().velocity.magnitude, 0, 1);
+                    LandingImpact.Play();
+                }
             }
 
         }
