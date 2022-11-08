@@ -9,6 +9,7 @@ public class PauseManager : MonoBehaviour
 {
     public HUDManager hudManager;
     [SerializeField] private LevelInfoObject levelInfoObj;
+    [SerializeField] private TextMeshProUGUI levelNameText;
     [SerializeField] private MedalUIHelper medalHelper;
     //[SerializeField] private TextMeshProUGUI levelNameText;
 
@@ -31,6 +32,7 @@ public class PauseManager : MonoBehaviour
     private void OnEnable()
     {        
         currentTime.text = hudManager.GetCurrentTimeText();
+        levelNameText.text = levelInfoObj.LevelName;
     }
 
     //public void UnPause()

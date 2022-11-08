@@ -11,6 +11,7 @@ public enum MedalType { None, Bronze, Silver, Gold }
 public class LevelInfoObject : ScriptableObject
 {
     [SerializeField] private string levelScene;
+    [SerializeField] private string levelName;
     [TextArea(3,6)] public string levelDecription;
     public Sprite levelPanelPreviewSprite; //preview image on level select page
     public Sprite levelTitleSprite;
@@ -25,6 +26,7 @@ public class LevelInfoObject : ScriptableObject
 
 
     public float BestTime { get; set; }
+    public string LevelName => levelName;
     public MedalType CurrentMedal { get; set; }
     public bool ghostDataAvailable { get; set; }
     public float BronzeGoal => bronzeGoal;
