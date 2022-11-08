@@ -250,13 +250,13 @@ public class DialogueSystem : MonoBehaviour
 	#region Coroutines
 	IEnumerator HandleToborFreeze(float s)
 	{
-		yield return new WaitForSecondsRealtime(s);
+		yield return new WaitForSeconds(s);
 		_movement.SetActive(true);
 	}
 
 	IEnumerator HandlePanelAnimation( float wait, float exit)
 	{
-		yield return new WaitForSecondsRealtime(wait);
+		yield return new WaitForSeconds(wait);
 		_animator.ExitAnimation(exit);
 	}
 	
@@ -266,9 +266,9 @@ public class DialogueSystem : MonoBehaviour
 		while(_printingText)
 		{
 			_speakerSprite.sprite = _speakerSpriteOpen;
-			yield return new WaitForSecondsRealtime(_timeBetween);
+			yield return new WaitForSeconds(_timeBetween);
 			_speakerSprite.sprite = _speakerSpriteClosed;
-			yield return new WaitForSecondsRealtime(_timeBetween);
+			yield return new WaitForSeconds(_timeBetween);
 		}
 	}
 
@@ -283,7 +283,7 @@ public class DialogueSystem : MonoBehaviour
 			{
 				_printingText = true;
 				_text.text += _dialogueText[i];
-				yield return new WaitForSecondsRealtime(_typingSpeed);
+				yield return new WaitForSeconds(_typingSpeed);
 			}
 			else
             {
