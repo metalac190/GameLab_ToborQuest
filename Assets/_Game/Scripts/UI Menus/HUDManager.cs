@@ -16,6 +16,9 @@ public class HUDManager : PersistableObject
     public TimerUI currentTimerText;
     public Slider toborProgress;
     public TextMeshProUGUI bestTime;
+    private MovementController _movementCtrl;
+    [SerializeField]
+    private Image _boostImage;
     [SerializeField]
     private GameObject pauseFirstButton;
 
@@ -27,8 +30,8 @@ public class HUDManager : PersistableObject
     private void Awake()
     {        
         _controller = new MovementInput();
-        //pauseFirstButton = GameObject.FindObjectOfType<PauseManager>().transform.GetChild(2).GetChild(0).gameObject;
-        levelWinManager = GameObject.FindObjectOfType<LevelWinManager>(true);
+        _movementCtrl = FindObjectOfType<MovementController>(true);
+        levelWinManager = FindObjectOfType<LevelWinManager>(true);
         pausePanel.SetActive(false);
     }
 
@@ -57,18 +60,17 @@ public class HUDManager : PersistableObject
     // Update is called once per frame
     void Update()
     {
-        //Debug.Log(Time.timeScale);
-        //Update tobor progress once you have a variable to track.
-        //SetToborProgress();
         if (CGSC.GameOver)
             return;
-        //Example of what it could look like
-        if(timeElapsed < 10f)
-        {
-            toborProgressValue = Mathf.Lerp(0, 1, timeElapsed / 10f);
-            timeElapsed += Time.deltaTime;
-        }
-        SetToborProgress(toborProgressValue);
+
+        SetBoostPercentage();
+        //Tobor progress bar
+        //if (timeElapsed < 10f)
+        //{
+        //    toborProgressValue = Mathf.Lerp(0, 1, timeElapsed / 10f);
+        //    timeElapsed += Time.deltaTime;
+        //}
+        //SetToborProgress(toborProgressValue);
 
     }
 
@@ -91,6 +93,16 @@ public class HUDManager : PersistableObject
     public void SetToborProgress(float value)
     {
         toborProgress.value = value;
+    }
+
+    private void SetBoostPercentage()
+    {        
+        _boostImage.fillAmount = _movementCtrl.BoostPercentage();
+    }
+
+    public void StartTimer()
+    {
+        currentTimerText.StartTimer();
     }
 
 }

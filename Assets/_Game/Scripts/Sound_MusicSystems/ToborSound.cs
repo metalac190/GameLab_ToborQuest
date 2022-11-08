@@ -7,8 +7,10 @@ using SoundSystem;
 public class ToborSound : MonoBehaviour
 {
     [SerializeField] AudioSource _engineSound;
+    [SerializeField] AudioSource _driftSound;
+    [SerializeField] AudioSource _boostSound;
     [SerializeField] AudioMixerGroup _mixer;
-
+    
     [Range(0f, 4f)]
     [SerializeField] float _MinPitch;
     [Range(0f, 4f)]
@@ -18,15 +20,21 @@ public class ToborSound : MonoBehaviour
     private MovementController _mc;
 
     [SerializeField] SFXEvent WallHit;
+    [SerializeField] SFXEvent LandingImpact;
     [SerializeField] SFXEvent metalHit;
+    [SerializeField] SFXEvent Roll;
+    [SerializeField] SFXEvent EngineCoolDown;
 
-    [SerializeField] SFXEvent _drift;
-    [SerializeField] SFXEvent _boost;
-
-    GameObject _driftSound;
-    GameObject _boostSound;
+    [SerializeField] SFXEvent pauseSound;
+    [SerializeField] SFXEvent unPauseSound;
+    [SerializeField] SFXEvent winSound;
 
     bool _won;
+
+    bool _FlipSoundPlayed;
+    bool _boosted;
+    float _coolDownTime;
+    float _impactSoundCoolDown;
 
     #region hooking up to CGSC
 
@@ -51,6 +59,11 @@ public class ToborSound : MonoBehaviour
         _engineSound.outputAudioMixerGroup = _mixer;
 
         _mc = GetComponent<MovementController>();
+        _FlipSoundPlayed = false;
+        _boosted = false;
+
+        _driftSound.Stop();
+        _boostSound.Stop();
         _won = false;
 
     }
@@ -61,74 +74,77 @@ public class ToborSound : MonoBehaviour
         {
             _engineSound.pitch = Mathf.Clamp(Mathf.Log(_tobor.velocity.magnitude), _MinPitch, _MaxPitch);
         }
+        
         if (_tobor.GetComponent<MovementController>().IsDrifting == true)
         {
-            if(_driftSound == null)
+            if (_driftSound.isPlaying == false && _won == false)
             {
-                _drift.Play();
-                _driftSound = GameObject.Find("SFXSFX_Tobor_MoveSlide");
+                _driftSound.time = 0.2f;
+                _driftSound.volume = 1;
+                _driftSound.Play();
             }
         }
-        if (_driftSound != null)
+
+
+        if (_tobor.GetComponent<MovementController>().IsBoosting == true)
         {
-            if (_tobor.GetComponent<MovementController>().IsDrifting == false)
+            if (_boostSound.isPlaying == false && _won == false)
             {
-                Destroy(_driftSound);
-                _driftSound = null;
+                _boostSound.time = 0f;
+                _boostSound.volume = 1;
+                _boostSound.Play();
+            }
+        }
+
+        if (_tobor.GetComponent<MovementController>().IsFlipping == false)
+        {
+            _FlipSoundPlayed = false;
+        }
+        if (_tobor.GetComponent<MovementController>().IsFlipping == true)
+        {
+            if (_FlipSoundPlayed == false)
+            {
+                Roll.Play();
+                _FlipSoundPlayed = true;
             }
         }
 
         if (_tobor.GetComponent<MovementController>().IsBoosting == true)
         {
-            if (_boostSound == null)
-            {
-                _boost.Play();
-                _boostSound = GameObject.Find("SFXSFX_Tobor_RocketThrust");
-            }
+            _boosted = true;
         }
-        if (_boostSound != null)
+        if (_tobor.GetComponent<MovementController>().IsBoosting == false)
         {
-            if (_tobor.GetComponent<MovementController>().IsBoosting == false)
+            if (_boosted == true && _coolDownTime <= Time.time)
             {
-                Destroy(_boostSound);
-                _boostSound = null;
+                EngineCoolDown.Play();
+                _boosted = false;
+                _coolDownTime = Time.time + 1f;
             }
         }
-        if (_won == true)
-        {
-            if (_boostSound != null)
-            {
-                Destroy(_boostSound);
-            }
-            if (_driftSound != null)
-            {
-                Destroy(_driftSound);
-            }
-        }
+
+
     }
 
     void OnWin()
     {
+        PauseAudioSources();
+        winSound.Play();
         _won = true;
-        _engineSound.Pause();
-        if (_boostSound != null)
-        {
-            Destroy(_boostSound);
-        }
-        if (_driftSound != null)
-        {
-            Destroy(_driftSound);
-        }
     }
 
     void onPause()
     {
-        _engineSound.Pause();
+        PauseAudioSources();
+        pauseSound.Play();
     }
 
     void OnUnPause()
     {
         _engineSound.Play();
+        _driftSound.Play();
+        _boostSound.Play();
+        unPauseSound.Play();
     }
 
     private void OnCollisionEnter(Collision other)
@@ -137,16 +153,32 @@ public class ToborSound : MonoBehaviour
         {
             if (other.gameObject.layer == 18)
             {
-                metalHit.Volume = Mathf.Clamp(_tobor.GetComponent<Rigidbody>().velocity.magnitude ,0, 1);
+                metalHit.Volume = Mathf.Clamp(_tobor.GetComponent<Rigidbody>().velocity.magnitude, 0, 1);
                 metalHit.Play();
             }
-            else if (other.gameObject.layer == 12 || other.gameObject.layer == 11 || other.gameObject.layer == 0)
+            else if (other.gameObject.layer == 12 || other.gameObject.layer == 0)
             {
                 WallHit.Volume = Mathf.Clamp(_tobor.GetComponent<Rigidbody>().velocity.magnitude, 0, 1);
                 WallHit.Play();
             }
+            else if (other.gameObject.layer == 11)
+            {
+                if (Time.time >= _impactSoundCoolDown)
+                {
+                    _impactSoundCoolDown = Time.time + 1;
+                    LandingImpact.Volume = Mathf.Clamp(_tobor.GetComponent<Rigidbody>().velocity.magnitude, 0, 1);
+                    LandingImpact.Play();
+                }
+            }
 
         }
+    }
+
+    private void PauseAudioSources()
+    {
+        _engineSound.Pause();
+        _driftSound.Pause();
+        _boostSound.Pause();
     }
 
 }

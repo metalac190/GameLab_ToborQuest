@@ -10,20 +10,14 @@ public abstract class InteractablePad : MonoBehaviour {
     [SerializeField] private float padForceMaxTime;
     [SerializeField] private ParticleSystem particleVFX;
     [SerializeField] private SFXEvent audioSFX;
-    [SerializeField] private Animation padAnimation;
     [SerializeField] private UnityEvent onPlayerEnter;
 
-    //static timer to be shared by all pads
-    private static float padTimer;
+    private Animator animator;
 
-    abstract protected void OnRigidbodyTrigger(Rigidbody rb);
+    abstract protected void OnRigidbodyTrigger(Rigidbody rb, ToborEffectsController effects);
 
     private void Awake() {
-        padTimer = 0;
-    }
-
-    private void Update() {
-        padTimer += Time.deltaTime;
+        animator = GetComponentInChildren<Animator>();
     }
 
     private void OnTriggerEnter(Collider other) {
@@ -32,29 +26,21 @@ public abstract class InteractablePad : MonoBehaviour {
         if(rb == null) {
             return;
         }
+
+        //get the effect controller if there is one to pass into the specific pad
+        ToborEffectsController effects = other.GetComponent<ToborEffectsController>();
         //call pad specific functionality
-        OnRigidbodyTrigger(rb);
-        //spawn particles, play audio, and play animation
-        if(particleVFX) StartCoroutine(Particles(other.gameObject.transform.position));
-        if(audioSFX) audioSFX.Play();
-        if(padAnimation) padAnimation.Play();
+        OnRigidbodyTrigger(rb, effects);
 
         //if the object is Tobor, tell the movement control its using a pad and invoke any unity events
         MovementController movementController = other.GetComponent<MovementController>();
-        if(movementController != null) {
-            StartCoroutine(PadTimer(movementController));
+        if(movementController) {
+            //spawn particles, play audio, and play animation
+            if(particleVFX) StartCoroutine(Particles(other.gameObject.transform.position));
+            if(audioSFX) audioSFX.Play();
+            if(animator) animator.SetTrigger("Trigger");
             onPlayerEnter?.Invoke();
         }
-    }
-
-    private IEnumerator PadTimer(MovementController movementController) {
-        movementController._UsingPad = true;
-        padTimer = 0;
-
-        yield return new WaitUntil(() => padTimer >= padForceMaxTime);
-
-        //shouldn't trigger until Tobor hasn't touched ANY pad for padForceMaxTime time
-        movementController._UsingPad = false;
     }
 
     private IEnumerator Particles(Vector3 spawnPosition) {

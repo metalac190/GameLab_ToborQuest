@@ -8,10 +8,12 @@ public class CheckpointTracker : MonoBehaviour
     [SerializeField] private float _respawnTime;
 
     private Rigidbody _rb;
+    private MovementController _mc;
 
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
+        _mc = GetComponent<MovementController>();
     }
 
     private void Start()
@@ -40,5 +42,6 @@ public class CheckpointTracker : MonoBehaviour
         _rb.velocity = Vector3.zero;
         _rb.angularVelocity = Vector3.zero;
         _rb.isKinematic = false;
+        _mc.SetBoostCharge(_mc.BoostChargeMax * 0.8f);
     }
 }

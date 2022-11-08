@@ -7,6 +7,8 @@ using UnityEngine.EventSystems;
 
 public class LevelInfoManager : MonoBehaviour
 {
+    public Image levelTitleImage;
+    public Image levelNameImage;
     public Image levelPreviewImage;
     public TextMeshProUGUI levelDescriptionText;
     public Button onStart;
@@ -14,6 +16,12 @@ public class LevelInfoManager : MonoBehaviour
     private GameObject backLevelButton;
     private LevelInfoObject levelInfoObj;
     [SerializeField] private TextMeshProUGUI bestTimeText;
+
+    [SerializeField] private MedalUIHelper medalHelper;
+    [SerializeField] private TextMeshProUGUI currentMedalStatusText;
+    [SerializeField] private Image currentMedalImage;
+    [SerializeField] private Image nextMedalGoalImage;
+    [SerializeField] private TextMeshProUGUI nextGoalTimeText;
 
     private void Awake()
     {
@@ -23,17 +31,20 @@ public class LevelInfoManager : MonoBehaviour
     public void SetLevelInfoObject(LevelInfoObject value)
     {
         levelInfoObj = value;
-        this.gameObject.SetActive(true);
+        //this.gameObject.SetActive(true);
+        //Debug.Log("Activating " + transform.name);
         EventSystem.current.SetSelectedGameObject(onStart.gameObject);
     }
 
     public void SetBackLevelButton(GameObject value)
-    {
+    {        
         backLevelButton = value;
     }
 
     private void OnEnable()
     {
+        if (!levelInfoObj)
+            return;
         SetInfo(levelInfoObj);
         onBack.onClick.AddListener(() =>
         {
@@ -43,13 +54,21 @@ public class LevelInfoManager : MonoBehaviour
 
     private void SetInfo(LevelInfoObject value)
     {
-        levelPreviewImage.sprite = levelInfoObj.levelImage;
-        levelDescriptionText.text = levelInfoObj.levelInfo;
-        bestTimeText.text = levelInfoObj.GetTimeFormatted();
+        levelTitleImage.sprite = levelInfoObj.levelTitleSprite;
+        levelNameImage.sprite = levelInfoObj.levelNameSprite;
+        levelPreviewImage.sprite = levelInfoObj.levelInfoPreviewSprite;
+        levelDescriptionText.text = levelInfoObj.levelDecription;
+        bestTimeText.text = levelInfoObj.GetBestTimeFormatted();
+
+        currentMedalStatusText.text = levelInfoObj.CurrentMedal.ToString();
+        medalHelper.SetMedalUI(currentMedalImage, levelInfoObj.CurrentMedal);
+        medalHelper.SetMedalUI(nextMedalGoalImage, levelInfoObj.GetNextMedalGoal());
+        nextGoalTimeText.text = levelInfoObj.GetNextTimeGoalFormatted();
+
+        onStart.onClick.RemoveAllListeners();
         onStart.onClick.AddListener(() =>
         {
-            CGSC.LoadScene(value.GetLevelSceneName());
+            CGSC.LoadScene(value.GetLevelSceneName(),true,true);
         });
     }
-
 }

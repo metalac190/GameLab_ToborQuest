@@ -2,27 +2,37 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class PauseManager : MonoBehaviour
 {
     public HUDManager hudManager;
+    [SerializeField] private LevelInfoObject levelInfoObj;
+    [SerializeField] private TextMeshProUGUI levelNameText;
+    [SerializeField] private MedalUIHelper medalHelper;
+    //[SerializeField] private TextMeshProUGUI levelNameText;
 
     public GameObject QuestionBox;
 
     public TextMeshProUGUI currentTime;
-    public TextMeshProUGUI bestTime;
+
+    [SerializeField] private TextMeshProUGUI goalTimeText;
+    [SerializeField] private Image goalMedalImage;
 
     private void Awake()
     {
         QuestionBox.SetActive(false);
+        levelInfoObj.GetBestTimeFormatted(); //just an easy way to set the BestTime
+        goalTimeText.text = levelInfoObj.GetNextTimeGoalFormatted();
+        medalHelper.SetMedalUI(goalMedalImage, levelInfoObj.GetNextMedalGoal());
+        //levelNameText.text = levelInfoObj.GetLevelSceneName();
     }
 
     private void OnEnable()
     {        
         currentTime.text = hudManager.GetCurrentTimeText();
-        bestTime.text = hudManager.GetBestTimeString();
+        levelNameText.text = levelInfoObj.LevelName;
     }
 
     //public void UnPause()
@@ -34,7 +44,8 @@ public class PauseManager : MonoBehaviour
     public void ReturnToMainMenu()
     {
         //SceneManager.LoadScene(value);
-        CGSC.LoadMainMenu();        
+        CGSC.UnpauseGame();
+        CGSC.LoadMainMenu(true, true);     
     }
 
     public void Restart()
@@ -45,11 +56,10 @@ public class PauseManager : MonoBehaviour
     public void ReturnToLevels()
     {
         CGSC.UnpauseGame();
-        CGSC.LoadMainMenu(true, () =>
+        CGSC.LoadMainMenu(true, true,() =>
         {
-            //Debug.Log("Levek select");
             MenuManager menuManager = GameObject.FindObjectOfType<MenuManager>();
-            menuManager.SetCurrentMenu(1);
+            menuManager.StartLevelSelect();
             menuManager.LevelSelect();
         });
     }

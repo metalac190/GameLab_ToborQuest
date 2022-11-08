@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8357551071538771070}
   - component: {fileID: 6168528964046551918}
   - component: {fileID: 3749040771483350349}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: shelf_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 581547263995803606}
   - component: {fileID: 8280952657247396297}
   - component: {fileID: 6455136993683645254}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: leg_01 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -175,7 +175,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7211858975245796362}
-  m_Layer: 0
+  - component: {fileID: 453921450190118866}
+  - component: {fileID: 8382243227588583845}
+  m_Layer: 12
   m_Name: PF_IndustrialShelves_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -195,9 +197,36 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4976083438630471086}
+  - {fileID: 440204567185796001}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &453921450190118866
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2246508253040466033}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 5.5, y: 4, z: 4}
+  m_Center: {x: 0, y: 2, z: 0}
+--- !u!114 &8382243227588583845
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2246508253040466033}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10a3e79ec8e921d429b6dcb61ff81d3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SFXEventCall: {fileID: 11400000, guid: 1658b36339986dc4b91cfaece3ec71af, type: 2}
 --- !u!1 &3789553947132926903
 GameObject:
   m_ObjectHideFlags: 0
@@ -209,7 +238,7 @@ GameObject:
   - component: {fileID: 270717144036754065}
   - component: {fileID: 7595465784845695322}
   - component: {fileID: 337242241819936198}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: leg_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -292,7 +321,7 @@ GameObject:
   - component: {fileID: 8967801609442758078}
   - component: {fileID: 846627672729456473}
   - component: {fileID: 2766983118101662707}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: leg_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -364,6 +393,51 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &8897996659032967017
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 440204567185796001}
+  - component: {fileID: 4574245562738259631}
+  m_Layer: 11
+  m_Name: Ground
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &440204567185796001
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8897996659032967017}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.9999998, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7211858975245796362}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &4574245562738259631
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8897996659032967017}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 5.5, y: 0.1, z: 4}
+  m_Center: {x: 0, y: 2, z: 0}
 --- !u!1 &9160465794498665193
 GameObject:
   m_ObjectHideFlags: 0
@@ -375,7 +449,7 @@ GameObject:
   - component: {fileID: 7590613216442186353}
   - component: {fileID: 1344469747332068978}
   - component: {fileID: 8632423205618996177}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: connector_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -509,10 +583,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -4569617919845773538, guid: b85f0bbdc031e46439f5aa2e361a03fb,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: b85f0bbdc031e46439f5aa2e361a03fb,
         type: 3}
       propertyPath: m_Name
       value: SM_IndustrialShelves
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b85f0bbdc031e46439f5aa2e361a03fb,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 5245720588978176678, guid: b85f0bbdc031e46439f5aa2e361a03fb,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 7448375046553089404, guid: b85f0bbdc031e46439f5aa2e361a03fb,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b85f0bbdc031e46439f5aa2e361a03fb, type: 3}

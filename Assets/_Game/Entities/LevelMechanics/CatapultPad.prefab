@@ -87,7 +87,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1377595506777120641}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -271,7 +271,6 @@ GameObject:
   - component: {fileID: 6138968511757682176}
   - component: {fileID: 6138968511757682189}
   - component: {fileID: 3985165626746486642}
-  - component: {fileID: -5712886043927675663}
   m_Layer: 11
   m_Name: CatapultPad
   m_TagString: Untagged
@@ -308,8 +307,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 7, y: 0.7, z: 7}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 4.5, y: 2, z: 5.8}
+  m_Center: {x: 0, y: 0.25, z: 0}
 --- !u!114 &3985165626746486642
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -325,30 +324,28 @@ MonoBehaviour:
   padForceMaxTime: 0.5
   particleVFX: {fileID: 0}
   audioSFX: {fileID: 11400000, guid: f24f83492d942c740b6cbeebcb966caf, type: 2}
-  padAnimation: {fileID: 0}
   onPlayerEnter:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: e8fadaca8c8590c438babc110c360cc0, type: 2}
+        m_TargetAssemblyTypeName: Dialogue, Assembly-CSharp
+        m_MethodName: RunDialogue
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   launchAngle: 50.8
   catapultBase: {fileID: 4913476507235177471}
   catapultLauncher: {fileID: 1692329}
   art: {fileID: 7658790769742334380}
   targetTransform: {fileID: 1073614524358147751}
-  launchSpeed: NaN
-  flightTime: 0
---- !u!114 &-5712886043927675663
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6138968511757682188}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 10a3e79ec8e921d429b6dcb61ff81d3b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SFXEventCall: {fileID: 0}
+  launchSpeed: 3.1645763
+  flightTime: 0.49997365
 --- !u!1 &7058919016321596762
 GameObject:
   m_ObjectHideFlags: 0
@@ -462,6 +459,32 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 07909f6d9a3300540aa253b47e6cf6d4, type: 3}
+--- !u!1 &534227509846498084 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2562706512018347579, guid: 07909f6d9a3300540aa253b47e6cf6d4,
+    type: 3}
+  m_PrefabInstance: {fileID: 2664295792655420703}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &8327373425340753318
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 534227509846498084}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: fb37c123ed3020a4ea752f030fe7a0b7, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!4 &1945874162537370878 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4609531894532266465, guid: 07909f6d9a3300540aa253b47e6cf6d4,

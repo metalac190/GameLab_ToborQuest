@@ -28,29 +28,45 @@ public class CatapultPad : InteractablePad {
         SetCatapultArc();
     }
 
-    protected override void OnRigidbodyTrigger(Rigidbody rb) {
+    protected override void OnRigidbodyTrigger(Rigidbody rb, ToborEffectsController effects) {
         //start a coroutine to disable custom gravity and drag during flight time
         StartCoroutine(DisableOddities(rb));
         //set the object's velocity to the 3D launch vector times the calculated launch speed
-        rb.angularVelocity = Vector3.zero;
         rb.velocity = catapultLauncher.up * launchSpeed;
+        //trigger the catapult's effects on Tobor
+        if(effects) effects.PlayOnCatapult();
     }
 
+    //disable custom gravity, movement controls, and drag on Tobor
     private IEnumerator DisableOddities(Rigidbody rb)
     {
         GravityController grav = rb.GetComponent<GravityController>();
         MovementController move = rb.GetComponent<MovementController>();
         float originalDrag = rb.drag;
 
-        rb.drag = 0;
+        if(rb) rb.drag = 0;
         if(grav) grav.GravityEnabled = false;
         if(move) move.SetActive(false);
 
-        yield return new WaitForSecondsRealtime(flightTime);
+        //waits until Tobor is grounded, or the time has run out, whichever happens first
+        yield return new WaitForSeconds(0.1f); //buffer for wheels to get off the ground
+        float inAirTimer = 0;
+        if(move) {
+            while(!move.GroundCheck() && inAirTimer < flightTime) {
+                inAirTimer += Time.deltaTime;
+                yield return null;
+            }
+        } else {
+            while(inAirTimer < flightTime) {
+                inAirTimer += Time.deltaTime;
+                yield return null;
+            }
+        }
+        
 
         if(grav) grav.GravityEnabled = true;
         if(move) move.SetActive(true);
-        rb.drag = originalDrag;
+        if(rb) rb.drag = originalDrag;
     }
 
     /*
@@ -91,7 +107,7 @@ public class CatapultPad : InteractablePad {
 
             //get y positions for points along the curve
             float t = step / (launchSpeed * Mathf.Cos(launchAngleRadians));
-            float y = -0.5f * Physics.gravity.magnitude * (t * t) + launchSpeed * Mathf.Sin(launchAngleRadians) * t;
+            float y = (-0.5f * Physics.gravity.magnitude * (t * t) + launchSpeed * Mathf.Sin(launchAngleRadians) * t) + transform.position.y;
 
             //get the x and z positions with the straight line from end to end
             Vector3 xzLine = transform.position + (step * linearVector);

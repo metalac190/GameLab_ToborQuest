@@ -6,6 +6,7 @@ using SoundSystem;
 public class SFXCallEvent : MonoBehaviour
 {
     float _delayTime;
+
     private void Awake()
     {
         _delayTime = Time.time + 1;

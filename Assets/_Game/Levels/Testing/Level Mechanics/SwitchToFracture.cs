@@ -17,6 +17,8 @@ public class SwitchToFracture : MonoBehaviour
 
     private void Start() 
     {
+        //random comment
+
         _unbrokenVersion.SetActive(true);
         _brokenVersion.SetActive(false);   
         _isFractured = false; 

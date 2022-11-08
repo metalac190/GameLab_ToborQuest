@@ -10,20 +10,34 @@ public class LevelWinManager : MonoBehaviour
 {
     private HUDManager hudManager;
     [SerializeField]
-    private TextMeshProUGUI winText;
+    private TextMeshProUGUI deliveryTimeText;
+    [SerializeField] private LevelInfoObject levelInfoObj;
+    [SerializeField] private MedalUIHelper medalHelper;
+
+    [SerializeField] private Image levelCompleteImage;
+
+    [Header("New Best Time")]
+    [SerializeField] private GameObject newBestTimeObjects;
+    [SerializeField] private TextMeshProUGUI newMedalText;
+    [SerializeField] private Image newMedalImage;
+    [SerializeField] private TextMeshProUGUI newBestTimeText;
+
+    [Header("Next Goal")]
+    [SerializeField] private TextMeshProUGUI nextGoalTimeText;
+    [SerializeField] private Image nextGoalMedalImage;
+
+    [Header("Buttons")]
     [SerializeField]
     private GameObject returnLevelSelectButton;
     private GameObject _children;
     private string levelSaveTimeName;//"Level1BestTime";
-    [SerializeField]
-    private int nextLevel = 0; 
     public string LevelSaveName { get { return levelSaveTimeName; } }
 
     private void Awake()
     {
         //Find hudmanager, should only be 1 in the scene.
         hudManager = GameObject.FindObjectOfType<HUDManager>(true);
-        levelSaveTimeName = SceneManager.GetActiveScene().name + "BestTime";
+        levelSaveTimeName = levelInfoObj.GetLevelSceneName() + "BestTime";
         //Debug.Log(levelSaveTimeName);
         //Get needed objects
         //_children = this.transform.GetChild(0).gameObject;
@@ -51,15 +65,28 @@ public class LevelWinManager : MonoBehaviour
     {
         hudManager.gameObject.SetActive(false);
         transform.GetChild(0).gameObject.SetActive(true);
-        winText.text = "DELIVERY TIME: " + hudManager.GetCurrentTimeText();
-        hudManager.currentTimerText.StopTime = true;
+        levelCompleteImage.sprite = levelInfoObj.levelCompleteSprite;
+        deliveryTimeText.text = "DELIVERY TIME: " + hudManager.GetCurrentTimeText();
+        hudManager.currentTimerText.startTimer = false;
         EventSystem.current.SetSelectedGameObject(returnLevelSelectButton);
         SaveBestTime();
+        ShowNextGoal();
+
+        // TODO: FIXME THIS IS BAD
+        var tobor = FindObjectOfType<MovementController>();
+        if (tobor)
+        {
+            tobor.SetActive(false);
+            var rb = tobor.GetComponent<Rigidbody>();
+            if (rb) rb.isKinematic = true;
+        }
     }
 
     public void ContinueNextLevel()
     {
-        CGSC.LoadScene(CGSC.Quests[0].LevelNames[nextLevel - 1], true);
+        //CGSC.LoadScene(SceneManager.GetSceneByBuildIndex(SceneManager.GetActiveScene().buildIndex + 1).name, true);
+        //CGSC.UnpauseGame();
+        CGSC.LoadNextSceneRaw(true, true);
     }
 
     public void RestartLevel()
@@ -69,9 +96,11 @@ public class LevelWinManager : MonoBehaviour
 
     public void ReturnToLevels()
     {
-        CGSC.LoadMainMenu(true, () => {
+        //CGSC.UnpauseGame();
+        CGSC.LoadMainMenu(true, true, () =>
+        {
             MenuManager menuManager = GameObject.FindObjectOfType<MenuManager>();
-            menuManager.SetCurrentMenu(1);
+            menuManager.StartLevelSelect();
             menuManager.LevelSelect();
         });
     }
@@ -85,19 +114,32 @@ public class LevelWinManager : MonoBehaviour
             if (previousBestTime > currentTime)
             {
                 //Debug.Log("New best time");
+                //save the new best tiem to Player Prefs
                 PlayerPrefs.SetFloat(levelSaveTimeName, currentTime);
+
+                //show and update the new best time objs
+                newBestTimeObjects.SetActive(true);
+                newBestTimeText.text = "Best time: " + levelInfoObj.GetBestTimeFormatted();
+                newMedalText.text = "You Earned " + levelInfoObj.CurrentMedal.ToString();
+                medalHelper.SetMedalUI(newMedalImage, levelInfoObj.CurrentMedal);
             }
             else
             {
                 //Debug.Log("Didn't beat best time");
+                newBestTimeObjects.SetActive(false);
             }
         }
         else
         {
             //Debug.Log("Best time set");
             PlayerPrefs.SetFloat(levelSaveTimeName, currentTime);
+            newBestTimeObjects.SetActive(false);
         }
             
     }
 
+    private void ShowNextGoal() {
+        nextGoalTimeText.text = "Next Goal: " + levelInfoObj.GetNextTimeGoalFormatted();
+        medalHelper.SetMedalUI(newMedalImage, levelInfoObj.GetNextMedalGoal());
+    }
 }

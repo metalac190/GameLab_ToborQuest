@@ -7,22 +7,39 @@ using TMPro;
 
 public class MenuLevelInfoPanel : MonoBehaviour
 {
-    [SerializeField]
-    private string levelSaveName;
+    //[SerializeField]
+    //private string levelSaveName;
     [SerializeField]
     private TextMeshProUGUI bestTimeText;
+    [SerializeField] private MedalUIHelper medalHelper;
+    [SerializeField] private Image medalImage;
     [SerializeField]
     private TextMeshProUGUI nextGoalText;
     [SerializeField]
     private Image levelImage;
 
     [SerializeField]
-    private float[] nextGoalArray;
+    private LevelInfoObject levelInfoObj;
 
     float levelBestTime;
 
-    void Start()
+    private void OnEnable()
     {
+        SetTimes();
+        ExtrasSettings.OnResetData += SetTimes;
+    }
+
+    private void OnDisable()
+    {
+        ExtrasSettings.OnResetData -= SetTimes;
+    }
+
+    private void SetTimes()
+    {
+        bestTimeText.text = levelInfoObj.GetBestTimeFormatted();
+        nextGoalText.text = levelInfoObj.GetNextTimeGoalFormatted();
+        medalHelper.SetMedalUI(medalImage, levelInfoObj.CurrentMedal);
+        /*
         if (PlayerPrefs.HasKey(levelSaveName))
         {
             //Set best time text
@@ -34,11 +51,12 @@ public class MenuLevelInfoPanel : MonoBehaviour
                 bestTimeText.text = time.ToString(@"mm\:ss\:fff");
 
             //Set the next goal text
-            for (int i = 0; i < nextGoalArray.Length; i++)
+            
+            for (int i = 0; i < orderedGoalArray.Length; i++)
             {
-                if (nextGoalArray[i] < levelBestTime)
+                if (orderedGoalArray[i] < levelBestTime)
                 {
-                    TimeSpan tempTime = TimeSpan.FromSeconds(nextGoalArray[i]);
+                    TimeSpan tempTime = TimeSpan.FromSeconds(orderedGoalArray[i]);
                     if (levelBestTime > 3600)
                         nextGoalText.text = tempTime.ToString(@"hh\:mm\:ss\:fff");
                     else
@@ -46,12 +64,13 @@ public class MenuLevelInfoPanel : MonoBehaviour
 
                     break;
                 }
-            }
+            }            
         }
         else
         {
             bestTimeText.text = "--:--:---";
             nextGoalText.text = "--:--:---";
         }
+        */
     }
 }

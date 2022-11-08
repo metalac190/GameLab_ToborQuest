@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 1166760913495659186}
   - component: {fileID: 1166760913495659199}
   - component: {fileID: 1855396798989120255}
-  - component: {fileID: -5755420427519831932}
   m_Layer: 11
   m_Name: BouncePad
   m_TagString: Untagged
@@ -46,8 +45,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 6.5, y: 0.62738794, z: 6.5}
-  m_Center: {x: 0, y: 0.15356725, z: 0}
+  m_Size: {x: 6.5, y: 2, z: 6.5}
+  m_Center: {x: 0, y: 0.25, z: 0}
 --- !u!114 &1855396798989120255
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63,24 +62,22 @@ MonoBehaviour:
   padForceMaxTime: 0.25
   particleVFX: {fileID: 0}
   audioSFX: {fileID: 11400000, guid: f24f83492d942c740b6cbeebcb966caf, type: 2}
-  padAnimation: {fileID: 0}
   onPlayerEnter:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: 8c6f94066f3322e488183cad6be83356, type: 2}
+        m_TargetAssemblyTypeName: Dialogue, Assembly-CSharp
+        m_MethodName: RunDialogue
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   addedForce: 1000
---- !u!114 &-5755420427519831932
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1166760913495659198}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 10a3e79ec8e921d429b6dcb61ff81d3b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SFXEventCall: {fileID: 11400000, guid: f24f83492d942c740b6cbeebcb966caf, type: 2}
 --- !u!1 &2824713451592268156
 GameObject:
   m_ObjectHideFlags: 0
@@ -292,3 +289,29 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 5936256011808344886}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &6311130129061888530 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 429093270008809764, guid: 35993cbab3bc8174a8918a8acdd2a4cd,
+    type: 3}
+  m_PrefabInstance: {fileID: 5936256011808344886}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &187674361580263070
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6311130129061888530}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 45fb72e13b9295c40974918ea60201b8, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

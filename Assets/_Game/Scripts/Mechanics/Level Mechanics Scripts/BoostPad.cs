@@ -9,13 +9,14 @@ public class BoostPad : InteractablePad {
     [SerializeField] private bool useVel;
     [SerializeField] private float boostVelocity;
 
-    protected override void OnRigidbodyTrigger(Rigidbody rb) {
+    protected override void OnRigidbodyTrigger(Rigidbody rb, ToborEffectsController effects) {
         if(!useVel) {
             //add an instant force in the pad's forward direction
             rb.AddForce(addedForce * transform.forward, ForceMode.Impulse);
         } else {
             rb.velocity = boostVelocity * transform.forward;
         }
-        
+        //trigger the boost pad's effects on Tobor
+        if(effects) effects.PlayOnBoostPad();
     }
 }

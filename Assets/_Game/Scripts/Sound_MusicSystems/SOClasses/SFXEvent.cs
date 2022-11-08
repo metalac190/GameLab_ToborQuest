@@ -21,10 +21,10 @@ namespace SoundSystem
         public float Volume = 1;
 
         [Range(-3f, 3f)]
-        public float maxPitch = 2f;
+        public float maxPitch = 1f;
 
         [Range(-3f, 3f)]
-        public float minPitch = 0.25f;
+        public float minPitch = 0.8f;
 
         [Range(-1f, 1f)]
         public float panStereo = 0;
@@ -46,8 +46,7 @@ namespace SoundSystem
 
         public void Play()
         {
-            GameObject soundOBJ = new GameObject("SFX" + this.name);
-            SFXManager.Instance.PlaySFX(this, soundOBJ);
+            SFXManager.Instance.PlaySFX(this);
         }
     }
 }
