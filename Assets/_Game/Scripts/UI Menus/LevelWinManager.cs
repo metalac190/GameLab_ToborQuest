@@ -71,6 +71,15 @@ public class LevelWinManager : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(returnLevelSelectButton);
         SaveBestTime();
         ShowNextGoal();
+
+        // TODO: FIXME THIS IS BAD
+        var tobor = FindObjectOfType<MovementController>();
+        if (tobor)
+        {
+            tobor.SetActive(false);
+            var rb = tobor.GetComponent<Rigidbody>();
+            if (rb) rb.isKinematic = true;
+        }
     }
 
     public void ContinueNextLevel()
