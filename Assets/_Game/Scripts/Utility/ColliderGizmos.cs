@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor.ShaderGraph.Drawing.Inspector.PropertyDrawers;
 using UnityEngine;
 
 public class ColliderGizmos : MonoBehaviour
@@ -35,61 +36,69 @@ public class ColliderGizmos : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        if (!_showColliders) return;
-        if (_meshColliders == null) FindAllColliders();
+        try
+        {
+            if (!_showColliders) return;
+            if (_meshColliders == null) FindAllColliders();
         
-        foreach (var col in _meshColliders)
-        {
-            if (!SetColor(col.gameObject)) continue;
-            var t = col.transform;
-            if (_solid)Gizmos.DrawMesh(col.sharedMesh, t.position, t.rotation, t.lossyScale);
-            else Gizmos.DrawWireMesh(col.sharedMesh, t.position, t.rotation, t.lossyScale);
-        }
-        foreach (var col in _capsuleColliders)
-        {
-            if (!SetColor(col.gameObject)) continue;
-            var t = col.transform;
-            Gizmos.matrix = Matrix4x4.TRS(t.position, t.rotation, t.lossyScale);
-            if (_solid) Gizmos.DrawMesh(_capsuleMesh, col.center, Quaternion.identity, new Vector3(2 * col.radius, col.height * 0.5f, 2 * col.radius));
-            else Gizmos.DrawWireMesh(_capsuleMesh, col.center, Quaternion.identity, new Vector3(2 * col.radius, col.height * 0.5f, 2 * col.radius));
-        }
-        foreach (var col in _boxColliders)
-        {
-            if (!SetColor(col.gameObject)) continue;
-            var t = col.transform;
-            Gizmos.matrix = Matrix4x4.TRS(t.position, t.rotation, t.lossyScale);
-            if (_solid)Gizmos.DrawCube(col.center, col.size + Vector3.one * 0.001f);
-            else Gizmos.DrawWireCube(col.center, col.size);
-        }
-        foreach (var col in _sphereColliders)
-        {
-            if (!SetColor(col.gameObject)) continue;
-            var t = col.transform;
-            Gizmos.matrix = Matrix4x4.TRS(t.position, t.rotation, t.lossyScale);
-            if (_solid)Gizmos.DrawSphere(col.center, col.radius + 0.001f);
-            else Gizmos.DrawWireSphere(col.center, col.radius);
-        }
-
-        bool SetColor(GameObject obj)
-        {
-            if (obj.GetComponent<InvisibleTrigger>()) return false;
-            if (obj.transform.root.name.Equals("Player")) return false;
-            if (obj.GetComponent<InteractablePad>())
+            foreach (var col in _meshColliders)
             {
-                Gizmos.color = _interactable;
+                if (!SetColor(col.gameObject)) continue;
+                var t = col.transform;
+                if (_solid)Gizmos.DrawMesh(col.sharedMesh, t.position, t.rotation, t.lossyScale);
+                else Gizmos.DrawWireMesh(col.sharedMesh, t.position, t.rotation, t.lossyScale);
+            }
+            foreach (var col in _capsuleColliders)
+            {
+                if (!SetColor(col.gameObject)) continue;
+                var t = col.transform;
+                Gizmos.matrix = Matrix4x4.TRS(t.position, t.rotation, t.lossyScale);
+                if (_solid) Gizmos.DrawMesh(_capsuleMesh, col.center, Quaternion.identity, new Vector3(2 * col.radius, col.height * 0.5f, 2 * col.radius));
+                else Gizmos.DrawWireMesh(_capsuleMesh, col.center, Quaternion.identity, new Vector3(2 * col.radius, col.height * 0.5f, 2 * col.radius));
+            }
+            foreach (var col in _boxColliders)
+            {
+                if (!SetColor(col.gameObject)) continue;
+                var t = col.transform;
+                Gizmos.matrix = Matrix4x4.TRS(t.position, t.rotation, t.lossyScale);
+                if (_solid)Gizmos.DrawCube(col.center, col.size + Vector3.one * 0.001f);
+                else Gizmos.DrawWireCube(col.center, col.size);
+            }
+            foreach (var col in _sphereColliders)
+            {
+                if (!SetColor(col.gameObject)) continue;
+                var t = col.transform;
+                Gizmos.matrix = Matrix4x4.TRS(t.position, t.rotation, t.lossyScale);
+                if (_solid)Gizmos.DrawSphere(col.center, col.radius + 0.001f);
+                else Gizmos.DrawWireSphere(col.center, col.radius);
+            }
+            
+            bool SetColor(GameObject obj)
+            {
+                if (obj.GetComponent<InvisibleTrigger>()) return false;
+                if (obj.transform.root.name.Equals("Player")) return false;
+                if (obj.GetComponent<InteractablePad>())
+                {
+                    Gizmos.color = _interactable;
+                    return true;
+                }
+                int layer = obj.layer;
+                Gizmos.color = layer switch
+                {
+                    11 => _groundColor,     // Ground
+                    12 => _wallColor,       // Wall
+                    13 => _breakableColor,  // Breakable
+                    16 => _npcColor,        // NPC
+                    _ => _defaultColor
+                };
                 return true;
             }
-            int layer = obj.layer;
-            Gizmos.color = layer switch
-            {
-                11 => _groundColor,     // Ground
-                12 => _wallColor,       // Wall
-                13 => _breakableColor,  // Breakable
-                16 => _npcColor,        // NPC
-                _ => _defaultColor
-            };
-            return true;
         }
+        catch (Exception e)
+        {
+            FindAllColliders();
+        }
+
     }
     
 

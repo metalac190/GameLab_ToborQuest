@@ -12,13 +12,14 @@ namespace SoundSystem
 
         Scene _sceneSpawnedIn;
 
-        private void Start()
+        private void Awake()
         {
             _sfxSound = this.gameObject.GetComponent<AudioSource>();
         }
 
         public void Play(SFXEvent sfxEvent)
         {
+            
             _sfxEvent = sfxEvent;
             _sfxSound.clip = sfxEvent.SFXSound;
             _sfxSound.outputAudioMixerGroup = sfxEvent.Mixer;
