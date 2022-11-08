@@ -295,6 +295,7 @@ public class MovementController : MonoBehaviour
             _isDrifting = false;
             _isFlipping = true;
             _isBoosting = false;
+            _isGrounded = false;
             this.enabled = false;
         }
         else
