@@ -7,6 +7,11 @@ public class soundSettings : MonoBehaviour
 {
     public AudioMixer masterMixer;
 
+    private void Start()
+    {
+        masterMixer.SetFloat("MusicVol", Convert(0.3f));
+    }
+
     public void setSFXLvl(float _sfxLvl)
     {
         masterMixer.SetFloat("SFXVol", Convert(_sfxLvl));
