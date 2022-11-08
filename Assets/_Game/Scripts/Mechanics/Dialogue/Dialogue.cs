@@ -56,28 +56,18 @@ public class Dialogue : ScriptableObject
 	[Button(Spacing = 20, Mode = ButtonMode.InPlayMode)]
 	public void RunDialogue()
 	{
-		if (DialogueSystem.Instance && !ExtrasSettings.DialogueDisabled)
-		{
+		if (ExtrasSettings.DialogueDisabled) { return; }
 
+		if (DialogueSystem.Instance)
+		{
 			if (DialogueSystem.Instance.CurrentDialogue == null) 
 			{ 
 				DialogueSystem.Instance.RunDialogue(this);
 				return; 
 			}
-			// DialogueSystem.Instance.RunDialogue(this);
-			if (_isSequence)
-			{
-				DialogueSystem.Instance.RunDialogue(this);
-			}
-			else if (!DialogueSystem.Instance.CurrentDialogue.IsSequence && !_isSequence)
-			{
-				DialogueSystem.Instance.RunDialogue(this);
-			}
-			else if (DialogueSystem.Instance.CurrentDialogue.IsSequence && !_isSequence)
-			{
-				return;
-			}
-			// Debug.Log($"Ran Dialogue: {this.name}");
+			if (_isSequence) { DialogueSystem.Instance.RunDialogue(this); }
+			else if (!DialogueSystem.Instance.CurrentDialogue.IsSequence && !_isSequence) { DialogueSystem.Instance.RunDialogue(this); }
+			else if (DialogueSystem.Instance.CurrentDialogue.IsSequence && !_isSequence) { return; }
 		}
 		else Debug.LogWarning("No Dialogue System in Place");
 	}
