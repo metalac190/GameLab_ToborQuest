@@ -2284,7 +2284,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cda1487411a1534f9bf311105e36566, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  masterMixer: {fileID: 24100000, guid: dd072f17528689a44b5648a103e6bacf, type: 2}
+  _mixer: {fileID: 24100000, guid: dd072f17528689a44b5648a103e6bacf, type: 2}
+  _masterSlider: {fileID: 1480423202}
+  _musicSlider: {fileID: 708905243}
+  _sfxSlider: {fileID: 487353027}
+  _dialogueSlider: {fileID: 572636499}
+  _ambienceSlider: {fileID: 873332473}
 --- !u!1 &243606626
 GameObject:
   m_ObjectHideFlags: 0
@@ -2368,7 +2373,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 611689091}
   m_HandleRect: {fileID: 611689090}
   m_Direction: 2
-  m_Value: 1.0000006
+  m_Value: 1.0000007
   m_Size: 0.52825546
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -5134,7 +5139,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1.25
   m_WholeNumbers: 0
-  m_Value: 0.8
+  m_Value: 0.5
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
@@ -5624,7 +5629,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1.25
   m_WholeNumbers: 0
-  m_Value: 0.8
+  m_Value: 0.5
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
@@ -7603,7 +7608,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1.25
   m_WholeNumbers: 0
-  m_Value: 0.3
+  m_Value: 0.5
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
@@ -8737,7 +8742,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1.25
   m_WholeNumbers: 0
-  m_Value: 0.8
+  m_Value: 0.5
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
@@ -14072,7 +14077,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1.25
   m_WholeNumbers: 0
-  m_Value: 0.8
+  m_Value: 0.5
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
