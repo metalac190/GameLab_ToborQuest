@@ -56,7 +56,7 @@ public class Dialogue : ScriptableObject
 	[Button(Spacing = 20, Mode = ButtonMode.InPlayMode)]
 	public void RunDialogue()
 	{
-		if (DialogueSystem.Instance)
+		if (DialogueSystem.Instance && !ExtrasSettings.DialogueDisabled)
 		{
 
 			if (DialogueSystem.Instance.CurrentDialogue == null) 
