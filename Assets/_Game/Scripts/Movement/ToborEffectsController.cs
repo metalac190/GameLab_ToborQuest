@@ -14,6 +14,7 @@ public class ToborEffectsController : MonoBehaviour
     [Header("Food Particles")]
     [SerializeField] private bool _enableFoodTrail = true;
     [SerializeField] private ParticleSystem _foodTrail;
+    [SerializeField] private List<GameObject> _foodPool = new List<GameObject>();
     [Range(2,10)]
     [SerializeField] private float _velocityChangeRequired = 3f;
 
@@ -25,7 +26,8 @@ public class ToborEffectsController : MonoBehaviour
     [SerializeField] private bool _enableDriftSmoke = true;
     [SerializeField] private List<VisualEffect> _driftSmoke = new List<VisualEffect>();
 
-    [SerializeField] private List<GameObject> _foodPool = new List<GameObject>();
+    [Header("Landing")]
+    [SerializeField] private ParticleSystem _landingPS;
 
     private MovementController _mc;
     private Animator _animator;
@@ -39,6 +41,8 @@ public class ToborEffectsController : MonoBehaviour
 
     private float _storedVelocity;
     private bool _checkingVelocity = false;
+
+    private bool _isGroundedCheck = false;
 
     private void Start()
     {
@@ -57,6 +61,12 @@ public class ToborEffectsController : MonoBehaviour
         StartCoroutine(VelocityChange(0.5f));
 
         if (_mc.IsGrounded) VelocityCheck(_velocityChangeRequired);
+
+        if (_isGroundedCheck != _mc.IsGrounded)
+        {
+            _isGroundedCheck = _mc.IsGrounded;
+            if (_mc.IsGrounded) _landingPS.Play();
+        }
     }
 
     private void FixedUpdate()
@@ -125,7 +135,6 @@ public class ToborEffectsController : MonoBehaviour
                 smoke.Play();
             }
         }
-
     }
 
     public void SetFoodTrail(int count)
