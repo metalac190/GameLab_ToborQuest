@@ -43,6 +43,7 @@ public class DialogueSystem : MonoBehaviour
 	private Coroutine _freezeToborCoroutine;
 	private Coroutine _animateSpriteCoroutine;
 	private bool _talking;
+	private bool _paused = false;
 
 	int counter = 0;
 
@@ -51,6 +52,16 @@ public class DialogueSystem : MonoBehaviour
 		Instance = this;
 		_animator = GetComponent<DialogueAnimator>();
 		_source = GetComponent<AudioSource>();
+	}
+
+	void OnEnable()
+	{
+		CGSC.OnPause += OnPauseGame;
+	}
+
+	void OnDisable()
+	{
+		CGSC.OnUnpause += OnUnPauseGame;
 	}
 
 	void Start()
@@ -65,6 +76,7 @@ public class DialogueSystem : MonoBehaviour
 		counterMax = 0;
 		_talking = false;
 		_movement = GameObject.FindObjectOfType<MovementController>();
+		_paused = false;
 	}
 
 
@@ -111,12 +123,24 @@ public class DialogueSystem : MonoBehaviour
 	[Button]
 	public void SkipDialogue()
 	{
-		if (_currentDialogue.FreezeTobor)
+		if (_currentDialogue.FreezeTobor && !_paused)
 		{
 			skip++;
 			if (skip == 1) { _onFirstSkipEvent?.Invoke(); }
 			if (skip == 2) { _onSecondSkipEvent?.Invoke(); }
 		}
+	}
+
+
+
+	void OnPauseGame()
+	{
+		_paused = true;
+	}
+
+	void OnUnPauseGame()
+	{
+		_paused = false;
 	}
 
 	public void RunDialogue(Dialogue dialogue)
