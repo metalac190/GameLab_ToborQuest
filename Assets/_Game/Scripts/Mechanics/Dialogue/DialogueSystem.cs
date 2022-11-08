@@ -63,7 +63,7 @@ public class DialogueSystem : MonoBehaviour
 
 	void OnDisable()
 	{
-		CGSC.OnUnpause += OnUnPauseGame;
+		CGSC.OnUnpause -= OnPauseGame;
 	}
 
 	void Start()
@@ -136,12 +136,7 @@ public class DialogueSystem : MonoBehaviour
 
 	void OnPauseGame()
 	{
-		_paused = true;
-	}
-
-	void OnUnPauseGame()
-	{
-		_paused = false;
+		_paused = !_paused;
 	}
 
 	public void RunDialogue(Dialogue dialogue)
