@@ -52,6 +52,8 @@ public class DialogueSystem : MonoBehaviour
 		Instance = this;
 		_animator = GetComponent<DialogueAnimator>();
 		_source = GetComponent<AudioSource>();
+		_movement = GameObject.FindObjectOfType<MovementController>();
+
 	}
 
 	void OnEnable()
@@ -75,7 +77,6 @@ public class DialogueSystem : MonoBehaviour
 		counter = 0;
 		counterMax = 0;
 		_talking = false;
-		_movement = GameObject.FindObjectOfType<MovementController>();
 		_paused = false;
 	}
 
