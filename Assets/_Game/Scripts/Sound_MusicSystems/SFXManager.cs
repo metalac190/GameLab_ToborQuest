@@ -25,7 +25,6 @@ namespace SoundSystem
                         DontDestroyOnLoad(singletonGO);
                     }
                 }
-
                 return _instance;
             }
         }
