@@ -77,6 +77,7 @@ namespace SoundSystem
                 if (SceneManager.GetActiveScene().name == "MainMenu")
                 {
                     _activeLayerIndex = -1;
+                    _musSources[0].Play();
                     IncreaseLayerIndex(_fadeTime);
                 }
                 if (SceneManager.GetActiveScene().name == "Tutorial")
@@ -208,6 +209,7 @@ namespace SoundSystem
                 if (_musSources[0].time >= 7.9f)
                 {
                     _musSources[0].time = 0;
+                    _musSources[0].Pause();
                     _activeLayerIndex = 1;
                     _musSources[2].time = 0;
                     IncreaseLayerIndex(0);
