@@ -206,11 +206,12 @@ namespace SoundSystem
         {
             if (SceneManager.GetActiveScene().name == "MainMenu")
             {
-                if (_musSources[0].time == 8f)
+                if (_musSources[0].time >= 7.9f)
                 {
                     _musSources[0].time = 0;
                     _activeLayerIndex = 1;
-                    IncreaseLayerIndex(.5f);
+                    _musSources[2].time = 0;
+                    IncreaseLayerIndex(0);
                 }
             }
             if (SceneManager.GetActiveScene().name == "Level 1")
