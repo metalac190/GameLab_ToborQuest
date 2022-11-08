@@ -243,10 +243,10 @@ public class DialogueSystem : MonoBehaviour
 		counterMax = 0;
 		_talking = false;
 		skip = 0;
-		_currentDialogue = null;
-		_movement.SetActive(true);
-		
-	}
+        if (_currentDialogue != null && _currentDialogue.FreezeTobor) _movement.SetActive(true);
+        _currentDialogue = null;
+
+    }
 
 	void CheckDialogueTime(Dialogue dialogue)
 	{
