@@ -106,7 +106,7 @@ public class CGSC : MonoBehaviour
         OnWinGame?.Invoke();
         //PauseGameResponse();
         GameOver = true;
-        Debug.Log("Game won!");
+        //Debug.Log("Game won!");
     }
 
     public static void LoseGame()
