@@ -6,14 +6,18 @@ public class DialogueSequence : MonoBehaviour
 {
     [SerializeField] List<Dialogue> _dialogues = new List<Dialogue>();
     [SerializeField, ReadOnly] bool _skipDialogue = false;
+    [SerializeField, ReadOnly] bool _resetDialogue = false;
+
+    Coroutine _runDialogueCoroutine;
 
     public void RunDialogues()
     {
+        if (_runDialogueCoroutine != null) { StopCoroutine(_runDialogueCoroutine); }
         if (!DialogueSystem.Instance)
         {
             Debug.LogWarning("No Dialogue System in Place");
         }
-        StartCoroutine(RunDialogueAfterTime());
+        _runDialogueCoroutine = StartCoroutine(RunDialogueAfterTime());
     }
 
     IEnumerator RunDialogueAfterTime()
@@ -37,5 +41,27 @@ public class DialogueSequence : MonoBehaviour
     private void Start()
     {
         DialogueSystem.OnSkipDialogue += () => _skipDialogue = true;
+       
+        
+        foreach (Dialogue d in _dialogues)
+        {
+            d.IsSequence = true;
+        }
     }
+
+    // void OnEnable()
+    // {
+    //     DialogueSystem.OnResetDialogue += ResetDialogue;
+    // }
+
+    // void OnDisable()
+    // {
+    //     DialogueSystem.OnResetDialogue -= ResetDialogue;
+    // }
+
+    // void ResetDialogue()
+    // {
+    //     if (_runDialogueCoroutine != null) { StopCoroutine(_runDialogueCoroutine); }
+    //     Debug.Log("Stopped Old Coroutine...now Moving On To new One!");
+    // }
 }

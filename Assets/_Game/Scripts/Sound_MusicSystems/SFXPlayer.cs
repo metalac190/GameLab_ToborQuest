@@ -9,21 +9,18 @@ namespace SoundSystem
     {
         SFXEvent _sfxEvent = null;
         AudioSource _sfxSound;
-        float timer;
-        GameObject _soundOBJ;
 
         Scene _sceneSpawnedIn;
 
-        private void Start()
+        private void Awake()
         {
-            _sceneSpawnedIn = SceneManager.GetActiveScene();
+            _sfxSound = this.gameObject.GetComponent<AudioSource>();
         }
 
-        public void Play(SFXEvent sfxEvent, GameObject soundOBJ)
+        public void Play(SFXEvent sfxEvent)
         {
-            _soundOBJ = soundOBJ;
+            
             _sfxEvent = sfxEvent;
-            _sfxSound = soundOBJ.AddComponent<AudioSource>();
             _sfxSound.clip = sfxEvent.SFXSound;
             _sfxSound.outputAudioMixerGroup = sfxEvent.Mixer;
             _sfxSound.loop = sfxEvent.IsLooping;
@@ -33,11 +30,13 @@ namespace SoundSystem
             _sfxSound.panStereo = sfxEvent.panStereo;
             _sfxSound.time = _sfxEvent.StartTime;
             _sfxSound.Play();
+            _sceneSpawnedIn = SceneManager.GetActiveScene();
         }
 
         public void Stop()
         {
-            Destroy(_soundOBJ);
+            _sfxSound.clip = null;
+            _sceneSpawnedIn = SceneManager.GetActiveScene();
         }
 
         public void Update()
@@ -50,6 +49,7 @@ namespace SoundSystem
             {
                 Stop();
             }
+
         }
     }
 }

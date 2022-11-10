@@ -71,12 +71,22 @@ public class LevelWinManager : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(returnLevelSelectButton);
         SaveBestTime();
         ShowNextGoal();
+
+        // TODO: FIXME THIS IS BAD
+        var tobor = FindObjectOfType<MovementController>();
+        if (tobor)
+        {
+            tobor.SetActive(false);
+            var rb = tobor.GetComponent<Rigidbody>();
+            if (rb) rb.isKinematic = true;
+        }
     }
 
     public void ContinueNextLevel()
     {
         //CGSC.LoadScene(SceneManager.GetSceneByBuildIndex(SceneManager.GetActiveScene().buildIndex + 1).name, true);
-        CGSC.LoadNextSceneRaw();
+        //CGSC.UnpauseGame();
+        CGSC.LoadNextSceneRaw(true, true);
     }
 
     public void RestartLevel()
@@ -86,7 +96,9 @@ public class LevelWinManager : MonoBehaviour
 
     public void ReturnToLevels()
     {
-        CGSC.LoadMainMenu(true, true,() => {
+        //CGSC.UnpauseGame();
+        CGSC.LoadMainMenu(true, true, () =>
+        {
             MenuManager menuManager = GameObject.FindObjectOfType<MenuManager>();
             menuManager.StartLevelSelect();
             menuManager.LevelSelect();

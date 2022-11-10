@@ -49,6 +49,8 @@ public class MovementController : MonoBehaviour
     [SerializeField, ShowIf("_showBoostTab")] private AnimationCurve _boostRechargeCurve = new AnimationCurve(new Keyframe(0, 0.25f), new Keyframe(1, 1));
     [SerializeField, ShowIf("_showBoostTab")] private float _boostChargeMax;
 
+    public float BoostChargeMax => _boostChargeMax;
+
     [SerializeField, ReadOnly] private bool _disableBoosting;
     [SerializeField, ReadOnly] private float _boostCharge;
     [SerializeField, ReadOnly] private float _timeSinceBoosting;
@@ -83,6 +85,7 @@ public class MovementController : MonoBehaviour
     public Vector3 PreviousVelocity => _previousVel;
 
     private float _inputSpeed;
+    private Vector3 _torque;
 
     private Rigidbody _rb;
     private MovementControls _movementControls;
@@ -146,11 +149,12 @@ public class MovementController : MonoBehaviour
 
         if (_direction.magnitude >= 0.1f)
         {
-            var torque = Mathf.LerpAngle(_direction.x,_direction.z,Time.fixedDeltaTime) * _rb.transform.up * 1000 * Time.fixedDeltaTime;
+            if (_movementControls.Speed >= 0) _torque = Mathf.LerpAngle(_direction.x,_direction.z,Time.fixedDeltaTime) * _rb.transform.up * 1000 * Time.fixedDeltaTime;
+            else if (_movementControls.Speed < 0) _torque = Mathf.LerpAngle(-_direction.x, _direction.z, Time.fixedDeltaTime) * _rb.transform.up * 1000 * Time.fixedDeltaTime;
 
             // Max Angular Velocity set
             _rb.maxAngularVelocity = _currentTurnSpeed;
-            _rb.AddRelativeTorque(torque,ForceMode.VelocityChange);
+            _rb.AddRelativeTorque(_torque,ForceMode.VelocityChange);
         }
     }
 
@@ -209,6 +213,11 @@ public class MovementController : MonoBehaviour
     }
 
     public float BoostPercentage() => _boostCharge / _boostChargeMax;
+
+    public void SetBoostCharge(float charge)
+    {
+        _boostCharge = charge;
+    }
 
     public IEnumerator DisableBoosting(float time)
     {
@@ -286,6 +295,7 @@ public class MovementController : MonoBehaviour
             _isDrifting = false;
             _isFlipping = true;
             _isBoosting = false;
+            _isGrounded = false;
             this.enabled = false;
         }
         else

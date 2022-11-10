@@ -19,7 +19,7 @@ public class LevelInfoManager : MonoBehaviour
 
     [SerializeField] private MedalUIHelper medalHelper;
     [SerializeField] private TextMeshProUGUI currentMedalStatusText;
-    [SerializeField] private Image currentMedalImage;
+    [SerializeField] private GameObject currentMedalObject;
     [SerializeField] private Image nextMedalGoalImage;
     [SerializeField] private TextMeshProUGUI nextGoalTimeText;
 
@@ -61,7 +61,7 @@ public class LevelInfoManager : MonoBehaviour
         bestTimeText.text = levelInfoObj.GetBestTimeFormatted();
 
         currentMedalStatusText.text = levelInfoObj.CurrentMedal.ToString();
-        medalHelper.SetMedalUI(currentMedalImage, levelInfoObj.CurrentMedal);
+        //medalHelper.SetMedalUI(currentMedalImage, levelInfoObj.CurrentMedal);
         medalHelper.SetMedalUI(nextMedalGoalImage, levelInfoObj.GetNextMedalGoal());
         nextGoalTimeText.text = levelInfoObj.GetNextTimeGoalFormatted();
 

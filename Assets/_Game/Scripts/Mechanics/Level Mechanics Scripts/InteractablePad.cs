@@ -31,14 +31,16 @@ public abstract class InteractablePad : MonoBehaviour {
         ToborEffectsController effects = other.GetComponent<ToborEffectsController>();
         //call pad specific functionality
         OnRigidbodyTrigger(rb, effects);
-        //spawn particles, play audio, and play animation
-        if(particleVFX) StartCoroutine(Particles(other.gameObject.transform.position));
-        if(audioSFX) audioSFX.Play();
-        if(animator) animator.SetTrigger("Trigger");
 
         //if the object is Tobor, tell the movement control its using a pad and invoke any unity events
         MovementController movementController = other.GetComponent<MovementController>();
-        if(movementController) onPlayerEnter?.Invoke();
+        if(movementController) {
+            //spawn particles, play audio, and play animation
+            if(particleVFX) StartCoroutine(Particles(other.gameObject.transform.position));
+            if(audioSFX) audioSFX.Play();
+            if(animator) animator.SetTrigger("Trigger");
+            onPlayerEnter?.Invoke();
+        }
     }
 
     private IEnumerator Particles(Vector3 spawnPosition) {

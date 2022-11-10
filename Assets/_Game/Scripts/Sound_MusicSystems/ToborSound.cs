@@ -20,9 +20,21 @@ public class ToborSound : MonoBehaviour
     private MovementController _mc;
 
     [SerializeField] SFXEvent WallHit;
+    [SerializeField] SFXEvent LandingImpact;
     [SerializeField] SFXEvent metalHit;
+    [SerializeField] SFXEvent Roll;
+    [SerializeField] SFXEvent EngineCoolDown;
+
+    [SerializeField] SFXEvent pauseSound;
+    [SerializeField] SFXEvent unPauseSound;
+    [SerializeField] SFXEvent winSound;
 
     bool _won;
+
+    bool _FlipSoundPlayed;
+    bool _boosted;
+    float _coolDownTime;
+    float _impactSoundCoolDown;
 
     #region hooking up to CGSC
 
@@ -47,10 +59,12 @@ public class ToborSound : MonoBehaviour
         _engineSound.outputAudioMixerGroup = _mixer;
 
         _mc = GetComponent<MovementController>();
-        _won = false;
+        _FlipSoundPlayed = false;
+        _boosted = false;
 
-        _driftSound.Pause();
-        _boostSound.Pause();
+        _driftSound.Stop();
+        _boostSound.Stop();
+        _won = false;
 
     }
 
@@ -63,7 +77,7 @@ public class ToborSound : MonoBehaviour
         
         if (_tobor.GetComponent<MovementController>().IsDrifting == true)
         {
-            if (_driftSound.isPlaying == false)
+            if (_driftSound.isPlaying == false && _won == false)
             {
                 _driftSound.time = 0.2f;
                 _driftSound.volume = 1;
@@ -74,24 +88,55 @@ public class ToborSound : MonoBehaviour
 
         if (_tobor.GetComponent<MovementController>().IsBoosting == true)
         {
-            if (_boostSound.isPlaying == false)
+            if (_boostSound.isPlaying == false && _won == false)
             {
+                _boostSound.time = 0f;
                 _boostSound.volume = 1;
                 _boostSound.Play();
             }
         }
-        
-        
+
+        if (_tobor.GetComponent<MovementController>().IsFlipping == false)
+        {
+            _FlipSoundPlayed = false;
+        }
+        if (_tobor.GetComponent<MovementController>().IsFlipping == true)
+        {
+            if (_FlipSoundPlayed == false)
+            {
+                Roll.Play();
+                _FlipSoundPlayed = true;
+            }
+        }
+
+        if (_tobor.GetComponent<MovementController>().IsBoosting == true)
+        {
+            _boosted = true;
+        }
+        if (_tobor.GetComponent<MovementController>().IsBoosting == false)
+        {
+            if (_boosted == true && _coolDownTime <= Time.time)
+            {
+                EngineCoolDown.Play();
+                _boosted = false;
+                _coolDownTime = Time.time + 1f;
+            }
+        }
+
+
     }
 
     void OnWin()
     {
         PauseAudioSources();
+        winSound.Play();
+        _won = true;
     }
 
     void onPause()
     {
         PauseAudioSources();
+        pauseSound.Play();
     }
 
     void OnUnPause()
@@ -99,6 +144,7 @@ public class ToborSound : MonoBehaviour
         _engineSound.Play();
         _driftSound.Play();
         _boostSound.Play();
+        unPauseSound.Play();
     }
 
     private void OnCollisionEnter(Collision other)
@@ -107,13 +153,22 @@ public class ToborSound : MonoBehaviour
         {
             if (other.gameObject.layer == 18)
             {
-                metalHit.Volume = Mathf.Clamp(_tobor.GetComponent<Rigidbody>().velocity.magnitude ,0, 1);
+                metalHit.Volume = Mathf.Clamp(_tobor.GetComponent<Rigidbody>().velocity.magnitude, 0, 1);
                 metalHit.Play();
             }
-            else if (other.gameObject.layer == 12 || other.gameObject.layer == 11 || other.gameObject.layer == 0)
+            else if (other.gameObject.layer == 12 || other.gameObject.layer == 0)
             {
                 WallHit.Volume = Mathf.Clamp(_tobor.GetComponent<Rigidbody>().velocity.magnitude, 0, 1);
                 WallHit.Play();
+            }
+            else if (other.gameObject.layer == 11)
+            {
+                if (Time.time >= _impactSoundCoolDown)
+                {
+                    _impactSoundCoolDown = Time.time + 1;
+                    LandingImpact.Volume = Mathf.Clamp(_tobor.GetComponent<Rigidbody>().velocity.magnitude, 0, 1);
+                    LandingImpact.Play();
+                }
             }
 
         }
