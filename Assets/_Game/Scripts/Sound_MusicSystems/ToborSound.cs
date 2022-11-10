@@ -85,17 +85,6 @@ public class ToborSound : MonoBehaviour
             }
         }
 
-
-        if (_tobor.GetComponent<MovementController>().IsBoosting == true)
-        {
-            if (_boostSound.isPlaying == false && _won == false)
-            {
-                _boostSound.time = 0f;
-                _boostSound.volume = 1;
-                _boostSound.Play();
-            }
-        }
-
         if (_tobor.GetComponent<MovementController>().IsFlipping == false)
         {
             _FlipSoundPlayed = false;
@@ -109,17 +98,24 @@ public class ToborSound : MonoBehaviour
             }
         }
 
+
         if (_tobor.GetComponent<MovementController>().IsBoosting == true)
         {
             _boosted = true;
+            if (_boostSound.isPlaying == false && _won == false)
+            {
+                _boostSound.time = 0f;
+                _boostSound.volume = 1;
+                _boostSound.Play();
+            }
         }
         if (_tobor.GetComponent<MovementController>().IsBoosting == false)
         {
-            if (_boosted == true && _coolDownTime <= Time.time)
+            if (_boosted == true)
             {
+                _boostSound.Stop();
                 EngineCoolDown.Play();
                 _boosted = false;
-                _coolDownTime = Time.time + 1f;
             }
         }
 
