@@ -27,9 +27,4 @@ public class MedalUIHelper : ScriptableObject {
                 break;
         }
     }
-
-    public void SetMedal3D(GameObject medalObject, MedalType medalType) {
-        //TODO: turn off all medal object children
-        //TODO: switch statement to turn on the specific medal by index
-    }
 }
