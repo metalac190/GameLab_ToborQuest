@@ -19,7 +19,8 @@ public class LevelWinManager : MonoBehaviour
     [Header("New Best Time")]
     [SerializeField] private GameObject newBestTimeObjects;
     [SerializeField] private TextMeshProUGUI newMedalText;
-    [SerializeField] private Image newMedalImage;
+    //[SerializeField] private Image newMedalImage;
+    [SerializeField] private Medal3DObjectHelper medal3DHelper;
     [SerializeField] private TextMeshProUGUI newBestTimeText;
 
     [Header("Next Goal")]
@@ -119,8 +120,9 @@ public class LevelWinManager : MonoBehaviour
             newBestTimeObjects.SetActive(true);
             newBestTimeText.text = "Best time: " + levelDataObj.BestTimeFormatted;
             newMedalText.text = "You Earned " + levelDataObj.CurrentMedal.ToString();
-            medalHelper.SetMedalUI(newMedalImage, levelDataObj.CurrentMedal);
-            
+            //medalHelper.SetMedalUI(newMedalImage, levelDataObj.CurrentMedal);
+            medal3DHelper.SetMedal(levelDataObj.CurrentMedal);
+
         } else {
             //no new best time
             newBestTimeObjects.SetActive(false);
