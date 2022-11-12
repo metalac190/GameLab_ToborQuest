@@ -11,7 +11,7 @@ public class LevelWinManager : MonoBehaviour
     private HUDManager hudManager;
     [SerializeField]
     private TextMeshProUGUI deliveryTimeText;
-    [SerializeField] private LevelInfoObject levelInfoObj;
+    [SerializeField] private LevelDataObject levelDataObj;
     [SerializeField] private MedalUIHelper medalHelper;
 
     [SerializeField] private Image levelCompleteImage;
@@ -37,7 +37,8 @@ public class LevelWinManager : MonoBehaviour
     {
         //Find hudmanager, should only be 1 in the scene.
         hudManager = GameObject.FindObjectOfType<HUDManager>(true);
-        levelSaveTimeName = levelInfoObj.GetLevelSceneName() + "BestTime";
+        levelSaveTimeName = levelDataObj.GetLevelSceneName() + "BestTime";
+        //levelDataObj.PrepData();
         //Debug.Log(levelSaveTimeName);
         //Get needed objects
         //_children = this.transform.GetChild(0).gameObject;
@@ -65,7 +66,7 @@ public class LevelWinManager : MonoBehaviour
     {
         hudManager.gameObject.SetActive(false);
         transform.GetChild(0).gameObject.SetActive(true);
-        levelCompleteImage.sprite = levelInfoObj.levelCompleteSprite;
+        levelCompleteImage.sprite = levelDataObj.levelCompleteSprite;
         deliveryTimeText.text = "DELIVERY TIME: " + hudManager.GetCurrentTimeText();
         hudManager.currentTimerText.startTimer = false;
         EventSystem.current.SetSelectedGameObject(returnLevelSelectButton);
@@ -108,38 +109,27 @@ public class LevelWinManager : MonoBehaviour
     private void SaveBestTime()
     {
         float currentTime = hudManager.currentTimerText.timeRemaining;
-        if (PlayerPrefs.HasKey(levelSaveTimeName))
-        {
-            float previousBestTime = PlayerPrefs.GetFloat(levelSaveTimeName);            
-            if (previousBestTime > currentTime)
-            {
-                //Debug.Log("New best time");
-                //save the new best tiem to Player Prefs
-                PlayerPrefs.SetFloat(levelSaveTimeName, currentTime);
+        float previousBestTime = PlayerPrefs.GetFloat(levelSaveTimeName, 0);
 
-                //show and update the new best time objs
-                newBestTimeObjects.SetActive(true);
-                newBestTimeText.text = "Best time: " + levelInfoObj.GetBestTimeFormatted();
-                newMedalText.text = "You Earned " + levelInfoObj.CurrentMedal.ToString();
-                medalHelper.SetMedalUI(newMedalImage, levelInfoObj.CurrentMedal);
-            }
-            else
-            {
-                //Debug.Log("Didn't beat best time");
-                newBestTimeObjects.SetActive(false);
-            }
-        }
-        else
-        {
-            //Debug.Log("Best time set");
-            PlayerPrefs.SetFloat(levelSaveTimeName, currentTime);
+        if((previousBestTime > currentTime) || (previousBestTime == 0)) {
+            //save the new best time to Player Prefs
+            levelDataObj.SetNewBestTime(currentTime, levelSaveTimeName);
+
+            //show and update the new best time objs
+            newBestTimeObjects.SetActive(true);
+            newBestTimeText.text = "Best time: " + levelDataObj.BestTimeFormatted;
+            newMedalText.text = "You Earned " + levelDataObj.CurrentMedal.ToString();
+            medalHelper.SetMedalUI(newMedalImage, levelDataObj.CurrentMedal);
+            
+        } else {
+            //no new best time
             newBestTimeObjects.SetActive(false);
         }
-            
     }
 
     private void ShowNextGoal() {
-        nextGoalTimeText.text = "Next Goal: " + levelInfoObj.GetNextTimeGoalFormatted();
-        medalHelper.SetMedalUI(newMedalImage, levelInfoObj.GetNextMedalGoal());
+        levelDataObj.SetNewGoal(); //shouldn't have to call this here, but I do so whatever
+        nextGoalTimeText.text = "Next Goal: " + levelDataObj.NextGoalTimeFormatted;
+        medalHelper.SetMedalUI(nextGoalMedalImage, levelDataObj.NextGoalMedal);
     }
 }

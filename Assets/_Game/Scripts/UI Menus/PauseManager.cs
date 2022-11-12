@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class PauseManager : MonoBehaviour
 {
     public HUDManager hudManager;
-    [SerializeField] private LevelInfoObject levelInfoObj;
+    [SerializeField] private LevelDataObject levelDataObj;
     [SerializeField] private TextMeshProUGUI levelNameText;
     [SerializeField] private MedalUIHelper medalHelper;
     //[SerializeField] private TextMeshProUGUI levelNameText;
@@ -23,16 +23,15 @@ public class PauseManager : MonoBehaviour
     private void Awake()
     {
         QuestionBox.SetActive(false);
-        levelInfoObj.GetBestTimeFormatted(); //just an easy way to set the BestTime
-        goalTimeText.text = levelInfoObj.GetNextTimeGoalFormatted();
-        medalHelper.SetMedalUI(goalMedalImage, levelInfoObj.GetNextMedalGoal());
+        goalTimeText.text = levelDataObj.NextGoalTimeFormatted;
+        medalHelper.SetMedalUI(goalMedalImage, levelDataObj.NextGoalMedal);
         //levelNameText.text = levelInfoObj.GetLevelSceneName();
     }
 
     private void OnEnable()
     {        
         currentTime.text = hudManager.GetCurrentTimeText();
-        levelNameText.text = levelInfoObj.LevelName;
+        levelNameText.text = levelDataObj.LevelName;
     }
 
     //public void UnPause()

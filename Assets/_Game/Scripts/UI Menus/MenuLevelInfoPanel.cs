@@ -19,9 +19,13 @@ public class MenuLevelInfoPanel : MonoBehaviour
     private Image levelImage;
 
     [SerializeField]
-    private LevelInfoObject levelInfoObj;
+    private LevelDataObject levelDataObj;
 
     float levelBestTime;
+
+    private void Awake() {
+        levelDataObj.PrepData();
+    }
 
     private void OnEnable()
     {
@@ -36,9 +40,9 @@ public class MenuLevelInfoPanel : MonoBehaviour
 
     private void SetTimes()
     {
-        bestTimeText.text = levelInfoObj.GetBestTimeFormatted();
-        nextGoalText.text = levelInfoObj.GetNextTimeGoalFormatted();
-        medalHelper.SetMedalUI(medalImage, levelInfoObj.CurrentMedal);
+        bestTimeText.text = levelDataObj.BestTimeFormatted;
+        nextGoalText.text = levelDataObj.NextGoalTimeFormatted;
+        medalHelper.SetMedalUI(medalImage, levelDataObj.CurrentMedal);
         /*
         if (PlayerPrefs.HasKey(levelSaveName))
         {
