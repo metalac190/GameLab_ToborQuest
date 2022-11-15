@@ -29,6 +29,8 @@ public class ToborEffectsController : MonoBehaviour
     [Header("Landing")]
     [SerializeField] private ParticleSystem _landingPS;
 
+    [SerializeField] private List<ParticleSystem> _boostBursts = new List<ParticleSystem>();
+
     private MovementController _mc;
     private Animator _animator;
     private Rigidbody _rb;
@@ -43,6 +45,7 @@ public class ToborEffectsController : MonoBehaviour
     private bool _checkingVelocity = false;
 
     private bool _isGroundedCheck = false;
+    private bool _isBoostingCheck = false;
 
     private void Start()
     {
@@ -67,6 +70,20 @@ public class ToborEffectsController : MonoBehaviour
             _isGroundedCheck = _mc.IsGrounded;
             if (_mc.IsGrounded) _landingPS.Play();
         }
+
+        if (_isBoostingCheck != _mc.IsBoosting)
+        {
+            _isBoostingCheck = _mc.IsBoosting;
+            if (_mc.IsBoosting)
+            {
+                foreach (var burst in _boostBursts)
+                {
+                    burst.Play();
+                    _animator.SetTrigger("Boost");
+                }
+            }
+        }
+
     }
 
     private void FixedUpdate()
