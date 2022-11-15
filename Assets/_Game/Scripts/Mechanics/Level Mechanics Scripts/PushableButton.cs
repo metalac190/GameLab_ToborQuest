@@ -24,6 +24,13 @@ public class PushableButton : MonoBehaviour {
     [SerializeField] private SFXEvent audioSFXOnPush;
     [SerializeField] private SFXEvent audioSFXOnRelease;
 
+    [Header("Button Flashing")]
+    [SerializeField] private bool buttonFlashingOn;
+    [SerializeField] private bool stopFlashingWhenPressed;
+    [SerializeField] private Color flashColor;
+    [SerializeField] private float flashingInterval;
+    [SerializeField] private MeshRenderer buttonTopMeshRenderer;
+
     [Header("Button Events")]
     [SerializeField] private UnityEvent onButtonToggleOn;
     [SerializeField] private UnityEvent onButtonToggleOff;
@@ -37,12 +44,16 @@ public class PushableButton : MonoBehaviour {
     private float buttonPressedTimer;
     private bool addButtonForce;
 
+    private Material buttonTopMaterial;
+
     private void Awake() {
         buttonActivated = false;
         buttonTopRb = buttonTop.GetComponent<Rigidbody>();
         isPressed = false;
         buttonPressedTimer = 0;
         addButtonForce = false;
+
+        buttonTopMaterial = buttonTopMeshRenderer.material;
     }
 
     private void Start() {
@@ -59,6 +70,9 @@ public class PushableButton : MonoBehaviour {
         } else {
             upperLowerDiff = buttonUpperLimit.position.y - buttonLowerLimit.position.y;
         }
+
+        //start the flashing
+        StartCoroutine(ButtonFlashing());
     }
 
     private void Update() {
@@ -123,6 +137,9 @@ public class PushableButton : MonoBehaviour {
         } else {
             onButtonToggleOff?.Invoke();
         }
+
+        //turn off the button flashing since it has been pressed once
+        if(stopFlashingWhenPressed) buttonFlashingOn = false;
     }
 
     private void ReleaseButton() {
@@ -137,5 +154,14 @@ public class PushableButton : MonoBehaviour {
         var particles = Instantiate(vfx, spawnPosition, vfx.transform.rotation);
         yield return new WaitForSeconds(3); //wait arbitrary 3 seconds to delete particles effects just in case
         if(particles != null) Destroy(particles);
+    }
+
+    private IEnumerator ButtonFlashing() {
+        while(buttonFlashingOn) {
+            buttonTopMaterial.SetColor("_EmissionColor", flashColor);
+            yield return new WaitForSeconds(flashingInterval);
+            buttonTopMaterial.SetColor("_EmissionColor", Color.black);
+            yield return new WaitForSeconds(flashingInterval);
+        }
     }
 }
