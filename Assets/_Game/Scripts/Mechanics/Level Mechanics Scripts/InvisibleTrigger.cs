@@ -9,7 +9,8 @@ public class InvisibleTrigger : MonoBehaviour
 {
     [SerializeField, ReadOnly] private BoxCollider _collider;
     [SerializeField] private UnityEvent onPlayerEnter;
-    [SerializeField] private Color32 gizmoColor = Color.green;
+	[SerializeField] private Color32 gizmoColor = Color.green;
+	[SerializeField] private bool onlyCalledOnce;
 
     private bool activatedFlag;
 
@@ -23,6 +24,7 @@ public class InvisibleTrigger : MonoBehaviour
     }
 
 	private void OnTriggerEnter(Collider other) {
+		if (activatedFlag && onlyCalledOnce) return;
 		var player = other.GetComponent<MovementController>();
 		if (player)
 		{
