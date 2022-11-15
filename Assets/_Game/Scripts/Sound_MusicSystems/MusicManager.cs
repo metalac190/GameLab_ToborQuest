@@ -105,6 +105,12 @@ namespace SoundSystem
                     _activeLayerIndex = 4;
                     IncreaseLayerIndex(_fadeTime);
                 }
+                if (SceneManager.GetActiveScene().name == "Win")
+                {
+                    _activeLayerIndex = 0;
+                    _musSources[1].Play();
+                    IncreaseLayerIndex(_fadeTime);
+                }
                 _songScene = SceneManager.GetActiveScene();
             }
             
@@ -199,7 +205,8 @@ namespace SoundSystem
         }
         private void OnWin()
         {
-            //play win sound
+            //_activeLayerIndex = 7;
+            //IncreaseLayerIndex(1);
         }
 
         void songTransitionChecks()
@@ -230,6 +237,17 @@ namespace SoundSystem
             if (SceneManager.GetActiveScene().name == "Level 4")
             {
 
+            }
+            if (SceneManager.GetActiveScene().name == "Win")
+            {
+                if (_musSources[1].time >= 32.2f)
+                {
+                    _musSources[1].time = 0;
+                    _musSources[1].Pause();
+                    _activeLayerIndex = 6;
+                    _musSources[7].time = 0;
+                    IncreaseLayerIndex(0);
+                }
             }
         }
     }
