@@ -17,11 +17,12 @@ public class MenuQuitListener : MonoBehaviour
    
     void Update()
     {
-        if (Keyboard.current.backspaceKey.wasPressedThisFrame || Gamepad.current.bButton.wasPressedThisFrame)
+        if ((Gamepad.current != null && Gamepad.current.bButton.wasPressedThisFrame) ||
+                (Keyboard.current != null && Keyboard.current.backspaceKey.wasPressedThisFrame))
         {
             HandleExitMenu();
-            //Debug.Log("Exit " + _menuManager.currentMenu.ToString());
         }
+
     }
 
     private void HandleExitMenu()

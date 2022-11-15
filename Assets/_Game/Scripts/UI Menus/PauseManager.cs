@@ -40,11 +40,11 @@ public class PauseManager : MonoBehaviour
     {
         if (!CGSC.Paused)
             return;
-
-        if (!(Keyboard.current.backspaceKey.wasPressedThisFrame || Gamepad.current.bButton.wasPressedThisFrame))
-            return;
-
-        ResumeButton.onClick.Invoke();
+        if ((Gamepad.current != null && Gamepad.current.bButton.wasPressedThisFrame) ||
+                (Keyboard.current != null && Keyboard.current.backspaceKey.wasPressedThisFrame))
+        {
+            ResumeButton.onClick.Invoke();
+        }            
     }
 
     //public void UnPause()
