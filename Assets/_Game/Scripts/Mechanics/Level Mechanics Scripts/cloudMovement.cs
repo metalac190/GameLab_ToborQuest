@@ -22,9 +22,10 @@ public class cloudMovement : MonoBehaviour
     {
         //cloudMove();
     }
-
+    /*
     void cloudMove()
     {
+        
         if (transform.position.x <= _endPos.x)
         {
             StartCoroutine(decelearte(1));
@@ -38,7 +39,7 @@ public class cloudMovement : MonoBehaviour
         transform.position = transform.position + new Vector3(_moveSpeed * Time.deltaTime, 0, 0);
     }
 
-    /*
+    
     IEnumerator decelearte(float directionNum)
     {
         float setupSpeed = _moveSpeed;
