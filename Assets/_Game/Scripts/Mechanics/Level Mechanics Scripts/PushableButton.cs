@@ -30,6 +30,10 @@ public class PushableButton : MonoBehaviour {
     [SerializeField] private Color flashColor;
     [SerializeField] private float flashingInterval;
     [SerializeField] private MeshRenderer buttonTopMeshRenderer;
+    
+    [Header("Button After Pressed")]
+    [SerializeField] private bool changeColorOnPress;
+    [SerializeField] private Color pressedColor;
 
     [Header("Button Events")]
     [SerializeField] private UnityEvent onButtonToggleOn;
@@ -140,6 +144,11 @@ public class PushableButton : MonoBehaviour {
 
         //turn off the button flashing since it has been pressed once
         if(stopFlashingWhenPressed) buttonFlashingOn = false;
+        if (changeColorOnPress)
+        {
+            buttonTopMaterial.SetColor("_BaseColor", Color.Lerp(Color.white, pressedColor, 0.25f));
+            buttonTopMaterial.SetColor("_EmissionColor", pressedColor);
+        }
     }
 
     private void ReleaseButton() {
@@ -160,6 +169,7 @@ public class PushableButton : MonoBehaviour {
         while(buttonFlashingOn) {
             buttonTopMaterial.SetColor("_EmissionColor", flashColor);
             yield return new WaitForSeconds(flashingInterval);
+            if (!buttonFlashingOn && changeColorOnPress) yield break;
             buttonTopMaterial.SetColor("_EmissionColor", Color.black);
             yield return new WaitForSeconds(flashingInterval);
         }
