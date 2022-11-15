@@ -5,20 +5,10 @@ using UnityEngine.Events;
 
 public class WinField : InvisibleTrigger
 {
-	protected override void OnPlayerTrigger(Collider other)
+	protected override void OnPlayerTrigger(MovementController player)
 	{
-		base.OnPlayerTrigger(other);
-		var player = other.GetComponent<MovementController>();
-		if (player)
-		{
-			player.SetActive(false);
-			CGSC.WinGame();    
-		}
+		player.SetActive(false);
+		player.GetComponent<Rigidbody>().isKinematic = true;
+		CGSC.WinGame();
 	}
-   
-
-    //public void OnWin()
-    //{
-            
-    //}
 }

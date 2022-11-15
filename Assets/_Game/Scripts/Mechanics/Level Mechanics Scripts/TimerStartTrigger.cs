@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,9 +11,8 @@ public class TimerStartTrigger : InvisibleTrigger
         _hud = FindObjectOfType<HUDManager>();
     }
     
-    protected override void OnPlayerTrigger(Collider other)
+	protected override void OnPlayerTrigger(MovementController player)
     {
         _hud.StartTimer();
-        base.OnPlayerTrigger(other);
     }
 }
