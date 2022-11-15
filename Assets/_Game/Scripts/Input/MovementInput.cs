@@ -191,6 +191,17 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""10366a3d-6a6d-42f9-9cbf-6063f83ec6ec"",
+                    ""path"": ""<Keyboard>/k"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Drift"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""65295b3c-3ec8-4cf6-ab88-551c2ee22e6f"",
                     ""path"": ""<Gamepad>/leftTrigger"",
                     ""interactions"": """",
@@ -215,6 +226,17 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""a3f808cd-4906-433d-af3a-7b09bc1f997f"",
                     ""path"": ""<Keyboard>/j"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Boost"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""459ebd64-3fa1-4e79-a641-ef9b26c9d0b0"",
+                    ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
@@ -478,7 +500,7 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""5fa1b351-f9ea-443d-9464-7a78e0febf27"",
-                    ""path"": ""<Keyboard>/space"",
+                    ""path"": ""<Keyboard>/f"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
