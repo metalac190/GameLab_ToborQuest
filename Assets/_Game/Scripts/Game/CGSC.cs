@@ -92,6 +92,12 @@ public class CGSC : MonoBehaviour
         Instance.SetSceneTransitionBool(false);
     }
 
+    public static float DialogueScale
+    {
+        get;
+        set;
+    }
+
     #endregion
 
     #region Win / Lose
