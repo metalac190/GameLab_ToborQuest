@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class PauseManager : MonoBehaviour
 {
@@ -20,6 +21,7 @@ public class PauseManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI goalTimeText;
     [SerializeField] private Image goalMedalImage;
 
+    [SerializeField] private Button ResumeButton;
     private void Awake()
     {
         QuestionBox.SetActive(false);
@@ -32,6 +34,17 @@ public class PauseManager : MonoBehaviour
     {        
         currentTime.text = hudManager.GetCurrentTimeText();
         levelNameText.text = levelDataObj.LevelName;
+    }
+
+    private void Update()
+    {
+        if (!CGSC.Paused)
+            return;
+
+        if (!(Keyboard.current.backspaceKey.wasPressedThisFrame || Gamepad.current.bButton.wasPressedThisFrame))
+            return;
+
+        ResumeButton.onClick.Invoke();
     }
 
     //public void UnPause()
