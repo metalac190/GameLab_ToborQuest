@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -124,7 +124,7 @@ public class DialogueSystem : MonoBehaviour
 	[Button]
 	public void SkipDialogue()
 	{
-		if (_currentDialogue.FreezeTobor && !_paused)
+		if (_currentDialogue.FreezeTobor || !_paused)
 		{
 			skip++;
 			if (skip == 1) { _onFirstSkipEvent?.Invoke(); }
