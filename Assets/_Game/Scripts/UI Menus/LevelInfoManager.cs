@@ -19,7 +19,6 @@ public class LevelInfoManager : MonoBehaviour
 
     [SerializeField] private MedalUIHelper medalUIHelper;
     [SerializeField] private TextMeshProUGUI currentMedalStatusText;
-    [SerializeField] private GameObject currentMedalObject;
     [SerializeField] private Medal3DObjectHelper medal3DHelper;
     [SerializeField] private Image nextMedalGoalImage;
     [SerializeField] private TextMeshProUGUI nextGoalTimeText;

@@ -22,4 +22,10 @@ public class ExtrasSettings : MonoBehaviour
         DialogueDisabled = !DialogueDisabled;
         _disableDialogueActive.SetActive(DialogueDisabled);
     }
+
+    public void SetDialogueActiveImage(bool value)
+    {
+        _disableDialogueActive.SetActive(value);
+    }
+
 }

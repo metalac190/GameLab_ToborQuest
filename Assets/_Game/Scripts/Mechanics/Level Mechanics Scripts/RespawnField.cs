@@ -34,12 +34,12 @@ public class RespawnField : InvisibleTrigger
        if (_respawnAtCheckpoint && _checkpointTracker != null)
        {
              StartCoroutine(_checkpointTracker.Respawn());
-             Debug.Log($"[RESPAWN FIELD] Respawned!");
+             //Debug.Log($"[RESPAWN FIELD] Respawned!");
        }
        else if (!_respawnAtCheckpoint && _checkpointTracker != null)
        {
              _checkpointTracker.SetCheckpoint(transform);
-             Debug.Log($"[RESPAWN FIELD] Set the checkpoint at {transform.position}");
+             //Debug.Log($"[RESPAWN FIELD] Set the checkpoint at {transform.position}");
        }
         base.OnPlayerTrigger(other);
     }

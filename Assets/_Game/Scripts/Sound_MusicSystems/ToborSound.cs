@@ -10,7 +10,12 @@ public class ToborSound : MonoBehaviour
     [SerializeField] AudioSource _driftSound;
     [SerializeField] AudioSource _boostSound;
     [SerializeField] AudioMixerGroup _mixer;
-    
+
+    [Range(0f,1f)]
+    [SerializeField] float BoostVolume;
+    [Range(0f, 1f)]
+    [SerializeField] float DriftVolume;
+
     [Range(0f, 4f)]
     [SerializeField] float _MinPitch;
     [Range(0f, 4f)]
@@ -35,6 +40,8 @@ public class ToborSound : MonoBehaviour
     bool _boosted;
     float _coolDownTime;
     float _impactSoundCoolDown;
+
+    private bool _driftCheck = false;
 
     #region hooking up to CGSC
 
@@ -74,16 +81,24 @@ public class ToborSound : MonoBehaviour
         {
             _engineSound.pitch = Mathf.Clamp(Mathf.Log(_tobor.velocity.magnitude), _MinPitch, _MaxPitch);
         }
-        
-        if (_tobor.GetComponent<MovementController>().IsDrifting == true)
+
+        if (_driftCheck != _mc.IsDrifting)
         {
-            if (_driftSound.isPlaying == false && _won == false)
+            _driftCheck = _mc.IsDrifting;
+            if (_mc.IsDrifting)
             {
-                _driftSound.time = 0.2f;
-                _driftSound.volume = 1;
-                _driftSound.Play();
+                if (_tobor.GetComponent<MovementController>().IsDrifting == true)
+                {
+                    if (_driftSound.isPlaying == false && _won == false)
+                    {
+                        _driftSound.time = 0.2f;
+                        _driftSound.volume = DriftVolume;
+                        _driftSound.Play();
+                    }
+                }
             }
         }
+
 
         if (_tobor.GetComponent<MovementController>().IsFlipping == false)
         {
@@ -105,7 +120,7 @@ public class ToborSound : MonoBehaviour
             if (_boostSound.isPlaying == false && _won == false)
             {
                 _boostSound.time = 0f;
-                _boostSound.volume = 1;
+                _boostSound.volume = BoostVolume;
                 _boostSound.Play();
             }
         }

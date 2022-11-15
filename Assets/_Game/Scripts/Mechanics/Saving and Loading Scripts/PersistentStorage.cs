@@ -9,6 +9,7 @@ public class PersistentStorage : MonoBehaviour
     void Awake()
     {
         savePath = Path.Combine(Application.persistentDataPath, saveFileName);
+        //Debug.Log(savePath);
     }
 
     public void Save(PersistableObject o, int version)
@@ -24,8 +25,27 @@ public class PersistentStorage : MonoBehaviour
 
     public void Load(PersistableObject o)
     {
-        byte[] data = File.ReadAllBytes(savePath);
-        var reader = new BinaryReader(new MemoryStream(data));
-        o.Load(new GameDataReader(reader, -reader.ReadInt32()));
+        if (File.Exists(savePath))
+        {
+            byte[] data = File.ReadAllBytes(savePath);
+            var reader = new BinaryReader(new MemoryStream(data));
+            o.Load(new GameDataReader(reader, -reader.ReadInt32()));
+        }
+        else
+        {
+            Debug.Log("First savefile creating");
+        }
+    }
+
+    public void DeleteStorage()
+    {
+        try
+        {
+            File.Delete(savePath);
+        }
+        catch (FileNotFoundException e)
+        {
+            Debug.Log(e.Message);
+        }
     }
 }
