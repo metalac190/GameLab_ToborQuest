@@ -141,6 +141,7 @@ public class DialogueSystem : MonoBehaviour
 
 	public void RunDialogue(Dialogue dialogue)
 	{
+		if (!gameObject.activeSelf) return;
 		HandleDialogueReset(dialogue);
 		HandleDialogueIn(dialogue);
 		HandleDialogueRun(dialogue);
