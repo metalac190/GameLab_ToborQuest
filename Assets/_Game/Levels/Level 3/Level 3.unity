@@ -1059,6 +1059,87 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 414058065}
   m_Mesh: {fileID: -8978832608786969792, guid: d9ed511a223e7c14aa61b74c27473dbe, type: 3}
+--- !u!1001 &439418338
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 900600364631902324, guid: f8505dacb4dcb934680eea9e8ef8da52,
+        type: 3}
+      propertyPath: m_Name
+      value: Render-Medal
+      objectReference: {fileID: 0}
+    - target: {fileID: 900600364631902325, guid: f8505dacb4dcb934680eea9e8ef8da52,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 27
+      objectReference: {fileID: 0}
+    - target: {fileID: 900600364631902325, guid: f8505dacb4dcb934680eea9e8ef8da52,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 900600364631902325, guid: f8505dacb4dcb934680eea9e8ef8da52,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 900600364631902325, guid: f8505dacb4dcb934680eea9e8ef8da52,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 900600364631902325, guid: f8505dacb4dcb934680eea9e8ef8da52,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 900600364631902325, guid: f8505dacb4dcb934680eea9e8ef8da52,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 900600364631902325, guid: f8505dacb4dcb934680eea9e8ef8da52,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 900600364631902325, guid: f8505dacb4dcb934680eea9e8ef8da52,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 900600364631902325, guid: f8505dacb4dcb934680eea9e8ef8da52,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 900600364631902325, guid: f8505dacb4dcb934680eea9e8ef8da52,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 900600364631902325, guid: f8505dacb4dcb934680eea9e8ef8da52,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f8505dacb4dcb934680eea9e8ef8da52, type: 3}
+--- !u!114 &439418339 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 900600366038344107, guid: f8505dacb4dcb934680eea9e8ef8da52,
+    type: 3}
+  m_PrefabInstance: {fileID: 439418338}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c20de65f1ec69b9459f4d605a918ecad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &464436871
 GameObject:
   m_ObjectHideFlags: 0
@@ -1271,7 +1352,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 28
+  m_RootOrder: 29
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &486404543
 MonoBehaviour:
@@ -1687,7 +1768,7 @@ PrefabInstance:
     - target: {fileID: 1322136026197213340, guid: f93ac8b0883e0aa4d89a480b8f8b0fc4,
         type: 3}
       propertyPath: m_RootOrder
-      value: 27
+      value: 28
       objectReference: {fileID: 0}
     - target: {fileID: 1322136026197213340, guid: f93ac8b0883e0aa4d89a480b8f8b0fc4,
         type: 3}
@@ -2170,7 +2251,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 29
+  m_RootOrder: 30
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1534608198
 PrefabInstance:
@@ -2564,6 +2645,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: a5b1dfa3f81388e44b36116acd48f7ed,
         type: 2}
+    - target: {fileID: 3831075703488313824, guid: dd4d9c43ea6fb1c4fb12a015765e3658,
+        type: 3}
+      propertyPath: medal3DHelper
+      value: 
+      objectReference: {fileID: 439418339}
     - target: {fileID: 3831075703530345699, guid: dd4d9c43ea6fb1c4fb12a015765e3658,
         type: 3}
       propertyPath: m_AnchorMax.y
