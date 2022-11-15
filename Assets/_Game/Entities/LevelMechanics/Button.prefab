@@ -122,6 +122,11 @@ MonoBehaviour:
   particleVFXOnRelease: {fileID: 0}
   audioSFXOnPush: {fileID: 11400000, guid: 5cd6a27b3172e2b4ab1b528262f79b58, type: 2}
   audioSFXOnRelease: {fileID: 11400000, guid: 5cd6a27b3172e2b4ab1b528262f79b58, type: 2}
+  buttonFlashingOn: 0
+  stopFlashingWhenPressed: 1
+  flashColor: {r: 1, g: 0, b: 0, a: 1}
+  flashingInterval: 0.75
+  buttonTopMeshRenderer: {fileID: 9145139396152706570}
   onButtonToggleOn:
     m_PersistentCalls:
       m_Calls:
@@ -423,6 +428,12 @@ PrefabInstance:
 --- !u!4 &6168628046284631933 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8727237542815378747, guid: f7f7243e330c4bb41859446e3418a724,
+    type: 3}
+  m_PrefabInstance: {fileID: 3208320813593264710}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &9145139396152706570 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 5939176004833821772, guid: f7f7243e330c4bb41859446e3418a724,
     type: 3}
   m_PrefabInstance: {fileID: 3208320813593264710}
   m_PrefabAsset: {fileID: 0}
