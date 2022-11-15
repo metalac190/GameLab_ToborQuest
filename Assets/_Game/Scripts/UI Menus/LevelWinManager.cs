@@ -19,7 +19,6 @@ public class LevelWinManager : MonoBehaviour
     [Header("New Best Time")]
     [SerializeField] private GameObject newBestTimeObjects;
     [SerializeField] private TextMeshProUGUI newMedalText;
-    //[SerializeField] private Image newMedalImage;
     [SerializeField] private Medal3DObjectHelper medal3DHelper;
     [SerializeField] private TextMeshProUGUI newBestTimeText;
 
@@ -39,12 +38,6 @@ public class LevelWinManager : MonoBehaviour
         //Find hudmanager, should only be 1 in the scene.
         hudManager = GameObject.FindObjectOfType<HUDManager>(true);
         levelSaveTimeName = levelDataObj.GetLevelSceneName() + "BestTime";
-        //levelDataObj.PrepData();
-        //Debug.Log(levelSaveTimeName);
-        //Get needed objects
-        //_children = this.transform.GetChild(0).gameObject;
-        //winText = _children.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
-        //returnLevelSelectButton = _children.transform.GetChild(1).gameObject;
     }
 
     private void OnEnable()
@@ -111,13 +104,13 @@ public class LevelWinManager : MonoBehaviour
             newBestTimeObjects.SetActive(true);
             newBestTimeText.text = "Best time: " + levelDataObj.BestTimeFormatted;
             newMedalText.text = "You Earned " + levelDataObj.CurrentMedal.ToString();
-            //medalHelper.SetMedalUI(newMedalImage, levelDataObj.CurrentMedal);
-            medal3DHelper.SetMedal(levelDataObj.CurrentMedal);
 
         } else {
             //no new best time
             newBestTimeObjects.SetActive(false);
         }
+
+        medal3DHelper.SetMedal(levelDataObj.CurrentMedal);
     }
 
     private void ShowNextGoal() {
