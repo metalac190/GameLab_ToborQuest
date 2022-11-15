@@ -78,6 +78,7 @@ public class ChatterManager : MonoBehaviour
                 _followObject = false;
                 yield return new WaitForSeconds(_timeBetweenChatter - 2f);
             }
+            yield return null;
         }
     }
 
