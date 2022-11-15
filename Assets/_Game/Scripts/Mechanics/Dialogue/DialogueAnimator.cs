@@ -14,7 +14,7 @@ public class DialogueAnimator : MonoBehaviour
     void Awake()
     {
         dialogueScale = CGSC.DialogueScale;
-        Debug.Log(dialogueScale);
+        //Debug.Log(dialogueScale);
          _cachedOriginalTransform = GetComponent<RectTransform>();
         LeanTween.reset();
         //Set dialogue scale if playerPref or saved value exists
