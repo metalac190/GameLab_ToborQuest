@@ -4,11 +4,18 @@ using UnityEngine;
 
 public class Medal3DObjectHelper : MonoBehaviour {
 
+    [SerializeField] private GameObject renderParent;
     [SerializeField] private GameObject bronzeMedalArt;
     [SerializeField] private GameObject silverMedalArt;
     [SerializeField] private GameObject goldMedalArt;
-    
+
+    private void Awake() {
+        renderParent.SetActive(false);
+    }
+
     public void SetMedal(MedalType medalType) {
+        renderParent.SetActive(true);
+
         //turn off all medal object children
         goldMedalArt.SetActive(false);
         silverMedalArt.SetActive(false);
