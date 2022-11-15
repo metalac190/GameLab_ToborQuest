@@ -423,6 +423,7 @@ GameObject:
   - component: {fileID: 1135213803333560550}
   - component: {fileID: 5155631530276450825}
   - component: {fileID: 1173046913096201833}
+  - component: {fileID: 2982571145364613930}
   m_Layer: 5
   m_Name: LevelInfoPanel
   m_TagString: Untagged
@@ -556,7 +557,7 @@ MonoBehaviour:
   medalImage: {fileID: 1854347380007054275}
   nextGoalText: {fileID: 5437836243837141971}
   levelImage: {fileID: 6260907432736760219}
-  levelInfoObj: {fileID: 0}
+  levelDataObj: {fileID: 0}
 --- !u!114 &5155631530276450825
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -603,6 +604,18 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!225 &2982571145364613930
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6058903074519046778}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &6245579576471922824
 GameObject:
   m_ObjectHideFlags: 0
