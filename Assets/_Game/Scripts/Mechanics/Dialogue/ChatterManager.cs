@@ -63,8 +63,8 @@ public class ChatterManager : MonoBehaviour
             _currentDialogue = _chatterDialogues[Random.Range(0, _chatterDialogues.Length)];
             if (_currentTarget != null)
             {
-                Debug.Log(_currentDialogue);
-                Debug.Log(_currentTarget);
+                //Debug.Log(_currentDialogue);
+                //Debug.Log(_currentTarget);
 
                 _followObject = true;
             
