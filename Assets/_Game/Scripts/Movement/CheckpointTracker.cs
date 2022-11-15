@@ -61,18 +61,17 @@ public class CheckpointTracker : MonoBehaviour
 
     public IEnumerator Respawn()
     {
-        var mc = GetComponent<MovementController>();
-        mc.SetActive(false);
+        _mc.SetActive(false);
         _rb.isKinematic = true;
         //_spawnedTobor.transform.position = _latestGround.transform.position;
         //_spawnedTobor.transform.rotation = _latestGround.transform.rotation;
         yield return new WaitForSeconds(_respawnTime);
-        mc.SetActive(true);
+        _mc.SetActive(true);
         transform.position = _recentCheckpoint.position;
         transform.rotation = _recentCheckpoint.rotation;
         _rb.velocity = Vector3.zero;
         _rb.angularVelocity = Vector3.zero;
         _rb.isKinematic = false;
-        _mc.SetBoostCharge(_mc.BoostChargeMax * 0.8f);
+        //_mc.SetBoostCharge(_mc.BoostChargeMax * 0.8f);
     }
 }

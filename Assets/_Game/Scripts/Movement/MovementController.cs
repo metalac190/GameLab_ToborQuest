@@ -327,12 +327,12 @@ public class MovementController : MonoBehaviour
             _isFlipping = true;
             _isBoosting = false;
             _isGrounded = false;
-            _boostCharge = _boostChargeMax;
             this.enabled = false;
         }
         else
         {
             _isFlipping = false;
+            _boostCharge = _boostChargeMax;
             this.enabled = true;
         }
     }
