@@ -44,7 +44,7 @@ public class Wheel : MonoBehaviour
 
     private void Update()
     {
-        UpdateSuspension();
+        //UpdateSuspension();
     }
 
     private void UpdateSuspension()
