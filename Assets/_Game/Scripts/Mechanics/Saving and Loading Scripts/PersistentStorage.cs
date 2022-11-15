@@ -9,6 +9,7 @@ public class PersistentStorage : MonoBehaviour
     void Awake()
     {
         savePath = Path.Combine(Application.persistentDataPath, saveFileName);
+        //Debug.Log(savePath);
     }
 
     public void Save(PersistableObject o, int version)

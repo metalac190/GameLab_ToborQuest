@@ -27,6 +27,7 @@ public class SavingManager : PersistableObject
     [ReadOnly]private string visualQuality="High";
     public Button highQButton, mediumQButton, lowQButton;
     [Header("Extra")]
+    public ExtrasSettings extraSettings;
     public Slider dialogueScale;
 
     private void Awake()
@@ -85,17 +86,22 @@ public class SavingManager : PersistableObject
         switch (visualText)
         {
             case "High":
-                EventSystem.current.SetSelectedGameObject(highQButton.gameObject);
+                highQButton.onClick.Invoke();
+                //EventSystem.current.SetSelectedGameObject(highQButton.gameObject);
                 break;
             case "Medium":
-                EventSystem.current.SetSelectedGameObject(mediumQButton.gameObject);
+                mediumQButton.onClick.Invoke();
+                //EventSystem.current.SetSelectedGameObject(mediumQButton.gameObject);
                 break;
             case "Low":
-                EventSystem.current.SetSelectedGameObject(lowQButton.gameObject);
+                lowQButton.onClick.Invoke();
+                //EventSystem.current.SetSelectedGameObject(lowQButton.gameObject);
                 break;
         }
 
-        ExtrasSettings.DialogueDisabled = reader.ReadBool();
+        bool dialogueBool = reader.ReadBool();
+        ExtrasSettings.DialogueDisabled = dialogueBool;
+        extraSettings.SetDialogueActiveImage(dialogueBool);
         //saveSlider.value = reader.ReadFloat();
         //saveText.text = reader.ReadString();       
         //saveInputField.text = saveText.text;
