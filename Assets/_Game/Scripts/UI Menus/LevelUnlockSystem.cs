@@ -18,7 +18,7 @@ public class LevelUnlockSystem : MonoBehaviour
         UpdateUnlocks();
     }
 
-    private void UpdateUnlocks()
+	public void UpdateUnlocks()
     {
 	    SetGroupActive(_level2, _level1Data.BestTimeSaved > 0);
 	    SetGroupActive(_level3, _level2Data.BestTimeSaved > 0);
