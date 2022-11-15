@@ -151,8 +151,10 @@ public class MovementController : MonoBehaviour
 
         if (_direction.magnitude >= 0.1f)
         {
-            if (_movementControls.Speed >= 0) _torque = Mathf.LerpAngle(_direction.x,_direction.z,Time.fixedDeltaTime) * _rb.transform.up * 1000 * Time.fixedDeltaTime;
-            else if (_movementControls.Speed < 0) _torque = Mathf.LerpAngle(-_direction.x, _direction.z, Time.fixedDeltaTime) * _rb.transform.up * 1000 * Time.fixedDeltaTime;
+            //if (_movementControls.Speed >= 0) _torque = Mathf.LerpAngle(_direction.x,_direction.z,Time.fixedDeltaTime) * _rb.transform.up * 1000 * Time.fixedDeltaTime;
+            //else if (_movementControls.Speed < 0) _torque = Mathf.LerpAngle(-_direction.x, _direction.z, Time.fixedDeltaTime) * _rb.transform.up * 1000 * Time.fixedDeltaTime;
+
+            _torque = Mathf.LerpAngle(_direction.x, _direction.z, Time.fixedDeltaTime) * _rb.transform.up * 1000 * Time.fixedDeltaTime;
 
             // Max Angular Velocity set
             _rb.maxAngularVelocity = _currentTurnSpeed;
@@ -186,12 +188,13 @@ public class MovementController : MonoBehaviour
         if (_boostCheck != _isBoosting)
         {
             _boostCheck = _isBoosting;
-            //if (_isBoosting) StartCoroutine(BoostedBoost(1.2f, .1f));
             if (_isBoosting && _boostCharge >= (_boostChargeMax * 0.95f))
             {
                 var boostBurst = transform.forward * (_boostAcceleration * 10 * _inputSpeed);
                 _rb.AddForce(boostBurst,ForceMode.Impulse);
             }
+            _currentAcceleration = _boostAcceleration;
+            _currentMaxSpeed = _boostMaxSpeed;
         }
     }
 
