@@ -703,6 +703,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4110855545136904217}
   - component: {fileID: 2808421006814768801}
+  - component: {fileID: 7971790769041807098}
   m_Layer: 0
   m_Name: Level2_EnvironmentArt
   m_TagString: Untagged
@@ -752,6 +753,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _text: {fileID: 4900000, guid: aa5b3251987850049aa6c29b11cb9b35, type: 3}
   _textColor: {r: 1, g: 1, b: 1, a: 1}
+--- !u!114 &7971790769041807098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4110855545136904216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f6526aafe110224fb9dd0b387a4d217, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _forceFieldMat: {fileID: 2100000, guid: dd48108244012a7468f54e53e4e264d0, type: 2}
+  _distToShow: 10
+  _distMultiplier: 0.1
 --- !u!1 &4588611261988549001
 GameObject:
   m_ObjectHideFlags: 0
@@ -40594,12 +40610,17 @@ PrefabInstance:
     - target: {fileID: 3158188320513824699, guid: bb2362e47b6f54777a8a943668166562,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.5690379
+      value: 0.4646175
       objectReference: {fileID: 0}
     - target: {fileID: 3158188320513824699, guid: bb2362e47b6f54777a8a943668166562,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.8223113
+      value: 0.6714143
+      objectReference: {fileID: 0}
+    - target: {fileID: 3158188320513824699, guid: bb2362e47b6f54777a8a943668166562,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.57735026
       objectReference: {fileID: 0}
     - target: {fileID: 3158188320513824699, guid: bb2362e47b6f54777a8a943668166562,
         type: 3}
