@@ -92,10 +92,12 @@ public class CGSC : MonoBehaviour
         Instance.SetSceneTransitionBool(false);
     }
 
+    [SerializeField] private float _dialogueScale = 1;
+    
     public static float DialogueScale
     {
-        get;
-        set;
+        get => Instance._dialogueScale;
+        set => Instance._dialogueScale = value;
     }
 
     #endregion

@@ -82,6 +82,7 @@ public class SavingManager : PersistableObject
         dialogueSlider.value = reader.ReadFloat();
         ambienceSlider.value = reader.ReadFloat();
         dialogueScale.value = reader.ReadFloat();
+        if (dialogueScale.value == 0) dialogueScale.value = 1;
         CGSC.DialogueScale = 0.75f + (dialogueScale.value * 0.25f);
         string visualText = reader.ReadString();
         switch (visualText)
