@@ -28,6 +28,7 @@ public class LevelDataObject : ScriptableObject
     private float nextGoalTime;
     private string levelSaveTimeName;
 
+    public float BestTimeSaved => PlayerPrefs.GetFloat(levelSaveTimeName);
     public string LevelName => levelName;
     public string BestTimeFormatted { get; set; }
     public MedalType CurrentMedal { get; set; }
@@ -42,7 +43,7 @@ public class LevelDataObject : ScriptableObject
     public void PrepData() {
         levelSaveTimeName = GetLevelSceneName() + "BestTime";
 
-        bestTime = PlayerPrefs.GetFloat(levelSaveTimeName);
+        bestTime = BestTimeSaved;
         BestTimeFormatted = SetFormattedTime(bestTime);
 
         SetNewGoal();
