@@ -127,6 +127,8 @@ public class MovementController : MonoBehaviour
 
         if (!_isFlipping) Steer();
 
+        if (_boostCharge < 0.25f) _disableBoosting = true;
+        else _disableBoosting = false;
         HandleBoost();
 
         if (_isGrounded || _isBoosting) Movement();
@@ -325,6 +327,7 @@ public class MovementController : MonoBehaviour
             _isFlipping = true;
             _isBoosting = false;
             _isGrounded = false;
+            _boostCharge = _boostChargeMax;
             this.enabled = false;
         }
         else
