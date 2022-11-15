@@ -41,7 +41,7 @@ public class Dialogue : ScriptableObject
 	public bool FreezeTobor => _freezeTobor;
 	public float TimeToEnter => _dialogueScreenEnterTime;
 	public float TimeToExit => _dialogueScreenExitTime;
-	public float DialogueDuration => Mathf.Max(_dialogueDuration, _audioClipDuration) + _dialogueScreenEnterTime + _dialogueScreenExitTime;
+	public float DialogueDuration => Mathf.Max(_dialogueDuration, _audioClipDuration) + _dialogueScreenEnterTime + _dialogueScreenExitTime + 1f;
 	public float AnimationSpeed => _animationSpeed;
 	public bool IsSequence {
 		get { return _isSequence; } 
