@@ -24,8 +24,27 @@ public class PersistentStorage : MonoBehaviour
 
     public void Load(PersistableObject o)
     {
-        byte[] data = File.ReadAllBytes(savePath);
-        var reader = new BinaryReader(new MemoryStream(data));
-        o.Load(new GameDataReader(reader, -reader.ReadInt32()));
+        if (File.Exists(savePath))
+        {
+            byte[] data = File.ReadAllBytes(savePath);
+            var reader = new BinaryReader(new MemoryStream(data));
+            o.Load(new GameDataReader(reader, -reader.ReadInt32()));
+        }
+        else
+        {
+            Debug.Log("First savefile creating");
+        }
+    }
+
+    public void DeleteStorage()
+    {
+        try
+        {
+            File.Delete(savePath);
+        }
+        catch (FileNotFoundException e)
+        {
+            Debug.Log(e.Message);
+        }
     }
 }

@@ -54,6 +54,11 @@ public class GameDataReader
         return reader.ReadString();
     }
 
+    public bool ReadBool()
+    {
+        return reader.ReadBoolean();
+    }
+
     //public ShapeInstance ReadShapeInstance()
     //{
     //    return new ShapeInstance(reader.ReadInt32());
