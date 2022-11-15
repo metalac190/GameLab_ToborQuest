@@ -10,7 +10,12 @@ public class ToborSound : MonoBehaviour
     [SerializeField] AudioSource _driftSound;
     [SerializeField] AudioSource _boostSound;
     [SerializeField] AudioMixerGroup _mixer;
-    
+
+    [Range(0f,1f)]
+    [SerializeField] float BoostVolume;
+    [Range(0f, 1f)]
+    [SerializeField] float DirftVolume;
+
     [Range(0f, 4f)]
     [SerializeField] float _MinPitch;
     [Range(0f, 4f)]
@@ -80,7 +85,7 @@ public class ToborSound : MonoBehaviour
             if (_driftSound.isPlaying == false && _won == false)
             {
                 _driftSound.time = 0.2f;
-                _driftSound.volume = 1;
+                _driftSound.volume = DirftVolume;
                 _driftSound.Play();
             }
         }
@@ -105,7 +110,7 @@ public class ToborSound : MonoBehaviour
             if (_boostSound.isPlaying == false && _won == false)
             {
                 _boostSound.time = 0f;
-                _boostSound.volume = 1;
+                _boostSound.volume = BoostVolume;
                 _boostSound.Play();
             }
         }
