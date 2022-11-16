@@ -85,10 +85,12 @@ public class CGSC : MonoBehaviour
     private static void PauseGameResponse()
     {
         Time.timeScale = 0;
+        Cursor.lockState = CursorLockMode.None;
     }
     private static void UnpauseGameResponse()
     {
         Time.timeScale = 1;
+        Cursor.lockState = CursorLockMode.Locked;
         Instance.SetSceneTransitionBool(false);
     }
 
