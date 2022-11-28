@@ -6,9 +6,7 @@ using SoundSystem;
 public class Music_caller : MonoBehaviour
 {
     [SerializeField] MusicEvent MainSound;
-
-    // Start is called before the first frame update
-    void Awake()
+    private void OnEnable()
     {
         MainSound.Play();
     }

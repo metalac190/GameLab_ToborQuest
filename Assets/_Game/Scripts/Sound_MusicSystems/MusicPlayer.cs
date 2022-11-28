@@ -14,9 +14,12 @@ namespace SoundSystem
         Coroutine _fadeVolumeRoutine = null;
         Coroutine _stopRountine = null;
 
+        bool _changeCalled;
+
         private void Awake()
         {
             CreateLayerSources();
+            _changeCalled = false;
         }
 
         void CreateLayerSources()
@@ -170,17 +173,41 @@ namespace SoundSystem
                 {
                     _layerSources[i].volume = 0;
                     _layerSources[i].time = 0;
+                    _changeCalled = false;
                 }
             }
         }
-
-
         private void SaveSourceStartVolumes()
         {
             _sourceStartVolumes.Clear();
             for (int i = 0; i < _layerSources.Count; i++)
             {
                 _sourceStartVolumes.Add(_layerSources[i].volume);
+            }
+        }
+        private void Update()
+        {
+            if (_musicEvent != null && _musicEvent.name == "MUS_MainMenu")
+            {
+                if (_layerSources[0].time >= 7.9f && _changeCalled == false)
+                {
+                    _changeCalled = true;
+                    MusicManager.Instance.IncreaseLayerIndex(0f);
+                    _layerSources[0].time = 0;
+                    _layerSources[0].Pause();
+                    _layerSources[1].time = 0;
+                }
+            }
+            if (_musicEvent != null && _musicEvent.name == "MUS_Credits")
+            {
+                if (_layerSources[0].time >= 32.1f && _changeCalled == false)
+                {
+                    _changeCalled = true;
+                    MusicManager.Instance.IncreaseLayerIndex(0f);
+                    _layerSources[0].time = 0;
+                    _layerSources[0].Pause();
+                    _layerSources[1].time = 0;
+                }
             }
         }
     }
