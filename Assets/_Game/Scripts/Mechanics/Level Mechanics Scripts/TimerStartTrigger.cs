@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using SoundSystem;
 
 public class TimerStartTrigger : InvisibleTrigger
 {
     private HUDManager _hud;
+    
     
     private void Awake()
     {
@@ -14,5 +16,7 @@ public class TimerStartTrigger : InvisibleTrigger
 	protected override void OnPlayerTrigger(MovementController player)
     {
         _hud.StartTimer();
+        if(MusicManager.Instance.ActiveLayerIndex == 0)
+            MusicManager.Instance.IncreaseLayerIndex(1f);
     }
 }
