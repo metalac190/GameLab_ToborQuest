@@ -11,6 +11,7 @@ namespace SoundSystem
     {
 
         int _activeLayerIndex = 0;
+        int _previosLayerIndex;
 
         public int ActiveLayerIndex => _activeLayerIndex;
         MusicPlayer _musicPlayer1;
@@ -22,6 +23,7 @@ namespace SoundSystem
         public MusicPlayer InActivePlayer => (_isMusicPlayer1Playing) ? _musicPlayer2 : _musicPlayer1;
 
         MusicEvent _activeMusicEvent;
+        MusicEvent _previousMusicEvent;
 
         public const int MaxLayerCount = 4;
 
@@ -88,6 +90,7 @@ namespace SoundSystem
         public void PlayMusic(MusicEvent musicEvent, float fadeTime)
 
         {
+            _activeLayerIndex = 0;
             _fadeTime = fadeTime;
             if (musicEvent == null) return;
             //checking if this is already the music playing
@@ -96,6 +99,11 @@ namespace SoundSystem
             if(_activeMusicEvent != null)
                 ActivePlayer.Stop(fadeTime);
             //setting the active playing music event to this and playing it
+            _previousMusicEvent = _activeMusicEvent;
+            if (_previousMusicEvent != null && _previousMusicEvent.name == "MUS_Pause")
+            {
+                _activeLayerIndex = _previosLayerIndex;
+            }
             _activeMusicEvent = musicEvent;
             _isMusicPlayer1Playing = !_isMusicPlayer1Playing;
 
@@ -136,12 +144,13 @@ namespace SoundSystem
 
         private void onPause()
         {
+            _previosLayerIndex = _activeLayerIndex;
             _activeLayerIndex = -1;
             IncreaseLayerIndex(1f);
         }
         private void OnUnPause()
         {
-
+            PlayMusic(_previousMusicEvent, 1f);
         }
         private void OnWin()
         {
