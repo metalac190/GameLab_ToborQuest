@@ -17,7 +17,6 @@ public class AmbientCaller : MonoBehaviour
     {
         if (_timer <= Time.time)
         {
-            print("call");
             _ambienceToPlay.Play(this.gameObject);
             randomTimerSet();
         }
