@@ -58,10 +58,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 719df94e57999e845a9507a68bfa373e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _collider: {fileID: 1947978388265194223}
   onPlayerEnter:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: b5450d217acddc044940b9d6a4ae3c4b, type: 2}
+        m_TargetAssemblyTypeName: Dialogue, Assembly-CSharp
+        m_MethodName: RunDialogue
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   gizmoColor:
     serializedVersion: 2
     rgba: 4278190335
+  onlyCalledOnce: 0
   _respawnAtCheckpoint: 1

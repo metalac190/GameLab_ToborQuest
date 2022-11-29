@@ -92,6 +92,8 @@ public class MovementController : MonoBehaviour
     private ToborEffectsController _ec;
     private WheelsController _wc;
 
+    private bool _boostCheck = false;
+
     //public bool GroundCheck() => Physics.CheckSphere(_groundCheck.position, _groundCheckRadius, _groundLayer);
     public bool GroundCheck() => _wc.WheelsGroundCheck();
     protected bool TurtledCheck() => Physics.CheckSphere(_roofCheck.position, _roofCheckRadius, _groundLayer);
@@ -125,6 +127,8 @@ public class MovementController : MonoBehaviour
 
         if (!_isFlipping) Steer();
 
+        if (_boostCharge < 0.25f) _disableBoosting = true;
+        else _disableBoosting = false;
         HandleBoost();
 
         if (_isGrounded || _isBoosting) Movement();
@@ -149,8 +153,10 @@ public class MovementController : MonoBehaviour
 
         if (_direction.magnitude >= 0.1f)
         {
-            if (_movementControls.Speed >= 0) _torque = Mathf.LerpAngle(_direction.x,_direction.z,Time.fixedDeltaTime) * _rb.transform.up * 1000 * Time.fixedDeltaTime;
-            else if (_movementControls.Speed < 0) _torque = Mathf.LerpAngle(-_direction.x, _direction.z, Time.fixedDeltaTime) * _rb.transform.up * 1000 * Time.fixedDeltaTime;
+            //if (_movementControls.Speed >= 0) _torque = Mathf.LerpAngle(_direction.x,_direction.z,Time.fixedDeltaTime) * _rb.transform.up * 1000 * Time.fixedDeltaTime;
+            //else if (_movementControls.Speed < 0) _torque = Mathf.LerpAngle(-_direction.x, _direction.z, Time.fixedDeltaTime) * _rb.transform.up * 1000 * Time.fixedDeltaTime;
+
+            _torque = Mathf.LerpAngle(_direction.x, _direction.z, Time.fixedDeltaTime) * _rb.transform.up * 1000 * Time.fixedDeltaTime;
 
             // Max Angular Velocity set
             _rb.maxAngularVelocity = _currentTurnSpeed;
@@ -179,6 +185,19 @@ public class MovementController : MonoBehaviour
         _rb.velocity = Vector3.ClampMagnitude(_rb.velocity, _currentMaxSpeed);
         
         _isMoving = _rb.velocity.magnitude > 0.25f;
+
+
+        if (_boostCheck != _isBoosting)
+        {
+            _boostCheck = _isBoosting;
+            if (_isBoosting && _boostCharge >= (_boostChargeMax * 0.95f))
+            {
+                var boostBurst = transform.forward * (_boostAcceleration * 10 * _inputSpeed);
+                _rb.AddForce(boostBurst,ForceMode.Impulse);
+            }
+            _currentAcceleration = _boostAcceleration;
+            _currentMaxSpeed = _boostMaxSpeed;
+        }
     }
 
     private void Drive()
@@ -192,8 +211,8 @@ public class MovementController : MonoBehaviour
         if (!_disableBoosting && _movementControls.Boost && _boostCharge > 0 && (_isGrounded || _canBoostInAir))
         {
             _isBoosting = true;
-            _currentAcceleration = _boostAcceleration;
-            _currentMaxSpeed = _boostMaxSpeed;
+            //_currentAcceleration = _boostAcceleration;
+            //_currentMaxSpeed = _boostMaxSpeed;
             _timeSinceBoosting = 0;
             _boostCharge -= Time.deltaTime;
             _boostLight.gameObject.SetActive(false);
@@ -210,6 +229,18 @@ public class MovementController : MonoBehaviour
         _boostCharge += recharge * Time.deltaTime;
         _boostCharge = Mathf.Clamp(_boostCharge, 0, _boostChargeMax);
         if (BoostPercentage() > 0.75f) _boostLight.gameObject.SetActive(true);
+    }
+
+    private IEnumerator BoostedBoost(float multiplier, float time)
+    {
+        _currentAcceleration = _boostAcceleration * multiplier;
+        _currentMaxSpeed = _boostMaxSpeed * multiplier;
+        if (!_isBoosting) yield break;
+        yield return new WaitForSeconds(time);
+        _currentAcceleration = _boostAcceleration;
+        _currentMaxSpeed = _boostMaxSpeed;
+
+
     }
 
     public float BoostPercentage() => _boostCharge / _boostChargeMax;
@@ -301,6 +332,7 @@ public class MovementController : MonoBehaviour
         else
         {
             _isFlipping = false;
+            _boostCharge = _boostChargeMax;
             this.enabled = true;
         }
     }

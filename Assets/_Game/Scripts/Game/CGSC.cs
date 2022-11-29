@@ -13,6 +13,15 @@ public class CGSC : MonoBehaviour
     
     public static CGSC Instance;
 
+    public static bool PlayingQuest;
+    public static float TotalTime;
+
+    [SerializeField] private SavingManager _savingManager;
+
+    public static SavingManager SaveSystem => Instance._savingManager;
+
+    public void SetPlayingQuest(bool playing) => PlayingQuest = playing;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -85,11 +94,21 @@ public class CGSC : MonoBehaviour
     private static void PauseGameResponse()
     {
         Time.timeScale = 0;
+        Cursor.lockState = CursorLockMode.None;
     }
     private static void UnpauseGameResponse()
     {
         Time.timeScale = 1;
+        Cursor.lockState = InMainMenu ? CursorLockMode.None : CursorLockMode.Locked;
         Instance.SetSceneTransitionBool(false);
+    }
+
+    [SerializeField] private float _dialogueScale = 1;
+    
+    public static float DialogueScale
+    {
+        get => Instance._dialogueScale;
+        set => Instance._dialogueScale = value;
     }
 
     #endregion

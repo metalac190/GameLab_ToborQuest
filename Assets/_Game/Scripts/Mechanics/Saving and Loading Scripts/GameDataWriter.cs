@@ -47,6 +47,11 @@ public class GameDataWriter
         writer.Write(value);
     }
 
+    public void Write(bool value)
+    {
+        writer.Write(value);
+    }
+
     //public void Write(ShapeInstance value)
     //{
     //    writer.Write(value.IsValid ? value.Shape.SaveIndex : -1);

@@ -9,11 +9,18 @@ public class TimerUI : MonoBehaviour
     public TextMeshProUGUI timerText;
 
     public float timeRemaining { get; set; }
+    public static float levelTime;
 
     public bool startTimer = false;
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
+    {
+        if (CGSC.PlayingQuest) timeRemaining = levelTime;
+        else timeRemaining = 0;
+        UpdateTimerText();
+    }
+
+    private void Update()
     {
         //Used for countdown
         //if (timeRemaning <= 0)
@@ -26,11 +33,24 @@ public class TimerUI : MonoBehaviour
             return;
 
         timeRemaining += Time.deltaTime;
-        TimeSpan time = TimeSpan.FromSeconds(timeRemaining);
-        if(timeRemaining > 3600)
-            timerText.text = time.ToString(@"hh\:mm\:ss\:fff");
-        else
-            timerText.text = time.ToString(@"mm\:ss\:fff"); 
+        levelTime = timeRemaining;
+        UpdateTimerText();
+    }
+
+    private void UpdateTimerText()
+    {
+        float totalTimeRemaining = timeRemaining;
+        if (CGSC.PlayingQuest)
+        {
+            totalTimeRemaining += CGSC.TotalTime;
+        }
+        timerText.text = ConvertTimeToText(totalTimeRemaining);
+    }
+
+    public static string ConvertTimeToText(float t)
+    {
+        TimeSpan time = TimeSpan.FromSeconds(t);
+        return time.ToString(t > 3600 ? @"hh\:mm\:ss\:fff" : @"mm\:ss\:fff");
     }
 
     public string GetCurrentTime()

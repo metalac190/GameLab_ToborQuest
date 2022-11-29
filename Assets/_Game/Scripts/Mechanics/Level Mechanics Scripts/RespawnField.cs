@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -27,20 +27,19 @@ public class RespawnField : InvisibleTrigger
 
     [SerializeField] bool _respawnAtCheckpoint = false;
 
-    protected override void OnPlayerTrigger(Collider other)
+	protected override void OnPlayerTrigger(MovementController player)
     {
-        var _checkpointTracker = other.gameObject.GetComponent<CheckpointTracker>();
+        var _checkpointTracker = player.GetComponent<CheckpointTracker>();
 
        if (_respawnAtCheckpoint && _checkpointTracker != null)
        {
              StartCoroutine(_checkpointTracker.Respawn());
-             Debug.Log($"[RESPAWN FIELD] Respawned!");
+             //Debug.Log($"[RESPAWN FIELD] Respawned!");
        }
        else if (!_respawnAtCheckpoint && _checkpointTracker != null)
        {
              _checkpointTracker.SetCheckpoint(transform);
-             Debug.Log($"[RESPAWN FIELD] Set the checkpoint at {transform.position}");
+             //Debug.Log($"[RESPAWN FIELD] Set the checkpoint at {transform.position}");
        }
-        base.OnPlayerTrigger(other);
     }
 }

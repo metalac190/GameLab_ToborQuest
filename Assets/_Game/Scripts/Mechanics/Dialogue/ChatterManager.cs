@@ -61,20 +61,24 @@ public class ChatterManager : MonoBehaviour
         {
             _currentTarget = _npcTransforms[Random.Range(0, _npcTransforms.Length)];
             _currentDialogue = _chatterDialogues[Random.Range(0, _chatterDialogues.Length)];
-            Debug.Log(_currentDialogue);
-            Debug.Log(_currentTarget);
+            if (_currentTarget != null)
+            {
+                //Debug.Log(_currentDialogue);
+                //Debug.Log(_currentTarget);
 
-            _followObject = true;
+                _followObject = true;
             
-            _text.text = "";
-            transform.position = new Vector3(_currentTarget.position.x, _currentTarget.position.y + _heightAboveNPC, _currentTarget.position.z);
+                _text.text = "";
+                transform.position = new Vector3(_currentTarget.position.x, _currentTarget.position.y + _heightAboveNPC, _currentTarget.position.z);
 
-            _textObject.SetActive(true);
-            yield return new WaitForSeconds(5f);
-            _textObject.SetActive(false);
-            // yield return new WaitForSeconds(1f);
-            _followObject = false;
-            yield return new WaitForSeconds(_timeBetweenChatter - 2f);
+                _textObject.SetActive(true);
+                yield return new WaitForSeconds(5f);
+                _textObject.SetActive(false);
+                // yield return new WaitForSeconds(1f);
+                _followObject = false;
+                yield return new WaitForSeconds(_timeBetweenChatter - 2f);
+            }
+            yield return null;
         }
     }
 

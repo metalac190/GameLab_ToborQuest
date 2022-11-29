@@ -4,11 +4,12 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class PauseManager : MonoBehaviour
 {
     public HUDManager hudManager;
-    [SerializeField] private LevelInfoObject levelInfoObj;
+    [SerializeField] private LevelDataObject levelDataObj;
     [SerializeField] private TextMeshProUGUI levelNameText;
     [SerializeField] private MedalUIHelper medalHelper;
     //[SerializeField] private TextMeshProUGUI levelNameText;
@@ -20,26 +21,38 @@ public class PauseManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI goalTimeText;
     [SerializeField] private Image goalMedalImage;
 
+    [SerializeField] private Button ResumeButton;
     private void Awake()
     {
         QuestionBox.SetActive(false);
-        levelInfoObj.GetBestTimeFormatted(); //just an easy way to set the BestTime
-        goalTimeText.text = levelInfoObj.GetNextTimeGoalFormatted();
-        medalHelper.SetMedalUI(goalMedalImage, levelInfoObj.GetNextMedalGoal());
+        goalTimeText.text = levelDataObj.NextGoalTimeFormatted;
+        medalHelper.SetMedalUI(goalMedalImage, levelDataObj.NextGoalMedal);
         //levelNameText.text = levelInfoObj.GetLevelSceneName();
     }
 
     private void OnEnable()
     {        
         currentTime.text = hudManager.GetCurrentTimeText();
-        levelNameText.text = levelInfoObj.LevelName;
+        levelNameText.text = levelDataObj.LevelName;
     }
 
-    //public void UnPause()
-    //{
-    //    //Time.timeScale = 1;
-    //    CGSC.TogglePauseGame();
-    //}
+    private void Update()
+    {
+        if (!CGSC.Paused)
+            return;
+        if ((Gamepad.current != null && Gamepad.current.bButton.wasPressedThisFrame) ||
+                (Keyboard.current != null && Keyboard.current.backspaceKey.wasPressedThisFrame))
+        {
+            ResumeButton.onClick.Invoke();
+        }            
+    }
+
+    public void UnPause()
+    {
+        //Time.timeScale = 1;
+        //gameObject.SetActive(false);
+        CGSC.UnpauseGame();
+    }
 
     public void ReturnToMainMenu()
     {
@@ -58,7 +71,7 @@ public class PauseManager : MonoBehaviour
         CGSC.UnpauseGame();
         CGSC.LoadMainMenu(true, true,() =>
         {
-            MenuManager menuManager = GameObject.FindObjectOfType<MenuManager>();
+            MenuManager menuManager = FindObjectOfType<MenuManager>();
             menuManager.StartLevelSelect();
             menuManager.LevelSelect();
         });

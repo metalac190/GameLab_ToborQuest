@@ -19,8 +19,8 @@ public class HUDManager : PersistableObject
     private MovementController _movementCtrl;
     [SerializeField]
     private Image _boostImage;
-    [SerializeField]
-    private GameObject pauseFirstButton;
+
+    [SerializeField] private GameObject _disableObjIfQuest;
 
     private LevelWinManager levelWinManager;
 
@@ -38,6 +38,10 @@ public class HUDManager : PersistableObject
     // Start is called before the first frame update
     void Start()
     {
+        if (CGSC.PlayingQuest)
+        {
+            if (_disableObjIfQuest) _disableObjIfQuest.SetActive(false);
+        }
         if(PlayerPrefs.HasKey(levelWinManager.LevelSaveName))
         {
             float bestTimeFloat = PlayerPrefs.GetFloat(levelWinManager.LevelSaveName);

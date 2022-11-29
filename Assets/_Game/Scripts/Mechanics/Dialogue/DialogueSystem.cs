@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -124,7 +124,7 @@ public class DialogueSystem : MonoBehaviour
 	[Button]
 	public void SkipDialogue()
 	{
-		if (_currentDialogue.FreezeTobor && !_paused)
+		if (_currentDialogue.FreezeTobor || !_paused)
 		{
 			skip++;
 			if (skip == 1) { _onFirstSkipEvent?.Invoke(); }
@@ -141,62 +141,13 @@ public class DialogueSystem : MonoBehaviour
 
 	public void RunDialogue(Dialogue dialogue)
 	{
-		// Debug.Log("test");
-        #region DO NOT LOOK AT THIS PLEASE!!!
-		// OnResetDialogue?.Invoke();
-
-		// _source.Stop();
-		// if (_displayLineCoroutine != null) { StopCoroutine(_displayLineCoroutine); }
-
-
-		// _currentDialogue = dialogue;
-
-		// if (_panelAnimationCoroutine != null) StopCoroutine(_panelAnimationCoroutine);
-		// _animator.IntroAnimation(dialogue.TimeToEnter);
-		// if (dialogue.FreezeTobor) { _movement.SetActive(false); }
-
-		// float _timeAmount = 0f;
-        // foreach (char c in dialogue.Text) { _timeAmount += dialogue.TypingSpeed; }
-		// if (dialogue.DialogueDuration < _timeAmount) 
-		// {
-		// 	_dialogueTime = _timeAmount;
-		// }
-		// else 
-		// {
-		// 	_dialogueTime = dialogue.DialogueDuration;
-		// }
-		
-		
-		// _panelAnimationCoroutine = StartCoroutine(HandlePanelAnimation(_dialogueTime, dialogue.TimeToExit));
-		// if (dialogue.FreezeTobor) { _freezeToborCoroutine = StartCoroutine(HandleToborFreeze(_dialogueTime)); }
-
-		// counterMax = (int)dialogue.DialogueDuration * 60;
-
-
-		// if (!dialogue.Speaker.Equals("")) { _speaker.text = dialogue.Speaker; }
-
-		// if (!dialogue.Text.Equals("")) { _displayLineCoroutine = StartCoroutine(PrintText(dialogue.Text, dialogue.TypingSpeed)); }
-		// // Debug.Log(dialogue.Text);
-
-
-		// _speakerSpriteOpen = dialogue.SpriteOpenMouth;
-		// _speakerSpriteClosed = dialogue.SpriteClosedMouth;
-
-
-        // if (dialogue.DialogueSFX) { _source.PlayOneShot(dialogue.DialogueSFX, dialogue.DialogueVolume); }
-		
-		// if (_speakerSpriteClosed != null) 
-		// {
-		// 	_animateSpriteCoroutine = StartCoroutine(AnimateSprite(dialogue.AnimationSpeed)); 
-		// 	_talking = true;
-		// }
-		#endregion
-
+		if (!gameObject.activeSelf) return;
 		HandleDialogueReset(dialogue);
 		HandleDialogueIn(dialogue);
 		HandleDialogueRun(dialogue);
 	}
 
+	#region HandleMethods
 	void HandleDialogueIn(Dialogue _currDialogue)
 	{
 		_currentDialogue = _currDialogue;
@@ -248,6 +199,9 @@ public class DialogueSystem : MonoBehaviour
 
     }
 
+	#endregion
+
+	
 	void CheckDialogueTime(Dialogue dialogue)
 	{
 		float _timeAmount = 0f;
@@ -260,11 +214,6 @@ public class DialogueSystem : MonoBehaviour
 		{
 			_dialogueTime = dialogue.DialogueDuration;
 		}
-	}
-
-	public void FreezeTobor(float _seconds)
-	{
-		StartCoroutine(HandleToborFreeze(_seconds));
 	}
 	
 	#region Coroutines

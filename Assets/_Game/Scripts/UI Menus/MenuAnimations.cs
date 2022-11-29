@@ -20,6 +20,11 @@ public class MenuAnimations : MonoBehaviour
     //    Debug.Log("LevelInfoMenu is " + menuAnimator.GetBool("LevelInfoMenu"));
     //}
 
+    public void QuestSelect(bool value, Action onComplete = null)
+    {
+        menuAnimator.SetBool("QuestSelect", value);
+    }
+
     public void LevelSelect(bool value, Action onComplete = null)
     {
         menuAnimator.SetBool("LevelSelect", value);
@@ -48,7 +53,8 @@ public class MenuAnimations : MonoBehaviour
 
     public void StartLevelSelectMenu()
     {
-        menuAnimator.SetBool("LevelSelect", true);
+        LevelSelect(true);
+        QuestSelect(true);
         menuAnimator.Play("LevelSelect");
     }
 }

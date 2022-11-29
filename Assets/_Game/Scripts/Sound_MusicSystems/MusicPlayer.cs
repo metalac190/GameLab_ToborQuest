@@ -14,9 +14,12 @@ namespace SoundSystem
         Coroutine _fadeVolumeRoutine = null;
         Coroutine _stopRountine = null;
 
+        bool _changeCalled;
+        bool _endingDrums;
         private void Awake()
         {
             CreateLayerSources();
+            _changeCalled = false;
         }
 
         void CreateLayerSources()
@@ -170,11 +173,10 @@ namespace SoundSystem
                 {
                     _layerSources[i].volume = 0;
                     _layerSources[i].time = 0;
+                    _changeCalled = false;
                 }
             }
         }
-
-
         private void SaveSourceStartVolumes()
         {
             _sourceStartVolumes.Clear();
@@ -182,6 +184,84 @@ namespace SoundSystem
             {
                 _sourceStartVolumes.Add(_layerSources[i].volume);
             }
+        }
+        private void Update()
+        {
+            if (_musicEvent != null && _musicEvent.name == "MUS_MainMenu")
+            {
+                if (_layerSources[0].time >= 7.28f && _changeCalled == false)
+                {
+                    _changeCalled = true;
+                    MusicManager.Instance.IncreaseLayerIndex(0);
+                    _layerSources[1].time = 0;
+
+                }
+                if (_layerSources[1].volume == 1)
+                {
+                    _layerSources[0].time = 0;
+                    _layerSources[0].Pause();
+                }
+            }
+            if (_musicEvent != null && _musicEvent.name == "MUS_BTrackMainMenu")
+            {
+                if (_layerSources[0].time >= 7.28f && _changeCalled == false)
+                {
+                    _changeCalled = true;
+                    MusicManager.Instance.IncreaseLayerIndex(0);
+                    _layerSources[1].time = 0;
+
+                }
+                if (_layerSources[1].volume == 1)
+                {
+                    _layerSources[0].time = 0;
+                    _layerSources[0].Pause();
+                }
+            }
+            if (_musicEvent != null && _musicEvent.name == "MUS_Credits")
+            {
+                if (_layerSources[0].time >= 31f && _changeCalled == false)
+                {
+                    _changeCalled = true;
+                    MusicManager.Instance.IncreaseLayerIndex(0);
+                    _layerSources[1].time = 0;
+                }
+                if (_layerSources[1].volume == 1)
+                {
+                    _layerSources[0].time = 0;
+                    _layerSources[0].Pause();
+                }
+            }
+            if (_musicEvent != null && _musicEvent.name == "MUS_BTrackCredits")
+            {
+                if (_layerSources[0].time >= 31f && _changeCalled == false)
+                {
+                    _changeCalled = true;
+                    MusicManager.Instance.IncreaseLayerIndex(0);
+                    _layerSources[1].time = 0;
+                }
+                if (_layerSources[1].volume == 1)
+                {
+                    _layerSources[0].time = 0;
+                    _layerSources[0].Pause();
+                }
+            }
+            if(_endingDrums == true)
+            {
+                //ending the drum loop
+                if (_layerSources[0].time >= 3.2f)
+                {
+                    MusicManager.Instance.IncreaseLayerIndex(0f);
+                    _layerSources[0].time = 0;
+                    _layerSources[0].Pause();
+                    _layerSources[1].time = 0;
+                    _endingDrums = false;
+                }
+            }
+        }
+
+        public void drumsEnd()
+        {
+            _endingDrums = true;
         }
     }
 }

@@ -9,15 +9,13 @@ namespace SoundSystem
 {
     public class MusicManager : MonoBehaviour
     {
-        bool _paused;
 
         int _activeLayerIndex = 0;
-        int _priorToPauseLayerIndex;
+        int _previosLayerIndex;
 
         public int ActiveLayerIndex => _activeLayerIndex;
         MusicPlayer _musicPlayer1;
         MusicPlayer _musicPlayer2;
-        AudioSource[] _musSources;
 
         bool _isMusicPlayer1Playing = false;
 
@@ -25,10 +23,9 @@ namespace SoundSystem
         public MusicPlayer InActivePlayer => (_isMusicPlayer1Playing) ? _musicPlayer2 : _musicPlayer1;
 
         MusicEvent _activeMusicEvent;
+        MusicEvent _previousMusicEvent;
 
-        Scene _songScene;
-
-        public const int MaxLayerCount = 9;
+        public const int MaxLayerCount = 4;
 
         float _fadeTime;
 
@@ -70,45 +67,6 @@ namespace SoundSystem
                 return _instance;
             }
         }
-        private void Update()
-        {
-            if (SceneManager.GetActiveScene() != _songScene && _paused == false)
-            {
-                if (SceneManager.GetActiveScene().name == "MainMenu")
-                {
-                    _activeLayerIndex = -1;
-                    IncreaseLayerIndex(_fadeTime);
-                }
-                if (SceneManager.GetActiveScene().name == "Tutorial")
-                {
-                    _activeLayerIndex = 3;
-                    IncreaseLayerIndex(_fadeTime);
-                }
-                if (SceneManager.GetActiveScene().name == "Level 1")
-                {
-                    _activeLayerIndex = 4;
-                    IncreaseLayerIndex(_fadeTime);
-                }
-                if (SceneManager.GetActiveScene().name == "Level 2")
-                {
-                    _activeLayerIndex = 3;
-                    IncreaseLayerIndex(_fadeTime);
-                }
-                if (SceneManager.GetActiveScene().name == "Level 3")
-                {
-                    _activeLayerIndex = 3;
-                    IncreaseLayerIndex(_fadeTime);
-                }
-                if (SceneManager.GetActiveScene().name == "Level 4")
-                {
-                    _activeLayerIndex = 4;
-                    IncreaseLayerIndex(_fadeTime);
-                }
-                _songScene = SceneManager.GetActiveScene();
-            }
-            
-            songTransitionChecks();
-        }
         private void Awake()
         {
             if (_instance != null && _instance != this)
@@ -121,22 +79,18 @@ namespace SoundSystem
             }
 
             SetUpMusicPlayer();
-            _paused = false;
         }
 
         void SetUpMusicPlayer()
         {
-            _songScene = SceneManager.GetActiveScene();
             _musicPlayer1 = gameObject.AddComponent<MusicPlayer>();
             _musicPlayer2 = gameObject.AddComponent<MusicPlayer>();
-
-            _musSources = GetComponents<AudioSource>();
-
         }
 
         public void PlayMusic(MusicEvent musicEvent, float fadeTime)
 
         {
+            _activeLayerIndex = 0;
             _fadeTime = fadeTime;
             if (musicEvent == null) return;
             //checking if this is already the music playing
@@ -145,6 +99,11 @@ namespace SoundSystem
             if(_activeMusicEvent != null)
                 ActivePlayer.Stop(fadeTime);
             //setting the active playing music event to this and playing it
+            _previousMusicEvent = _activeMusicEvent;
+            if (_previousMusicEvent != null && _previousMusicEvent.name == "MUS_Pause")
+            {
+                _activeLayerIndex = _previosLayerIndex;
+            }
             _activeMusicEvent = musicEvent;
             _isMusicPlayer1Playing = !_isMusicPlayer1Playing;
 
@@ -185,50 +144,22 @@ namespace SoundSystem
 
         private void onPause()
         {
-            _paused = true;
-            _priorToPauseLayerIndex = _activeLayerIndex;
-            _activeLayerIndex = 5;
-           IncreaseLayerIndex(2);
+            _previosLayerIndex = _activeLayerIndex;
+            _activeLayerIndex = -1;
+            IncreaseLayerIndex(1f);
         }
         private void OnUnPause()
         {
-            _activeLayerIndex = _priorToPauseLayerIndex-1;
-           IncreaseLayerIndex(2);
-            _paused = false;
+            PlayMusic(_previousMusicEvent, 1f);
         }
         private void OnWin()
         {
-            //play win sound
+
         }
 
-        void songTransitionChecks()
+        public void EndDrums()
         {
-            if (SceneManager.GetActiveScene().name == "MainMenu")
-            {
-                if (_musSources[0].time >= 7.9f)
-                {
-                    _musSources[0].time = 0;
-                    _activeLayerIndex = 1;
-                    _musSources[2].time = 0;
-                    IncreaseLayerIndex(0);
-                }
-            }
-            if (SceneManager.GetActiveScene().name == "Level 1")
-            {
-
-            }
-            if (SceneManager.GetActiveScene().name == "Level 2")
-            {
-
-            }
-            if (SceneManager.GetActiveScene().name == "Level 3")
-            {
-
-            }
-            if (SceneManager.GetActiveScene().name == "Level 4")
-            {
-
-            }
+            ActivePlayer.drumsEnd();
         }
     }
 }

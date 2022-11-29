@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class MovementControls : MonoBehaviour
 {
+    [SerializeField, ReadOnly] private InputControlScheme _activeControlScheme;
     public MovementInput _movementInput;
+    private PlayerInput _playerInput;
 
     private Vector2 _directionVector;
     public Vector2 DirectionVector => _directionVector;
@@ -21,11 +24,14 @@ public class MovementControls : MonoBehaviour
 
     [SerializeField, ReadOnly] private float _sideFlip;
     public float SideFlip => _sideFlip;
+
+    public InputControlScheme ACtiveControlScheme => _activeControlScheme;
     
 
     private void Awake()
     {
         _movementInput = new MovementInput();
+        _playerInput = GetComponent<PlayerInput>();
     }
 
     private void OnEnable()
@@ -55,5 +61,7 @@ public class MovementControls : MonoBehaviour
         _drift = _movementInput.Player.Drift.IsPressed();
         _boost = _movementInput.Player.Boost.IsPressed();
         _sideFlip = _movementInput.Player.SideFlip.ReadValue<float>();
+
+        _activeControlScheme = (InputControlScheme) _playerInput.user.controlScheme;
     }
 }

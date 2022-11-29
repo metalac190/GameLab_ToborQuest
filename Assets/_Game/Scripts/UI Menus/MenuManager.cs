@@ -8,7 +8,8 @@ public enum MenuType
     MainMenu,
     LevelSelect,
     LevelInfoMenu,
-    Settings
+    Settings,
+    QuestSelect
 }
 
 public class MenuManager : MonoBehaviour
@@ -17,10 +18,9 @@ public class MenuManager : MonoBehaviour
 
     public MenuType currentMenu { get; set; } = MenuType.MainMenu;
 
-    [SerializeField]
-    private GameObject mainMenuSelect;
-    [SerializeField]
-    private GameObject levelSelectGameObject;
+    [SerializeField] private GameObject mainMenuSelect;
+    [SerializeField] private GameObject levelSelectGameObject;
+    
     private MenuAnimations menuAnimations;
 
     public MenuAnimations MenuAnimations
@@ -34,27 +34,35 @@ public class MenuManager : MonoBehaviour
     {
         menuAnimations = GetComponent<MenuAnimations>();
         menuControllerList.ForEach(x => x.gameObject.SetActive(true));
-        SetActiveMenu(currentMenu);
+        //SetActiveMenu(currentMenu);
         SetCurrentButtonSelect(mainMenuSelect);
+        menuControllerList.ForEach(x =>
+        {
+            if (x.menuType == MenuType.LevelInfoMenu)
+                x.gameObject.SetActive(false);          
+        });
     }
+
     //This makes it so I can change current menu in inspector and debug
     private void Update()
     {
         if (currentMenu == lastActiveMenu)
             return;
 
-        SetActiveMenu(currentMenu);
+        lastActiveMenu = currentMenu;
+        //SetActiveMenu(currentMenu);
     }
 
     private void SetActiveMenu(MenuType value)
     {
-        menuControllerList.ForEach(x =>
-        {
-            if (x.menuType != value)
-                x.gameObject.SetActive(false);
-            else
-                x.gameObject.SetActive(true);
-        });
+        //Debug.Log("deactivate menu");
+        //menuControllerList.ForEach(x =>
+        //{
+        //    if (x.menuType != value)
+        //        x.gameObject.SetActive(false);
+        //    else
+        //        x.gameObject.SetActive(true);
+        //});
         lastActiveMenu = value;
     }
 
@@ -69,9 +77,9 @@ public class MenuManager : MonoBehaviour
         switch (tempMenu)
         {
             case (MenuType.MainMenu):
-                if (menuAnimations.AnimatorController.GetBool("LevelSelect"))
+                if (menuAnimations.AnimatorController.GetBool("QuestSelect"))
                 {
-                    menuAnimations.LevelSelect(false, () =>
+                    menuAnimations.QuestSelect(false, () =>
                     {
                         currentMenu = tempMenu;
                     });
@@ -112,14 +120,31 @@ public class MenuManager : MonoBehaviour
                     currentMenu = tempMenu;
                 });
                 break;
+            case (MenuType.QuestSelect):
+                if (menuAnimations.AnimatorController.GetBool("LevelSelect"))
+                {
+                    menuAnimations.LevelSelect(false, ()=> {
+                        currentMenu = tempMenu;
+                    });
+                }
+                else
+                {
+                    menuAnimations.QuestSelect(true, () => {
+                        currentMenu = tempMenu;
+                    });
+                }
+                break;
         }            
     }
 
     public void ChangeScene(string value)
     {
-        // Notes from Brandon: Switched to using CGSC!
-        // Probably switch to Async Later
-        CGSC.LoadScene(value);
+        CGSC.LoadScene(value, true, true);
+    }
+
+    public void QuestSelect()
+    {
+        menuAnimations.QuestSelect(true);
     }
 
     public void LevelSelect()
