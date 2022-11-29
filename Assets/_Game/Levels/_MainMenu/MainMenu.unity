@@ -27436,13 +27436,14 @@ GameObject:
   - component: {fileID: 1572823095}
   - component: {fileID: 1572823094}
   - component: {fileID: 1572823096}
+  - component: {fileID: 1572823097}
   m_Layer: 5
   m_Name: LevelInfoMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1572823093
 RectTransform:
   m_ObjectHideFlags: 0
@@ -27529,6 +27530,19 @@ MonoBehaviour:
   medal3DHelper: {fileID: 1582788495}
   nextMedalGoalImage: {fileID: 781899487}
   nextGoalTimeText: {fileID: 686618424}
+--- !u!114 &1572823097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1572823092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 575cd1a6dfb51284b8e345a514ba8ffa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  menuType: 2
 --- !u!1 &1578923413
 GameObject:
   m_ObjectHideFlags: 0
