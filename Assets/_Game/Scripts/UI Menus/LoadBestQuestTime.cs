@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,27 +14,47 @@ public class LoadBestQuestTime : MonoBehaviour
     [SerializeField] private Image _medalImage;
     [SerializeField] private MedalUIHelper _medals;
     
-    public const string QuestTimePref = "BestQuestTime";
+	public const string QuestTimePref = "BestQuestTime";
+    
+	private void OnEnable()
+	{
+		ExtrasSettings.OnResetData += CheckQuestMedal;
+	}
+    
+	private void OnDisable()
+	{
+		ExtrasSettings.OnResetData -= CheckQuestMedal;
+	}
     
     private void Start()
-    {
-        if (PlayerPrefs.HasKey(QuestTimePref))
-        {
-            var questTime = PlayerPrefs.GetFloat(QuestTimePref);
-            var medal = GetMedal(questTime);
-            _medals.SetMedalUI(_medalImage, medal);
-            _text.text = TimerUI.ConvertTimeToText(questTime);
-            float nextBestTime = medal switch
-            {
-                MedalType.None => _bronzeTime,
-                MedalType.Bronze => _silverTime,
-                MedalType.Silver => _goldTime,
-                MedalType.Gold => 0,
-                _ => 0
-            };
-            _nextBestText.text = TimerUI.ConvertTimeToText(nextBestTime);
-        }
+	{
+		CheckQuestMedal();
     }
+    
+	private void CheckQuestMedal()
+	{
+		if (PlayerPrefs.HasKey(QuestTimePref))
+		{
+			var questTime = PlayerPrefs.GetFloat(QuestTimePref);
+			var medal = GetMedal(questTime);
+			_medals.SetMedalUI(_medalImage, medal);
+			_medalImage.enabled = questTime > 0;
+			_text.text = TimerUI.ConvertTimeToText(questTime);
+			float nextBestTime = medal switch
+			{
+				MedalType.None => _bronzeTime,
+				MedalType.Bronze => _silverTime,
+				MedalType.Silver => _goldTime,
+				MedalType.Gold => 0,
+				_ => 0
+			};
+			_nextBestText.text = TimerUI.ConvertTimeToText(nextBestTime);
+		}
+		else
+		{
+			_medalImage.enabled = false;
+		}
+	}
 
     private MedalType GetMedal(float time)
     {
