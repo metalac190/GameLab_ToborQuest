@@ -26,11 +26,10 @@ public class LevelWinManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI nextGoalTimeText;
     [SerializeField] private Image nextGoalMedalImage;
 
-    [Header("Buttons")]
-    [SerializeField] private GameObject returnLevelSelectButton;
-
     [Header("Quest")]
+    [SerializeField] private GameObject questSelected;
     [SerializeField] private List<GameObject> questObjs;
+    [SerializeField] private GameObject notQuestSelected;
     [SerializeField] private List<GameObject> notQuestObjs;
     
     private GameObject _children;
@@ -77,7 +76,7 @@ public class LevelWinManager : MonoBehaviour
         levelCompleteImage.sprite = levelDataObj.levelCompleteSprite;
         deliveryTimeText.text = "DELIVERY TIME: " + hudManager.GetCurrentTimeText();
         hudManager.currentTimerText.startTimer = false;
-        EventSystem.current.SetSelectedGameObject(returnLevelSelectButton);
+        EventSystem.current.SetSelectedGameObject(playingQuest ? questSelected : notQuestSelected);
         SaveBestTime();
         ShowNextGoal();
     }
