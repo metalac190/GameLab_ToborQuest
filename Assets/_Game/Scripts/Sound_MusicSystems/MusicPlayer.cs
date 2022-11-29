@@ -247,6 +247,7 @@ namespace SoundSystem
             }
             if(_endingDrums == true)
             {
+                //ending the drum loop
                 if (_layerSources[0].time >= 6.5f)
                 {
                     MusicManager.Instance.IncreaseLayerIndex(0f);
