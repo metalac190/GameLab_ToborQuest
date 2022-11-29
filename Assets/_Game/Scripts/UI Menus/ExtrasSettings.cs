@@ -6,6 +6,7 @@ using UnityEngine;
 public class ExtrasSettings : MonoBehaviour
 {
     public static Action OnResetData = delegate { };
+	public static Action OnChangeBSide = delegate { };
     
 	[SerializeField] private GameObject _bSideAudioActive;
 	[SerializeField] private GameObject _disableDialogueActive;
@@ -43,5 +44,6 @@ public class ExtrasSettings : MonoBehaviour
 	{
 		SavingManager.BSideAudio = !BSideAudio;
 		_bSideAudioActive.SetActive(BSideAudio);
+		OnChangeBSide?.Invoke();
 	}
 }
