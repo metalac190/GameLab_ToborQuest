@@ -47,11 +47,12 @@ public class PauseManager : MonoBehaviour
         }            
     }
 
-    //public void UnPause()
-    //{
-    //    //Time.timeScale = 1;
-    //    CGSC.TogglePauseGame();
-    //}
+    public void UnPause()
+    {
+        //Time.timeScale = 1;
+        //gameObject.SetActive(false);
+        CGSC.UnpauseGame();
+    }
 
     public void ReturnToMainMenu()
     {
