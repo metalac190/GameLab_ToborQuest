@@ -31,6 +31,7 @@ public class LevelInfoManager : MonoBehaviour
     public void SetLevelDataObject(LevelDataObject value)
     {
         levelDataObj = value;
+        SetInfo();
         //this.gameObject.SetActive(true);
         //Debug.Log("Activating " + transform.name);
         EventSystem.current.SetSelectedGameObject(onStart.gameObject);
@@ -39,20 +40,18 @@ public class LevelInfoManager : MonoBehaviour
     public void SetBackLevelButton(GameObject value)
     {        
         backLevelButton = value;
-    }
-
-    private void OnEnable()
-    {
-        if (!levelDataObj)
-            return;
-        SetInfo(levelDataObj);
+        onBack.onClick.RemoveAllListeners();
         onBack.onClick.AddListener(() =>
         {
             EventSystem.current.SetSelectedGameObject(backLevelButton);
         });
     }
 
-    private void SetInfo(LevelDataObject value)
+    private void OnEnable()
+    {
+    }
+
+    private void SetInfo()
     {
         levelTitleImage.sprite = levelDataObj.levelTitleSprite;
         levelNameImage.sprite = levelDataObj.levelNameSprite;
@@ -70,7 +69,7 @@ public class LevelInfoManager : MonoBehaviour
         onStart.onClick.AddListener(() =>
         {
             CGSC.PlayingQuest = false;
-            CGSC.LoadScene(value.GetLevelSceneName(),true,true);
+            CGSC.LoadScene(levelDataObj.GetLevelSceneName(),true,true);
         });
     }
 }
