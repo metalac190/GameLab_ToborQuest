@@ -16,7 +16,7 @@ public class TimerStartTrigger : InvisibleTrigger
 	protected override void OnPlayerTrigger(MovementController player)
     {
         _hud.StartTimer();
-        if(MusicManager.Instance.ActiveLayerIndex == 0)
-            MusicManager.Instance.IncreaseLayerIndex(1f);
+        if (MusicManager.Instance.ActiveLayerIndex == 0)
+            MusicManager.Instance.EndDrums();
     }
 }
