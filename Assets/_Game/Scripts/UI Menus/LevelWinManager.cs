@@ -27,8 +27,12 @@ public class LevelWinManager : MonoBehaviour
     [SerializeField] private Image nextGoalMedalImage;
 
     [Header("Buttons")]
-    [SerializeField]
-    private GameObject returnLevelSelectButton;
+    [SerializeField] private GameObject returnLevelSelectButton;
+
+    [Header("Quest")]
+    [SerializeField] private List<GameObject> questObjs;
+    [SerializeField] private List<GameObject> notQuestObjs;
+    
     private GameObject _children;
     private string levelSaveTimeName;//"Level1BestTime";
     public string LevelSaveName { get { return levelSaveTimeName; } }
@@ -58,6 +62,16 @@ public class LevelWinManager : MonoBehaviour
 
     private void WinGamePanel()
     {
+        bool playingQuest = CGSC.PlayingQuest;
+        foreach (var obj in questObjs)
+        {
+            obj.SetActive(playingQuest);
+        }
+        foreach (var obj in notQuestObjs)
+        {
+            obj.SetActive(!playingQuest);
+        }
+        
         hudManager.gameObject.SetActive(false);
         transform.GetChild(0).gameObject.SetActive(true);
         levelCompleteImage.sprite = levelDataObj.levelCompleteSprite;
