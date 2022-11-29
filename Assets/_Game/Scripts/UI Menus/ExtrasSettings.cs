@@ -1,23 +1,27 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ExtrasSettings : MonoBehaviour
 {
-    public static bool DialogueDisabled;
     public static Action OnResetData = delegate { };
     
-    [SerializeField] private GameObject _disableDialogueActive;
+	[SerializeField] private GameObject _bSideAudioActive;
+	[SerializeField] private GameObject _disableDialogueActive;
+    
+	public static bool DialogueDisabled => SavingManager.DisableDialogue;
+	public static bool BSideAudio => SavingManager.BSideAudio;
     
     private void Start()
     {
         LoadValues();
     }
 
-    private static void LoadValues()
-    {
-        DialogueDisabled = SavingManager.DisableDialogue;
+    private void LoadValues()
+	{
+		_disableDialogueActive.SetActive(DialogueDisabled);
+		_bSideAudioActive.SetActive(BSideAudio);
     }
     
     public void ResetData()
@@ -31,13 +35,13 @@ public class ExtrasSettings : MonoBehaviour
 
     public void ToggleDialogue()
     {
-        DialogueDisabled = !DialogueDisabled;
+        SavingManager.DisableDialogue = !DialogueDisabled;
         _disableDialogueActive.SetActive(DialogueDisabled);
     }
 
-    public void SetDialogueActiveImage(bool value)
-    {
-        _disableDialogueActive.SetActive(value);
-    }
-
+	public void ToggleBSideAudio()
+	{
+		SavingManager.BSideAudio = !BSideAudio;
+		_bSideAudioActive.SetActive(BSideAudio);
+	}
 }

@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using SoundSystem;
@@ -6,10 +6,15 @@ using SoundSystem;
 public class Music_caller : MonoBehaviour
 {
     [SerializeField] MusicEvent MainSound;
-    [SerializeField] MusicEvent BTracks;
+	[SerializeField] MusicEvent BTracks;
+    
     private void OnEnable()
-    {
-        MainSound.Play();
-
+	{
+		if (ExtrasSettings.BSideAudio && BTracks != null)
+		{
+			BTracks.Play();
+			return;
+		}
+		MainSound.Play();
     }
 }
