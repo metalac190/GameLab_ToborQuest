@@ -198,7 +198,29 @@ namespace SoundSystem
                     _layerSources[1].time = 0;
                 }
             }
+            if (_musicEvent != null && _musicEvent.name == "MUS_BTrackMainMenu")
+            {
+                if (_layerSources[0].time >= 7.9f && _changeCalled == false)
+                {
+                    _changeCalled = true;
+                    MusicManager.Instance.IncreaseLayerIndex(0f);
+                    _layerSources[0].time = 0;
+                    _layerSources[0].Pause();
+                    _layerSources[1].time = 0;
+                }
+            }
             if (_musicEvent != null && _musicEvent.name == "MUS_Credits")
+            {
+                if (_layerSources[0].time >= 32.1f && _changeCalled == false)
+                {
+                    _changeCalled = true;
+                    MusicManager.Instance.IncreaseLayerIndex(0f);
+                    _layerSources[0].time = 0;
+                    _layerSources[0].Pause();
+                    _layerSources[1].time = 0;
+                }
+            }
+            if (_musicEvent != null && _musicEvent.name == "MUS_BTrackCredits")
             {
                 if (_layerSources[0].time >= 32.1f && _changeCalled == false)
                 {

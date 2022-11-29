@@ -6,8 +6,10 @@ using SoundSystem;
 public class Music_caller : MonoBehaviour
 {
     [SerializeField] MusicEvent MainSound;
+    [SerializeField] MusicEvent BTracks;
     private void OnEnable()
     {
         MainSound.Play();
+
     }
 }
