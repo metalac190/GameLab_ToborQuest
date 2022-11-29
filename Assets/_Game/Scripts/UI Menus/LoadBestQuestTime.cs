@@ -11,6 +11,7 @@ public class LoadBestQuestTime : MonoBehaviour
     [SerializeField] private float _bronzeTime;
     [SerializeField] private float _silverTime;
     [SerializeField] private float _goldTime;
+	[SerializeField] private float _authorTime;
     [SerializeField] private Image _medalImage;
     [SerializeField] private MedalUIHelper _medals;
     
@@ -38,24 +39,12 @@ public class LoadBestQuestTime : MonoBehaviour
 		if (PlayerPrefs.HasKey(QuestTimePref))
 		{
 			time = PlayerPrefs.GetFloat(QuestTimePref);
-			medal = LevelDataObject.GetMedal(time, _bronzeTime, _silverTime, _goldTime);
+			medal = LevelDataObject.GetMedal(time, _bronzeTime, _silverTime, _goldTime, _authorTime);
 		}
 		_medals.SetMedalUI(_medalImage, medal);
 		_text.text = TimerUI.ConvertTimeToText(time);
-		_nextBestText.text = LevelDataObject.GetNextGoal(medal, _bronzeTime, _silverTime, _goldTime);
+		_nextBestText.text = LevelDataObject.GetNextGoalFormatted(medal, _bronzeTime, _silverTime, _goldTime, _authorTime);
 	}
-
-    private MedalType GetMedal(float time)
-    {
-        float[] orderedGoalArray = new float[] { int.MaxValue, _bronzeTime, _silverTime, _goldTime };
-
-        for(int i = 0; i < orderedGoalArray.Length; i++)
-        {
-            if(orderedGoalArray[i] >= time) continue;
-            return (MedalType)i - 1;
-        }
-        return MedalType.Gold;
-    }
 
     public void StartQuest()
     {

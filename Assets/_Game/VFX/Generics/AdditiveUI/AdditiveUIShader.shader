@@ -51,7 +51,6 @@ Shader "UI/Additive"
             Lighting Off
             ZWrite Off
             ZTest[unity_GUIZTestMode]
-            Blend SrcAlpha One
             ColorMask[_ColorMask]
 
             Pass
@@ -106,13 +105,14 @@ Shader "UI/Additive"
 
                 fixed4 frag(v2f IN) : SV_Target
                 {
-                    half4 color = (tex2D(_MainTex, IN.texcoord) + _TextureSampleAdd) * IN.color;
-
-                    color.a *= UnityGet2DClipping(IN.worldPosition.xy, _ClipRect);
-
-                    #ifdef UNITY_UI_ALPHACLIP
-                    clip(color.a - 0.001);
-                    #endif
+                	half4 color = tex2D(_MainTex, IN.texcoord);
+                    clip(color.r - 0.001);
+                    
+                    //half4 color = (tex2D(_MainTex, IN.texcoord) + _TextureSampleAdd) * IN.color;
+                    //color.a *= UnityGet2DClipping(IN.worldPosition.xy, _ClipRect);
+                    //#ifdef UNITY_UI_ALPHACLIP
+                    //clip(color.a - 0.001);
+                    //#endif
 
                     return color;
                 }
