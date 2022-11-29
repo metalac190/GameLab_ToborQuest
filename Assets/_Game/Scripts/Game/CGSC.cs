@@ -175,7 +175,10 @@ public class CGSC : MonoBehaviour
         Instance._currentQuest = -1;
         Instance._currentLevel = -1;
         LoadScene(Instance._mainMenu.Name, async, useFade, onComplete);
-        UnpauseGameResponse();
+	    UnpauseGameResponse();
+	    PlayingQuest = false;
+	    TotalTime = 0;
+	    TimerUI.levelTime = 0;
     }
 
     public static void LoadFirstQuestLevel(int questIndex, bool async = false, Action onComplete = null)
