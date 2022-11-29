@@ -14,6 +14,7 @@ public class CGSC : MonoBehaviour
     public static CGSC Instance;
 
     public static bool PlayingQuest;
+    public static float TotalTime;
 
     public void SetPlayingQuest(bool playing) => PlayingQuest = playing;
 

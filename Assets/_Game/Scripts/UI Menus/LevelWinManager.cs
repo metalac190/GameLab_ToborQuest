@@ -108,6 +108,8 @@ public class LevelWinManager : MonoBehaviour
     private void SaveBestTime()
     {
         float currentTime = hudManager.currentTimerText.timeRemaining;
+        CGSC.TotalTime += currentTime;
+        TimerUI.levelTime = 0;
         float previousBestTime = PlayerPrefs.GetFloat(levelSaveTimeName, 0);
 
         if((previousBestTime > currentTime) || (previousBestTime == 0)) {

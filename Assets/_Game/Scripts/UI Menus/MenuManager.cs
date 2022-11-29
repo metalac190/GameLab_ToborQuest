@@ -37,6 +37,12 @@ public class MenuManager : MonoBehaviour
         SetActiveMenu(currentMenu);
         SetCurrentButtonSelect(mainMenuSelect);
     }
+
+    private void Start()
+    {
+        // Janky Fix for timer stuff, dw about it
+        TimerUI.levelTime = 0;
+    }
     
     //This makes it so I can change current menu in inspector and debug
     private void Update()
