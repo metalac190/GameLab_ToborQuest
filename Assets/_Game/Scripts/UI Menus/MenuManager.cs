@@ -145,7 +145,7 @@ public class MenuManager : MonoBehaviour
 
     public void QuestSelect()
     {
-
+        menuAnimations.QuestSelect(true);
     }
 
     public void LevelSelect()

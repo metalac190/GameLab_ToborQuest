@@ -53,7 +53,8 @@ public class MenuAnimations : MonoBehaviour
 
     public void StartLevelSelectMenu()
     {
-        menuAnimator.SetBool("LevelSelect", true);
+        LevelSelect(true);
+        QuestSelect(true);
         menuAnimator.Play("LevelSelect");
     }
 }
