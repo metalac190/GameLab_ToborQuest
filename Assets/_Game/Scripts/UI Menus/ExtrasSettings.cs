@@ -10,11 +10,23 @@ public class ExtrasSettings : MonoBehaviour
     
     [SerializeField] private GameObject _disableDialogueActive;
     
+    private void Start()
+    {
+        LoadValues();
+    }
+
+    private static void LoadValues()
+    {
+        DialogueDisabled = SavingManager.DisableDialogue;
+    }
+    
     public void ResetData()
     {
-        // TODO: Make this only clear times once audio and visual settings are saved
         PlayerPrefs.DeleteAll();
+        CGSC.SaveSystem.DeleteSave();
+        CGSC.SaveSystem.LoadDefaults();
         OnResetData?.Invoke();
+        LoadValues();
     }
 
     public void ToggleDialogue()

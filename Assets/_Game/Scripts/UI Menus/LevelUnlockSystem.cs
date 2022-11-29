@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,7 +19,17 @@ public class LevelUnlockSystem : MonoBehaviour
         UpdateUnlocks();
     }
 
-	public void UpdateUnlocks()
+    private void OnEnable()
+    {
+        ExtrasSettings.OnResetData += UpdateUnlocks;
+    }
+
+    private void OnDisable()
+    {
+        ExtrasSettings.OnResetData -= UpdateUnlocks;
+    }
+
+    public void UpdateUnlocks()
     {
 	    SetGroupActive(_level1, _level1Data.BestTimeSaved > 0);
 	    SetGroupActive(_level2, _level2Data.BestTimeSaved > 0);
