@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public enum MedalType { None, Bronze, Silver, Gold }
+public enum MedalType { None, Bronze, Silver, Gold, Author }
 
 [CreateAssetMenu()]
 public class LevelDataObject : ScriptableObject
@@ -23,21 +23,23 @@ public class LevelDataObject : ScriptableObject
     [SerializeField] private float bronzeGoal;
     [SerializeField] private float silverGoal;
     [SerializeField] private float goldGoal;
+	[SerializeField] private float authorGoal;
 
-    private float bestTime;
-    private float nextGoalTime;
-    private string levelSaveTimeName;
+	[SerializeField, ReadOnly] private float bestTime;
+    [SerializeField, ReadOnly] private float nextGoalTime;
+    [SerializeField, ReadOnly] private string levelSaveTimeName;
 
     public float BestTimeSaved => PlayerPrefs.GetFloat(levelSaveTimeName);
     public string LevelName => levelName;
-    public string BestTimeFormatted { get; set; }
-    public MedalType CurrentMedal { get; set; }
-    public string NextGoalTimeFormatted { get; set; }
-    public MedalType NextGoalMedal { get; set; }
-    public bool ghostDataAvailable { get; set; }
+	[ReadOnly] public string BestTimeFormatted;
+	[ReadOnly] public MedalType CurrentMedal;
+	[ReadOnly] public string NextGoalTimeFormatted;
+	[ReadOnly] public MedalType NextGoalMedal;
+	[ReadOnly] public bool ghostDataAvailable;
     public float BronzeGoal => bronzeGoal;
     public float SilverGoal => silverGoal;
     public float GoldGoal => goldGoal;
+	public float AuthorGoal => authorGoal;
 
     //called the menu panel's awake so it gets prepped when launching menu
 	public void PrepData()
@@ -45,11 +47,8 @@ public class LevelDataObject : ScriptableObject
         levelSaveTimeName = GetLevelSceneName() + "BestTime";
 
         bestTime = BestTimeSaved;
-        BestTimeFormatted = TimerUI.ConvertTimeToText(bestTime);
-
-	    SetNewMedal();
-        SetNewGoal();
-        NextGoalTimeFormatted = TimerUI.ConvertTimeToText(nextGoalTime);
+		BestTimeFormatted = TimerUI.ConvertTimeToText(bestTime);
+		UpdateMedalAndGoal();
     }
 
     public string GetLevelSceneName() => levelScene;
@@ -58,49 +57,61 @@ public class LevelDataObject : ScriptableObject
 	{
         bestTime = time;
         BestTimeFormatted = TimerUI.ConvertTimeToText(bestTime);
-        PlayerPrefs.SetFloat(levelSaveTimeName, time);
-
-	    SetNewMedal();
-	    SetNewGoal();
-    }
+		PlayerPrefs.SetFloat(levelSaveTimeName, time);
+		UpdateMedalAndGoal();
+	}
     
-	public void SetNewMedal() => CurrentMedal = GetMedal(bestTime, BronzeGoal, SilverGoal, GoldGoal);
+	[Button]
+	public void UpdateMedalAndGoal()
+	{
+		SetNewMedal();
+		SetNewGoal();
+	}
+    
+	public void SetNewMedal() => CurrentMedal = GetMedal(bestTime, BronzeGoal, SilverGoal, GoldGoal, AuthorGoal);
 	
-	public static MedalType GetMedal(float time, float bronze, float silver, float gold)
+	public static MedalType GetMedal(float time, float bronze, float silver, float gold, float author)
 	{
 		if (time == 0) return MedalType.None;
-		float[] orderedGoalArray = new float[] { int.MaxValue, bronze, silver, gold };
+		float[] orderedGoalArray = new float[] { int.MaxValue, bronze, silver, gold, author };
 		
 		for(int i = 0; i < orderedGoalArray.Length; i++)
 		{
 			if(orderedGoalArray[i] >= time) continue;
 			else return (MedalType)i - 1;
 		}
-		return MedalType.Gold;
+		return MedalType.Author;
 	}
 
 	public void SetNewGoal()
 	{
-	    NextGoalTimeFormatted = GetNextGoal(CurrentMedal, BronzeGoal, SilverGoal, GoldGoal);
+		nextGoalTime = GetNextGoal(CurrentMedal, BronzeGoal, SilverGoal, GoldGoal, AuthorGoal);
+		NextGoalTimeFormatted = TimerUI.ConvertTimeToText(nextGoalTime);
 
         //set the new goal medal
-        if((bestTime == 0) || (CurrentMedal == MedalType.Gold)) {
+		if((bestTime == 0) || (CurrentMedal == MedalType.Author)) {
             NextGoalMedal = MedalType.None;
         } else {
             NextGoalMedal = CurrentMedal + 1;
         }
 	}
 	
-	public static string GetNextGoal(MedalType medal, float bronze, float silver, float gold)
+	public static float GetNextGoal(MedalType medal, float bronze, float silver, float gold, float author)
 	{
-		float nextBestTime = medal switch
+		var goalTime = medal switch
 		{
 			MedalType.None => bronze,
 			MedalType.Bronze => silver,
 			MedalType.Silver => gold,
-			MedalType.Gold => 0,
+			MedalType.Gold => author,
+			MedalType.Author => 0,
 			_ => 0
 		};
-		return TimerUI.ConvertTimeToText(nextBestTime);
+		return goalTime;
+	}
+	
+	public static string GetNextGoalFormatted(MedalType medal, float bronze, float silver, float gold, float author)
+	{
+		return TimerUI.ConvertTimeToText(GetNextGoal(medal, bronze, silver, gold, author));
 	}
 }
