@@ -9861,6 +9861,7 @@ GameObject:
   - component: {fileID: 560895687}
   - component: {fileID: 560895689}
   - component: {fileID: 560895688}
+  - component: {fileID: 560895690}
   m_Layer: 0
   m_Name: QuestBox
   m_TagString: Untagged
@@ -9932,6 +9933,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 560895686}
   m_CullTransparentMesh: 1
+--- !u!114 &560895690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 560895686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 144358afcca4ac04bbf778e6418c0ca9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _text: {fileID: 106166807}
+  _nextBestText: {fileID: 1620401675}
+  _bronzeTime: 240
+  _silverTime: 120
+  _goldTime: 60
+  _medalImage: {fileID: 102096336}
+  _medals: {fileID: 11400000, guid: 252332d1270384c49bbeff2a8892da5f, type: 2}
 --- !u!1 &572636498
 GameObject:
   m_ObjectHideFlags: 0

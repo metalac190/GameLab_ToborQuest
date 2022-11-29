@@ -44,11 +44,13 @@ public class TimerUI : MonoBehaviour
         {
             totalTimeRemaining += CGSC.TotalTime;
         }
-        TimeSpan time = TimeSpan.FromSeconds(totalTimeRemaining);
-        if(timeRemaining > 3600)
-            timerText.text = time.ToString(@"hh\:mm\:ss\:fff");
-        else
-            timerText.text = time.ToString(@"mm\:ss\:fff"); 
+        timerText.text = ConvertTimeToText(totalTimeRemaining);
+    }
+
+    public static string ConvertTimeToText(float t)
+    {
+        TimeSpan time = TimeSpan.FromSeconds(t);
+        return time.ToString(t > 3600 ? @"hh\:mm\:ss\:fff" : @"mm\:ss\:fff");
     }
 
     public string GetCurrentTime()
