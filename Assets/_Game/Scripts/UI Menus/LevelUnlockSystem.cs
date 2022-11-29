@@ -20,9 +20,10 @@ public class LevelUnlockSystem : MonoBehaviour
 
 	public void UpdateUnlocks()
     {
-	    SetGroupActive(_level2, _level1Data.BestTimeSaved > 0);
-	    SetGroupActive(_level3, _level2Data.BestTimeSaved > 0);
-	    SetGroupActive(_level4, _level3Data.BestTimeSaved > 0);
+	    SetGroupActive(_level1, _level1Data.BestTimeSaved > 0);
+	    SetGroupActive(_level2, _level2Data.BestTimeSaved > 0);
+	    SetGroupActive(_level3, _level3Data.BestTimeSaved > 0);
+	    SetGroupActive(_level4, _level4Data.BestTimeSaved > 0);
     }
 
     private static void SetGroupActive(CanvasGroup group, bool active)
