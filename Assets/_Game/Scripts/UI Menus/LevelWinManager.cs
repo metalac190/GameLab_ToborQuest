@@ -77,6 +77,7 @@ public class LevelWinManager : MonoBehaviour
         deliveryTimeText.text = "DELIVERY TIME: " + hudManager.GetCurrentTimeText();
         hudManager.currentTimerText.startTimer = false;
         EventSystem.current.SetSelectedGameObject(playingQuest ? questSelected : notQuestSelected);
+        Cursor.lockState = CursorLockMode.None;
         SaveBestTime();
         ShowNextGoal();
     }

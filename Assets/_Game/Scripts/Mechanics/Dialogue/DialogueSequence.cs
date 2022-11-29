@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class DialogueSequence : MonoBehaviour
 {
+    [SerializeField] private bool _onlyRunInQuest;
     [SerializeField] List<Dialogue> _dialogues = new List<Dialogue>();
     [SerializeField, ReadOnly] bool _skipDialogue = false;
     [SerializeField, ReadOnly] bool _resetDialogue = false;
@@ -12,6 +13,7 @@ public class DialogueSequence : MonoBehaviour
 
     public void RunDialogues()
     {
+        if (_onlyRunInQuest && !CGSC.PlayingQuest) return;
         if (_runDialogueCoroutine != null) { StopCoroutine(_runDialogueCoroutine); }
         if (!DialogueSystem.Instance)
         {
