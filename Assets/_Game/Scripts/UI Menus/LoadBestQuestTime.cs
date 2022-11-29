@@ -26,9 +26,10 @@ public class LoadBestQuestTime : MonoBehaviour
             _text.text = TimerUI.ConvertTimeToText(questTime);
             float nextBestTime = medal switch
             {
-                MedalType.Bronze => _bronzeTime,
-                MedalType.Silver => _silverTime,
-                MedalType.Gold => _goldTime,
+                MedalType.None => _bronzeTime,
+                MedalType.Bronze => _silverTime,
+                MedalType.Silver => _goldTime,
+                MedalType.Gold => 0,
                 _ => 0
             };
             _nextBestText.text = TimerUI.ConvertTimeToText(nextBestTime);
