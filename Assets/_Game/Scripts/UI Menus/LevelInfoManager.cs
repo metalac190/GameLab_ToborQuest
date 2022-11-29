@@ -69,6 +69,7 @@ public class LevelInfoManager : MonoBehaviour
         onStart.onClick.RemoveAllListeners();
         onStart.onClick.AddListener(() =>
         {
+            CGSC.PlayingQuest = false;
             CGSC.LoadScene(value.GetLevelSceneName(),true,true);
         });
     }
