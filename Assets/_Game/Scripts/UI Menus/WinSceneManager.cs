@@ -19,6 +19,7 @@ public class WinSceneManager : MonoBehaviour
     private void Start()
     {
         Cursor.lockState = CursorLockMode.None;
+        CGSC.InMainMenu = true;
         var bestTime = CGSC.TotalTime;
         PlayerPrefs.SetFloat(LoadBestQuestTime.QuestTimePref, bestTime);
         deliveryTimeText.text = deliveryTextBefore + TimerUI.ConvertTimeToText(bestTime);
