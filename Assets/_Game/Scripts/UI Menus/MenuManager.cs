@@ -32,6 +32,7 @@ public class MenuManager : MonoBehaviour
 
     private void Awake()
     {
+        Cursor.lockState = CursorLockMode.None;
         menuAnimations = GetComponent<MenuAnimations>();
         menuControllerList.ForEach(x => x.gameObject.SetActive(true));
         SetActiveMenu(currentMenu);

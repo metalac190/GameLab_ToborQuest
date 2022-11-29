@@ -13,6 +13,10 @@ public class CGSC : MonoBehaviour
     
     public static CGSC Instance;
 
+    public static bool PlayingQuest;
+
+    public void SetPlayingQuest(bool playing) => PlayingQuest = playing;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)

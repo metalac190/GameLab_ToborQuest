@@ -30,7 +30,7 @@ public class SavingManager : PersistableObject
     public ExtrasSettings extraSettings;
     public Slider dialogueScale;
 
-    private void Start()
+    private void Awake()
     {
         if (LoadOnAwake)
             ButtonLoad();
