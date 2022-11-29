@@ -7,6 +7,8 @@ public class AmbientCaller : MonoBehaviour
 {
     float _timer;
     [SerializeField] AmbientEvent _ambienceToPlay;
+    [SerializeField] float minWaitTime;
+    [SerializeField] float maxWaitTime;
 
     private void Start()
     {
@@ -24,6 +26,6 @@ public class AmbientCaller : MonoBehaviour
 
     void randomTimerSet()
     {
-        _timer = Time.time + Random.Range(8, 30);
+        _timer = Time.time + Random.Range(minWaitTime, maxWaitTime);
     }
 }
