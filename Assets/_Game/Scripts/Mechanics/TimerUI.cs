@@ -48,7 +48,8 @@ public class TimerUI : MonoBehaviour
     }
 
     public static string ConvertTimeToText(float t)
-    {
+	{
+		if (t == 0) return "--:--:--";
         TimeSpan time = TimeSpan.FromSeconds(t);
         return time.ToString(t > 3600 ? @"hh\:mm\:ss\:ff" : @"mm\:ss\:ff");
     }

@@ -33,13 +33,15 @@ public class LoadBestQuestTime : MonoBehaviour
     
 	private void CheckQuestMedal()
 	{
+		float time = 0;
 		var medal = MedalType.Bronze;
 		if (PlayerPrefs.HasKey(QuestTimePref))
 		{
-			var questTime = PlayerPrefs.GetFloat(QuestTimePref);
-			medal = LevelDataObject.GetMedal(questTime, _bronzeTime, _silverTime, _goldTime);
+			time = PlayerPrefs.GetFloat(QuestTimePref);
+			medal = LevelDataObject.GetMedal(time, _bronzeTime, _silverTime, _goldTime);
 		}
 		_medals.SetMedalUI(_medalImage, medal);
+		_text.text = TimerUI.ConvertTimeToText(time);
 		_nextBestText.text = LevelDataObject.GetNextGoal(medal, _bronzeTime, _silverTime, _goldTime);
 	}
 
