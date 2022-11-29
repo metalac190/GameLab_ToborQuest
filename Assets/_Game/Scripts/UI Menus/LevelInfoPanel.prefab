@@ -31,7 +31,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 221964787267102549}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
@@ -148,7 +148,7 @@ GameObject:
   - component: {fileID: 3769382066589515727}
   - component: {fileID: 5437836243837141971}
   m_Layer: 5
-  m_Name: NextGoal
+  m_Name: NextGoalTime
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -167,12 +167,12 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 221964787267102549}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 124.000046, y: -88}
-  m_SizeDelta: {x: 198.81, y: 56.8765}
+  m_AnchoredPosition: {x: 246, y: 22}
+  m_SizeDelta: {x: 145.7136, y: 48}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3769382066589515727
 CanvasRenderer:
@@ -230,7 +230,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 50.2
+  m_fontSize: 42.4
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -360,7 +360,7 @@ GameObject:
   - component: {fileID: 3057639072758424151}
   - component: {fileID: 4922974003224177165}
   m_Layer: 5
-  m_Name: LevelText
+  m_Name: NextGoal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -379,12 +379,12 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 221964787267102549}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 124, y: -40}
-  m_SizeDelta: {x: 198.8058, y: 48.0129}
+  m_AnchoredPosition: {x: 87.00424, y: 22}
+  m_SizeDelta: {x: 172.2779, y: 48}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3057639072758424151
 CanvasRenderer:
@@ -494,7 +494,6 @@ GameObject:
   m_Component:
   - component: {fileID: 221964787267102549}
   - component: {fileID: 3584696121574654822}
-  - component: {fileID: 7854545052781750310}
   - component: {fileID: 3891203246144937077}
   - component: {fileID: 1135213803333560550}
   - component: {fileID: 5155631530276450825}
@@ -522,11 +521,10 @@ RectTransform:
   - {fileID: 8750821385518742236}
   - {fileID: 7470603900348042071}
   - {fileID: 7932422186761781619}
-  - {fileID: 2278770144215379784}
   - {fileID: 6118676270955635131}
   - {fileID: 8394790276717084956}
   - {fileID: 7108914065178921334}
-  - {fileID: 1905330621197821746}
+  - {fileID: 2278770144215379784}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -543,36 +541,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6058903074519046778}
   m_CullTransparentMesh: 1
---- !u!114 &7854545052781750310
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6058903074519046778}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
 --- !u!114 &3891203246144937077
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -617,7 +585,56 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2147790101410665513}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: LevelInfoManager, Assembly-CSharp
+        m_MethodName: SetLevelDataObject
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 11400000, guid: d10e3463f2c5a7d45b4f7adb83b4dc77,
+            type: 2}
+          m_ObjectArgumentAssemblyTypeName: LevelDataObject, Assembly-CSharp
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: LevelInfoManager, Assembly-CSharp
+        m_MethodName: SetBackLevelButton
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 6058903074519046778}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
+        m_MethodName: SetCurrentMenu
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 11400000, guid: 18eb9d5464b71f74e8cd232153e8c7c8, type: 2}
+        m_TargetAssemblyTypeName: SoundSystem.SFXEvent, Assembly-CSharp
+        m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1135213803333560550
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -635,7 +652,7 @@ MonoBehaviour:
   medalImage: {fileID: 1854347380007054275}
   nextGoalText: {fileID: 5437836243837141971}
   levelImage: {fileID: 6260907432736760219}
-  levelDataObj: {fileID: 0}
+  levelDataObj: {fileID: 11400000, guid: d10e3463f2c5a7d45b4f7adb83b4dc77, type: 2}
 --- !u!114 &5155631530276450825
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -735,17 +752,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6228270900707742318}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 221964787267102549}
-  m_RootOrder: 7
+  m_Father: {fileID: 2278770144215379784}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -92, y: -156}
+  m_AnchoredPosition: {x: -51.300003, y: 4}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4932458669744693956
@@ -988,7 +1005,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 601fd7e922ab4b34ebc0b91e2e2d74ac, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1027,9 +1044,10 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1905330621197821746}
   m_Father: {fileID: 221964787267102549}
-  m_RootOrder: 3
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}

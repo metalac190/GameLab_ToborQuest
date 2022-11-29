@@ -117,9 +117,7 @@ public class MenuManager : MonoBehaviour
 
     public void ChangeScene(string value)
     {
-        // Notes from Brandon: Switched to using CGSC!
-        // Probably switch to Async Later
-        CGSC.LoadScene(value);
+        CGSC.LoadScene(value, true, true);
     }
 
     public void LevelSelect()
