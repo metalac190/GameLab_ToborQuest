@@ -94,7 +94,7 @@ public class CGSC : MonoBehaviour
     private static void UnpauseGameResponse()
     {
         Time.timeScale = 1;
-        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.lockState = InMainMenu ? CursorLockMode.None : CursorLockMode.Locked;
         Instance.SetSceneTransitionBool(false);
     }
 
