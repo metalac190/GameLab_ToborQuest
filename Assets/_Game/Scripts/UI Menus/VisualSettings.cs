@@ -6,19 +6,36 @@ using UnityEngine.UI;
 
 public class VisualSettings : MonoBehaviour
 {
-    [SerializeField, Range(0, 2)] private int _activeQuality;
+    [SerializeField, ReadOnly, Range(0, 2)] private int _activeQuality;
     [SerializeField] private GameObject _lowActive;
     [SerializeField] private GameObject _medActive;
 	[SerializeField] private GameObject _highActive;
     
-	[SerializeField, Range(0, 2)] private int _activeWindowMode;
+	[SerializeField, ReadOnly, Range(0, 2)] private int _activeWindowMode;
 	[SerializeField] private GameObject _fullscreen;
 	[SerializeField] private GameObject _borderless;
 	[SerializeField] private GameObject _windowed;
 
     private void Start()
     {
-        // TODO: Set Initial Quality Value
+	    LoadValues();
+    }
+    
+    private void OnEnable()
+    {
+	    ExtrasSettings.OnResetData += LoadValues;
+    }
+
+    private void OnDisable()
+    {
+	    ExtrasSettings.OnResetData -= LoadValues;
+    }
+
+
+    public void LoadValues()
+    {
+	    _activeQuality = SavingManager.Quality;
+	    _activeWindowMode = SavingManager.WindowMode;
 	    UpdateActiveQuality();
 	    UpdateWindowMode();
     }

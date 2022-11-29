@@ -1664,7 +1664,7 @@ Transform:
   - {fileID: 1907400750}
   - {fileID: 777756566}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &75050921
 GameObject:
@@ -1805,9 +1805,9 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 83323080}
   m_Enabled: 1
-  m_Alpha: 0
-  m_Interactable: 0
-  m_BlocksRaycasts: 0
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
 --- !u!1 &102096334
 GameObject:
@@ -5911,63 +5911,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 316457477}
   m_CullTransparentMesh: 1
---- !u!1 &323574327
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 323574328}
-  - component: {fileID: 323574329}
-  m_Layer: 0
-  m_Name: SavingManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &323574328
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 323574327}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 625487348}
-  m_Father: {fileID: 0}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &323574329
+--- !u!114 &323574329 stripped
 MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 323574329, guid: 55bdc756c6b28454aa1e06ffb587c257,
+    type: 3}
+  m_PrefabInstance: {fileID: 1377941711}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 323574327}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2d7db87f87c8cc54c89b93b2104d6ccd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LoadOnAwake: 1
-  storage: {fileID: 625487349}
-  masterSlider: {fileID: 1480423202}
-  musicSlider: {fileID: 708905243}
-  sfxSlider: {fileID: 487353027}
-  dialogueSlider: {fileID: 572636499}
-  ambienceSlider: {fileID: 873332473}
-  highQButton: {fileID: 537625192}
-  mediumQButton: {fileID: 1565954601}
-  lowQButton: {fileID: 332414969}
-  extraSettings: {fileID: 1741407314}
-  dialogueScale: {fileID: 1583340639}
 --- !u!1 &327591346
 GameObject:
   m_ObjectHideFlags: 0
@@ -7118,7 +7073,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &384365871
 GameObject:
@@ -8701,7 +8656,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 233816436}
         m_TargetAssemblyTypeName: soundSettings, Assembly-CSharp
-        m_MethodName: setSFXLvl
+        m_MethodName: SetSfxLvl
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -10013,7 +9968,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 233816436}
         m_TargetAssemblyTypeName: soundSettings, Assembly-CSharp
-        m_MethodName: setDialogueVol
+        m_MethodName: SetDialogueVol
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -10382,7 +10337,7 @@ RectTransform:
   - {fileID: 204449570}
   - {fileID: 1492194446}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -11316,51 +11271,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 615963316}
   m_CullTransparentMesh: 1
---- !u!1 &625487347
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 625487348}
-  - component: {fileID: 625487349}
-  m_Layer: 0
-  m_Name: PersistentSettingsStorage
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &625487348
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 625487347}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 323574328}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &625487349
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 625487347}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 268d047c7b132ca4abc521e984f1e42f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  saveFileName: SettingsValues
 --- !u!1 &627180301
 GameObject:
   m_ObjectHideFlags: 0
@@ -13734,7 +13644,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 233816436}
         m_TargetAssemblyTypeName: soundSettings, Assembly-CSharp
-        m_MethodName: setMusicLvl
+        m_MethodName: SetMusicLvl
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -15340,7 +15250,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &801155885
 GameObject:
@@ -16602,7 +16512,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 233816436}
         m_TargetAssemblyTypeName: soundSettings, Assembly-CSharp
-        m_MethodName: setAmbientLvl
+        m_MethodName: SetAmbientLvl
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -17977,7 +17887,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &963194229
 MonoBehaviour:
@@ -23733,9 +23643,9 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1250972404}
   m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
+  m_Alpha: 0
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!1 &1253023020
 GameObject:
@@ -24586,7 +24496,7 @@ RectTransform:
   m_Children:
   - {fileID: 1144122254}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -26349,7 +26259,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 233816436}
         m_TargetAssemblyTypeName: soundSettings, Assembly-CSharp
-        m_MethodName: setMasterVol
+        m_MethodName: SetMasterVol
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -26827,7 +26737,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1501093290
 GameObject:
@@ -27762,7 +27672,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 233816436}
         m_TargetAssemblyTypeName: soundSettings, Assembly-CSharp
-        m_MethodName: setDialogueVol
+        m_MethodName: SetDialogueVol
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -33121,7 +33031,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2049652176}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -33339,7 +33249,7 @@ Transform:
   - {fileID: 5345093}
   - {fileID: 705507995}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2053527091
 GameObject:
@@ -34764,7 +34674,7 @@ PrefabInstance:
     - target: {fileID: 900600364631902325, guid: f8505dacb4dcb934680eea9e8ef8da52,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 900600364631902325, guid: f8505dacb4dcb934680eea9e8ef8da52,
         type: 3}

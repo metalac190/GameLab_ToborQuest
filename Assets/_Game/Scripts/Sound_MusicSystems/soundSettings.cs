@@ -1,11 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-public class soundSettings : MonoBehaviour
+public class SoundSettings : MonoBehaviour
 {
     public AudioMixer _mixer;
     
@@ -24,41 +21,65 @@ public class soundSettings : MonoBehaviour
 
     private void Start()
     {
-        // TODO: Store values using save system and set slider values on start instead
-        
-        Debug.Log("Resetting all volume mixers to slider defaults in settings menu", gameObject);
-        _mixer.SetFloat(MasterMixer, Convert(_masterSlider.value));
-        _mixer.SetFloat(MusicMixer, Convert(_musicSlider.value));
-        _mixer.SetFloat(SfxMixer, Convert(_sfxSlider.value));
-        _mixer.SetFloat(ToborMixer, Convert(_sfxSlider.value));
-        _mixer.SetFloat(DialogueMixer, Convert(_dialogueSlider.value));
-        _mixer.SetFloat(AmbienceMixer, Convert(_ambienceSlider.value));
-    }
-    
-    public void setMasterVol(float _masterLvl)
-    {
-        _mixer.SetFloat(MasterMixer, Convert(_masterLvl));
-    }
-    
-    public void setMusicLvl(float _musicLvl)
-    {
-        _mixer.SetFloat(MusicMixer, Convert(_musicLvl));
+        LoadSliderValues();
     }
 
-    public void setSFXLvl(float _sfxLvl)
+    private void OnEnable()
     {
-        _mixer.SetFloat(SfxMixer, Convert(_sfxLvl));
-        _mixer.SetFloat(ToborMixer, Convert(_sfxLvl));
+        ExtrasSettings.OnResetData += LoadSliderValues;
+    }
+
+    private void OnDisable()
+    {
+        ExtrasSettings.OnResetData -= LoadSliderValues;
+    }
+
+
+    public void LoadSliderValues()
+    {
+        SetValue(_masterSlider, MasterMixer, SavingManager.MasterVolume);
+        SetValue(_musicSlider, MusicMixer, SavingManager.MusicVolume);
+        SetValue(_sfxSlider, ToborMixer, SavingManager.SfxVolume);
+        SetValue(_sfxSlider, SfxMixer, SavingManager.SfxVolume);
+        SetValue(_dialogueSlider, DialogueMixer, SavingManager.DialogueVolume);
+        SetValue(_ambienceSlider, AmbienceMixer, SavingManager.AmbientVolume);
+    }
+
+    private void SetValue(Slider slider, string mixer, float value)
+    {
+        slider.value = value;
+        _mixer.SetFloat(mixer, Convert(value));
     }
     
-    public void setDialogueVol(float _dialogueVol)
+    public void SetMasterVol(float value)
     {
-        _mixer.SetFloat(DialogueMixer, Convert(_dialogueVol));
+        _mixer.SetFloat(MasterMixer, Convert(value));
+        SavingManager.MasterVolume = value;
     }
     
-    public void setAmbientLvl(float _ambientVol)
+    public void SetMusicLvl(float value)
     {
-        _mixer.SetFloat(AmbienceMixer, Convert(_ambientVol));
+        _mixer.SetFloat(MusicMixer, Convert(value));
+        SavingManager.MusicVolume = value;
+    }
+
+    public void SetSfxLvl(float value)
+    {
+        _mixer.SetFloat(SfxMixer, Convert(value));
+        _mixer.SetFloat(ToborMixer, Convert(value));
+        SavingManager.SfxVolume = value;
+    }
+    
+    public void SetDialogueVol(float value)
+    {
+        _mixer.SetFloat(DialogueMixer, Convert(value));
+        SavingManager.DialogueScale = value;
+    }
+    
+    public void SetAmbientLvl(float value)
+    {
+        _mixer.SetFloat(AmbienceMixer, Convert(value));
+        SavingManager.AmbientVolume = value;
     }
 
     private static float Convert(float value) => value == 0 ? -80 : Mathf.Log10(value) * 20;

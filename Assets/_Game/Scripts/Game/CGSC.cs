@@ -16,6 +16,10 @@ public class CGSC : MonoBehaviour
     public static bool PlayingQuest;
     public static float TotalTime;
 
+    [SerializeField] private SavingManager _savingManager;
+
+    public static SavingManager SaveSystem => Instance._savingManager;
+
     public void SetPlayingQuest(bool playing) => PlayingQuest = playing;
 
     private void Awake()
