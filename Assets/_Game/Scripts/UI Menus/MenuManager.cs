@@ -18,10 +18,9 @@ public class MenuManager : MonoBehaviour
 
     public MenuType currentMenu { get; set; } = MenuType.MainMenu;
 
-    [SerializeField]
-    private GameObject mainMenuSelect;
-    [SerializeField]
-    private GameObject levelSelectGameObject;
+    [SerializeField] private GameObject mainMenuSelect;
+    [SerializeField] private GameObject levelSelectGameObject;
+    
     private MenuAnimations menuAnimations;
 
     public MenuAnimations MenuAnimations
