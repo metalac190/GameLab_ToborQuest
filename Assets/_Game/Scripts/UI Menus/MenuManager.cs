@@ -35,8 +35,13 @@ public class MenuManager : MonoBehaviour
     {
         menuAnimations = GetComponent<MenuAnimations>();
         menuControllerList.ForEach(x => x.gameObject.SetActive(true));
-        SetActiveMenu(currentMenu);
+        //SetActiveMenu(currentMenu);
         SetCurrentButtonSelect(mainMenuSelect);
+        menuControllerList.ForEach(x =>
+        {
+            if (x.menuType == MenuType.LevelInfoMenu)
+                x.gameObject.SetActive(false);          
+        });
     }
 
     //This makes it so I can change current menu in inspector and debug
