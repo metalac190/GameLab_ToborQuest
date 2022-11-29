@@ -1,8 +1,8 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class SavingManager : PersistableObject
 {
-    private const int SaveVersion = 2;
+	private const int SaveVersion = 3;
 
     [SerializeField] private PersistentStorage _storage;
 
@@ -13,9 +13,10 @@ public class SavingManager : PersistableObject
     [SerializeField] private float _dialogueVolumeDefault;
     [SerializeField] private float _ambientVolumeDefault;
     [SerializeField, Range(0, 2)] private int _windowModeDefault;
-    [SerializeField, Range(0, 2)] private int _qualityDefault;
-    [SerializeField] private bool _disableDialogueDefault;
-    [SerializeField] private float _dialogueScaleDefault;
+	[SerializeField, Range(0, 2)] private int _qualityDefault;
+	[SerializeField] private bool _bSideAudioDefault;
+	[SerializeField] private float _dialogueScaleDefault;
+	[SerializeField] private bool _disableDialogueDefault;
 
     public static float MasterVolume;
     public static float MusicVolume;
@@ -23,9 +24,10 @@ public class SavingManager : PersistableObject
     public static float DialogueVolume;
     public static float AmbientVolume;
     public static int WindowMode;
-    public static int Quality;
-    public static bool DisableDialogue;
-    public static float DialogueScale;
+	public static int Quality;
+	public static bool BSideAudio;
+	public static float DialogueScale;
+	public static bool DisableDialogue;
 
     private void Awake()
     {
@@ -47,9 +49,10 @@ public class SavingManager : PersistableObject
         writer.Write(DialogueVolume);
         writer.Write(AmbientVolume);
         writer.Write(WindowMode);
-        writer.Write(Quality);
-        writer.Write(DisableDialogue);
-        writer.Write(DialogueScale);
+	    writer.Write(Quality);
+	    writer.Write(BSideAudio);
+	    writer.Write(DialogueScale);
+	    writer.Write(DisableDialogue);
     }
 
     [Button]
@@ -63,8 +66,9 @@ public class SavingManager : PersistableObject
         AmbientVolume = _ambientVolumeDefault;
         WindowMode = _windowModeDefault;
         Quality = _qualityDefault;
-        DisableDialogue = _disableDialogueDefault;
-        DialogueScale = _dialogueScaleDefault;
+        BSideAudio = _bSideAudioDefault;
+	    DialogueScale = _dialogueScaleDefault;
+	    DisableDialogue = _disableDialogueDefault;
         ButtonSave();
     }
 
@@ -84,8 +88,9 @@ public class SavingManager : PersistableObject
         AmbientVolume = reader.ReadFloat();
         WindowMode = reader.ReadInt();
         Quality = reader.ReadInt();
-        DisableDialogue = reader.ReadBool();
-        DialogueScale = reader.ReadFloat();
+        BSideAudio = reader.ReadBool();
+	    DialogueScale = reader.ReadFloat();
+	    DisableDialogue = reader.ReadBool();
     }
 
     [Button]
@@ -97,8 +102,9 @@ public class SavingManager : PersistableObject
         Debug.Log($"DialogueVolume: {DialogueVolume}");
         Debug.Log($"AmbientVolume: {AmbientVolume}");
         Debug.Log($"WindowMode: {WindowMode}");
-        Debug.Log($"Quality: {Quality}");
-        Debug.Log($"DisableDialogue: {DisableDialogue}");
-        Debug.Log($"DialogueScale: {DialogueScale}");
+	    Debug.Log($"Quality: {Quality}");
+	    Debug.Log($"BSideAudio: {BSideAudio}");
+	    Debug.Log($"DialogueScale: {DialogueScale}");
+	    Debug.Log($"DisableDialogue: {DisableDialogue}");
     }
 }
