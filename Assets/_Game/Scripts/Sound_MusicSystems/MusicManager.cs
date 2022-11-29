@@ -156,5 +156,10 @@ namespace SoundSystem
         {
 
         }
+
+        public void EndDrums()
+        {
+            ActivePlayer.drumsEnd();
+        }
     }
 }

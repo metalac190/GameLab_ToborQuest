@@ -15,7 +15,7 @@ namespace SoundSystem
         Coroutine _stopRountine = null;
 
         bool _changeCalled;
-
+        bool _endingDrums;
         private void Awake()
         {
             CreateLayerSources();
@@ -192,10 +192,14 @@ namespace SoundSystem
                 if (_layerSources[0].time >= 7.9f && _changeCalled == false)
                 {
                     _changeCalled = true;
-                    MusicManager.Instance.IncreaseLayerIndex(0f);
+                    MusicManager.Instance.IncreaseLayerIndex(0.15f);
+                    _layerSources[1].time = 0;
+
+                }
+                if (_layerSources[1].volume == 1)
+                {
                     _layerSources[0].time = 0;
                     _layerSources[0].Pause();
-                    _layerSources[1].time = 0;
                 }
             }
             if (_musicEvent != null && _musicEvent.name == "MUS_BTrackMainMenu")
@@ -203,10 +207,14 @@ namespace SoundSystem
                 if (_layerSources[0].time >= 7.9f && _changeCalled == false)
                 {
                     _changeCalled = true;
-                    MusicManager.Instance.IncreaseLayerIndex(0f);
+                    MusicManager.Instance.IncreaseLayerIndex(0.15f);
+                    _layerSources[1].time = 0;
+
+                }
+                if (_layerSources[1].volume == 1)
+                {
                     _layerSources[0].time = 0;
                     _layerSources[0].Pause();
-                    _layerSources[1].time = 0;
                 }
             }
             if (_musicEvent != null && _musicEvent.name == "MUS_Credits")
@@ -214,10 +222,13 @@ namespace SoundSystem
                 if (_layerSources[0].time >= 32.1f && _changeCalled == false)
                 {
                     _changeCalled = true;
-                    MusicManager.Instance.IncreaseLayerIndex(0f);
+                    MusicManager.Instance.IncreaseLayerIndex(0.1f);
+                    _layerSources[1].time = 0;
+                }
+                if (_layerSources[1].volume == 1)
+                {
                     _layerSources[0].time = 0;
                     _layerSources[0].Pause();
-                    _layerSources[1].time = 0;
                 }
             }
             if (_musicEvent != null && _musicEvent.name == "MUS_BTrackCredits")
@@ -225,12 +236,31 @@ namespace SoundSystem
                 if (_layerSources[0].time >= 32.1f && _changeCalled == false)
                 {
                     _changeCalled = true;
+                    MusicManager.Instance.IncreaseLayerIndex(0.1f);
+                    _layerSources[1].time = 0;
+                }
+                if (_layerSources[1].volume == 1)
+                {
+                    _layerSources[0].time = 0;
+                    _layerSources[0].Pause();
+                }
+            }
+            if(_endingDrums == true)
+            {
+                if (_layerSources[0].time >= 6.5f)
+                {
                     MusicManager.Instance.IncreaseLayerIndex(0f);
                     _layerSources[0].time = 0;
                     _layerSources[0].Pause();
                     _layerSources[1].time = 0;
+                    _endingDrums = false;
                 }
             }
+        }
+
+        public void drumsEnd()
+        {
+            _endingDrums = true;
         }
     }
 }
