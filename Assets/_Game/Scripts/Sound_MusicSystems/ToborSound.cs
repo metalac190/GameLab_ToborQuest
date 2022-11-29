@@ -153,7 +153,9 @@ public class ToborSound : MonoBehaviour
     void OnUnPause()
     {
         _engineSound.Play();
+        _driftSound.volume = 0;
         _driftSound.Play();
+        _boostSound.volume = 0;
         _boostSound.Play();
         unPauseSound.Play();
     }
