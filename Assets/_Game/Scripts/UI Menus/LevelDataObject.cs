@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -40,55 +40,48 @@ public class LevelDataObject : ScriptableObject
     public float GoldGoal => goldGoal;
 
     //called the menu panel's awake so it gets prepped when launching menu
-    public void PrepData() {
+	public void PrepData()
+	{
         levelSaveTimeName = GetLevelSceneName() + "BestTime";
 
         bestTime = BestTimeSaved;
-        BestTimeFormatted = SetFormattedTime(bestTime);
+        BestTimeFormatted = TimerUI.ConvertTimeToText(bestTime);
 
+	    SetNewMedal();
         SetNewGoal();
-        NextGoalTimeFormatted = SetFormattedTime(nextGoalTime);
-
-        ExtrasSettings.OnResetData += ResetData;
+        NextGoalTimeFormatted = TimerUI.ConvertTimeToText(nextGoalTime);
     }
 
     public string GetLevelSceneName() => levelScene;
 
-    public void SetNewBestTime(float time, string levelSaveTimeName) {
-        //set the new best time
+	public void SetNewBestTime(float time, string levelSaveTimeName)
+	{
         bestTime = time;
-        BestTimeFormatted = SetFormattedTime(bestTime);
+        BestTimeFormatted = TimerUI.ConvertTimeToText(bestTime);
         PlayerPrefs.SetFloat(levelSaveTimeName, time);
 
-        //set the new medal
-        float[] orderedGoalArray = new float[] { int.MaxValue, BronzeGoal, SilverGoal, GoldGoal };
-
-        for(int i = 0; i < orderedGoalArray.Length; i++) {
-            if(orderedGoalArray[i] >= bestTime) {
-                continue;
-            } else {
-                CurrentMedal = (MedalType)i - 1;
-                return;
-            }
-        }
-        CurrentMedal = MedalType.Gold;
-
-        //set the new goal
-        SetNewGoal();
+	    SetNewMedal();
+	    SetNewGoal();
     }
+    
+	public void SetNewMedal() => CurrentMedal = GetMedal(bestTime, BronzeGoal, SilverGoal, GoldGoal);
+	
+	public static MedalType GetMedal(float time, float bronze, float silver, float gold)
+	{
+		if (time == 0) return MedalType.None;
+		float[] orderedGoalArray = new float[] { int.MaxValue, bronze, silver, gold };
+		
+		for(int i = 0; i < orderedGoalArray.Length; i++)
+		{
+			if(orderedGoalArray[i] >= time) continue;
+			else return (MedalType)i - 1;
+		}
+		return MedalType.Gold;
+	}
 
-    public void SetNewGoal() {
-        float[] orderedGoalArray = new float[] { BronzeGoal, SilverGoal, GoldGoal };
-
-        //set the new goal time
-        nextGoalTime = 0; //only stays zero if the best time is gold
-        for(int i = 0; i < orderedGoalArray.Length; i++) {
-            if(orderedGoalArray[i] < bestTime) {
-                nextGoalTime = orderedGoalArray[i];
-                break;
-            }
-        }
-        NextGoalTimeFormatted = SetFormattedTime(nextGoalTime);
+	public void SetNewGoal()
+	{
+	    NextGoalTimeFormatted = GetNextGoal(CurrentMedal, BronzeGoal, SilverGoal, GoldGoal);
 
         //set the new goal medal
         if((bestTime == 0) || (CurrentMedal == MedalType.Gold)) {
@@ -96,24 +89,18 @@ public class LevelDataObject : ScriptableObject
         } else {
             NextGoalMedal = CurrentMedal + 1;
         }
-    }
-
-    private string SetFormattedTime(float time) {
-        TimeSpan tempTime = TimeSpan.FromSeconds(time);
-        if(time == 0)
-            return "--:--:---";
-        else if(time > 3600)
-            return tempTime.ToString(@"hh\:mm\:ss\:fff");
-        else
-            return tempTime.ToString(@"mm\:ss\:fff");
-    }
-
-    private void ResetData() {
-        bestTime = 0;
-        CurrentMedal = MedalType.None;
-        BestTimeFormatted = SetFormattedTime(bestTime);
-        nextGoalTime = 0;
-        NextGoalMedal = MedalType.None;
-        NextGoalTimeFormatted = SetFormattedTime(nextGoalTime);
-    }
+	}
+	
+	public static string GetNextGoal(MedalType medal, float bronze, float silver, float gold)
+	{
+		float nextBestTime = medal switch
+		{
+			MedalType.None => bronze,
+			MedalType.Bronze => silver,
+			MedalType.Silver => gold,
+			MedalType.Gold => 0,
+			_ => 0
+		};
+		return TimerUI.ConvertTimeToText(nextBestTime);
+	}
 }

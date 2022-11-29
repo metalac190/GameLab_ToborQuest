@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -30,13 +30,19 @@ public class MenuLevelInfoPanel : MonoBehaviour
     private void OnEnable()
     {
         SetTimes();
-        ExtrasSettings.OnResetData += SetTimes;
+        ExtrasSettings.OnResetData += DataReset;
     }
 
     private void OnDisable()
     {
-        ExtrasSettings.OnResetData -= SetTimes;
+        ExtrasSettings.OnResetData -= DataReset;
     }
+    
+	private void DataReset()
+	{
+		levelDataObj.PrepData();
+		SetTimes();
+	}
 
     private void SetTimes()
     {
