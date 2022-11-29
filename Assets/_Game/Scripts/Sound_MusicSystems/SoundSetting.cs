@@ -1,8 +1,8 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
 
-public class SoundSettings : MonoBehaviour
+public class SoundSetting : MonoBehaviour
 {
     public AudioMixer _mixer;
     
@@ -15,7 +15,6 @@ public class SoundSettings : MonoBehaviour
     private const string MasterMixer = "MasterVol";
     private const string MusicMixer = "MusicVol";
     private const string SfxMixer = "SFXVol";
-    private const string ToborMixer = "ToborVol";
     private const string DialogueMixer = "dialogueVol";
     private const string AmbienceMixer = "AmbientVol";
 
@@ -38,7 +37,6 @@ public class SoundSettings : MonoBehaviour
     {
         SetValue(_masterSlider, MasterMixer, SavingManager.MasterVolume);
         SetValue(_musicSlider, MusicMixer, SavingManager.MusicVolume);
-        SetValue(_sfxSlider, ToborMixer, SavingManager.SfxVolume);
         SetValue(_sfxSlider, SfxMixer, SavingManager.SfxVolume);
         SetValue(_dialogueSlider, DialogueMixer, SavingManager.DialogueVolume);
         SetValue(_ambienceSlider, AmbienceMixer, SavingManager.AmbientVolume);
@@ -65,7 +63,6 @@ public class SoundSettings : MonoBehaviour
     public void SetSfxLvl(float value)
     {
         _mixer.SetFloat(SfxMixer, Convert(value));
-        _mixer.SetFloat(ToborMixer, Convert(value));
         SavingManager.SfxVolume = value;
     }
     

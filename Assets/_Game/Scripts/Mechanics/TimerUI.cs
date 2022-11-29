@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -50,19 +50,10 @@ public class TimerUI : MonoBehaviour
     public static string ConvertTimeToText(float t)
     {
         TimeSpan time = TimeSpan.FromSeconds(t);
-        return time.ToString(t > 3600 ? @"hh\:mm\:ss\:fff" : @"mm\:ss\:fff");
+        return time.ToString(t > 3600 ? @"hh\:mm\:ss\:ff" : @"mm\:ss\:ff");
     }
 
-    public string GetCurrentTime()
-    {
-        string timeFormat;
-        TimeSpan time = TimeSpan.FromSeconds(timeRemaining);
-        if (timeRemaining > 3600)
-            timeFormat = time.ToString(@"hh\:mm\:ss\:fff");
-        else
-            timeFormat = time.ToString(@"mm\:ss\:fff");
-        return timeFormat;
-    }
+	public string GetCurrentTime() => ConvertTimeToText(timeRemaining);
 
     public void StartTimer()
     {
