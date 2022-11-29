@@ -8,7 +8,8 @@ public enum MenuType
     MainMenu,
     LevelSelect,
     LevelInfoMenu,
-    Settings
+    Settings,
+    QuestSelect
 }
 
 public class MenuManager : MonoBehaviour
@@ -44,18 +45,20 @@ public class MenuManager : MonoBehaviour
         if (currentMenu == lastActiveMenu)
             return;
 
-        SetActiveMenu(currentMenu);
+        lastActiveMenu = currentMenu;
+        //SetActiveMenu(currentMenu);
     }
 
     private void SetActiveMenu(MenuType value)
     {
-        menuControllerList.ForEach(x =>
-        {
-            if (x.menuType != value)
-                x.gameObject.SetActive(false);
-            else
-                x.gameObject.SetActive(true);
-        });
+        //Debug.Log("deactivate menu");
+        //menuControllerList.ForEach(x =>
+        //{
+        //    if (x.menuType != value)
+        //        x.gameObject.SetActive(false);
+        //    else
+        //        x.gameObject.SetActive(true);
+        //});
         lastActiveMenu = value;
     }
 
@@ -70,9 +73,9 @@ public class MenuManager : MonoBehaviour
         switch (tempMenu)
         {
             case (MenuType.MainMenu):
-                if (menuAnimations.AnimatorController.GetBool("LevelSelect"))
+                if (menuAnimations.AnimatorController.GetBool("QuestSelect"))
                 {
-                    menuAnimations.LevelSelect(false, () =>
+                    menuAnimations.QuestSelect(false, () =>
                     {
                         currentMenu = tempMenu;
                     });
@@ -113,12 +116,31 @@ public class MenuManager : MonoBehaviour
                     currentMenu = tempMenu;
                 });
                 break;
+            case (MenuType.QuestSelect):
+                if (menuAnimations.AnimatorController.GetBool("LevelSelect"))
+                {
+                    menuAnimations.LevelSelect(false, ()=> {
+                        currentMenu = tempMenu;
+                    });
+                }
+                else
+                {
+                    menuAnimations.QuestSelect(true, () => {
+                        currentMenu = tempMenu;
+                    });
+                }
+                break;
         }            
     }
 
     public void ChangeScene(string value)
     {
         CGSC.LoadScene(value, true, true);
+    }
+
+    public void QuestSelect()
+    {
+
     }
 
     public void LevelSelect()
