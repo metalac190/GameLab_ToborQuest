@@ -33,8 +33,7 @@ public class SoundSettings : MonoBehaviour
     {
         ExtrasSettings.OnResetData -= LoadSliderValues;
     }
-
-
+    
     public void LoadSliderValues()
     {
         SetValue(_masterSlider, MasterMixer, SavingManager.MasterVolume);

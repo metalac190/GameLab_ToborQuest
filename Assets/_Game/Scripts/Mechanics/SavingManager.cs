@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class SavingManager : PersistableObject
 {
-    private const int SaveVersion = 6;
+    private const int SaveVersion = 2;
 
     [SerializeField] private PersistentStorage _storage;
 
