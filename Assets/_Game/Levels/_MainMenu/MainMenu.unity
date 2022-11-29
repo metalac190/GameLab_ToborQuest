@@ -3654,18 +3654,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 109}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &194564908 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7013580136569588018, guid: 55bdc756c6b28454aa1e06ffb587c257,
-    type: 3}
-  m_PrefabInstance: {fileID: 1377941711}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2785315d7d5d3a843a358657adf79e3b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &199318224
 GameObject:
   m_ObjectHideFlags: 0
@@ -9945,6 +9933,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 144358afcca4ac04bbf778e6418c0ca9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _levelToLoadFirst: Level 1
   _text: {fileID: 106166807}
   _nextBestText: {fileID: 1620401675}
   _bronzeTime: 240
@@ -20178,28 +20167,16 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 194564908}
-        m_TargetAssemblyTypeName: CGSC, Assembly-CSharp
-        m_MethodName: SetPlayingQuest
-        m_Mode: 6
+      - m_Target: {fileID: 560895690}
+        m_TargetAssemblyTypeName: LoadBestQuestTime, Assembly-CSharp
+        m_MethodName: StartQuest
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 577549128}
-        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
-        m_MethodName: ChangeScene
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: Level 1
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1126784222

@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class LoadBestQuestTime : MonoBehaviour
 {
+    [SerializeField] private string _levelToLoadFirst = "Level 1";
     [SerializeField] private TMP_Text _text;
     [SerializeField] private TMP_Text _nextBestText;
     [SerializeField] private float _bronzeTime;
@@ -44,5 +45,13 @@ public class LoadBestQuestTime : MonoBehaviour
             return (MedalType)i - 1;
         }
         return MedalType.Gold;
+    }
+
+    public void StartQuest()
+    {
+        CGSC.PlayingQuest = true;
+        TimerUI.levelTime = 0;
+        CGSC.TotalTime = 0;
+        CGSC.LoadScene(_levelToLoadFirst, true, true);
     }
 }
