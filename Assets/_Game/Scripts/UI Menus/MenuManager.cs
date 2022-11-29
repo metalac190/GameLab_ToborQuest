@@ -32,12 +32,12 @@ public class MenuManager : MonoBehaviour
 
     private void Awake()
     {
-        Cursor.lockState = CursorLockMode.None;
         menuAnimations = GetComponent<MenuAnimations>();
         menuControllerList.ForEach(x => x.gameObject.SetActive(true));
         SetActiveMenu(currentMenu);
         SetCurrentButtonSelect(mainMenuSelect);
     }
+    
     //This makes it so I can change current menu in inspector and debug
     private void Update()
     {
