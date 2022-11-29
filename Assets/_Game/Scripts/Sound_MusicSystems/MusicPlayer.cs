@@ -189,10 +189,10 @@ namespace SoundSystem
         {
             if (_musicEvent != null && _musicEvent.name == "MUS_MainMenu")
             {
-                if (_layerSources[0].time >= 7.9f && _changeCalled == false)
+                if (_layerSources[0].time >= 7.25f && _changeCalled == false)
                 {
                     _changeCalled = true;
-                    MusicManager.Instance.IncreaseLayerIndex(0.15f);
+                    MusicManager.Instance.IncreaseLayerIndex(0);
                     _layerSources[1].time = 0;
 
                 }
@@ -204,10 +204,10 @@ namespace SoundSystem
             }
             if (_musicEvent != null && _musicEvent.name == "MUS_BTrackMainMenu")
             {
-                if (_layerSources[0].time >= 7.9f && _changeCalled == false)
+                if (_layerSources[0].time >= 7.25f && _changeCalled == false)
                 {
                     _changeCalled = true;
-                    MusicManager.Instance.IncreaseLayerIndex(0.15f);
+                    MusicManager.Instance.IncreaseLayerIndex(0);
                     _layerSources[1].time = 0;
 
                 }
@@ -219,10 +219,10 @@ namespace SoundSystem
             }
             if (_musicEvent != null && _musicEvent.name == "MUS_Credits")
             {
-                if (_layerSources[0].time >= 32.1f && _changeCalled == false)
+                if (_layerSources[0].time >= 31f && _changeCalled == false)
                 {
                     _changeCalled = true;
-                    MusicManager.Instance.IncreaseLayerIndex(0.1f);
+                    MusicManager.Instance.IncreaseLayerIndex(0);
                     _layerSources[1].time = 0;
                 }
                 if (_layerSources[1].volume == 1)
@@ -233,10 +233,10 @@ namespace SoundSystem
             }
             if (_musicEvent != null && _musicEvent.name == "MUS_BTrackCredits")
             {
-                if (_layerSources[0].time >= 32.1f && _changeCalled == false)
+                if (_layerSources[0].time >= 31f && _changeCalled == false)
                 {
                     _changeCalled = true;
-                    MusicManager.Instance.IncreaseLayerIndex(0.1f);
+                    MusicManager.Instance.IncreaseLayerIndex(0);
                     _layerSources[1].time = 0;
                 }
                 if (_layerSources[1].volume == 1)
