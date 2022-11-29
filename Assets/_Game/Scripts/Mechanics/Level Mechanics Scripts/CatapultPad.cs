@@ -17,6 +17,7 @@ public class CatapultPad : InteractablePad {
     [SerializeField] private Transform targetTransform;
     [SerializeField, ReadOnly] private float launchSpeed;
     [SerializeField, ReadOnly] private float flightTime;
+    [SerializeField] private Animator _animator;
 
     private Vector3 arcDirection;
     private float arcDistance;
@@ -35,6 +36,7 @@ public class CatapultPad : InteractablePad {
         rb.velocity = catapultLauncher.up * launchSpeed;
         //trigger the catapult's effects on Tobor
         if(effects) effects.PlayOnCatapult();
+        _animator.SetTrigger("Trigger");
     }
 
     //disable custom gravity, movement controls, and drag on Tobor
