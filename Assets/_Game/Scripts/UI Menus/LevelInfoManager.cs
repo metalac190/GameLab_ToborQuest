@@ -40,7 +40,7 @@ public class LevelInfoManager : MonoBehaviour
     public void SetBackLevelButton(GameObject value)
     {        
         backLevelButton = value;
-        onBack.onClick.RemoveAllListeners();
+        onBack.onClick.RemoveAllListeners();    
         onBack.onClick.AddListener(() =>
         {
             EventSystem.current.SetSelectedGameObject(backLevelButton);
