@@ -35,7 +35,7 @@ public class LoadBestQuestTime : MonoBehaviour
 	private void CheckQuestMedal()
 	{
 		float time = 0;
-		var medal = MedalType.Bronze;
+		var medal = MedalType.None;
 		if (PlayerPrefs.HasKey(QuestTimePref))
 		{
 			time = PlayerPrefs.GetFloat(QuestTimePref);
