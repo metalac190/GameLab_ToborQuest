@@ -25,7 +25,7 @@ public class ExtrasSettings : MonoBehaviour
 		_bSideAudioActive.SetActive(BSideAudio);
     }
     
-    public void ResetData()
+	public void ResetAllSettings()
     {
         PlayerPrefs.DeleteAll();
         CGSC.SaveSystem.DeleteSave();
@@ -33,6 +33,11 @@ public class ExtrasSettings : MonoBehaviour
         OnResetData?.Invoke();
         LoadValues();
     }
+    
+	public void ResetAllTimes()
+	{
+		
+	}
 
     public void ToggleDialogue()
     {
