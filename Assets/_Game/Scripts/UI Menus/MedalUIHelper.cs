@@ -9,6 +9,7 @@ public class MedalUIHelper : ScriptableObject {
     [SerializeField] private Sprite bronzeMedalSprite;
     [SerializeField] private Sprite silverMedalSprite;
     [SerializeField] private Sprite goldMedalSprite;
+	[SerializeField] private Sprite platinumMedalSprite;
 	[SerializeField] private Sprite authorMedalSprite;
 
     public void SetMedalUI(Image medalImage, MedalType medalType) {
@@ -26,6 +27,9 @@ public class MedalUIHelper : ScriptableObject {
             case MedalType.Gold:
                 medalImage.sprite = goldMedalSprite;
 	            break;
+            case MedalType.Platinum:
+                medalImage.sprite = platinumMedalSprite;
+                break;
             case MedalType.Author:
 	            medalImage.sprite = authorMedalSprite;
 	            break;
