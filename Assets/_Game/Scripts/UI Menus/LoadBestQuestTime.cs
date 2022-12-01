@@ -11,11 +11,12 @@ public class LoadBestQuestTime : MonoBehaviour
     [SerializeField] private float _bronzeTime;
     [SerializeField] private float _silverTime;
     [SerializeField] private float _goldTime;
+    [SerializeField] private float _platinum;
 	[SerializeField] private float _authorTime;
     [SerializeField] private Image _medalImage;
+    [SerializeField] private Image _nextMedalImage;
+    [SerializeField] private CanvasGroup _nextTimeSection;
     [SerializeField] private MedalUIHelper _medals;
-    
-	public const string QuestTimePref = "BestQuestTime";
     
 	private void OnEnable()
 	{
@@ -36,11 +37,18 @@ public class LoadBestQuestTime : MonoBehaviour
 	{
 		float time = BestTimesSaver.GetBestTime(BestTime.Quest);
 		var medal = MedalType.None;
-		if (time > 0) medal = LevelDataObject.GetMedal(time, _bronzeTime, _silverTime, _goldTime, _authorTime);
+		var nextMedal = MedalType.None;
+		if (time > 0)
+		{
+			medal = LevelDataObject.GetMedal(time, _bronzeTime, _silverTime, _goldTime, _platinum, _authorTime);
+			if (medal != MedalType.Author) nextMedal = medal + 1;
+		}
+		_nextTimeSection.alpha = time == 0 || medal == MedalType.Author ? 0 : 1;
 		
-		_medals.SetMedalUI(_medalImage, medal);
+		if (_medalImage) _medals.SetMedalUI(_medalImage, medal);
+		if (_nextMedalImage) _medals.SetMedalUI(_nextMedalImage, nextMedal);
 		_text.text = TimerUI.ConvertTimeToText(time);
-		_nextBestText.text = LevelDataObject.GetNextGoalFormatted(medal, _bronzeTime, _silverTime, _goldTime, _authorTime);
+		_nextBestText.text = LevelDataObject.GetNextGoalFormatted(medal, _bronzeTime, _silverTime, _goldTime, _platinum, _authorTime);
 	}
 
     public void StartQuest()

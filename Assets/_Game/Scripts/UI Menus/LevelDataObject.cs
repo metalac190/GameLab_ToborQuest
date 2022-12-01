@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public enum MedalType { None, Bronze, Silver, Gold, Author }
+public enum MedalType { None, Bronze, Silver, Gold, Platinum, Author }
 
 [CreateAssetMenu()]
 public class LevelDataObject : ScriptableObject
@@ -24,6 +24,7 @@ public class LevelDataObject : ScriptableObject
     [SerializeField] private float bronzeGoal;
     [SerializeField] private float silverGoal;
     [SerializeField] private float goldGoal;
+    [SerializeField] private float platinumGoal;
 	[SerializeField] private float authorGoal;
 
 	[SerializeField, ReadOnly] private float bestTime;
@@ -37,6 +38,7 @@ public class LevelDataObject : ScriptableObject
     public float BronzeGoal => bronzeGoal;
     public float SilverGoal => silverGoal;
     public float GoldGoal => goldGoal;
+    public float PlatinumGoal => platinumGoal;
 	public float AuthorGoal => authorGoal;
 
 	public float BestTimeSaved => BestTimesSaver.GetBestTime(_levelSaveKey);
@@ -64,12 +66,12 @@ public class LevelDataObject : ScriptableObject
 		SetNewGoal();
 	}
     
-	public void SetNewMedal() => CurrentMedal = GetMedal(bestTime, BronzeGoal, SilverGoal, GoldGoal, AuthorGoal);
+	public void SetNewMedal() => CurrentMedal = GetMedal(bestTime, BronzeGoal, SilverGoal, GoldGoal, PlatinumGoal, AuthorGoal);
 	
-	public static MedalType GetMedal(float time, float bronze, float silver, float gold, float author)
+	public static MedalType GetMedal(float time, float bronze, float silver, float gold, float platinum, float author)
 	{
 		if (time == 0) return MedalType.None;
-		float[] orderedGoalArray = new float[] { int.MaxValue, bronze, silver, gold, author };
+		float[] orderedGoalArray = new float[] { int.MaxValue, bronze, silver, gold, platinum, author };
 		
 		for(int i = 0; i < orderedGoalArray.Length; i++)
 		{
@@ -81,33 +83,34 @@ public class LevelDataObject : ScriptableObject
 
 	public void SetNewGoal()
 	{
-		nextGoalTime = GetNextGoal(CurrentMedal, BronzeGoal, SilverGoal, GoldGoal, AuthorGoal);
+		nextGoalTime = GetNextGoal(CurrentMedal, BronzeGoal, SilverGoal, GoldGoal, PlatinumGoal, AuthorGoal);
 		NextGoalTimeFormatted = TimerUI.ConvertTimeToText(nextGoalTime);
 
         //set the new goal medal
-		if((bestTime == 0) || (CurrentMedal == MedalType.Author)) {
+		if(bestTime == 0 || CurrentMedal == MedalType.Author) {
             NextGoalMedal = MedalType.None;
         } else {
             NextGoalMedal = CurrentMedal + 1;
         }
 	}
 	
-	public static float GetNextGoal(MedalType medal, float bronze, float silver, float gold, float author)
+	public static float GetNextGoal(MedalType medal, float bronze, float silver, float gold, float platinum, float author)
 	{
 		var goalTime = medal switch
 		{
 			MedalType.None => bronze,
 			MedalType.Bronze => silver,
 			MedalType.Silver => gold,
-			MedalType.Gold => author,
+			MedalType.Gold => platinum,
+			MedalType.Platinum => author,
 			MedalType.Author => 0,
 			_ => 0
 		};
 		return goalTime;
 	}
 	
-	public static string GetNextGoalFormatted(MedalType medal, float bronze, float silver, float gold, float author)
+	public static string GetNextGoalFormatted(MedalType medal, float bronze, float silver, float gold, float platinum, float author)
 	{
-		return TimerUI.ConvertTimeToText(GetNextGoal(medal, bronze, silver, gold, author));
+		return TimerUI.ConvertTimeToText(GetNextGoal(medal, bronze, silver, gold, platinum, author));
 	}
 }
