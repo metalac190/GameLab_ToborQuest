@@ -33,10 +33,11 @@ public class CGSC : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-        
         Instance = this;
+        DontDestroyOnLoad(gameObject);
         
-	    DontDestroyOnLoad(gameObject);
+        _settingsSaver.ButtonLoad();
+        _bestTimesSaver.ButtonLoad();
     }
 
     private void OnValidate()

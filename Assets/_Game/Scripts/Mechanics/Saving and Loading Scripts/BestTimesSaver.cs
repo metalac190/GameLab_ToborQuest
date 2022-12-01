@@ -77,11 +77,6 @@ public class BestTimesSaver : PersistableObject
         return true;
     }
 
-    private void Awake()
-    {
-        ButtonLoad();
-    }
-
     [Button]
     public void ButtonSave() => _storage.Save(this, SaveVersion);
     [Button]
