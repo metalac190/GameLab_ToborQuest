@@ -13,6 +13,7 @@ public class LevelDataObject : ScriptableObject
     [SerializeField] private string levelScene;
     [SerializeField] private string levelName;
     [TextArea(3,6)] public string levelDecription;
+    [SerializeField] private BestTime _levelSaveKey = BestTime.None;
     public Sprite levelPanelPreviewSprite; //preview image on level select page
     public Sprite levelTitleSprite;
     public Sprite levelNameSprite;
@@ -27,9 +28,6 @@ public class LevelDataObject : ScriptableObject
 
 	[SerializeField, ReadOnly] private float bestTime;
     [SerializeField, ReadOnly] private float nextGoalTime;
-    [SerializeField, ReadOnly] private string levelSaveTimeName;
-
-    public float BestTimeSaved => PlayerPrefs.GetFloat(levelSaveTimeName);
     public string LevelName => levelName;
 	[ReadOnly] public string BestTimeFormatted;
 	[ReadOnly] public MedalType CurrentMedal;
@@ -41,27 +39,25 @@ public class LevelDataObject : ScriptableObject
     public float GoldGoal => goldGoal;
 	public float AuthorGoal => authorGoal;
 
-    //called the menu panel's awake so it gets prepped when launching menu
-	public void PrepData()
-	{
-        levelSaveTimeName = GetLevelSceneName() + "BestTime";
+	public float BestTimeSaved => BestTimesSaver.GetBestTime(_levelSaveKey);
 
-        bestTime = BestTimeSaved;
+	public bool TrySetBestTime(float time)
+	{
+		if (!BestTimesSaver.TrySetBestTime(_levelSaveKey, time)) return false;
+		CheckUpdateData();
+		return true;
+	}
+
+	public void CheckUpdateData()
+	{
+		bestTime = BestTimeSaved;
 		BestTimeFormatted = TimerUI.ConvertTimeToText(bestTime);
 		UpdateMedalAndGoal();
     }
 
     public string GetLevelSceneName() => levelScene;
 
-	public void SetNewBestTime(float time, string levelSaveTimeName)
-	{
-        bestTime = time;
-        BestTimeFormatted = TimerUI.ConvertTimeToText(bestTime);
-		PlayerPrefs.SetFloat(levelSaveTimeName, time);
-		UpdateMedalAndGoal();
-	}
-    
-	[Button]
+    [Button]
 	public void UpdateMedalAndGoal()
 	{
 		SetNewMedal();

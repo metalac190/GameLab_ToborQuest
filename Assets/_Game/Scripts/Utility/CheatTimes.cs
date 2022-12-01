@@ -5,13 +5,13 @@ using UnityEngine;
 public class CheatTimes : MonoBehaviour
 {
 	[Button]
-	private void SetHighScores(float level1, float level2, float level3, float level4, float quest)
+	private void SetHighScores(float quest, float level1, float level2, float level3, float level4)
     {
-	    PlayerPrefs.SetFloat("Level 1BestTime", level1);
-	    PlayerPrefs.SetFloat("Level 2BestTime", level2);
-	    PlayerPrefs.SetFloat("Level 3BestTime", level3);
-	    PlayerPrefs.SetFloat("Level 4BestTime", level4);
-	    PlayerPrefs.SetFloat(LoadBestQuestTime.QuestTimePref, quest);
-	    ExtrasSettings.OnResetData?.Invoke();
+	    BestTimesSaver.ForceSetBestTime(BestTime.Quest, quest);
+	    BestTimesSaver.ForceSetBestTime(BestTime.Level1, level1);
+	    BestTimesSaver.ForceSetBestTime(BestTime.Level2, level2);
+	    BestTimesSaver.ForceSetBestTime(BestTime.Level3, level3);
+	    BestTimesSaver.ForceSetBestTime(BestTime.Level4, level4);
+	    ExtrasSettings.OnDataChanged?.Invoke();
     }
 }

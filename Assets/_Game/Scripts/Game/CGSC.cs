@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 // CGSC = Centralized Game State Controller
 public class CGSC : MonoBehaviour
@@ -16,9 +17,11 @@ public class CGSC : MonoBehaviour
     public static bool PlayingQuest;
     public static float TotalTime;
 
-    [SerializeField] private SavingManager _savingManager;
+    [SerializeField] private SettingsSaver _settingsSaver;
+    [SerializeField] private BestTimesSaver _bestTimesSaver;
 
-    public static SavingManager SaveSystem => Instance._savingManager;
+    public static SettingsSaver SettingsSaver => Instance._settingsSaver;
+    public static BestTimesSaver BestTimesSaver => Instance._bestTimesSaver;
 
     public void SetPlayingQuest(bool playing) => PlayingQuest = playing;
 

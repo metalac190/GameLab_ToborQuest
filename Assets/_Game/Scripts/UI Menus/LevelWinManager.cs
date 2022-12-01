@@ -33,14 +33,14 @@ public class LevelWinManager : MonoBehaviour
     [SerializeField] private List<GameObject> notQuestObjs;
     
     private GameObject _children;
-    private string levelSaveTimeName;//"Level1BestTime";
-    public string LevelSaveName { get { return levelSaveTimeName; } }
+    public string LevelSaveName { get; private set; }
+    public LevelDataObject LevelDataObject => levelDataObj;
 
     private void Awake()
     {
         //Find hudmanager, should only be 1 in the scene.
         hudManager = GameObject.FindObjectOfType<HUDManager>(true);
-        levelSaveTimeName = levelDataObj.GetLevelSceneName() + "BestTime";
+        LevelSaveName = levelDataObj.GetLevelSceneName() + "BestTime";
     }
 
     private void OnEnable()
@@ -110,19 +110,17 @@ public class LevelWinManager : MonoBehaviour
         float currentTime = hudManager.currentTimerText.timeRemaining;
         CGSC.TotalTime += currentTime;
         TimerUI.levelTime = 0;
-        float previousBestTime = PlayerPrefs.GetFloat(levelSaveTimeName, 0);
 
-        if((previousBestTime > currentTime) || (previousBestTime == 0)) {
-            //save the new best time to Player Prefs
-            levelDataObj.SetNewBestTime(currentTime, levelSaveTimeName);
-
-            //show and update the new best time objs
+        if (levelDataObj.TrySetBestTime(currentTime))
+        {
+            // new best time
             newBestTimeObjects.SetActive(true);
             newBestTimeText.text = "Best time: " + levelDataObj.BestTimeFormatted;
-            newMedalText.text = "You Earned " + levelDataObj.CurrentMedal.ToString();
-
-        } else {
-            //no new best time
+            newMedalText.text = "You Earned " + levelDataObj.CurrentMedal;
+        }
+        else
+        {
+            // no new best time
             newBestTimeObjects.SetActive(false);
         }
 

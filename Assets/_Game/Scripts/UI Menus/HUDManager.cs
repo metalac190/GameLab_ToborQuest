@@ -21,9 +21,7 @@ public class HUDManager : PersistableObject
     private Image _boostImage;
 
     [SerializeField] private GameObject _disableObjIfQuest;
-
-    private LevelWinManager levelWinManager;
-
+    
     private float toborProgressValue;
     private float timeElapsed;
 
@@ -31,27 +29,18 @@ public class HUDManager : PersistableObject
     {        
         _controller = new MovementInput();
         _movementCtrl = FindObjectOfType<MovementController>(true);
-        levelWinManager = FindObjectOfType<LevelWinManager>(true);
         pausePanel.SetActive(false);
     }
 
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         if (CGSC.PlayingQuest)
         {
             if (_disableObjIfQuest) _disableObjIfQuest.SetActive(false);
         }
-        if(PlayerPrefs.HasKey(levelWinManager.LevelSaveName))
-        {
-            float bestTimeFloat = PlayerPrefs.GetFloat(levelWinManager.LevelSaveName);
-            SetBestTime(bestTimeFloat);
-        }
-        else
-        {
-            SetBestTime(180f);
-        }
-        SetToborProgress(0f);        
+        var levelObj = FindObjectOfType<LevelWinManager>(true).LevelDataObject;
+        SetBestTime(levelObj.BestTimeSaved);
+        SetToborProgress(0f);
     }
 
     private void OnEnable()
