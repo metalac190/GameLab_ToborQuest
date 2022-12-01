@@ -5,14 +5,14 @@ using UnityEngine;
 
 public class ExtrasSettings : MonoBehaviour
 {
-    public static Action OnResetData = delegate { };
+    public static Action OnDataChanged = delegate { };
 	public static Action OnChangeBSide = delegate { };
     
 	[SerializeField] private GameObject _bSideAudioActive;
 	[SerializeField] private GameObject _disableDialogueActive;
     
-	public static bool DialogueDisabled => SavingManager.DisableDialogue;
-	public static bool BSideAudio => SavingManager.BSideAudio;
+	public static bool DialogueDisabled => SettingsSaver.DisableDialogue;
+	public static bool BSideAudio => SettingsSaver.BSideAudio;
     
     private void Start()
     {
@@ -25,24 +25,29 @@ public class ExtrasSettings : MonoBehaviour
 		_bSideAudioActive.SetActive(BSideAudio);
     }
     
-    public void ResetData()
+	public void ResetAllSettings()
     {
         PlayerPrefs.DeleteAll();
-        CGSC.SaveSystem.DeleteSave();
-        CGSC.SaveSystem.LoadDefaults();
-        OnResetData?.Invoke();
+        CGSC.SettingsSaver.DeleteSave();
+        OnDataChanged?.Invoke();
         LoadValues();
     }
+    
+	public void ResetAllTimes()
+	{
+		CGSC.BestTimesSaver.DeleteSave();
+		OnDataChanged?.Invoke();
+	}
 
     public void ToggleDialogue()
     {
-        SavingManager.DisableDialogue = !DialogueDisabled;
+        SettingsSaver.DisableDialogue = !DialogueDisabled;
         _disableDialogueActive.SetActive(DialogueDisabled);
     }
 
 	public void ToggleBSideAudio()
 	{
-		SavingManager.BSideAudio = !BSideAudio;
+		SettingsSaver.BSideAudio = !BSideAudio;
 		_bSideAudioActive.SetActive(BSideAudio);
 		OnChangeBSide?.Invoke();
 	}

@@ -8,7 +8,6 @@ public class DialogueSequence : MonoBehaviour
 	[SerializeField] private bool _onlyRunOnce;
     [SerializeField] List<Dialogue> _dialogues = new List<Dialogue>();
     [SerializeField, ReadOnly] bool _skipDialogue = false;
-    [SerializeField, ReadOnly] bool _resetDialogue = false;
 
 	private bool _hasRunBefore;
 

@@ -25,21 +25,21 @@ public class SoundSetting : MonoBehaviour
 
     private void OnEnable()
     {
-        ExtrasSettings.OnResetData += LoadSliderValues;
+        ExtrasSettings.OnDataChanged += LoadSliderValues;
     }
 
     private void OnDisable()
     {
-        ExtrasSettings.OnResetData -= LoadSliderValues;
+        ExtrasSettings.OnDataChanged -= LoadSliderValues;
     }
     
     public void LoadSliderValues()
     {
-        SetValue(_masterSlider, MasterMixer, SavingManager.MasterVolume);
-        SetValue(_musicSlider, MusicMixer, SavingManager.MusicVolume);
-        SetValue(_sfxSlider, SfxMixer, SavingManager.SfxVolume);
-        SetValue(_dialogueSlider, DialogueMixer, SavingManager.DialogueVolume);
-        SetValue(_ambienceSlider, AmbienceMixer, SavingManager.AmbientVolume);
+        SetValue(_masterSlider, MasterMixer, SettingsSaver.MasterVolume);
+        SetValue(_musicSlider, MusicMixer, SettingsSaver.MusicVolume);
+        SetValue(_sfxSlider, SfxMixer, SettingsSaver.SfxVolume);
+        SetValue(_dialogueSlider, DialogueMixer, SettingsSaver.DialogueVolume);
+        SetValue(_ambienceSlider, AmbienceMixer, SettingsSaver.AmbientVolume);
     }
 
     private void SetValue(Slider slider, string mixer, float value)
@@ -51,31 +51,31 @@ public class SoundSetting : MonoBehaviour
     public void SetMasterVol(float value)
     {
         _mixer.SetFloat(MasterMixer, Convert(value));
-        SavingManager.MasterVolume = value;
+        SettingsSaver.MasterVolume = value;
     }
     
     public void SetMusicLvl(float value)
     {
         _mixer.SetFloat(MusicMixer, Convert(value));
-        SavingManager.MusicVolume = value;
+        SettingsSaver.MusicVolume = value;
     }
 
     public void SetSfxLvl(float value)
     {
         _mixer.SetFloat(SfxMixer, Convert(value));
-        SavingManager.SfxVolume = value;
+        SettingsSaver.SfxVolume = value;
     }
     
     public void SetDialogueVol(float value)
     {
         _mixer.SetFloat(DialogueMixer, Convert(value));
-        SavingManager.DialogueScale = value;
+        SettingsSaver.DialogueScale = value;
     }
     
     public void SetAmbientLvl(float value)
     {
         _mixer.SetFloat(AmbienceMixer, Convert(value));
-        SavingManager.AmbientVolume = value;
+        SettingsSaver.AmbientVolume = value;
     }
 
     private static float Convert(float value) => value == 0 ? -80 : Mathf.Log10(value) * 20;

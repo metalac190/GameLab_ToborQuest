@@ -15,7 +15,7 @@ public class SettingsMenuPanels : MonoBehaviour
 	[SerializeField] private CanvasGroup _extraGroup;
 	[SerializeField] private GameObject _extraSelected;
 
-	public void SaveSettings() => CGSC.SaveSystem.ButtonSave();
+	public void SaveSettings() => CGSC.SettingsSaver.ButtonSave();
 	
 	[Button]
 	public void SetAudioActive() => SetGroupActive(0);

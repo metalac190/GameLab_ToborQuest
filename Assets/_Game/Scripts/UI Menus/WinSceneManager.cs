@@ -21,7 +21,7 @@ public class WinSceneManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         CGSC.InMainMenu = true;
         var bestTime = CGSC.TotalTime;
-        PlayerPrefs.SetFloat(LoadBestQuestTime.QuestTimePref, bestTime);
+        BestTimesSaver.TrySetBestTime(BestTime.Quest, bestTime);
         deliveryTimeText.text = deliveryTextBefore + TimerUI.ConvertTimeToText(bestTime);
     }
 
@@ -29,7 +29,7 @@ public class WinSceneManager : MonoBehaviour
     {
         CGSC.LoadMainMenu(true, true, () =>
         {
-            MenuManager menuManager = GameObject.FindObjectOfType<MenuManager>();
+            MenuManager menuManager = FindObjectOfType<MenuManager>();
             menuManager.StartLevelSelect();
             menuManager.LevelSelect();
         });

@@ -19,12 +19,12 @@ public class LoadBestQuestTime : MonoBehaviour
     
 	private void OnEnable()
 	{
-		ExtrasSettings.OnResetData += CheckQuestMedal;
+		ExtrasSettings.OnDataChanged += CheckQuestMedal;
 	}
     
 	private void OnDisable()
 	{
-		ExtrasSettings.OnResetData -= CheckQuestMedal;
+		ExtrasSettings.OnDataChanged -= CheckQuestMedal;
 	}
     
     private void Start()
@@ -34,13 +34,10 @@ public class LoadBestQuestTime : MonoBehaviour
     
 	private void CheckQuestMedal()
 	{
-		float time = 0;
-		var medal = MedalType.Bronze;
-		if (PlayerPrefs.HasKey(QuestTimePref))
-		{
-			time = PlayerPrefs.GetFloat(QuestTimePref);
-			medal = LevelDataObject.GetMedal(time, _bronzeTime, _silverTime, _goldTime, _authorTime);
-		}
+		float time = BestTimesSaver.GetBestTime(BestTime.Quest);
+		var medal = MedalType.None;
+		if (time > 0) medal = LevelDataObject.GetMedal(time, _bronzeTime, _silverTime, _goldTime, _authorTime);
+		
 		_medals.SetMedalUI(_medalImage, medal);
 		_text.text = TimerUI.ConvertTimeToText(time);
 		_nextBestText.text = LevelDataObject.GetNextGoalFormatted(medal, _bronzeTime, _silverTime, _goldTime, _authorTime);
