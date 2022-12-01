@@ -23,6 +23,7 @@ public class CGSC : MonoBehaviour
     public static SettingsSaver SettingsSaver => Instance._settingsSaver;
     public static BestTimesSaver BestTimesSaver => Instance._bestTimesSaver;
 
+    [Button]
     public void SetPlayingQuest(bool playing) => PlayingQuest = playing;
 
     private void Awake()
@@ -297,7 +298,6 @@ public class CGSC : MonoBehaviour
         UnpauseGameResponse();
     }
 
-    public static void RestartLevel(InputAction.CallbackContext context) => RestartLevel();
     public static void RestartLevel()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);

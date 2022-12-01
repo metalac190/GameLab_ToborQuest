@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 
 public class MovementControls : MonoBehaviour
 {
+    [SerializeField] private CheckpointTracker _checkpoint;
     [SerializeField, ReadOnly] private InputControlScheme _activeControlScheme;
     public MovementInput _movementInput;
     private PlayerInput _playerInput;
@@ -26,6 +27,8 @@ public class MovementControls : MonoBehaviour
     public float SideFlip => _sideFlip;
 
     public InputControlScheme ACtiveControlScheme => _activeControlScheme;
+
+    private bool _questRespawn;
     
 
     private void Awake()
@@ -38,16 +41,35 @@ public class MovementControls : MonoBehaviour
     {
         _movementInput.Enable();
         _movementInput.Player.TogglePaused.performed += CGSC.TogglePauseGame;
-        _movementInput.Player.Reset.performed += CGSC.RestartLevel;
+        _movementInput.Player.Reset.performed += Restart;
         _movementInput.Player.SkipDialogue.performed += DialogueSystem.SkipDialogueStatic;
     }
 
     private void OnDisable()
     {
         _movementInput.Player.TogglePaused.performed -= CGSC.TogglePauseGame;
-        _movementInput.Player.Reset.performed -= CGSC.RestartLevel;
+        _movementInput.Player.Reset.performed -= Restart;
         _movementInput.Player.SkipDialogue.performed -= DialogueSystem.SkipDialogueStatic;
         _movementInput.Disable();
+    }
+
+    private void Restart(InputAction.CallbackContext context) => Restart();
+    [Button]
+    private void Restart()
+    {
+        if (CGSC.PlayingQuest)
+        {
+            if (TimerUI.startTimer)
+            {
+                _questRespawn = true;
+                TimerUI.startTimer = false;
+            }
+            StartCoroutine(_checkpoint.Respawn());
+        }
+        else
+        {
+            CGSC.RestartLevel();
+        }
     }
 
     // Note From Brandon: This does not always happen before the Movement Controller's script, Update Loops happen between
@@ -61,6 +83,12 @@ public class MovementControls : MonoBehaviour
         _drift = _movementInput.Player.Drift.IsPressed();
         _boost = _movementInput.Player.Boost.IsPressed();
         _sideFlip = _movementInput.Player.SideFlip.ReadValue<float>();
+
+        if (_questRespawn && (_directionVector != Vector2.zero || _speed != 0))
+        {
+            TimerUI.startTimer = true;
+            _questRespawn = false;
+        }
 
         _activeControlScheme = (InputControlScheme) _playerInput.user.controlScheme;
     }
