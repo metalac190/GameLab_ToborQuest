@@ -29,12 +29,7 @@ public class SettingsSaver : PersistableObject
 	public static float DialogueScale;
 	public static bool DisableDialogue;
 
-    private void Awake()
-    {
-        if (!_storage.Load(this)) LoadDefaults();
-    }
-
-    [Button]
+	[Button]
     public void ButtonSave() => _storage.Save(this, SaveVersion);
     [Button]
     public void ButtonLoad()
