@@ -10,11 +10,11 @@ public class TimerUI : MonoBehaviour
 
     public float timeRemaining { get; set; }
     public static float levelTime;
-
-    public bool startTimer = false;
+    public static bool startTimer;
 
     private void Start()
     {
+        startTimer = false;
         if (CGSC.PlayingQuest) timeRemaining = levelTime;
         else timeRemaining = 0;
         UpdateTimerText();
