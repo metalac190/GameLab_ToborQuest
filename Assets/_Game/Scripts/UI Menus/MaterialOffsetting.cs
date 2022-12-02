@@ -34,10 +34,11 @@ public class MaterialOffsetting : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (toggle)
-            offset += speed * Time.deltaTime;//imageMaterial.mainTextureOffset += new Vector2(speed * Time.deltaTime, 0);
-        else
-            offset -= speed * Time.deltaTime;//imageMaterial.mainTextureOffset -= new Vector2(speed * Time.deltaTime, 0);
+        //if (toggle)
+        //    //imageMaterial.mainTextureOffset += new Vector2(speed * Time.deltaTime, 0);
+        //else
+        //    offset -= speed * Time.deltaTime;//imageMaterial.mainTextureOffset -= new Vector2(speed * Time.deltaTime, 0);
+        offset += speed * Time.deltaTime;
 
         rawImage.uvRect = new Rect(offset, 0, 1, 1);
     }

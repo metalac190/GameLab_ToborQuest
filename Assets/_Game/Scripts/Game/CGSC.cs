@@ -226,7 +226,7 @@ public class CGSC : MonoBehaviour
     {
         if(useFade)
         {
-            Instance.StartCoroutine(Instance.FadeScene(sceneName, async, onComplete));
+            Instance.StartCoroutine(Instance.FadeScene(sceneName, true, onComplete));
             return;
         }
 
@@ -281,8 +281,11 @@ public class CGSC : MonoBehaviour
     {
         while (!operation.isDone)
         {
+            GetSceneLoadProgress = Mathf.Clamp01(operation.progress/0.9f);
+            Debug.Log(GetSceneLoadProgress);
             yield return null;
         }
+        GetSceneLoadProgress = 0;
         onComplete?.Invoke();
         UnpauseGameResponse();
     }
@@ -307,6 +310,8 @@ public class CGSC : MonoBehaviour
     #region SceneTransition
 
     private string _animatorStateName = "CloudFade";
+
+    public static float GetSceneLoadProgress { get; set; }
 
     private void SetSceneTransitionBool(bool fade)
     {
