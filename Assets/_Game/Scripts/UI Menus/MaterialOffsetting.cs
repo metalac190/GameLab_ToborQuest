@@ -7,18 +7,22 @@ public class MaterialOffsetting : MonoBehaviour
 {
     public float speed = 0.1f;
     public bool moveToLeft = true;
+    private RawImage rawImage;
     private Image posterImage;
     private Material imageMaterial;
     private bool toggle = false;
+    private float offset = 0;
     // Start is called before the first frame update
     void Awake()
     {
         if (!moveToLeft)
             speed *= -1;
-        posterImage = GetComponent<Image>();
-        imageMaterial = posterImage.material;
+        rawImage = GetComponent<RawImage>();
+        offset = Random.Range(-100, 100);
+        //posterImage = GetComponent<Image>();
+        //imageMaterial = posterImage.material;
         //Debug.Log("Random number is " + Random.Range(-100, 100));
-        imageMaterial.mainTextureOffset = new Vector2(Random.Range(-100, 100), 0);
+        //imageMaterial.mainTextureOffset = new Vector2(Random.Range(-100, 100), 0);
         //posterImage.material.mainTextureOffset = new Vector2(Random.Range(0, 100), 0);
     }
 
@@ -30,9 +34,11 @@ public class MaterialOffsetting : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if(toggle)
-            imageMaterial.mainTextureOffset += new Vector2(speed * Time.deltaTime, 0);
+        if (toggle)
+            offset += speed * Time.deltaTime;//imageMaterial.mainTextureOffset += new Vector2(speed * Time.deltaTime, 0);
         else
-            imageMaterial.mainTextureOffset -= new Vector2(speed * Time.deltaTime, 0);
+            offset -= speed * Time.deltaTime;//imageMaterial.mainTextureOffset -= new Vector2(speed * Time.deltaTime, 0);
+
+        rawImage.uvRect = new Rect(offset, 0, 1, 1);
     }
 }
