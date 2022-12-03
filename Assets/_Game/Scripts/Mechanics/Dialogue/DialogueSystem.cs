@@ -172,7 +172,7 @@ public class DialogueSystem : MonoBehaviour
 		if (!_currDialogue.Text.Equals("")) { _displayLineCoroutine = StartCoroutine(PrintText(_currDialogue.Text, _currDialogue.TypingSpeed)); }
 		if (!_currDialogue.Speaker.Equals("")) { _speaker.text = _currDialogue.Speaker; }
 
-        if (_currDialogue.DialogueSFX) { _source.PlayOneShot(_currDialogue.DialogueSFX, _currDialogue.DialogueVolume); }
+        if (_currDialogue.DialogueSFX != null) { _source.PlayOneShot(_currDialogue.DialogueSFX, _currDialogue.DialogueVolume); }
 		if (_speakerSpriteClosed != null) 
 		{
 			_animateSpriteCoroutine = StartCoroutine(AnimateSprite(_currDialogue.AnimationSpeed)); 
