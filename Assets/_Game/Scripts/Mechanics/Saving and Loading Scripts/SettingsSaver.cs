@@ -53,7 +53,6 @@ public class SettingsSaver : PersistableObject
         writer.Write(AmbientVolume);
         writer.Write(WindowMode);
 	    writer.Write(Quality);
-	    writer.Write(BSideAudio);
 	    writer.Write(DialogueScale);
 	    writer.Write(DisableDialogue);
     }
