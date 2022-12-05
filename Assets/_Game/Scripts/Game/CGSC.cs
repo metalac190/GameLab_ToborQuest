@@ -22,6 +22,7 @@ public class CGSC : MonoBehaviour
 
     public static SettingsSaver SettingsSaver => Instance._settingsSaver;
     public static BestTimesSaver BestTimesSaver => Instance._bestTimesSaver;
+    public static MainMenuControllerManager MouseKeyboardManager => MainMenuControllerManager.Instance;
 
     [Button]
     public void SetPlayingQuest(bool playing) => PlayingQuest = playing;
@@ -106,14 +107,6 @@ public class CGSC : MonoBehaviour
         Time.timeScale = 1;
         Cursor.lockState = InMainMenu ? CursorLockMode.None : CursorLockMode.Locked;
         Instance.SetSceneTransitionBool(false);
-    }
-
-    [SerializeField] private float _dialogueScale = 1;
-    
-    public static float DialogueScale
-    {
-        get => Instance._dialogueScale;
-        set => Instance._dialogueScale = value;
     }
 
     #endregion

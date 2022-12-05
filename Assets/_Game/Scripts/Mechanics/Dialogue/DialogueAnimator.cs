@@ -13,7 +13,7 @@ public class DialogueAnimator : MonoBehaviour
 
     void Awake()
     {
-        dialogueScale = CGSC.DialogueScale;
+        dialogueScale = SettingsSaver.DialogueScale;
         //Debug.Log(dialogueScale);
          _cachedOriginalTransform = GetComponent<RectTransform>();
         LeanTween.reset();

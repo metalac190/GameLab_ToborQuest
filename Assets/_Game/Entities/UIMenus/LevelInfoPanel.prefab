@@ -497,7 +497,6 @@ GameObject:
   - component: {fileID: 3891203246144937077}
   - component: {fileID: 1135213803333560550}
   - component: {fileID: 5155631530276450825}
-  - component: {fileID: 1173046913096201833}
   - component: {fileID: 2982571145364613930}
   m_Layer: 5
   m_Name: LevelInfoPanel
@@ -665,56 +664,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1793a39710d2cbf4fb73e3a401269e55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _enableOnSelected: {fileID: 0}
+  _hideOnSelected: {fileID: 0}
+  _tweenToEnableOnSelected: {fileID: 0}
+  _sfxOnSelectHover: {fileID: 11400000, guid: d3717b42f5c998e49b9e9f023a599ac2, type: 2}
+  _sfxOnClick: {fileID: 11400000, guid: 18eb9d5464b71f74e8cd232153e8c7c8, type: 2}
+  _animateScale: 1
   widthScale: 1.05
   heightScale: 1.05
   duration: 0.25
   expandTweenType: 6
   resetTweenType: 15
---- !u!114 &1173046913096201833
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6058903074519046778}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 0
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 11400000, guid: d3717b42f5c998e49b9e9f023a599ac2, type: 2}
-          m_TargetAssemblyTypeName: SoundSystem.SFXEvent, Assembly-CSharp
-          m_MethodName: Play
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 9
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 11400000, guid: d3717b42f5c998e49b9e9f023a599ac2, type: 2}
-          m_TargetAssemblyTypeName: SoundSystem.SFXEvent, Assembly-CSharp
-          m_MethodName: Play
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
 --- !u!225 &2982571145364613930
 CanvasGroup:
   m_ObjectHideFlags: 0

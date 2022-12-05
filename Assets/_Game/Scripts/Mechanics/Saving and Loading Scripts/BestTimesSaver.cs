@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public enum BestTime
@@ -123,12 +124,20 @@ public class BestTimesSaver : PersistableObject
             ResetAllTimes();
             return;
         }
-        //Debug.Log("Loading Saved Best Times");
-        _bestQuestTime = reader.ReadFloat();
-        _bestLevel1Time = reader.ReadFloat();
-        _bestLevel2Time = reader.ReadFloat();
-        _bestLevel3Time = reader.ReadFloat();
-        _bestLevel4Time = reader.ReadFloat();
-        _bestTutorialTime = reader.ReadFloat();
+        try
+        {
+            //Debug.Log("Loading Saved Best Times");
+            _bestQuestTime = reader.ReadFloat();
+            _bestLevel1Time = reader.ReadFloat();
+            _bestLevel2Time = reader.ReadFloat();
+            _bestLevel3Time = reader.ReadFloat();
+            _bestLevel4Time = reader.ReadFloat();
+            _bestTutorialTime = reader.ReadFloat();
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"Failed to load best times with version {version}");
+            ResetAllTimes();
+        }
     }
 }

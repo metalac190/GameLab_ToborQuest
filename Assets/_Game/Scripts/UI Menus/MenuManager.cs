@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -34,13 +35,18 @@ public class MenuManager : MonoBehaviour
     {
         menuAnimations = GetComponent<MenuAnimations>();
         menuControllerList.ForEach(x => x.gameObject.SetActive(true));
-        //SetActiveMenu(currentMenu);
-        SetCurrentButtonSelect(mainMenuSelect);
         menuControllerList.ForEach(x =>
         {
             if (x.menuType == MenuType.LevelInfoMenu)
                 x.gameObject.SetActive(false);          
         });
+        LeanTween.reset();
+    }
+
+    private void Start()
+    {
+        //SetActiveMenu(currentMenu);
+        SetCurrentButtonSelect(mainMenuSelect);
     }
 
     //This makes it so I can change current menu in inspector and debug
@@ -68,7 +74,8 @@ public class MenuManager : MonoBehaviour
 
     public void SetCurrentButtonSelect(GameObject value)
     {
-        EventSystem.current.SetSelectedGameObject(value);
+        if (!value) return;
+        CGSC.MouseKeyboardManager.UpdateSelected(value);
     }
 
     public void SetCurrentMenu(int value)
@@ -147,10 +154,7 @@ public class MenuManager : MonoBehaviour
         menuAnimations.QuestSelect(true);
     }
 
-    public void LevelSelect()
-    {
-        EventSystem.current.SetSelectedGameObject(levelSelectGameObject);
-    }
+    public void LevelSelect() => SetCurrentButtonSelect(levelSelectGameObject);
 
     public void StartLevelSelect()
     {

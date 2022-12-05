@@ -35,7 +35,7 @@ public class GamePlayMenuManger : MonoBehaviour
     private void PauseGame()
     {
         pausePanel.SetActive(true);
-        EventSystem.current.SetSelectedGameObject(pauseFirstButton);
+        CGSC.MouseKeyboardManager.UpdateSelected(pauseFirstButton);
     }
 
     public void UnpauseGame()
