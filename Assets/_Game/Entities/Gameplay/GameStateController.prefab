@@ -1602,6 +1602,51 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &1952877661611629321
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5879624741764805456}
+  - component: {fileID: 6535610977045290882}
+  m_Layer: 0
+  m_Name: BestTimesStorage
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5879624741764805456
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1952877661611629321}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5318188831216376287}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6535610977045290882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1952877661611629321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 268d047c7b132ca4abc521e984f1e42f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _saveFileName: BestTimes
 --- !u!1 &3764961187701206916
 GameObject:
   m_ObjectHideFlags: 0
@@ -1759,7 +1804,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4278898858235408653}
-  - {fileID: 323574328}
+  - {fileID: 5318188831216376287}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1789,8 +1834,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2785315d7d5d3a843a358657adf79e3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _settingsSaver: {fileID: 323574329}
-  _bestTimesSaver: {fileID: 7924141925502044234}
+  _settingsSaver: {fileID: 8400757731805766813}
+  _bestTimesSaver: {fileID: 6419162743012871325}
   _dialogueScale: 1
   _mainMenu:
     Scene: {fileID: 102900000, guid: 51a0cbc3b3493c24d9414ad816db43e7, type: 3}
@@ -1803,9 +1848,9 @@ MonoBehaviour:
   _currentLevel: 0
   _showDebugValues: 0
   _gamePaused: 0
-  _inMainMenu: 1
+  _inMainMenu: 0
   _gameOver: 0
---- !u!1 &8538141440493606325
+--- !u!1 &8330372858979610072
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1813,40 +1858,117 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7632441312666838333}
-  - component: {fileID: 6949527702697794406}
+  - component: {fileID: 5799231568826694740}
+  - component: {fileID: 8536906072092994541}
   m_Layer: 0
-  m_Name: BestTimesStorage
+  m_Name: SettingsStorage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7632441312666838333
+--- !u!4 &5799231568826694740
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8538141440493606325}
+  m_GameObject: {fileID: 8330372858979610072}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 323574328}
-  m_RootOrder: 1
+  m_Father: {fileID: 5318188831216376287}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6949527702697794406
+--- !u!114 &8536906072092994541
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8538141440493606325}
+  m_GameObject: {fileID: 8330372858979610072}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 268d047c7b132ca4abc521e984f1e42f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _saveFileName: BestTimes
+  _saveFileName: SettingsValues
+--- !u!1 &8729418046192482571
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5318188831216376287}
+  - component: {fileID: 8400757731805766813}
+  - component: {fileID: 6419162743012871325}
+  m_Layer: 0
+  m_Name: SavingManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5318188831216376287
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8729418046192482571}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 5799231568826694740}
+  - {fileID: 5879624741764805456}
+  m_Father: {fileID: 3853504418651190568}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8400757731805766813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8729418046192482571}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d7db87f87c8cc54c89b93b2104d6ccd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _storage: {fileID: 8536906072092994541}
+  _masterVolumeDefault: 2.37
+  _musicVolumeDefault: 0.25
+  _sfxVolumeDefault: 1.2
+  _dialogueVolumeDefault: 0.5
+  _ambientVolumeDefault: 0.5
+  _windowModeDefault: 1
+  _qualityDefault: 2
+  _bSideAudioDefault: 0
+  _dialogueScaleDefault: 1
+  _disableDialogueDefault: 0
+--- !u!114 &6419162743012871325
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8729418046192482571}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 928ca1f9a1f7a704e9db9fce97a43f46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _storage: {fileID: 6535610977045290882}
+  _bestQuestTime: 0
+  _bestLevel1Time: 0
+  _bestLevel2Time: 0
+  _bestLevel3Time: 0
+  _bestLevel4Time: 0
+  _bestTutorialTime: 0
