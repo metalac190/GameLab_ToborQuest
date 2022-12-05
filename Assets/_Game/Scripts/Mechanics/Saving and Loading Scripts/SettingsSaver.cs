@@ -45,7 +45,7 @@ public class SettingsSaver : PersistableObject
 
     public override void Save(GameDataWriter writer)
 	{
-		Debug.Log("Saving Settings");
+		//Debug.Log("Saving Settings");
         writer.Write(MasterVolume);
         writer.Write(MusicVolume);
         writer.Write(SfxVolume);
@@ -60,7 +60,7 @@ public class SettingsSaver : PersistableObject
     [Button]
     public void LoadDefaults()
     {
-	    Debug.Log("Loading Default Settings");
+	    //Debug.Log("Loading Default Settings");
         MasterVolume = _masterVolumeDefault;
         MusicVolume = _musicVolumeDefault;
         SfxVolume = _sfxVolumeDefault;
@@ -83,7 +83,7 @@ public class SettingsSaver : PersistableObject
             LoadDefaults();
             return;
         }
-	    Debug.Log("Loading Saved Settings");
+	    //Debug.Log("Loading Saved Settings");
         MasterVolume = reader.ReadFloat();
         MusicVolume = reader.ReadFloat();
         SfxVolume = reader.ReadFloat();

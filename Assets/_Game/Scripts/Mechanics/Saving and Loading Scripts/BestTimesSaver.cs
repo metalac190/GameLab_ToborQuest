@@ -93,7 +93,7 @@ public class BestTimesSaver : PersistableObject
 
     public override void Save(GameDataWriter writer)
     {
-        Debug.Log("Saving Best Times");
+        //Debug.Log("Saving Best Times");
         writer.Write(_bestQuestTime);
         writer.Write(_bestLevel1Time);
         writer.Write(_bestLevel2Time);
@@ -104,7 +104,7 @@ public class BestTimesSaver : PersistableObject
 
     public void ResetAllTimes()
     {
-        Debug.Log("Resetting Best Times");
+        //Debug.Log("Resetting Best Times");
         _bestQuestTime = 0;
         _bestLevel1Time = 0;
         _bestLevel2Time = 0;
@@ -123,7 +123,7 @@ public class BestTimesSaver : PersistableObject
             ResetAllTimes();
             return;
         }
-        Debug.Log("Loading Saved Best Times");
+        //Debug.Log("Loading Saved Best Times");
         _bestQuestTime = reader.ReadFloat();
         _bestLevel1Time = reader.ReadFloat();
         _bestLevel2Time = reader.ReadFloat();

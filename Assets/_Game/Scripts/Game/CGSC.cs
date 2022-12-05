@@ -294,7 +294,7 @@ public class CGSC : MonoBehaviour
         while (!operation.isDone)
         {
             GetSceneLoadProgress = Mathf.Clamp01(operation.progress/0.9f);
-            Debug.Log(GetSceneLoadProgress);
+            //Debug.Log(GetSceneLoadProgress);
             yield return null;
         }
         GetSceneLoadProgress = 0;
