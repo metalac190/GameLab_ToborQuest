@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -29,13 +29,19 @@ public class MainMenuControllerManager : MonoBehaviour
     private InputSystemUIInputModule _inputSystem;
     private EventSystem _eventSystem;
 
-    private bool _firstMouse;
+	private bool _firstMouse;
 
     private void Awake()
     {
         instance = this;
         FindReferences();
     }
+    
+	private void Start()
+	{
+		_firstMouse = false;
+		SetUsingMouse(false);
+	}
 
     private void FindReferences()
     {
@@ -66,20 +72,24 @@ public class MainMenuControllerManager : MonoBehaviour
     }
 
     private void ReturnToKeyboardController(InputAction.CallbackContext context)
-    {
-        if (!context.performed) return;
-        SetUsingMouse(false);
+	{
+		if (!_usingMouse) return;
+	    SetUsingMouse(false);
+	    _firstMouse = false;
+	    Mouse.current.WarpCursorPosition(Vector2.zero);
     }
 
     private void OnMouseMovement(InputAction.CallbackContext context)
-    {
-        if (_usingMouse) return;
+	{
+		if (_usingMouse) return;
         if (!_firstMouse)
         {
             _firstMouse = true;
             return;
         }
-        SetUsingMouse(true);
+	    SetUsingMouse(true);
+	    var center = new Vector2(Screen.width, Screen.height);
+	    Mouse.current.WarpCursorPosition(center * 0.5f);
     }
 
     private void SetUsingMouse(bool usingMouse, bool setSelected = true)
