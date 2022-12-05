@@ -58,9 +58,9 @@ public class ExtraSettingsConfirmBoxes : MonoBehaviour
 		SetSelected(_closeResetTimes);
 	}
 	
-	private void SetSelected(GameObject obj)
+	private static void SetSelected(GameObject obj)
 	{
-		if (obj && EventSystem.current) EventSystem.current.SetSelectedGameObject(obj);
+		if (obj) CGSC.MouseKeyboardManager.UpdateSelected(obj);
 	}
 	
 	private void SetGroupActive(CanvasGroup group, bool active)

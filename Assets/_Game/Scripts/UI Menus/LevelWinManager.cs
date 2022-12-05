@@ -76,7 +76,7 @@ public class LevelWinManager : MonoBehaviour
         levelCompleteImage.sprite = levelDataObj.levelCompleteSprite;
         deliveryTimeText.text = "DELIVERY TIME: " + hudManager.GetCurrentTimeText();
         TimerUI.startTimer = false;
-        EventSystem.current.SetSelectedGameObject(playingQuest ? questSelected : notQuestSelected);
+        CGSC.MouseKeyboardManager.UpdateSelected(playingQuest ? questSelected : notQuestSelected);
         Cursor.lockState = CursorLockMode.None;
         SaveBestTime();
         ShowNextGoal();

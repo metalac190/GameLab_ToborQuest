@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class SettingsSaver : PersistableObject
 {
-	private const int SaveVersion = 3;
+	private const int SaveVersion = 4;
 
     [SerializeField] private PersistentStorage _storage;
 
@@ -53,6 +54,7 @@ public class SettingsSaver : PersistableObject
         writer.Write(AmbientVolume);
         writer.Write(WindowMode);
 	    writer.Write(Quality);
+	    writer.Write(BSideAudio);
 	    writer.Write(DialogueScale);
 	    writer.Write(DisableDialogue);
     }
@@ -83,17 +85,25 @@ public class SettingsSaver : PersistableObject
             LoadDefaults();
             return;
         }
-	    //Debug.Log("Loading Saved Settings");
-        MasterVolume = reader.ReadFloat();
-        MusicVolume = reader.ReadFloat();
-        SfxVolume = reader.ReadFloat();
-        DialogueVolume = reader.ReadFloat();
-        AmbientVolume = reader.ReadFloat();
-        WindowMode = reader.ReadInt();
-        Quality = reader.ReadInt();
-        BSideAudio = reader.ReadBool();
-	    DialogueScale = reader.ReadFloat();
-	    DisableDialogue = reader.ReadBool();
+        try
+        {
+	        //Debug.Log("Loading Saved Settings");
+	        MasterVolume = reader.ReadFloat();
+	        MusicVolume = reader.ReadFloat();
+	        SfxVolume = reader.ReadFloat();
+	        DialogueVolume = reader.ReadFloat();
+	        AmbientVolume = reader.ReadFloat();
+	        WindowMode = reader.ReadInt();
+	        Quality = reader.ReadInt();
+	        BSideAudio = reader.ReadBool();
+	        DialogueScale = reader.ReadFloat();
+	        DisableDialogue = reader.ReadBool();
+        }
+        catch (Exception e)
+        {
+	        Debug.LogError($"Failed to load settings with version {version}");
+	        LoadDefaults();
+        }
     }
 
     [Button]

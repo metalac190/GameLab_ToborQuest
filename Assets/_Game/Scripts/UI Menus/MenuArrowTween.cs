@@ -1,56 +1,49 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
 
 public class MenuArrowTween : MonoBehaviour
 {
-    public int bouncingDistance = 50;
-    public float bouncingTime = 1.5f;    
+    [SerializeField] private bool playWhenEnabled = true;
+    [SerializeField] private int bouncingDistance = 50;
+    [SerializeField] private float bouncingTime = 1.5f;    
     
     private int tweenID;
     private RectTransform _transform;
+    private RectTransform Transform
+    {
+        get
+        {
+            if (!_transform) _transform = GetComponent<RectTransform>();
+            return _transform;
+        }
+    }
     private Vector3 initPos;
 
     private void Awake()
     {
-        _transform = gameObject.GetComponent<RectTransform>();
-        initPos = _transform.localPosition;
-        LeanTween.reset();
-        if(EventSystem.current.currentSelectedGameObject != transform.parent.gameObject)
-        {
-            gameObject.SetActive(false);            
-        }
-        else
-        {
-            gameObject.SetActive(true);
-        }            
+        initPos = Transform.localPosition;
     }
 
     private void OnEnable()
     {
-        _transform.localPosition = initPos;
-        ArrowTween();
+        Transform.localPosition = initPos;
+        if (playWhenEnabled) PlayTween();
     }
 
-    void ArrowTween()
+    [Button]
+    public void PlayTween()
     {
-        LeanTween.cancel(_transform);
-        tweenID = LeanTween.moveX(_transform, bouncingDistance, bouncingTime)
+        LeanTween.cancel(Transform);
+        tweenID = LeanTween.moveX(Transform, bouncingDistance, bouncingTime)
             .setEaseOutCubic()
             .setLoopPingPong()
             .setIgnoreTimeScale(true).id;
     }
 
-    void PauseTween()
+    [Button]
+    public void StopTween()
     {
-        LeanTween.pause(tweenID);
-    }
-
-    void ResumeTween()
-    {
-        LeanTween.resume(tweenID);
+        LeanTween.cancel(Transform);
+        Transform.localPosition = initPos;
     }
 
 }

@@ -20,6 +20,6 @@ public class BasicPanel : MonoBehaviour
 
     private static void SetSelected(GameObject obj)
     {
-        if (obj) EventSystem.current.SetSelectedGameObject(obj);
+        if (obj) CGSC.MouseKeyboardManager.UpdateSelected(obj);
     }
 }

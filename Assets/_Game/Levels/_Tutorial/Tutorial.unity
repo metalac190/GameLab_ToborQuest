@@ -383,6 +383,7 @@ GameObject:
   - component: {fileID: 486404542}
   - component: {fileID: 486404541}
   - component: {fileID: 486404543}
+  - component: {fileID: 486404544}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -459,6 +460,19 @@ MonoBehaviour:
     type: 3}
   m_DeselectOnBackgroundClick: 1
   m_PointerBehavior: 0
+--- !u!114 &486404544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 486404539}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e9f02a5be0563744b849dd74c434c21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _currentlySelected: {fileID: 0}
 --- !u!1001 &659130410
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1186,6 +1200,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 252034459, guid: 55bdc756c6b28454aa1e06ffb587c257, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 658503196, guid: 55bdc756c6b28454aa1e06ffb587c257, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3853504418651190568, guid: 55bdc756c6b28454aa1e06ffb587c257,
         type: 3}
       propertyPath: m_RootOrder

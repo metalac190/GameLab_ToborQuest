@@ -34,7 +34,7 @@ public class LevelInfoManager : MonoBehaviour
         SetInfo();
         //this.gameObject.SetActive(true);
         //Debug.Log("Activating " + transform.name);
-        EventSystem.current.SetSelectedGameObject(onStart.gameObject);
+        CGSC.MouseKeyboardManager.UpdateSelected(onStart.gameObject);
     }
 
     public void SetBackLevelButton(GameObject value)
@@ -43,7 +43,7 @@ public class LevelInfoManager : MonoBehaviour
         onBack.onClick.RemoveAllListeners();    
         onBack.onClick.AddListener(() =>
         {
-            EventSystem.current.SetSelectedGameObject(backLevelButton);
+            CGSC.MouseKeyboardManager.UpdateSelected(backLevelButton);
         });
     }
 

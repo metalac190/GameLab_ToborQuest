@@ -13,7 +13,7 @@ public class WinSceneManager : MonoBehaviour
 
     private void Awake()
     {
-        EventSystem.current.SetSelectedGameObject(startSelect);
+        CGSC.MouseKeyboardManager.UpdateSelected(startSelect);
     }
 
     private void Start()
