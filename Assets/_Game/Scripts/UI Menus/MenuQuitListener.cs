@@ -8,7 +8,7 @@ public class MenuQuitListener : MonoBehaviour
 {
     private MenuManager _menuManager;
     [SerializeField]
-    private Button settingBackButton, levelSelectBackButton, questSelectBackButton, levelInfoBackButton;
+    private Button settingBackButton, levelSelectBackButton, questSelectBackButton, levelInfoBackButton, creditBackButton;
     
     void Awake()
     {
@@ -40,6 +40,9 @@ public class MenuQuitListener : MonoBehaviour
                 break;
             case MenuType.QuestSelect:
                 questSelectBackButton.onClick.Invoke();
+                break;
+            case MenuType.Credits:
+                creditBackButton.onClick.Invoke();
                 break;
         }
     }

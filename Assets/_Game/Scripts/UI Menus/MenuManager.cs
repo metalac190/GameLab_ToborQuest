@@ -128,9 +128,7 @@ public class MenuManager : MonoBehaviour
                 }
                 break;
 			case (MenuType.Credits):
-				menuAnimations.Credits(true, () => {
-					currentMenu = tempMenu;
-				});
+				menuAnimations.Credits(true);
 				break;
 		}            
         currentMenu = tempMenu;
