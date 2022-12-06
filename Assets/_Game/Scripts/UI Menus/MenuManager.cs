@@ -87,17 +87,11 @@ public class MenuManager : MonoBehaviour
             case (MenuType.MainMenu):
                 if (menuAnimations.AnimatorController.GetBool("QuestSelect"))
                 {
-                    menuAnimations.QuestSelect(false, () =>
-                    {
-                        currentMenu = tempMenu;
-                    });
+                    menuAnimations.QuestSelect(false);
                 }
                 else if (menuAnimations.AnimatorController.GetBool("SettingsMenu"))
                 {
-                    menuAnimations.SettingsMenu(false, ()=> 
-                    {
-                        currentMenu = tempMenu;
-                    });
+                    menuAnimations.SettingsMenu(false);
                 }
 				else
 				{
@@ -110,43 +104,27 @@ public class MenuManager : MonoBehaviour
             case (MenuType.LevelSelect):
                 if (menuAnimations.AnimatorController.GetBool("LevelSelect"))
                 {
-                    menuAnimations.LevelInfoMenu(false, () =>
-                    {
-                        currentMenu = tempMenu;
-                    });
+                    menuAnimations.LevelInfoMenu(false);
                 }
                 else
                 {
-                    menuAnimations.LevelSelect(true, () =>
-                    {
-                        currentMenu = tempMenu;
-                    });
+                    menuAnimations.LevelSelect(true);
                 }
                 break;
             case (MenuType.LevelInfoMenu):
-                menuAnimations.LevelInfoMenu(true, () =>
-                {
-                    currentMenu = tempMenu;
-                });
+                menuAnimations.LevelInfoMenu(true);
                 break;
             case (MenuType.Settings):
-                menuAnimations.SettingsMenu(true, () =>
-                {
-                    currentMenu = tempMenu;
-                });
+                menuAnimations.SettingsMenu(true);
                 break;
             case (MenuType.QuestSelect):
                 if (menuAnimations.AnimatorController.GetBool("LevelSelect"))
                 {
-                    menuAnimations.LevelSelect(false, ()=> {
-                        currentMenu = tempMenu;
-                    });
+                    menuAnimations.LevelSelect(false);
                 }
                 else
                 {
-                    menuAnimations.QuestSelect(true, () => {
-                        currentMenu = tempMenu;
-                    });
+                    menuAnimations.QuestSelect(true);
                 }
                 break;
 			case (MenuType.Credits):
@@ -155,6 +133,7 @@ public class MenuManager : MonoBehaviour
 				});
 				break;
 		}            
+        currentMenu = tempMenu;
     }
 
     public void ChangeScene(string value)
