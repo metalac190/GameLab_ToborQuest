@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,11 +10,11 @@ public class TimerUI : MonoBehaviour
 
     public float timeRemaining { get; set; }
     public static float levelTime;
-
-    public bool startTimer = false;
+    public static bool startTimer;
 
     private void Start()
     {
+        startTimer = false;
         if (CGSC.PlayingQuest) timeRemaining = levelTime;
         else timeRemaining = 0;
         UpdateTimerText();
@@ -48,21 +48,13 @@ public class TimerUI : MonoBehaviour
     }
 
     public static string ConvertTimeToText(float t)
-    {
+	{
+		if (t == 0) return "--:--:--";
         TimeSpan time = TimeSpan.FromSeconds(t);
-        return time.ToString(t > 3600 ? @"hh\:mm\:ss\:fff" : @"mm\:ss\:fff");
+        return time.ToString(t > 3600 ? @"hh\:mm\:ss\:ff" : @"mm\:ss\:ff");
     }
 
-    public string GetCurrentTime()
-    {
-        string timeFormat;
-        TimeSpan time = TimeSpan.FromSeconds(timeRemaining);
-        if (timeRemaining > 3600)
-            timeFormat = time.ToString(@"hh\:mm\:ss\:fff");
-        else
-            timeFormat = time.ToString(@"mm\:ss\:fff");
-        return timeFormat;
-    }
+	public string GetCurrentTime() => ConvertTimeToText(timeRemaining);
 
     public void StartTimer()
     {

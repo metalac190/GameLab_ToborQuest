@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -23,27 +23,32 @@ public class MenuLevelInfoPanel : MonoBehaviour
 
     float levelBestTime;
 
-    private void Awake() {
-        levelDataObj.PrepData();
+    private void Start()
+    {
+        DataReset();
     }
 
     private void OnEnable()
     {
-        SetTimes();
-        ExtrasSettings.OnResetData += SetTimes;
+        ExtrasSettings.OnDataChanged += DataReset;
     }
 
     private void OnDisable()
     {
-        ExtrasSettings.OnResetData -= SetTimes;
+        ExtrasSettings.OnDataChanged -= DataReset;
     }
-
-    private void SetTimes()
-    {
+    
+	private void DataReset()
+	{
+		levelDataObj.CheckUpdateData();
         bestTimeText.text = levelDataObj.BestTimeFormatted;
         nextGoalText.text = levelDataObj.NextGoalTimeFormatted;
         medalHelper.SetMedalUI(medalImage, levelDataObj.CurrentMedal);
-        /*
+	}
+
+    /*
+    private void SetTimes()
+    {
         if (PlayerPrefs.HasKey(levelSaveName))
         {
             //Set best time text
@@ -75,6 +80,6 @@ public class MenuLevelInfoPanel : MonoBehaviour
             bestTimeText.text = "--:--:---";
             nextGoalText.text = "--:--:---";
         }
-        */
     }
+    */
 }

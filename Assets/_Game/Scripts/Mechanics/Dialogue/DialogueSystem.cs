@@ -19,54 +19,51 @@ public class DialogueSystem : MonoBehaviour
 	[SerializeField] private UnityEvent _onFirstSkipEvent;
 	[SerializeField] private UnityEvent _onSecondSkipEvent;
 
-
 	public static Action OnSkipDialogue = delegate { };
 	public static Action OnResetDialogue = delegate { };
 
-
-	private Sprite _speakerSpriteClosed;
-	private Sprite _speakerSpriteOpen;
-	private bool _printingText = false;
+	[SerializeField, ReadOnly] private Dialogue _currentDialogue;
+	[SerializeField, ReadOnly] private Sprite _speakerSpriteClosed;
+	[SerializeField, ReadOnly] private Sprite _speakerSpriteOpen;
+	[SerializeField, ReadOnly] private bool _printingText;
+	[SerializeField, ReadOnly] private int skip = 0;
+	[SerializeField, ReadOnly] private int counterMax;
+	[SerializeField, ReadOnly] private float _dialogueTime;
+	[SerializeField, ReadOnly] private bool _talking;
+	[SerializeField, ReadOnly] private bool _paused;
+	[SerializeField, ReadOnly] private int counter;
+	
 	private AudioSource _source;
 	private MovementController _movement;
-	private Dialogue _currentDialogue;
-
-	public Dialogue CurrentDialogue => _currentDialogue;
-
-	[SerializeField, ReadOnly] private int skip = 0;
-	public int Skip => skip;
-	private int counterMax;
-	private float _dialogueTime;
 
 	private Coroutine _displayLineCoroutine;
 	private Coroutine _panelAnimationCoroutine;
 	private Coroutine _freezeToborCoroutine;
 	private Coroutine _animateSpriteCoroutine;
-	private bool _talking;
-	private bool _paused = false;
 
-	int counter = 0;
+	public Dialogue CurrentDialogue => _currentDialogue;
+
 
 	private void Awake()
 	{
 		Instance = this;
 		_animator = GetComponent<DialogueAnimator>();
 		_source = GetComponent<AudioSource>();
-		_movement = GameObject.FindObjectOfType<MovementController>();
+		_movement = FindObjectOfType<MovementController>();
 
 	}
 
-	void OnEnable()
+	private void OnEnable()
 	{
 		CGSC.OnPause += OnPauseGame;
 	}
 
-	void OnDisable()
+	private void OnDisable()
 	{
 		CGSC.OnUnpause -= OnPauseGame;
 	}
 
-	void Start()
+	private void Start()
 	{
 		if (ExtrasSettings.DialogueDisabled)
 		{
@@ -81,17 +78,19 @@ public class DialogueSystem : MonoBehaviour
 	}
 
 
-    void Update()
+	private void Update()
 	{
-		if (_talking && counter < counterMax) { counter++; }
+		if (_talking && counter < counterMax)
+		{
+			counter++;
+		}
 		else if (_talking && counter >= counterMax)
 		{
 			_talking = false;
 			counter = 0;
 			counterMax = 0;
 		}
-		
-		
+
 		if (skip == 1)
 		{
 			if (_displayLineCoroutine != null) StopCoroutine(_displayLineCoroutine);
@@ -124,6 +123,7 @@ public class DialogueSystem : MonoBehaviour
 	[Button]
 	public void SkipDialogue()
 	{
+		if (!_talking) return;
 		if (_currentDialogue.FreezeTobor || !_paused)
 		{
 			skip++;
@@ -133,8 +133,7 @@ public class DialogueSystem : MonoBehaviour
 	}
 
 
-
-	void OnPauseGame()
+	private void OnPauseGame()
 	{
 		_paused = !_paused;
 	}
@@ -148,7 +147,8 @@ public class DialogueSystem : MonoBehaviour
 	}
 
 	#region HandleMethods
-	void HandleDialogueIn(Dialogue _currDialogue)
+
+	private void HandleDialogueIn(Dialogue _currDialogue)
 	{
 		_currentDialogue = _currDialogue;
 		_animator.IntroAnimation(_currDialogue.TimeToEnter);
@@ -166,22 +166,23 @@ public class DialogueSystem : MonoBehaviour
 
 	}
 
-	void HandleDialogueRun(Dialogue _currDialogue)
+	private void HandleDialogueRun(Dialogue _currDialogue)
 	{
 		
 		if (!_currDialogue.Text.Equals("")) { _displayLineCoroutine = StartCoroutine(PrintText(_currDialogue.Text, _currDialogue.TypingSpeed)); }
 		if (!_currDialogue.Speaker.Equals("")) { _speaker.text = _currDialogue.Speaker; }
 
-        if (_currDialogue.DialogueSFX) { _source.PlayOneShot(_currDialogue.DialogueSFX, _currDialogue.DialogueVolume); }
+        if (_currDialogue.DialogueSFX != null) { _source.PlayOneShot(_currDialogue.DialogueSFX, _currDialogue.DialogueVolume); }
 		if (_speakerSpriteClosed != null) 
 		{
 			_animateSpriteCoroutine = StartCoroutine(AnimateSprite(_currDialogue.AnimationSpeed)); 
 			_talking = true;
+			skip = 0;
 		}
 
 	}
 
-	void HandleDialogueReset(Dialogue _currDialogue)
+	private void HandleDialogueReset(Dialogue _currDialogue)
 	{
 		
 		_animator.CancelAnimations();
@@ -201,8 +202,8 @@ public class DialogueSystem : MonoBehaviour
 
 	#endregion
 
-	
-	void CheckDialogueTime(Dialogue dialogue)
+
+	private void CheckDialogueTime(Dialogue dialogue)
 	{
 		float _timeAmount = 0f;
         foreach (char c in dialogue.Text) { _timeAmount += dialogue.TypingSpeed; }
@@ -217,19 +218,20 @@ public class DialogueSystem : MonoBehaviour
 	}
 	
 	#region Coroutines
-	IEnumerator HandleToborFreeze(float s)
+
+	private IEnumerator HandleToborFreeze(float s)
 	{
 		yield return new WaitForSeconds(s);
 		_movement.SetActive(true);
 	}
 
-	IEnumerator HandlePanelAnimation( float wait, float exit)
+	private IEnumerator HandlePanelAnimation( float wait, float exit)
 	{
 		yield return new WaitForSeconds(wait);
 		_animator.ExitAnimation(exit);
 	}
-	
-	IEnumerator AnimateSprite(float _timeBetween)
+
+	private IEnumerator AnimateSprite(float _timeBetween)
 	{
 		
 		while(_printingText)
@@ -241,7 +243,7 @@ public class DialogueSystem : MonoBehaviour
 		}
 	}
 
-	IEnumerator PrintText(string _dialogueText, float _typingSpeed)
+	private IEnumerator PrintText(string _dialogueText, float _typingSpeed)
 	{
 		_text.text = "";
 

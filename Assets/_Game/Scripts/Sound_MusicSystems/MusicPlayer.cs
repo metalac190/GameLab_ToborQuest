@@ -204,7 +204,7 @@ namespace SoundSystem
             }
             if (_musicEvent != null && _musicEvent.name == "MUS_BTrackMainMenu")
             {
-                if (_layerSources[0].time >= 7.28f && _changeCalled == false)
+                if (_layerSources[0].time >= 7.89f && _changeCalled == false)
                 {
                     _changeCalled = true;
                     MusicManager.Instance.IncreaseLayerIndex(0);

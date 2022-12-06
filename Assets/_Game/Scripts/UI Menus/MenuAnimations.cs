@@ -43,6 +43,11 @@ public class MenuAnimations : MonoBehaviour
         onComplete?.Invoke();
     }
 
+	public void Credits(bool value, Action onComplete = null) {
+		menuAnimator.SetBool("Credits", value);
+		onComplete?.Invoke();
+	}
+
     public Animator AnimatorController
     {
         get

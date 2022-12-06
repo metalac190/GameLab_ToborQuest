@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 // CGSC = Centralized Game State Controller
 public class CGSC : MonoBehaviour
@@ -16,10 +17,14 @@ public class CGSC : MonoBehaviour
     public static bool PlayingQuest;
     public static float TotalTime;
 
-    [SerializeField] private SavingManager _savingManager;
+    [SerializeField] private SettingsSaver _settingsSaver;
+    [SerializeField] private BestTimesSaver _bestTimesSaver;
 
-    public static SavingManager SaveSystem => Instance._savingManager;
+    public static SettingsSaver SettingsSaver => Instance._settingsSaver;
+    public static BestTimesSaver BestTimesSaver => Instance._bestTimesSaver;
+    public static MainMenuControllerManager MouseKeyboardManager => MainMenuControllerManager.Instance;
 
+    [Button]
     public void SetPlayingQuest(bool playing) => PlayingQuest = playing;
 
     private void Awake()
@@ -29,10 +34,11 @@ public class CGSC : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-        
         Instance = this;
+        DontDestroyOnLoad(gameObject);
         
-	    DontDestroyOnLoad(gameObject);
+        _settingsSaver.ButtonLoad();
+        _bestTimesSaver.ButtonLoad();
     }
 
     private void OnValidate()
@@ -103,14 +109,6 @@ public class CGSC : MonoBehaviour
         Instance.SetSceneTransitionBool(false);
     }
 
-    [SerializeField] private float _dialogueScale = 1;
-    
-    public static float DialogueScale
-    {
-        get => Instance._dialogueScale;
-        set => Instance._dialogueScale = value;
-    }
-
     #endregion
 
     #region Win / Lose
@@ -175,7 +173,10 @@ public class CGSC : MonoBehaviour
         Instance._currentQuest = -1;
         Instance._currentLevel = -1;
         LoadScene(Instance._mainMenu.Name, async, useFade, onComplete);
-        UnpauseGameResponse();
+	    UnpauseGameResponse();
+	    PlayingQuest = false;
+	    TotalTime = 0;
+	    TimerUI.levelTime = 0;
     }
 
     public static void LoadFirstQuestLevel(int questIndex, bool async = false, Action onComplete = null)
@@ -230,7 +231,7 @@ public class CGSC : MonoBehaviour
     {
         if(useFade)
         {
-            Instance.StartCoroutine(Instance.FadeScene(sceneName, async, onComplete));
+            Instance.StartCoroutine(Instance.FadeScene(sceneName, true, onComplete));
             return;
         }
 
@@ -285,13 +286,15 @@ public class CGSC : MonoBehaviour
     {
         while (!operation.isDone)
         {
+            GetSceneLoadProgress = Mathf.Clamp01(operation.progress/0.9f);
+            //Debug.Log(GetSceneLoadProgress);
             yield return null;
         }
+        GetSceneLoadProgress = 0;
         onComplete?.Invoke();
         UnpauseGameResponse();
     }
 
-    public static void RestartLevel(InputAction.CallbackContext context) => RestartLevel();
     public static void RestartLevel()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
@@ -311,6 +314,8 @@ public class CGSC : MonoBehaviour
     #region SceneTransition
 
     private string _animatorStateName = "CloudFade";
+
+    public static float GetSceneLoadProgress { get; set; }
 
     private void SetSceneTransitionBool(bool fade)
     {

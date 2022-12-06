@@ -21,12 +21,12 @@ public class LevelUnlockSystem : MonoBehaviour
 
     private void OnEnable()
     {
-        ExtrasSettings.OnResetData += UpdateUnlocks;
+        ExtrasSettings.OnDataChanged += UpdateUnlocks;
     }
 
     private void OnDisable()
     {
-        ExtrasSettings.OnResetData -= UpdateUnlocks;
+        ExtrasSettings.OnDataChanged -= UpdateUnlocks;
     }
 
     public void UpdateUnlocks()

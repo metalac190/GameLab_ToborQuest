@@ -22,7 +22,8 @@ public class Dialogue : ScriptableObject
 	[SerializeField, ReadOnly] private bool _isSequence = false;
 
 	[Header("Sound Settings")]
-	[SerializeField] private AudioClip _dialogueSoundEffect;
+	// [SerializeField] private AudioClip _dialogueSoundEffect;
+	[SerializeField] private SFXEvent _dialogueSoundEffect;
 	[SerializeField, ReadOnly] private float _audioClipDuration;
 	[SerializeField, Range(0f, 1f)] private float _volume = 0.5f;
 
@@ -34,7 +35,7 @@ public class Dialogue : ScriptableObject
 	public string Speaker => _speaker;
 	public string Text => _text[Random.Range(0, _text.Count - 1)];
 	public float TypingSpeed => _typingSpeed;
-	public AudioClip DialogueSFX => _dialogueSoundEffect;
+	public AudioClip DialogueSFX => _dialogueSoundEffect != null ? _dialogueSoundEffect.SFXSound : null;
 	public float DialogueVolume => _volume;
 	public Sprite SpriteClosedMouth => _spriteClosedMouth;
 	public Sprite SpriteOpenMouth => _spriteOpenMouth;
@@ -50,7 +51,7 @@ public class Dialogue : ScriptableObject
 
 	private void OnValidate()
 	{
-		_audioClipDuration = _dialogueSoundEffect != null ? _dialogueSoundEffect.length : 0;
+		_audioClipDuration = _dialogueSoundEffect != null ? _dialogueSoundEffect.SFXSound.length : 0;
 	}
 
 	[Button(Spacing = 20, Mode = ButtonMode.InPlayMode)]

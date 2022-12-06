@@ -15,7 +15,7 @@ public class SettingsMenuPanels : MonoBehaviour
 	[SerializeField] private CanvasGroup _extraGroup;
 	[SerializeField] private GameObject _extraSelected;
 
-	public void SaveSettings() => CGSC.SaveSystem.ButtonSave();
+	public void SaveSettings() => CGSC.SettingsSaver.ButtonSave();
 	
 	[Button]
 	public void SetAudioActive() => SetGroupActive(0);
@@ -35,18 +35,24 @@ public class SettingsMenuPanels : MonoBehaviour
 	private void SetGroupActive(int group)
 	{
 		SetGroupActive(_audioGroup, group == 0);
-		if (group == 0) SetSelected(_audioSelected);
 		SetGroupActive(_visualGroup, group == 1);
-		if (group == 1) SetSelected(_visualSelected);
 		SetGroupActive(_controlsGroup, group == 2);
-		if (group == 2) SetSelected(_controlsSelected);
 		SetGroupActive(_extraGroup, group == 3);
-		if (group == 3) SetSelected(_extraSelected);
+
+		GameObject toSelect = group switch
+		{
+			0 => _audioSelected,
+			1 => _visualSelected,
+			2 => _controlsSelected,
+			3 => _extraSelected,
+			_ => null
+		};
+		if (toSelect) SetSelected(toSelect);
 	}
 	
 	private static void SetSelected(GameObject obj)
 	{
-		if (obj && EventSystem.current) EventSystem.current.SetSelectedGameObject(obj);
+		CGSC.MouseKeyboardManager.UpdateSelected(obj);
 	}
 	
 	private static void SetGroupActive(CanvasGroup group, bool active = true)

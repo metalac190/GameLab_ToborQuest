@@ -59,6 +59,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d370742139782e049a42c878b6e98efb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _collider: {fileID: 6095545031322098338}
   onPlayerEnter:
     m_PersistentCalls:
       m_Calls:
@@ -77,6 +78,7 @@ MonoBehaviour:
   gizmoColor:
     serializedVersion: 2
     rgba: 4278255360
+  onlyCalledOnce: 0
 --- !u!114 &5826298873550591874
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -89,4 +91,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa3ca2204878da949867fdec9cfc9ce3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _onlyRunInQuest: 0
+  _onlyRunOnce: 1
   _dialogues: []
+  _skipDialogue: 0
+  _resetDialogue: 0

@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,6 +9,8 @@ public class MedalUIHelper : ScriptableObject {
     [SerializeField] private Sprite bronzeMedalSprite;
     [SerializeField] private Sprite silverMedalSprite;
     [SerializeField] private Sprite goldMedalSprite;
+	[SerializeField] private Sprite platinumMedalSprite;
+	[SerializeField] private Sprite authorMedalSprite;
 
     public void SetMedalUI(Image medalImage, MedalType medalType) {
         medalImage.enabled = true;
@@ -24,7 +26,13 @@ public class MedalUIHelper : ScriptableObject {
                 break;
             case MedalType.Gold:
                 medalImage.sprite = goldMedalSprite;
+	            break;
+            case MedalType.Platinum:
+                medalImage.sprite = platinumMedalSprite;
                 break;
+            case MedalType.Author:
+	            medalImage.sprite = authorMedalSprite;
+	            break;
         }
     }
 }

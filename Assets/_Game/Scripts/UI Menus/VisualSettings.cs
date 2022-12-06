@@ -23,19 +23,19 @@ public class VisualSettings : MonoBehaviour
     
     private void OnEnable()
     {
-	    ExtrasSettings.OnResetData += LoadValues;
+	    ExtrasSettings.OnDataChanged += LoadValues;
     }
 
     private void OnDisable()
     {
-	    ExtrasSettings.OnResetData -= LoadValues;
+	    ExtrasSettings.OnDataChanged -= LoadValues;
     }
 
 
     public void LoadValues()
     {
-	    _activeQuality = SavingManager.Quality;
-	    _activeWindowMode = SavingManager.WindowMode;
+	    _activeQuality = SettingsSaver.Quality;
+	    _activeWindowMode = SettingsSaver.WindowMode;
 	    UpdateActiveQuality();
 	    UpdateWindowMode();
     }

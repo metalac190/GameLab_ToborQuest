@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,6 +8,8 @@ public class Medal3DObjectHelper : MonoBehaviour {
     [SerializeField] private GameObject bronzeMedalArt;
     [SerializeField] private GameObject silverMedalArt;
     [SerializeField] private GameObject goldMedalArt;
+	[SerializeField] private GameObject platinumMedalArt;
+	[SerializeField] private GameObject authorMedalArt;
 
     private void Awake() {
         renderParent.SetActive(false);
@@ -16,7 +18,9 @@ public class Medal3DObjectHelper : MonoBehaviour {
     public void SetMedal(MedalType medalType) {
         renderParent.SetActive(true);
 
-        //turn off all medal object children
+	    //turn off all medal object children
+	    authorMedalArt.SetActive(false);
+        platinumMedalArt.SetActive(false);
         goldMedalArt.SetActive(false);
         silverMedalArt.SetActive(false);
         bronzeMedalArt.SetActive(false);
@@ -31,7 +35,13 @@ public class Medal3DObjectHelper : MonoBehaviour {
                 break;
             case MedalType.Gold:
                 goldMedalArt.SetActive(true);
+	            break;
+            case MedalType.Platinum:
+                platinumMedalArt.SetActive(true);
                 break;
+            case MedalType.Author:
+	            authorMedalArt.SetActive(true);
+	            break;
         }
     }
 }

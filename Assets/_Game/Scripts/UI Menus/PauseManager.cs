@@ -13,6 +13,9 @@ public class PauseManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI levelNameText;
     [SerializeField] private MedalUIHelper medalHelper;
     //[SerializeField] private TextMeshProUGUI levelNameText;
+    [SerializeField] private BasicPanel _settingsPanel;
+    [SerializeField] private GameObject _confirmExit;
+    [SerializeField] private CanvasGroup _buttonGrp;
 
     public GameObject QuestionBox;
 
@@ -34,6 +37,9 @@ public class PauseManager : MonoBehaviour
     {        
         currentTime.text = hudManager.GetCurrentTimeText();
         levelNameText.text = levelDataObj.LevelName;
+        _settingsPanel.SetGroupActive(false);
+        _confirmExit.SetActive(false);
+        _buttonGrp.interactable = true;
     }
 
     private void Update()
@@ -79,7 +85,7 @@ public class PauseManager : MonoBehaviour
 
     public void SetCurrentSelected(GameObject value)
     {
-        EventSystem.current.SetSelectedGameObject(value);
+        CGSC.MouseKeyboardManager.UpdateSelected(value);
     }
 
 }

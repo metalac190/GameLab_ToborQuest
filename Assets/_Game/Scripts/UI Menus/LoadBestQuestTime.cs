@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,42 +11,45 @@ public class LoadBestQuestTime : MonoBehaviour
     [SerializeField] private float _bronzeTime;
     [SerializeField] private float _silverTime;
     [SerializeField] private float _goldTime;
+    [SerializeField] private float _platinum;
+	[SerializeField] private float _authorTime;
     [SerializeField] private Image _medalImage;
+    [SerializeField] private Image _nextMedalImage;
+    [SerializeField] private CanvasGroup _nextTimeSection;
     [SerializeField] private MedalUIHelper _medals;
     
-    public const string QuestTimePref = "BestQuestTime";
+	private void OnEnable()
+	{
+		ExtrasSettings.OnDataChanged += CheckQuestMedal;
+	}
+    
+	private void OnDisable()
+	{
+		ExtrasSettings.OnDataChanged -= CheckQuestMedal;
+	}
     
     private void Start()
-    {
-        if (PlayerPrefs.HasKey(QuestTimePref))
-        {
-            var questTime = PlayerPrefs.GetFloat(QuestTimePref);
-            var medal = GetMedal(questTime);
-            _medals.SetMedalUI(_medalImage, medal);
-            _text.text = TimerUI.ConvertTimeToText(questTime);
-            float nextBestTime = medal switch
-            {
-                MedalType.None => _bronzeTime,
-                MedalType.Bronze => _silverTime,
-                MedalType.Silver => _goldTime,
-                MedalType.Gold => 0,
-                _ => 0
-            };
-            _nextBestText.text = TimerUI.ConvertTimeToText(nextBestTime);
-        }
+	{
+		CheckQuestMedal();
     }
-
-    private MedalType GetMedal(float time)
-    {
-        float[] orderedGoalArray = new float[] { int.MaxValue, _bronzeTime, _silverTime, _goldTime };
-
-        for(int i = 0; i < orderedGoalArray.Length; i++)
-        {
-            if(orderedGoalArray[i] >= time) continue;
-            return (MedalType)i - 1;
-        }
-        return MedalType.Gold;
-    }
+    
+	private void CheckQuestMedal()
+	{
+		float time = BestTimesSaver.GetBestTime(BestTime.Quest);
+		var medal = MedalType.None;
+		var nextMedal = MedalType.None;
+		if (time > 0)
+		{
+			medal = LevelDataObject.GetMedal(time, _bronzeTime, _silverTime, _goldTime, _platinum, _authorTime);
+			if (medal != MedalType.Author) nextMedal = medal + 1;
+		}
+		_nextTimeSection.alpha = time == 0 || medal == MedalType.Author ? 0 : 1;
+		
+		if (_medalImage) _medals.SetMedalUI(_medalImage, medal);
+		if (_nextMedalImage) _medals.SetMedalUI(_nextMedalImage, nextMedal);
+		_text.text = TimerUI.ConvertTimeToText(time);
+		_nextBestText.text = LevelDataObject.GetNextGoalFormatted(medal, _bronzeTime, _silverTime, _goldTime, _platinum, _authorTime);
+	}
 
     public void StartQuest()
     {

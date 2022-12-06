@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,7 +10,8 @@ public enum MenuType
     LevelSelect,
     LevelInfoMenu,
     Settings,
-    QuestSelect
+    QuestSelect,
+	Credits
 }
 
 public class MenuManager : MonoBehaviour
@@ -34,13 +36,18 @@ public class MenuManager : MonoBehaviour
     {
         menuAnimations = GetComponent<MenuAnimations>();
         menuControllerList.ForEach(x => x.gameObject.SetActive(true));
-        //SetActiveMenu(currentMenu);
-        SetCurrentButtonSelect(mainMenuSelect);
         menuControllerList.ForEach(x =>
         {
             if (x.menuType == MenuType.LevelInfoMenu)
                 x.gameObject.SetActive(false);          
         });
+        LeanTween.reset();
+    }
+
+    private void Start()
+    {
+        //SetActiveMenu(currentMenu);
+        SetCurrentButtonSelect(mainMenuSelect);
     }
 
     //This makes it so I can change current menu in inspector and debug
@@ -68,7 +75,8 @@ public class MenuManager : MonoBehaviour
 
     public void SetCurrentButtonSelect(GameObject value)
     {
-        EventSystem.current.SetSelectedGameObject(value);
+        if (!value) return;
+        CGSC.MouseKeyboardManager.UpdateSelected(value);
     }
 
     public void SetCurrentMenu(int value)
@@ -79,62 +87,51 @@ public class MenuManager : MonoBehaviour
             case (MenuType.MainMenu):
                 if (menuAnimations.AnimatorController.GetBool("QuestSelect"))
                 {
-                    menuAnimations.QuestSelect(false, () =>
-                    {
-                        currentMenu = tempMenu;
-                    });
+                    menuAnimations.QuestSelect(false);
                 }
-                else
+                else if (menuAnimations.AnimatorController.GetBool("SettingsMenu"))
                 {
-                    menuAnimations.SettingsMenu(false, ()=> 
-                    {
-                        currentMenu = tempMenu;
-                    });
+                    menuAnimations.SettingsMenu(false);
                 }
+				else
+				{
+					menuAnimations.Credits(false, () =>
+					{
+						currentMenu = tempMenu;
+					});
+				}
                 break;
             case (MenuType.LevelSelect):
                 if (menuAnimations.AnimatorController.GetBool("LevelSelect"))
                 {
-                    menuAnimations.LevelInfoMenu(false, () =>
-                    {
-                        currentMenu = tempMenu;
-                    });
+                    menuAnimations.LevelInfoMenu(false);
                 }
                 else
                 {
-                    menuAnimations.LevelSelect(true, () =>
-                    {
-                        currentMenu = tempMenu;
-                    });
+                    menuAnimations.LevelSelect(true);
                 }
                 break;
             case (MenuType.LevelInfoMenu):
-                menuAnimations.LevelInfoMenu(true, () =>
-                {
-                    currentMenu = tempMenu;
-                });
+                menuAnimations.LevelInfoMenu(true);
                 break;
             case (MenuType.Settings):
-                menuAnimations.SettingsMenu(true, () =>
-                {
-                    currentMenu = tempMenu;
-                });
+                menuAnimations.SettingsMenu(true);
                 break;
             case (MenuType.QuestSelect):
                 if (menuAnimations.AnimatorController.GetBool("LevelSelect"))
                 {
-                    menuAnimations.LevelSelect(false, ()=> {
-                        currentMenu = tempMenu;
-                    });
+                    menuAnimations.LevelSelect(false);
                 }
                 else
                 {
-                    menuAnimations.QuestSelect(true, () => {
-                        currentMenu = tempMenu;
-                    });
+                    menuAnimations.QuestSelect(true);
                 }
                 break;
-        }            
+			case (MenuType.Credits):
+				menuAnimations.Credits(true);
+				break;
+		}            
+        currentMenu = tempMenu;
     }
 
     public void ChangeScene(string value)
@@ -147,10 +144,7 @@ public class MenuManager : MonoBehaviour
         menuAnimations.QuestSelect(true);
     }
 
-    public void LevelSelect()
-    {
-        EventSystem.current.SetSelectedGameObject(levelSelectGameObject);
-    }
+    public void LevelSelect() => SetCurrentButtonSelect(levelSelectGameObject);
 
     public void StartLevelSelect()
     {
