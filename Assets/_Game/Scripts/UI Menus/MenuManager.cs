@@ -10,7 +10,8 @@ public enum MenuType
     LevelSelect,
     LevelInfoMenu,
     Settings,
-    QuestSelect
+    QuestSelect,
+	Credits
 }
 
 public class MenuManager : MonoBehaviour
@@ -91,13 +92,20 @@ public class MenuManager : MonoBehaviour
                         currentMenu = tempMenu;
                     });
                 }
-                else
+                else if (menuAnimations.AnimatorController.GetBool("SettingsMenu"))
                 {
                     menuAnimations.SettingsMenu(false, ()=> 
                     {
                         currentMenu = tempMenu;
                     });
                 }
+				else
+				{
+					menuAnimations.Credits(false, () =>
+					{
+						currentMenu = tempMenu;
+					});
+				}
                 break;
             case (MenuType.LevelSelect):
                 if (menuAnimations.AnimatorController.GetBool("LevelSelect"))
@@ -141,7 +149,12 @@ public class MenuManager : MonoBehaviour
                     });
                 }
                 break;
-        }            
+			case (MenuType.Credits):
+				menuAnimations.Credits(true, () => {
+					currentMenu = tempMenu;
+				});
+				break;
+		}            
     }
 
     public void ChangeScene(string value)
