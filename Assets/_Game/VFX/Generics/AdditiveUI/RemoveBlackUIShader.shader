@@ -106,7 +106,7 @@ Shader "UI/RemoveBlack"
                 fixed4 frag(v2f IN) : SV_Target
                 {
                 	half4 color = tex2D(_MainTex, IN.texcoord);
-                    clip(color.r - 0.001);
+                    clip(color.r + color.g + color.b - 0.001);
                     
                     //half4 color = (tex2D(_MainTex, IN.texcoord) + _TextureSampleAdd) * IN.color;
                     //color.a *= UnityGet2DClipping(IN.worldPosition.xy, _ClipRect);

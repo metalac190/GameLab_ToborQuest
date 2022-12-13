@@ -914,6 +914,17 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""14498c0e-94d5-4848-a5f1-7587ce7efdfd"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Submit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""89dcc18d-7d56-4fa1-8c5d-254eef62e014"",
                     ""path"": ""*/{Cancel}"",
                     ""interactions"": """",
