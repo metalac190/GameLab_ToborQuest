@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Medal3DObjectHelper : MonoBehaviour {
 
+	[SerializeField] private bool _disableOnStart = true;
     [SerializeField] private GameObject renderParent;
     [SerializeField] private GameObject bronzeMedalArt;
     [SerializeField] private GameObject silverMedalArt;
@@ -12,7 +13,7 @@ public class Medal3DObjectHelper : MonoBehaviour {
 	[SerializeField] private GameObject authorMedalArt;
 
     private void Awake() {
-        renderParent.SetActive(false);
+	    if (_disableOnStart) renderParent.SetActive(false);
     }
 
     public void SetMedal(MedalType medalType) {

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,7 +26,7 @@ public class HUDManager : PersistableObject
     private float timeElapsed;
 
     private void Awake()
-    {        
+	{        
         _controller = new MovementInput();
         _movementCtrl = FindObjectOfType<MovementController>(true);
         pausePanel.SetActive(false);
@@ -40,7 +40,8 @@ public class HUDManager : PersistableObject
         }
         var levelObj = FindObjectOfType<LevelWinManager>(true).LevelDataObject;
         SetBestTime(levelObj.BestTimeSaved);
-        SetToborProgress(0f);
+	    SetToborProgress(0f);
+	    MainMenuControllerManager.InGame = true;
     }
 
     private void OnEnable()

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -9,7 +9,7 @@ public class WinSceneManager : MonoBehaviour
 {
     [SerializeField] private GameObject startSelect;
     [SerializeField] private TMP_Text deliveryTimeText;
-    [SerializeField] private string deliveryTextBefore = "Delivery Time: ";
+	[SerializeField] private string deliveryTextBefore = "Time: ";
 
     private void Awake()
     {

@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -28,13 +28,15 @@ public class MovementControls : MonoBehaviour
 
     public InputControlScheme ACtiveControlScheme => _activeControlScheme;
 
-    private bool _questRespawn;
+	private bool _questRespawn;
+	private bool _canRestart = true;
     
 
     private void Awake()
     {
         _movementInput = new MovementInput();
-        _playerInput = GetComponent<PlayerInput>();
+	    _playerInput = GetComponent<PlayerInput>();
+	    _canRestart = true;
     }
 
     private void OnEnable()
@@ -42,7 +44,8 @@ public class MovementControls : MonoBehaviour
         _movementInput.Enable();
         _movementInput.Player.TogglePaused.performed += CGSC.TogglePauseGame;
         _movementInput.Player.Reset.performed += Restart;
-        _movementInput.Player.SkipDialogue.performed += DialogueSystem.SkipDialogueStatic;
+	    _movementInput.Player.SkipDialogue.performed += DialogueSystem.SkipDialogueStatic;
+	    CGSC.OnWinGame += LockRestart;
     }
 
     private void OnDisable()
@@ -50,15 +53,22 @@ public class MovementControls : MonoBehaviour
         _movementInput.Player.TogglePaused.performed -= CGSC.TogglePauseGame;
         _movementInput.Player.Reset.performed -= Restart;
         _movementInput.Player.SkipDialogue.performed -= DialogueSystem.SkipDialogueStatic;
-        _movementInput.Disable();
+	    _movementInput.Disable();
+	    CGSC.OnWinGame -= LockRestart;
     }
+    
+	private void LockRestart()
+	{
+		_canRestart = false;
+	}
 
     private void Restart(InputAction.CallbackContext context) => Restart();
     [Button]
     private void Restart()
-    {
+	{
         if (CGSC.PlayingQuest)
         {
+	        if (!_canRestart) return;
             if (TimerUI.startTimer)
             {
                 _questRespawn = true;

@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
@@ -39,8 +39,19 @@ public class PauseManager : MonoBehaviour
         levelNameText.text = levelDataObj.LevelName;
         _settingsPanel.SetGroupActive(false);
         _confirmExit.SetActive(false);
-        _buttonGrp.interactable = true;
+	    _buttonGrp.interactable = true;
+	    MainMenuControllerManager.InGame = false;
     }
+    
+	private void OnDisable()
+	{
+		MainMenuControllerManager.InGame = true;
+	}
+    
+	private void OnDestroy()
+	{
+		MainMenuControllerManager.InGame = false;
+	}
 
     private void Update()
     {
